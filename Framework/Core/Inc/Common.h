@@ -3,11 +3,11 @@
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 
-// WIN32 HEADERS
+//win32 headers
 #include <objbase.h>
 #include <Windows.h>
 
-// STD HEADERS
+//std headers
 #include <algorithm>
 #include <array>
 #include <atomic>
