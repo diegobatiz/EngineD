@@ -1,8 +1,18 @@
 #include "Precompiled.h"
 #include "App.h"
+#include "AppState.h"
 
 using namespace EngineD;
 using namespace EngineD::Core;
+
+void App::ChangeState(const std::string& stateName)
+{
+	auto iter = mAppStates.find(stateName);
+	if (iter != mAppStates.end())
+	{
+		mNextState = iter->second.get();
+	}
+}
 
 void App::Run(const AppConfig& config)
 {
@@ -17,17 +27,31 @@ void App::Run(const AppConfig& config)
 	);
 	ASSERT(myWindow.IsActive(), "Failed to create a window");
 
+	ASSERT(mCurrentState != nullptr, "App: need an app state");
+	mCurrentState->Initialize();
+
 	mRunning = true;
 	while (mRunning)
 	{
 		myWindow.ProcessMessage();
 
-		float deltaTime = TimeUtil::GetDeltaTime();
 		if (!myWindow.IsActive())
 		{
 			Quit();
+			break;
 		}
+
+		if (mNextState != nullptr)
+		{
+			mCurrentState->Terminate();
+			mCurrentState = std::exchange(mNextState, nullptr);
+			mCurrentState->Initialize();
+		}
+		float deltaTime = TimeUtil::GetDeltaTime();
+		mCurrentState->Update(deltaTime);
 	}
+
+	mCurrentState->Terminate();
 
 	myWindow.Terminate();
 }
