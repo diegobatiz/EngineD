@@ -12,7 +12,8 @@ namespace
 void GraphicsSystem::StaticInitialize(HWND window, bool fullscreen)
 {
 	ASSERT(sGraphicsSystem == nullptr, "GraphicsSystem: is already initialized");
-	sGraphicsSystem->Initialize(window, fullscreen); //////----------- verify
+	sGraphicsSystem = std::make_unique<GraphicsSystem>();
+	sGraphicsSystem->Initialize(window, fullscreen);
 }
 
 void GraphicsSystem::StaticTerminate()
@@ -32,7 +33,7 @@ GraphicsSystem* GraphicsSystem::Get()
 
 GraphicsSystem::~GraphicsSystem()
 {
-	ASSERT(sGraphicsSystem == nullptr, "GraphicsSystem: must be terminated");
+	ASSERT(mD3DDevice == nullptr, "GraphicsSystem: must be terminated");
 }
 
 void GraphicsSystem::Initialize(HWND window, bool fullscreen)
@@ -71,7 +72,7 @@ void GraphicsSystem::Initialize(HWND window, bool fullscreen)
 		&mD3DDevice,
 		nullptr,
 		&mImmediateContext
-		);
+	);
 
 	ASSERT(SUCCEEDED(hr), "GraphicsSYstem: failed to initialize device or swap chain");
 	mSwapChain->GetDesc(&mSwapChainDesc);
@@ -129,6 +130,7 @@ void GraphicsSystem::Resize(uint32_t width, uint32_t height)
 	ASSERT(SUCCEEDED(hr), "GraphicsSystem: failed to get back buffer");
 
 	hr = mD3DDevice->CreateRenderTargetView(backBuffer, nullptr, &mRenderTargetView);
+	SafeRelease(backBuffer);
 	ASSERT(SUCCEEDED(hr), "GraphicsSystem: failed to create render target");
 
 	D3D11_TEXTURE2D_DESC descDepth = {};
@@ -147,6 +149,15 @@ void GraphicsSystem::Resize(uint32_t width, uint32_t height)
 	ASSERT(SUCCEEDED(hr), "GraphicsSystem: failed to create stencil buffer");
 
 	//D3D septh stencil view desc
+}
+
+void GraphicsSystem::ResetRenderTarget()
+{
+
+}
+
+void GraphicsSystem::ResetViewport()
+{
 }
 
 void GraphicsSystem::SetClearColour(const Colour& colour)

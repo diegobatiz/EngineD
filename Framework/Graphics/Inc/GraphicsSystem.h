@@ -28,6 +28,9 @@ namespace EngineD::Graphics
 		void ToggleFullScreen();
 		void Resize(uint32_t width, uint32_t height);
 
+		void ResetRenderTarget();
+		void ResetViewport();
+
 		void SetClearColour(const Colour& colour);
 		void SetVSync(bool vSync);
 
@@ -36,13 +39,11 @@ namespace EngineD::Graphics
 
 		float GetBackBufferAspectRatio() const;
 
-#ifdef DX11
+
 		ID3D11Device* GetDevice() { return mD3DDevice; }
 		ID3D11DeviceContext* GetContext() { return mImmediateContext; }
-#endif
 
 	private:
-#ifdef DX11
 		ID3D11Device* mD3DDevice = nullptr;
 		ID3D11DeviceContext* mImmediateContext = nullptr;
 
@@ -57,6 +58,5 @@ namespace EngineD::Graphics
 
 		Colour mClearColour = Colours::Black;
 		UINT mVSync = 1;
-#endif
 	};
 }
