@@ -4,59 +4,30 @@
 
 namespace EngineD::Graphics
 {
-	class GraphicsSystem final
+	class GraphicsSystem
 	{
 	public:
-		static void StaticInitialize(HWND window, bool fullscreen);
-		static void StaticTerminate();
-		static GraphicsSystem* Get();
-
 		GraphicsSystem() = default;
-		~GraphicsSystem();
+		virtual ~GraphicsSystem() {}
 
-		GraphicsSystem(const GraphicsSystem&) = delete;
-		GraphicsSystem(const GraphicsSystem&&) = delete;
-		GraphicsSystem& operator=(const GraphicsSystem&) = delete;
-		GraphicsSystem& operator=(const GraphicsSystem&&) = delete;
+		virtual void Initialize(HWND window, bool fullscreen) = 0;
+		virtual void Terminate() = 0;
 
-		void Initialize(HWND window, bool fullscreen);
-		void Terminate();
+		virtual void BeginRender() = 0;
+		virtual void EndRender() = 0;
 
-		void BeginRender();
-		void EndRender();
+		virtual void ToggleFullScreen() = 0;
+		virtual void Resize(uint32_t width, uint32_t height) = 0;
 
-		void ToggleFullScreen();
-		void Resize(uint32_t width, uint32_t height);
+		virtual void ResetRenderTarget() = 0;
+		virtual void ResetViewport() = 0;
 
-		void ResetRenderTarget();
-		void ResetViewport();
+		virtual void SetClearColour(const Colour& colour) = 0;
+		virtual void SetVSync(bool vSync) = 0;
 
-		void SetClearColour(const Colour& colour);
-		void SetVSync(bool vSync);
+		virtual uint32_t GetBackBufferWidth() const = 0;
+		virtual uint32_t GetBackBufferHeight() const = 0;
 
-		uint32_t GetBackBufferWidth() const;
-		uint32_t GetBackBufferHeight() const;
-
-		float GetBackBufferAspectRatio() const;
-
-
-		ID3D11Device* GetDevice() { return mD3DDevice; }
-		ID3D11DeviceContext* GetContext() { return mImmediateContext; }
-
-	private:
-		ID3D11Device* mD3DDevice = nullptr;
-		ID3D11DeviceContext* mImmediateContext = nullptr;
-
-		IDXGISwapChain* mSwapChain = nullptr;
-		ID3D11RenderTargetView* mRenderTargetView = nullptr;
-
-		ID3D11Texture2D* mDepthStencilBuffer = nullptr;
-		ID3D11DepthStencilView* mDepthStencilView = nullptr;
-
-		DXGI_SWAP_CHAIN_DESC mSwapChainDesc{};
-		D3D11_VIEWPORT mViewPort{};
-
-		Colour mClearColour = Colours::Black;
-		UINT mVSync = 1;
+		virtual float GetBackBufferAspectRatio() const = 0;
 	};
 }
