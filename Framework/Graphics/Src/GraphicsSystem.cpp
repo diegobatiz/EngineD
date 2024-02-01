@@ -1,6 +1,6 @@
 #include "Precompiled.h"
 #include "GraphicsSystem.h"
-#include "GraphicsSystem_D3D11.h"
+#include "GraphicsAPI_D3D11.h"
 
 #define D3D11
 

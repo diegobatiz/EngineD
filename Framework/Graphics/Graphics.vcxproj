@@ -141,12 +141,12 @@
     <ClInclude Include="Inc\Graphics.h" />
     <ClInclude Include="Inc\GraphicsAPI.h" />
     <ClInclude Include="Inc\GraphicsSystem.h" />
-    <ClInclude Include="Inc\GraphicsSystem_D3D11.h" />
+    <ClInclude Include="Inc\GraphicsAPI_D3D11.h" />
     <ClInclude Include="Src\Precompiled.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\GraphicsSystem.cpp" />
-    <ClCompile Include="Src\GraphicsSystem_D3D11.cpp" />
+    <ClCompile Include="Src\GraphicsAPI_D3D11.cpp" />
     <ClCompile Include="Src\Precompiled.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

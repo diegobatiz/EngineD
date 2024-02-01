@@ -1,5 +1,5 @@
 #include "Precompiled.h"
-#include "GraphicsSystem_D3D11.h"
+#include "GraphicsAPI_D3D11.h"
 
 using namespace EngineD;
 using namespace EngineD::Graphics;

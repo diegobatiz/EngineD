@@ -10,6 +10,9 @@
 #pragma comment(lib, "d3dcompiler.lib")
 #pragma comment(lib, "dxguid.lib")
 
+#include <gl/GL.h>
+#include "GL/glext.h"
+#include "GL/wglext.h"
 
 template<class T>
 inline void SafeRelease(T*& ptr)
