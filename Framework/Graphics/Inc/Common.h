@@ -3,7 +3,6 @@
 #include <Core/Inc/Core.h>
 #include <Math/Inc/DMath.h>
 
-//make a wrapper around this
 #include <d3d11_1.h>
 #include <d3dcompiler.h>
 

@@ -4,6 +4,7 @@
 
 using namespace EngineD;
 using namespace EngineD::Core;
+using namespace EngineD::Graphics;
 
 void App::ChangeState(const std::string& stateName)
 {
@@ -27,6 +28,8 @@ void App::Run(const AppConfig& config)
 	);
 	ASSERT(myWindow.IsActive(), "Failed to create a window");
 
+	Graphics_D3D11::StaticInitialize(myWindow.GetWindowHandle(), false);
+
 	ASSERT(mCurrentState != nullptr, "App: need an app state");
 	mCurrentState->Initialize();
 
@@ -49,9 +52,16 @@ void App::Run(const AppConfig& config)
 		}
 		float deltaTime = TimeUtil::GetDeltaTime();
 		mCurrentState->Update(deltaTime);
+
+		Graphics_D3D11* gs = Graphics_D3D11::Get();
+		gs->BeginRender();
+			mCurrentState->Render();
+		gs->EndRender();
 	}
 
 	mCurrentState->Terminate();
+
+	Graphics_D3D11::StaticTerminate();
 
 	myWindow.Terminate();
 }

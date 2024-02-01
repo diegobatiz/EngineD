@@ -3,10 +3,31 @@
 
 using namespace EngineD;
 using namespace EngineD::Graphics;
+using namespace EngineD::Core;
 
 namespace
 {
 	std::unique_ptr<Graphics_D3D11> sGraphicsSystem;
+	WindowMessageHandler sWindowMessageHandler;
+}
+
+LRESULT CALLBACK Graphics_D3D11::GraphicsSystemMessageHandler(HWND window, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	if (sGraphicsSystem != nullptr)
+	{
+		switch (message)
+		{
+			case WM_SIZE:
+			{
+				const uint32_t width = static_cast<uint32_t>(LOWORD(lParam));
+				const uint32_t height = static_cast<uint32_t>(HIWORD(lParam));
+				sGraphicsSystem->Resize(width, height);
+				break;
+			}
+		}
+	}
+
+	return sWindowMessageHandler.ForwardMessage(window, message, wParam, lParam);
 }
 
 void Graphics_D3D11::StaticInitialize(HWND window, bool fullscreen)
@@ -78,10 +99,14 @@ void Graphics_D3D11::Initialize(HWND window, bool fullscreen)
 	mSwapChain->GetDesc(&mSwapChainDesc);
 
 	Resize(GetBackBufferWidth(), GetBackBufferHeight());
+
+	sWindowMessageHandler.Hook(window, GraphicsSystemMessageHandler);
 }
 
 void Graphics_D3D11::Terminate()
 {
+	sWindowMessageHandler.Unhook();
+
 	SafeRelease(mDepthStencilView);
 	SafeRelease(mDepthStencilBuffer);
 	SafeRelease(mRenderTargetView);
@@ -148,37 +173,55 @@ void Graphics_D3D11::Resize(uint32_t width, uint32_t height)
 	hr = mD3DDevice->CreateTexture2D(&descDepth, nullptr, &mDepthStencilBuffer);
 	ASSERT(SUCCEEDED(hr), "GraphicsSystem: failed to create stencil buffer");
 
-	//D3D septh stencil view desc
+	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV = {};
+	descDSV.Format = descDepth.Format;
+	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	descDSV.Texture2D.MipSlice = 0;
+	hr = mD3DDevice->CreateDepthStencilView(mDepthStencilBuffer, &descDSV, &mDepthStencilView);
+	ASSERT(SUCCEEDED(hr), "GraphicsSystem: failed to create depth stencil view");
+
+	mImmediateContext->OMSetRenderTargets(1, &mRenderTargetView, mDepthStencilView);
+
+	mViewPort.Width = static_cast<float>(GetBackBufferWidth());
+	mViewPort.Height = static_cast<float>(GetBackBufferHeight());
+	mViewPort.MinDepth = 0.0f;
+	mViewPort.MaxDepth = 1.0f;
+	mViewPort.TopLeftX = 0.0f;
+	mViewPort.TopLeftY = 0.0f;
+	mImmediateContext->RSSetViewports(1, &mViewPort);
 }
 
 void Graphics_D3D11::ResetRenderTarget()
 {
-
+	mImmediateContext->OMSetRenderTargets(1, &mRenderTargetView, mDepthStencilView);
 }
 
 void Graphics_D3D11::ResetViewport()
 {
+	mImmediateContext->RSSetViewports(1, &mViewPort);
 }
 
 void Graphics_D3D11::SetClearColour(const Colour& colour)
 {
+	mClearColour = colour;
 }
 
 void Graphics_D3D11::SetVSync(bool vSync)
 {
+	mVSync = vSync ? 1 : 0;
 }
 
 uint32_t Graphics_D3D11::GetBackBufferWidth() const
 {
-	return 0;
+	return mSwapChainDesc.BufferDesc.Width;
 }
 
 uint32_t Graphics_D3D11::GetBackBufferHeight() const
 {
-	return 0;
+	return mSwapChainDesc.BufferDesc.Height;
 }
 
 float Graphics_D3D11::GetBackBufferAspectRatio() const
 {
-	return 0.0f;
+	return static_cast<float>(GetBackBufferWidth())/static_cast<float>(GetBackBufferHeight());
 }

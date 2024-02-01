@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Colours.h"
 #include "GraphicsSystem.h"
 
 namespace EngineD::Graphics
@@ -58,5 +57,7 @@ namespace EngineD::Graphics
 
 		Colour mClearColour = Colours::Black;
 		UINT mVSync = 1;
+
+		static LRESULT CALLBACK GraphicsSystemMessageHandler(HWND window, UINT message, WPARAM wParam, LPARAM lParam);
 	};
 }

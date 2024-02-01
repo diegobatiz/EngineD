@@ -1,6 +1,7 @@
 #include <EngineD/Inc/EngineD.h>
 
 using namespace EngineD;
+using namespace EngineD::Graphics;
 
 class MainState : public AppState
 {
@@ -8,6 +9,7 @@ public:
 	void Initialize()
 	{	
 		LOG("MAIN STATE INITIALIZED");
+		Graphics_D3D11::Get()->SetClearColour(Colours::Red);
 		mLifeTime = 2.0f;
 	}
 
@@ -36,6 +38,7 @@ public:
 	void Initialize()
 	{
 		LOG("GAME STATE INITIALIZED");
+		Graphics_D3D11::Get()->SetClearColour(Colours::Blue);
 		mLifeTime = 2.0f;
 	}
 
