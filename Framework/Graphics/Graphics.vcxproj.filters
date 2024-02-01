@@ -30,6 +30,9 @@
     <ClInclude Include="Inc\GraphicsAPI.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\GraphicsAPI_GL4.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -39,6 +42,9 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\GraphicsSystem.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\GraphicsAPI_GL4.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>

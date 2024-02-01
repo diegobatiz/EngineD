@@ -1,3 +1,3 @@
 Link to opengl tutorial
 
-https://nehe.gamedev.net/tutorial/creating_an_opengl_window_%28win32%29/13001/
+https://www.rastertek.com/gl40tut03.html
