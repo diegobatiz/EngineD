@@ -5,53 +5,6 @@ using namespace EngineD;
 using namespace EngineD::Graphics;
 using namespace EngineD::Core;
 
-namespace
-{
-	std::unique_ptr<Graphics_D3D11> sGraphicsSystem;
-	WindowMessageHandler sWindowMessageHandler;
-}
-
-LRESULT CALLBACK Graphics_D3D11::GraphicsSystemMessageHandler(HWND window, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	if (sGraphicsSystem != nullptr)
-	{
-		switch (message)
-		{
-			case WM_SIZE:
-			{
-				const uint32_t width = static_cast<uint32_t>(LOWORD(lParam));
-				const uint32_t height = static_cast<uint32_t>(HIWORD(lParam));
-				sGraphicsSystem->Resize(width, height);
-				break;
-			}
-		}
-	}
-
-	return sWindowMessageHandler.ForwardMessage(window, message, wParam, lParam);
-}
-
-void Graphics_D3D11::StaticInitialize(HWND window, bool fullscreen)
-{
-	ASSERT(sGraphicsSystem == nullptr, "GraphicsSystem: is already initialized");
-	sGraphicsSystem = std::make_unique<Graphics_D3D11>();
-	sGraphicsSystem->Initialize(window, fullscreen);
-}
-
-void Graphics_D3D11::StaticTerminate()
-{
-	if (sGraphicsSystem != nullptr)
-	{
-		sGraphicsSystem->Terminate();
-		sGraphicsSystem.reset();
-	}
-}
-
-Graphics_D3D11* Graphics_D3D11::Get()
-{
-	ASSERT(sGraphicsSystem != nullptr, "GraphicsSystem: is not initialized");
-	return sGraphicsSystem.get();
-}
-
 Graphics_D3D11::~Graphics_D3D11()
 {
 	ASSERT(mD3DDevice == nullptr, "GraphicsSystem: must be terminated");
@@ -99,14 +52,10 @@ void Graphics_D3D11::Initialize(HWND window, bool fullscreen)
 	mSwapChain->GetDesc(&mSwapChainDesc);
 
 	Resize(GetBackBufferWidth(), GetBackBufferHeight());
-
-	sWindowMessageHandler.Hook(window, GraphicsSystemMessageHandler);
 }
 
 void Graphics_D3D11::Terminate()
 {
-	sWindowMessageHandler.Unhook();
-
 	SafeRelease(mDepthStencilView);
 	SafeRelease(mDepthStencilBuffer);
 	SafeRelease(mRenderTargetView);

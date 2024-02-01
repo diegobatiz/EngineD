@@ -1,16 +1,12 @@
 #pragma once
 
-#include "GraphicsSystem.h"
+#include "GraphicsAPI.h"
 
 namespace EngineD::Graphics
 {
-	class Graphics_D3D11 final : GraphicsSystem
+	class Graphics_D3D11 final : public GraphicsAPI
 	{
 	public:
-		static void StaticInitialize(HWND window, bool fullscreen);
-		static void StaticTerminate();
-		static Graphics_D3D11* Get();
-
 		Graphics_D3D11() = default;
 		virtual ~Graphics_D3D11();
 
@@ -57,7 +53,5 @@ namespace EngineD::Graphics
 
 		Colour mClearColour = Colours::Black;
 		UINT mVSync = 1;
-
-		static LRESULT CALLBACK GraphicsSystemMessageHandler(HWND window, UINT message, WPARAM wParam, LPARAM lParam);
 	};
 }
