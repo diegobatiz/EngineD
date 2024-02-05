@@ -1,15 +1,20 @@
 #pragma once
 #include <EngineD/Inc/EngineD.h>
 
-class GameState : public AppState
+class GameState : public EngineD::AppState
 {
 public:
-	void Initialize();
-
-	void Terminate();
-
-	void Update(float deltaTime);
+	void Initialize() override;
+	void Terminate() override;
+	void Update(float deltaTime) override;
+	void Render() override;
 
 private:
-	float mLifeTime = 0.0f;
+	using Vertices = std::vector<EngineD::Graphics::Vertex>;
+	Vertices mVertices;
+
+	ID3D11Buffer* mVertexBuffer = nullptr;
+	ID3D11VertexShader* mVertexShader = nullptr;
+	ID3D11InputLayout* mInputLayout = nullptr;
+	ID3D11PixelShader* mPixelShader = nullptr;
 };

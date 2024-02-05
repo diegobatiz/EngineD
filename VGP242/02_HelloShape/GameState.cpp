@@ -1,25 +1,32 @@
 #include "GameState.h"
 
+using namespace EngineD;
 using namespace EngineD::Graphics;
 
 void GameState::Initialize()
 {
-	LOG("GAME STATE INITIALIZED");
-	GraphicsSystem::Get()->SetClearColour(Colours::Blue);
-	mLifeTime = 2.0f;
+	mVertices.push_back({ { -0.5f, 0.0f, 0.0f }, Colours::Red });
+	mVertices.push_back({ { 0.0f, 0.75f, 0.0f }, Colours::Red });
+	mVertices.push_back({ { 0.5f, 0.0f,  0.0f }, Colours::Red });
+
+	GraphicsSystem::Get()->CreateTriangles(mVertices);
+
+	std::filesystem::path shaderFilePath = L"C:/Dev/Quarter 10/EngineD/Assets/Shaders/DoSomething.fx";
+
+	GraphicsSystem::Get()->CreateShaders(shaderFilePath);
 }
 
 void GameState::Terminate()
 {
-	LOG("GAME STATE TERMINATED");
+	mVertices.clear();
 }
 
 void GameState::Update(float deltaTime)
 {
-	mLifeTime -= deltaTime;
-	if (mLifeTime <= 0.0f)
-	{
-		App& myApp = EngineD::MainApp();
-		myApp.ChangeState("MainState");
-	}
+
+}
+
+void GameState::Render()
+{
+	GraphicsSystem::Get()->Render(3);
 }

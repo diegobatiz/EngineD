@@ -4,6 +4,12 @@
 
 namespace EngineD::Graphics
 {
+	struct Vertex
+	{
+		EngineD::Math::Vector3 position;
+		EngineD::Colour colour;
+	};
+
 	class GraphicsAPI
 	{
 	public:
@@ -13,6 +19,7 @@ namespace EngineD::Graphics
 		virtual void Terminate() = 0;
 
 		virtual void BeginRender() = 0;
+		virtual void Render(size_t verticesSize) = 0;
 		virtual void EndRender() = 0;
 
 		virtual void ToggleFullScreen() = 0;
@@ -28,5 +35,8 @@ namespace EngineD::Graphics
 		virtual uint32_t GetBackBufferHeight() const = 0;
 
 		virtual float GetBackBufferAspectRatio() const = 0;
+
+		virtual void CreateTriangles(const std::vector<Vertex>& vertices) = 0;
+		virtual void CreateShaders(std::filesystem::path filePath) = 0;
 	};
 }

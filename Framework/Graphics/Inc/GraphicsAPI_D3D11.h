@@ -19,6 +19,7 @@ namespace EngineD::Graphics
 		void Terminate();
 
 		void BeginRender();
+		void Render(size_t verticesSize);
 		void EndRender();
 
 		void ToggleFullScreen();
@@ -35,10 +36,18 @@ namespace EngineD::Graphics
 
 		float GetBackBufferAspectRatio() const;
 
+		void CreateTriangles(const std::vector<Vertex>& vertices);
+		void CreateShaders(std::filesystem::path filePath);
+
 		ID3D11Device* GetDevice() { return mD3DDevice; }
 		ID3D11DeviceContext* GetContext() { return mImmediateContext; }
 
 	private:
+		ID3D11Buffer* mVertexBuffer = nullptr;
+		ID3D11VertexShader* mVertexShader = nullptr;
+		ID3D11InputLayout* mInputLayout = nullptr;
+		ID3D11PixelShader* mPixelShader = nullptr;
+
 		ID3D11Device* mD3DDevice = nullptr;
 		ID3D11DeviceContext* mImmediateContext = nullptr;
 
