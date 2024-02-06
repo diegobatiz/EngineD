@@ -6,9 +6,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 {
 	App& myApp = EngineD::MainApp();
     myApp.AddState<HeartState>("HeartState");
-	//myApp.AddState<DiamondState>("DiamondState");
-	//myApp.AddState<TriforceState>("TriforceState");
-	//myApp.AddState<TriangleState>("TriangleState");
+	myApp.AddState<DiamondState>("DiamondState");
+	myApp.AddState<TriforceState>("TriforceState");
+	myApp.AddState<TriangleState>("TriangleState");
 
 	AppConfig config;
 	config.appName = L"Hello Shape";

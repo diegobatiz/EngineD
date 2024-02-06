@@ -2,6 +2,7 @@
 
 using namespace EngineD;
 using namespace EngineD::Graphics;
+using namespace EngineD::Input;
 
 void GameState::Initialize()
 {
@@ -33,11 +34,35 @@ void GameState::CreateShape()
 
 }
 
+void TriangleState::Update(float deltaTime)
+{
+	if (InputSystem::Get()->IsKeyPressed(KeyCode::D))
+	{
+		MainApp().ChangeState("TriforceState");
+	}
+	else if (InputSystem::Get()->IsKeyPressed(KeyCode::A))
+	{
+		MainApp().ChangeState("HeartState");
+	}
+}
+
 void TriangleState::CreateShape()
 {
 	mVertices.push_back({ { -0.5f, 0.0f, 0.0f }, Colors::Red });
 	mVertices.push_back({ { 0.0f, 0.75f, 0.0f }, Colors::Green });
 	mVertices.push_back({ { 0.5f, 0.0f,  0.0f }, Colors::Blue });
+}
+
+void TriforceState::Update(float deltaTime)
+{
+	if (InputSystem::Get()->IsKeyPressed(KeyCode::D))
+	{
+		MainApp().ChangeState("DiamondState");
+	}
+	else if (InputSystem::Get()->IsKeyPressed(KeyCode::A))
+	{
+		MainApp().ChangeState("TriangleState");
+	}
 }
 
 void TriforceState::CreateShape()
@@ -53,6 +78,18 @@ void TriforceState::CreateShape()
 	mVertices.push_back({ { -0.25f, 0.0f, 0.0f }, Colors::Yellow });
 	mVertices.push_back({ { 0.0f, 0.5f, 0.0f }, Colors::Yellow });
 	mVertices.push_back({ { 0.25f, 0.0f, 0.0f }, Colors::Yellow });
+}
+
+void DiamondState::Update(float deltaTime)
+{
+	if (InputSystem::Get()->IsKeyPressed(KeyCode::D))
+	{
+		MainApp().ChangeState("HeartState");
+	}
+	else if (InputSystem::Get()->IsKeyPressed(KeyCode::A))
+	{
+		MainApp().ChangeState("TriforceState");
+	}
 }
 
 void DiamondState::CreateShape()
@@ -72,6 +109,18 @@ void DiamondState::CreateShape()
 	mVertices.push_back({ { 0.0f, 0.75f, 0.0f }, Colors::Blue });
 	mVertices.push_back({ { 0.25f, 0.0f, 0.0f }, Colors::Blue });
 	mVertices.push_back({ { 0.0f, 0.0f, 0.0f }, Colors::AntiqueWhite });
+}
+
+void HeartState::Update(float deltaTime)
+{
+	if (InputSystem::Get()->IsKeyPressed(KeyCode::A))
+	{
+		MainApp().ChangeState("DiamondState");
+	}
+	else if (InputSystem::Get()->IsKeyPressed(KeyCode::D))
+	{
+		MainApp().ChangeState("TriangleState");
+	}
 }
 
 void HeartState::CreateShape()

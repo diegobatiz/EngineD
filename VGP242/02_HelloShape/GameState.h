@@ -18,24 +18,36 @@ protected:
 
 class TriangleState : public GameState
 {
+public:
+	void Update(float deltaTime) override;
+
 private:
 	void CreateShape() override;
 };
 
 class TriforceState : public GameState
 {
+public:
+	void Update(float deltaTime) override;
+
 private:
 	void CreateShape() override;
 };
 
 class DiamondState : public GameState
 {
+public:
+	void Update(float deltaTime) override;
+
 private:
 	void CreateShape() override;
 };
 
 class HeartState : public GameState
 {
+public:
+	void Update(float deltaTime) override;
+
 private:
 	void CreateShape() override;
 };
