@@ -9,7 +9,7 @@ public:
 	void Initialize()
 	{	
 		LOG("MAIN STATE INITIALIZED");
-		GraphicsSystem::Get()->SetClearColour(Colours::Red);
+		GraphicsSystem::Get()->SetClearColor(Colors::Red);
 		mLifeTime = 2.0f;
 	}
 
@@ -38,7 +38,7 @@ public:
 	void Initialize()
 	{
 		LOG("GAME STATE INITIALIZED");
-		GraphicsSystem::Get()->SetClearColour(Colours::Blue);
+		GraphicsSystem::Get()->SetClearColor(Colors::Blue);
 		mLifeTime = 2.0f;
 	}
 

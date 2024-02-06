@@ -28,7 +28,7 @@ namespace EngineD::Graphics
 		void ResetRenderTarget();
 		void ResetViewport();
 
-		void SetClearColour(const Colour& colour);
+		void SetClearColor(const Color& color);
 		void SetVSync(bool vSync);
 
 		uint32_t GetBackBufferWidth() const;
@@ -60,7 +60,7 @@ namespace EngineD::Graphics
 		DXGI_SWAP_CHAIN_DESC mSwapChainDesc{};
 		D3D11_VIEWPORT mViewPort{};
 
-		Colour mClearColour = Colours::Black;
+		Color mClearColor = Colors::Black;
 		UINT mVSync = 1;
 	};
 }

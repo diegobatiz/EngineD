@@ -1,26 +1,22 @@
-//simple shader that only uses position and colour
-
-struct VS_INPUT
-{
-	float3 position : POSITION;
-	float4 color : COLOR;
-};
+//simple shader that only uses position and color
 
 struct VS_OUTPUT
 {
-    float4 position : SV_Position;
-    float4 color : COLOR;
+	float4 position : SV_Position;
+	float4 color : COLOR;
 };
 
-VS_OUTPUT VS(VS_INPUT input)
+VS_OUTPUT VS(float3 position : POSITION, float4 color : COLOR)
 {
-    VS_OUTPUT output;
-    output.position = float4(input.position, 1.0f);
-    output.color = input.color;
-    return output;
+	VS_OUTPUT output;
+	output.position = float4(position, 1.0f);
+	output.color = color;
+	return output;
 }
 
-float PS(VS_OUTPUT input) : SV_Target
+float4 PS(VS_OUTPUT input) : SV_Target
 {
-    return input.color;
+	return input.color;
 }
+
+//why does this work??

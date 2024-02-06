@@ -12,9 +12,4 @@ public:
 private:
 	using Vertices = std::vector<EngineD::Graphics::Vertex>;
 	Vertices mVertices;
-
-	ID3D11Buffer* mVertexBuffer = nullptr;
-	ID3D11VertexShader* mVertexShader = nullptr;
-	ID3D11InputLayout* mInputLayout = nullptr;
-	ID3D11PixelShader* mPixelShader = nullptr;
 };

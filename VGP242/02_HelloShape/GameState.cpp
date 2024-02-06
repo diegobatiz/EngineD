@@ -5,9 +5,9 @@ using namespace EngineD::Graphics;
 
 void GameState::Initialize()
 {
-	mVertices.push_back({ { -0.5f, 0.0f, 0.0f }, Colours::Red });
-	mVertices.push_back({ { 0.0f, 0.75f, 0.0f }, Colours::Red });
-	mVertices.push_back({ { 0.5f, 0.0f,  0.0f }, Colours::Red });
+	mVertices.push_back({ { -0.5f, 0.0f, 0.0f }, Colors::Red });
+	mVertices.push_back({ { 0.0f, 0.75f, 0.0f }, Colors::Green });
+	mVertices.push_back({ { 0.5f, 0.0f,  0.0f }, Colors::Blue });
 
 	GraphicsSystem::Get()->CreateTriangles(mVertices);
 
@@ -28,5 +28,5 @@ void GameState::Update(float deltaTime)
 
 void GameState::Render()
 {
-	GraphicsSystem::Get()->Render(3);
+	GraphicsSystem::Get()->Render(mVertices.size());
 }

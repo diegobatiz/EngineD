@@ -7,7 +7,7 @@ namespace EngineD::Graphics
 	struct Vertex
 	{
 		EngineD::Math::Vector3 position;
-		EngineD::Colour colour;
+		EngineD::Color color;
 	};
 
 	class GraphicsAPI
@@ -28,7 +28,7 @@ namespace EngineD::Graphics
 		virtual void ResetRenderTarget() = 0;
 		virtual void ResetViewport() = 0;
 
-		virtual void SetClearColour(const Colour& colour) = 0;
+		virtual void SetClearColor(const Color& color) = 0;
 		virtual void SetVSync(bool vSync) = 0;
 
 		virtual uint32_t GetBackBufferWidth() const = 0;

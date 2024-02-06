@@ -31,7 +31,7 @@ void Graphics_D3D11::Initialize(HWND window, bool fullscreen)
 	swapChainDesc.Windowed = !fullscreen;
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 
-	const D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_1;
+	const D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_0;
 
 	HRESULT hr = D3D11CreateDeviceAndSwapChain(
 		nullptr,
@@ -71,7 +71,7 @@ void Graphics_D3D11::Terminate()
 void Graphics_D3D11::BeginRender()
 {
 	mImmediateContext->OMSetRenderTargets(1, &mRenderTargetView, mDepthStencilView);
-	mImmediateContext->ClearRenderTargetView(mRenderTargetView, (FLOAT*)(&mClearColour));
+	mImmediateContext->ClearRenderTargetView(mRenderTargetView, (FLOAT*)(&mClearColor));
 	mImmediateContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0.0f);
 }
 
@@ -168,9 +168,9 @@ void Graphics_D3D11::ResetViewport()
 	mImmediateContext->RSSetViewports(1, &mViewPort);
 }
 
-void Graphics_D3D11::SetClearColour(const Colour& colour)
+void Graphics_D3D11::SetClearColor(const Color& color)
 {
-	mClearColour = colour;
+	mClearColor = color;
 }
 
 void Graphics_D3D11::SetVSync(bool vSync)
