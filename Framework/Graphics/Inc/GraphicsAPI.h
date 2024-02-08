@@ -1,13 +1,17 @@
 #pragma once
 
 #include "Colours.h"
+#include "VertexTypes.h"
+
+class VertexType;
 
 namespace EngineD::Graphics
 {
-	struct Vertex
+	enum class Topology
 	{
-		EngineD::Math::Vector3 position;
-		EngineD::Color color;
+		Points,
+		Lines,
+		Triangles
 	};
 
 	class GraphicsAPI
@@ -19,7 +23,7 @@ namespace EngineD::Graphics
 		virtual void Terminate() = 0;
 
 		virtual void BeginRender() = 0;
-		virtual void Render(size_t verticesSize) = 0;
+		virtual void Render() = 0;
 		virtual void EndRender() = 0;
 
 		virtual void ToggleFullScreen() = 0;
@@ -29,14 +33,9 @@ namespace EngineD::Graphics
 		virtual void ResetViewport() = 0;
 
 		virtual void SetClearColor(const Color& color) = 0;
-		virtual void SetVSync(bool vSync) = 0;
+		virtual void SetTopology(Topology topology) = 0;
 
-		virtual uint32_t GetBackBufferWidth() const = 0;
-		virtual uint32_t GetBackBufferHeight() const = 0;
-
-		virtual float GetBackBufferAspectRatio() const = 0;
-
-		virtual void CreateTriangles(const std::vector<Vertex>& vertices) = 0;
+		virtual void CreateTriangles(const std::vector<VertexType>& vertices) = 0;
 		virtual void CreateShaders(std::filesystem::path filePath) = 0;
 	};
 }

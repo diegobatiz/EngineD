@@ -49,6 +49,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shaders", "Shaders", "{F3CE
 		Assets\Shaders\DoSomething.fx = Assets\Shaders\DoSomething.fx
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "03_HelloCube", "VGP242\03_HelloCube\03_HelloCube.vcxproj", "{03F1705D-FACF-4DBF-809C-9653AFA30DAD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -121,6 +123,14 @@ Global
 		{3629F01A-6FED-42EB-B308-E9F7F1346EAF}.Release|x64.Build.0 = Release|x64
 		{3629F01A-6FED-42EB-B308-E9F7F1346EAF}.Release|x86.ActiveCfg = Release|Win32
 		{3629F01A-6FED-42EB-B308-E9F7F1346EAF}.Release|x86.Build.0 = Release|Win32
+		{03F1705D-FACF-4DBF-809C-9653AFA30DAD}.Debug|x64.ActiveCfg = Debug|x64
+		{03F1705D-FACF-4DBF-809C-9653AFA30DAD}.Debug|x64.Build.0 = Debug|x64
+		{03F1705D-FACF-4DBF-809C-9653AFA30DAD}.Debug|x86.ActiveCfg = Debug|Win32
+		{03F1705D-FACF-4DBF-809C-9653AFA30DAD}.Debug|x86.Build.0 = Debug|Win32
+		{03F1705D-FACF-4DBF-809C-9653AFA30DAD}.Release|x64.ActiveCfg = Release|x64
+		{03F1705D-FACF-4DBF-809C-9653AFA30DAD}.Release|x64.Build.0 = Release|x64
+		{03F1705D-FACF-4DBF-809C-9653AFA30DAD}.Release|x86.ActiveCfg = Release|Win32
+		{03F1705D-FACF-4DBF-809C-9653AFA30DAD}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -137,6 +147,7 @@ Global
 		{3629F01A-6FED-42EB-B308-E9F7F1346EAF} = {43065273-F74F-4529-A8FF-0DEA004ECDE7}
 		{07F06C74-A2F1-420D-B400-32D34A805743} = {AE34D983-CCFF-419E-9D32-821451C1ADFB}
 		{F3CEE0F4-B858-4FB1-8A12-F91132ADF5D6} = {D9D8D486-0FA1-42F7-A71E-4951FF0C3538}
+		{03F1705D-FACF-4DBF-809C-9653AFA30DAD} = {E9EDD95A-89E9-4D5F-9EF3-774D9A1DE026}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {19B1DB02-12F6-4B09-B23A-FB585D24135C}

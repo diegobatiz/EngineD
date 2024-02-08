@@ -19,7 +19,7 @@ namespace EngineD::Graphics
 		void Terminate();
 
 		void BeginRender();
-		void Render(size_t verticesSize);
+		void Render();
 		void EndRender();
 
 		void ToggleFullScreen();
@@ -28,7 +28,14 @@ namespace EngineD::Graphics
 		void ResetRenderTarget();
 		void ResetViewport();
 
-		void SetClearColor(const Color& color);
+		void SetClearColor(const Color& color); 
+		void SetTopology(Topology topology);
+
+		template<class VertexType>
+		void CreateTriangles(const std::vector<VertexType>& vertices);
+		void CreateShaders(std::filesystem::path filePath);
+
+	private:
 		void SetVSync(bool vSync);
 
 		uint32_t GetBackBufferWidth() const;
@@ -36,17 +43,26 @@ namespace EngineD::Graphics
 
 		float GetBackBufferAspectRatio() const;
 
-		void CreateTriangles(const std::vector<Vertex>& vertices);
-		void CreateShaders(std::filesystem::path filePath);
-
-		ID3D11Device* GetDevice() { return mD3DDevice; }
-		ID3D11DeviceContext* GetContext() { return mImmediateContext; }
-
-	private:
+		//MeshBuffer mMeshBuffer
+		//VertexShader mVertexShader
+		// PixelShader mPixelShader
+		// 
+		// when create triangles is call -> mesh buffer is initialized
+		// when create pixel/vertex shader is called -> shaders initialized
+		// 
 		ID3D11Buffer* mVertexBuffer = nullptr;
+		ID3D11Buffer* mIndexBuffer = nullptr;
+
+		D3D11_PRIMITIVE_TOPOLOGY mTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+
+		uint32_t mVertexSize;
+		uint32_t mVertexCount;
+		uint32_t mIndexCount;
+
 		ID3D11VertexShader* mVertexShader = nullptr;
 		ID3D11InputLayout* mInputLayout = nullptr;
 		ID3D11PixelShader* mPixelShader = nullptr;
+		
 
 		ID3D11Device* mD3DDevice = nullptr;
 		ID3D11DeviceContext* mImmediateContext = nullptr;

@@ -1,3 +1,24 @@
-Link to opengl tutorial
+Start OpenGL dev
+https://www.khronos.org/opengl/wiki/Creating_an_OpenGL_Context_(WGL)
+https://www.khronos.org/opengl/wiki/OpenGL_Loading_Library
 
-https://www.rastertek.com/gl40tut03.html
+constant buffer opengl
+https://stackoverflow.com/questions/15132916/how-to-get-the-max-constant-buffer-size-with-opengl
+
+How graphic system works
+> initialize graphics system
+> create vertices and indices
+
+call create triangles
+- make object for mesh buffer
+> initialize mesh buffer
+
+call create vertex shader
+ - make object for the vertex shaders
+> initialize vertex shader
+
+call create pixel shader
+ - make object for the pixelshaders
+> initialize pixel shader
+
+

@@ -1,5 +1,6 @@
 #include "Precompiled.h"
 #include "GraphicsAPI_D3D11.h"
+#include "MeshTypes.h"
 
 using namespace EngineD;
 using namespace EngineD::Graphics;
@@ -66,6 +67,7 @@ void Graphics_D3D11::Terminate()
 	SafeRelease(mVertexShader);
 	SafeRelease(mInputLayout);
 	SafeRelease(mVertexBuffer);
+	SafeRelease(mIndexBuffer);
 }
 
 void Graphics_D3D11::BeginRender()
@@ -75,7 +77,7 @@ void Graphics_D3D11::BeginRender()
 	mImmediateContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0.0f);
 }
 
-void Graphics_D3D11::Render(size_t verticesSize)
+void Graphics_D3D11::Render()
 {
 	mImmediateContext->VSSetShader(mVertexShader, nullptr, 0);
 	mImmediateContext->IASetInputLayout(mInputLayout);
@@ -86,7 +88,17 @@ void Graphics_D3D11::Render(size_t verticesSize)
 	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
 	mImmediateContext->IASetVertexBuffers(0, 1, &mVertexBuffer, &stride, &offset);
-	mImmediateContext->Draw(static_cast<UINT>(verticesSize), 0);
+
+	if (mIndexBuffer != nullptr)
+	{
+		//mImmediateContext->IASetIndexBuffer(mIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+		//mImmediateContext->DrawIndexed((UINT)indicesSize, 0, 0);
+	}
+	else
+	{
+		//mImmediateContext->Draw(static_cast<UINT>(verticesSize), 0);
+	}
+	
 }
 
 void Graphics_D3D11::EndRender()
@@ -193,7 +205,8 @@ float Graphics_D3D11::GetBackBufferAspectRatio() const
 	return static_cast<float>(GetBackBufferWidth())/static_cast<float>(GetBackBufferHeight());
 }
 
-void Graphics_D3D11::CreateTriangles(const std::vector<Vertex>& vertices)
+template <class VertexType>
+void Graphics_D3D11::CreateTriangles(const std::vector<VertexType>& vertices)
 {
 	D3D11_BUFFER_DESC bufferDesc = {};
 	bufferDesc.ByteWidth = static_cast<UINT>(vertices.size()) * sizeof(Vertex);
@@ -207,6 +220,22 @@ void Graphics_D3D11::CreateTriangles(const std::vector<Vertex>& vertices)
 
 	HRESULT hr = mD3DDevice->CreateBuffer(&bufferDesc, &initData, &mVertexBuffer);
 	ASSERT(SUCCEEDED(hr), "Failed to create vertex data");
+
+	/*
+	//Create index buffer
+	bufferDesc = {};
+	bufferDesc.ByteWidth = static_cast<UINT>(indices.size()) * sizeof(uint32_t);
+	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bufferDesc.MiscFlags = 0;
+	bufferDesc.StructureByteStride = 0;
+
+	initData = {};
+	initData.pSysMem = indices.data();
+
+	hr = mD3DDevice->CreateBuffer(&bufferDesc, &initData, &mIndexBuffer);
+	ASSERT(SUCCEEDED(hr), "Failed to create index data");
+	*/
 }
 
 void Graphics_D3D11::CreateShaders(std::filesystem::path filePath)
@@ -250,6 +279,7 @@ void Graphics_D3D11::CreateShaders(std::filesystem::path filePath)
 		shaderBlob->GetBufferSize(),
 		&mInputLayout
 	);
+
 	ASSERT(SUCCEEDED(hr), "Failed to create input layout");
 	SafeRelease(shaderBlob);
 	SafeRelease(errorBlob);

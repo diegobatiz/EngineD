@@ -10,7 +10,7 @@ void GameState::Initialize()
 
 	GraphicsSystem::Get()->CreateTriangles(mVertices);
 
-	std::filesystem::path shaderFilePath = L"C:/Dev/Quarter 10/EngineD/Assets/Shaders/DoSomething.fx";
+	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/DoSomething.fx";
 
 	GraphicsSystem::Get()->CreateShaders(shaderFilePath);
 }
