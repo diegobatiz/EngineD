@@ -1,10 +1,10 @@
 #pragma once
 
-#include "GraphicsAPI.h"
+#include "GraphicsType.h"
 
 namespace EngineD::Graphics
 {
-	class Graphics_D3D11 final : public GraphicsAPI
+	class Graphics_D3D11 final : public GraphicsType
 	{
 	public:
 		Graphics_D3D11() = default;

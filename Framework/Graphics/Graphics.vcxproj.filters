@@ -24,13 +24,13 @@
     <ClInclude Include="Inc\GraphicsSystem.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="Inc\GraphicsAPI_D3D11.h">
+    <ClInclude Include="Inc\GraphicsType_D3D11.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="Inc\GraphicsAPI.h">
+    <ClInclude Include="Inc\GraphicsType.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="Inc\GraphicsAPI_GL4.h">
+    <ClInclude Include="Inc\GraphicsType_GL4.h">
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="Inc\VertexTypes.h">
@@ -41,13 +41,13 @@
     <ClCompile Include="Src\Precompiled.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="Src\GraphicsAPI_D3D11.cpp">
+    <ClCompile Include="Src\GraphicsType_D3D11.cpp">
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\GraphicsSystem.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="Src\GraphicsAPI_GL4.cpp">
+    <ClCompile Include="Src\GraphicsType_GL4.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>

@@ -14,10 +14,10 @@ namespace EngineD::Graphics
 		Triangles
 	};
 
-	class GraphicsAPI
+	class GraphicsType
 	{
 	public:
-		virtual ~GraphicsAPI() {}
+		virtual ~GraphicsType() {}
 
 		virtual void Initialize(HWND window, bool fullscreen) = 0;
 		virtual void Terminate() = 0;
