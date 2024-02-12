@@ -5,6 +5,6 @@
 #include "GraphicsSystem.h"
 #include "GraphicsType_D3D11.h"
 #include "Colours.h"
-#include "VertexTypes.h"
+#include "MeshBuffer_D3D11.h"
 #include "MeshTypes.h"
-#include "MeshBuffer.h"
+#include "VertexTypes.h"

@@ -1,5 +1,5 @@
 #include "Precompiled.h"
-#include "GraphicsAPI_D3D11.h"
+#include "GraphicsType_D3D11.h"
 #include "MeshTypes.h"
 
 using namespace EngineD;
@@ -79,25 +79,6 @@ void Graphics_D3D11::BeginRender()
 
 void Graphics_D3D11::Render()
 {
-	mImmediateContext->VSSetShader(mVertexShader, nullptr, 0);
-	mImmediateContext->IASetInputLayout(mInputLayout);
-	mImmediateContext->PSSetShader(mPixelShader, nullptr, 0);
-
-	mImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	UINT stride = sizeof(Vertex);
-	UINT offset = 0;
-	mImmediateContext->IASetVertexBuffers(0, 1, &mVertexBuffer, &stride, &offset);
-
-	if (mIndexBuffer != nullptr)
-	{
-		//mImmediateContext->IASetIndexBuffer(mIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
-		//mImmediateContext->DrawIndexed((UINT)indicesSize, 0, 0);
-	}
-	else
-	{
-		//mImmediateContext->Draw(static_cast<UINT>(verticesSize), 0);
-	}
 	
 }
 

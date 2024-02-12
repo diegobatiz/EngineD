@@ -7,13 +7,6 @@ class VertexType;
 
 namespace EngineD::Graphics
 {
-	enum class Topology
-	{
-		Points,
-		Lines,
-		Triangles
-	};
-
 	class GraphicsType
 	{
 	public:
@@ -33,7 +26,6 @@ namespace EngineD::Graphics
 		virtual void ResetViewport() = 0;
 
 		virtual void SetClearColor(const Color& color) = 0;
-		virtual void SetTopology(Topology topology) = 0;
 
 		virtual void CreateTriangles(const std::vector<VertexType>& vertices) = 0;
 		virtual void CreateShaders(std::filesystem::path filePath) = 0;

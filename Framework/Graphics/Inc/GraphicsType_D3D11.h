@@ -29,7 +29,6 @@ namespace EngineD::Graphics
 		void ResetViewport();
 
 		void SetClearColor(const Color& color); 
-		void SetTopology(Topology topology);
 
 		template<class VertexType>
 		void CreateTriangles(const std::vector<VertexType>& vertices);
@@ -43,7 +42,7 @@ namespace EngineD::Graphics
 
 		float GetBackBufferAspectRatio() const;
 
-		//MeshBuffer mMeshBuffer
+		//MeshBuffer_D3D11 mMeshBuffer
 		//VertexShader mVertexShader
 		// PixelShader mPixelShader
 		// 
@@ -52,8 +51,6 @@ namespace EngineD::Graphics
 		// 
 		ID3D11Buffer* mVertexBuffer = nullptr;
 		ID3D11Buffer* mIndexBuffer = nullptr;
-
-		D3D11_PRIMITIVE_TOPOLOGY mTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
 		uint32_t mVertexSize;
 		uint32_t mVertexCount;
