@@ -66,6 +66,7 @@ void Graphics_D3D11::Terminate()
 	mMeshBuffer.Terminate();
 	mVertexShader.Terminate();
 	mPixelShader.Terminate();
+	mConstantBuffer.Terminate();
 }
 
 void Graphics_D3D11::BeginRender()
@@ -79,6 +80,8 @@ void Graphics_D3D11::Render()
 {
 	mVertexShader.Bind(mImmediateContext);
 	mPixelShader.Bind(mImmediateContext);
+
+	mConstantBuffer.BindVS(0);
 
 	mMeshBuffer.Render(mImmediateContext);
 }
@@ -165,6 +168,18 @@ void Graphics_D3D11::ResetViewport()
 void Graphics_D3D11::SetClearColor(const Color& color)
 {
 	mClearColor = color;
+}
+
+void Graphics_D3D11::InitializeBuffer(uint32_t bufferSize)
+{
+	mConstantBuffer.SetContext(mImmediateContext);
+	mConstantBuffer.SetDevice(mD3DDevice);
+	mConstantBuffer.Initialize(bufferSize);
+}
+
+void Graphics_D3D11::UpdateBuffer(const void* data) const
+{
+	mConstantBuffer.Update(data);
 }
 
 void Graphics_D3D11::SetVSync(bool vSync)

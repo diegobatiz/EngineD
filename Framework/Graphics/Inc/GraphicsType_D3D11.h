@@ -4,6 +4,7 @@
 #include "MeshBuffer_D3D11.h"
 #include "VertexShader_D3D11.h"
 #include "PixelShader_D3D11.h"
+#include "ConstantBuffer.h"
 
 namespace EngineD::Graphics
 {
@@ -18,20 +19,25 @@ namespace EngineD::Graphics
 		Graphics_D3D11& operator=(const Graphics_D3D11&) = delete;
 		Graphics_D3D11& operator=(const Graphics_D3D11&&) = delete;
 
-		void Initialize(HWND window, bool fullscreen);
-		void Terminate();
+		void Initialize(HWND window, bool fullscreen) override;
+		void Terminate() override;
 
-		void BeginRender();
-		void Render();
-		void EndRender();
+		void BeginRender() override;
+		void Render() override;
+		void EndRender() override;
 
-		void ToggleFullScreen();
-		void Resize(uint32_t width, uint32_t height);
+		void ToggleFullScreen() override;
+		void Resize(uint32_t width, uint32_t height) override;
 
-		void ResetRenderTarget();
-		void ResetViewport();
+		void ResetRenderTarget() override;
+		void ResetViewport() override;
 
-		void SetClearColor(const Color& color); 
+		void SetClearColor(const Color& color) override;
+
+		uint32_t GetBackBufferWidth() const override;
+		uint32_t GetBackBufferHeight() const override;
+
+		float GetBackBufferAspectRatio() const override;
 
 		template<class VertexType>
 		void CreateMeshBuffer(const std::vector<VertexType>& vertices)
@@ -45,6 +51,7 @@ namespace EngineD::Graphics
 			mMeshBuffer.InitDevice(mD3DDevice);
 			mMeshBuffer.Initialize(mesh);
 		}
+		
 		template<class VertexType>
 		void CreateVertexShader(std::filesystem::path filePath)
 		{
@@ -57,17 +64,16 @@ namespace EngineD::Graphics
 			mPixelShader.Initialize(filePath);
 		}
 
+		void InitializeBuffer(uint32_t bufferSize);
+		void UpdateBuffer(const void* data) const;
+
 	private:
 		void SetVSync(bool vSync);
-
-		uint32_t GetBackBufferWidth() const;
-		uint32_t GetBackBufferHeight() const;
-
-		float GetBackBufferAspectRatio() const;
 
 		MeshBuffer_D3D11 mMeshBuffer; 
 		VertexShader_D3D11 mVertexShader;
 		PixelShader_D3D11 mPixelShader;
+		ConstantBuffer mConstantBuffer;
 
 		ID3D11Device* mD3DDevice = nullptr;
 		ID3D11DeviceContext* mImmediateContext = nullptr;

@@ -48,6 +48,12 @@
     <ClInclude Include="Inc\PixelShader_D3D11.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\Camera.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\ConstantBuffer.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -66,6 +72,12 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\PixelShader_D3D11.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Camera.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ConstantBuffer.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>

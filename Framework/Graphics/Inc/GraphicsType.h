@@ -30,5 +30,10 @@ namespace EngineD::Graphics
 		void CreateMeshBuffer(const MeshType& mesh) {}
 		template<class VertexType>
 		void CreateShaders(std::filesystem::path filePath) {};
+
+		virtual uint32_t GetBackBufferWidth() const = 0;
+		virtual uint32_t GetBackBufferHeight() const = 0;
+
+		virtual float GetBackBufferAspectRatio() const = 0;
 	};
 }

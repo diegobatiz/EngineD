@@ -10,6 +10,7 @@ public:
 	void Render() override;
 
 protected:
+	EngineD::Graphics::Camera mCamera;
 	EngineD::Graphics::MeshPC mMesh;
 
 };

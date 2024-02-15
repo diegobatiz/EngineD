@@ -4,7 +4,9 @@
 
 #include "GraphicsSystem.h"
 #include "GraphicsType_D3D11.h"
+#include "Camera.h"
 #include "Colours.h"
+#include "ConstantBuffer.h"
 #include "MeshBuffer_D3D11.h"
 #include "MeshTypes.h"
 #include "PixelShader_D3D11.h"
