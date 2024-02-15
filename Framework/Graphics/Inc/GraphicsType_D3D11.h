@@ -1,6 +1,9 @@
 #pragma once
 
 #include "GraphicsType.h"
+#include "MeshBuffer_D3D11.h"
+#include "VertexShader_D3D11.h"
+#include "PixelShader_D3D11.h"
 
 namespace EngineD::Graphics
 {
@@ -31,8 +34,28 @@ namespace EngineD::Graphics
 		void SetClearColor(const Color& color); 
 
 		template<class VertexType>
-		void CreateTriangles(const std::vector<VertexType>& vertices);
-		void CreateShaders(std::filesystem::path filePath);
+		void CreateMeshBuffer(const std::vector<VertexType>& vertices)
+		{
+			mMeshBuffer.InitDevice(mD3DDevice);
+			mMeshBuffer.Initialize(vertices);
+		}
+		template<class MeshType>
+		void CreateMeshBuffer(const MeshType& mesh)
+		{
+			mMeshBuffer.InitDevice(mD3DDevice);
+			mMeshBuffer.Initialize(mesh);
+		}
+		template<class VertexType>
+		void CreateVertexShader(std::filesystem::path filePath)
+		{
+			mVertexShader.InitDevice(mD3DDevice);
+			mVertexShader.Initialize<VertexType>(filePath);
+		}
+		void CreatePixelShader(std::filesystem::path filePath)
+		{
+			mPixelShader.InitDevice(mD3DDevice);
+			mPixelShader.Initialize(filePath);
+		}
 
 	private:
 		void SetVSync(bool vSync);
@@ -42,24 +65,9 @@ namespace EngineD::Graphics
 
 		float GetBackBufferAspectRatio() const;
 
-		//MeshBuffer_D3D11 mMeshBuffer
-		//VertexShader mVertexShader
-		// PixelShader mPixelShader
-		// 
-		// when create triangles is call -> mesh buffer is initialized
-		// when create pixel/vertex shader is called -> shaders initialized
-		// 
-		ID3D11Buffer* mVertexBuffer = nullptr;
-		ID3D11Buffer* mIndexBuffer = nullptr;
-
-		uint32_t mVertexSize;
-		uint32_t mVertexCount;
-		uint32_t mIndexCount;
-
-		ID3D11VertexShader* mVertexShader = nullptr;
-		ID3D11InputLayout* mInputLayout = nullptr;
-		ID3D11PixelShader* mPixelShader = nullptr;
-		
+		MeshBuffer_D3D11 mMeshBuffer; 
+		VertexShader_D3D11 mVertexShader;
+		PixelShader_D3D11 mPixelShader;
 
 		ID3D11Device* mD3DDevice = nullptr;
 		ID3D11DeviceContext* mImmediateContext = nullptr;

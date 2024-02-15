@@ -58,7 +58,7 @@ void App::Run(const AppConfig& config)
 		float deltaTime = TimeUtil::GetDeltaTime();
 		mCurrentState->Update(deltaTime);
 
-		GraphicsAPI* gs = GraphicsSystem::Get();
+		GraphicsType* gs = GraphicsSystem::Get();
 		gs->BeginRender();
 			mCurrentState->Render();
 		gs->EndRender();

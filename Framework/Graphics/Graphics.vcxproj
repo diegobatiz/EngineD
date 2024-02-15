@@ -139,18 +139,24 @@
     <ClInclude Include="Inc\Colours.h" />
     <ClInclude Include="Inc\Common.h" />
     <ClInclude Include="Inc\Graphics.h" />
-    <ClInclude Include="Inc\GraphicsAPI.h" />
-    <ClInclude Include="Inc\GraphicsAPI_GL4.h" />
+    <ClInclude Include="Inc\GraphicsType.h" />
     <ClInclude Include="Inc\GraphicsSystem.h" />
-    <ClInclude Include="Inc\GraphicsAPI_D3D11.h" />
+    <ClInclude Include="Inc\GraphicsType_D3D11.h" />
+    <ClInclude Include="Inc\MeshBuffer.h" />
+    <ClInclude Include="Inc\MeshBuffer_D3D11.h" />
+    <ClInclude Include="Inc\MeshTypes.h" />
+    <ClInclude Include="Inc\PixelShader_D3D11.h" />
+    <ClInclude Include="Inc\VertexShader_D3D11.h" />
     <ClInclude Include="Inc\VertexTypes.h" />
     <ClInclude Include="Src\Precompiled.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Src\GraphicsAPI_GL4.cpp" />
     <ClCompile Include="Src\GraphicsSystem.cpp" />
-    <ClCompile Include="Src\GraphicsAPI_D3D11.cpp" />
+    <ClCompile Include="Src\GraphicsType_D3D11.cpp" />
+    <ClCompile Include="Src\MeshBuffer_D3D11.cpp" />
+    <ClCompile Include="Src\PixelShader_D3D11.cpp" />
     <ClCompile Include="Src\Precompiled.cpp" />
+    <ClCompile Include="Src\VertexShader_D3D11.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

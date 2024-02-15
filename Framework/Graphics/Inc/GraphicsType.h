@@ -1,9 +1,6 @@
 #pragma once
 
 #include "Colours.h"
-#include "VertexTypes.h"
-
-class VertexType;
 
 namespace EngineD::Graphics
 {
@@ -27,7 +24,11 @@ namespace EngineD::Graphics
 
 		virtual void SetClearColor(const Color& color) = 0;
 
-		virtual void CreateTriangles(const std::vector<VertexType>& vertices) = 0;
-		virtual void CreateShaders(std::filesystem::path filePath) = 0;
+		template<class VertexType>
+		void CreateMeshBuffer(const std::vector<VertexType>& vertices) {}
+		template<class MeshType>
+		void CreateMeshBuffer(const MeshType& mesh) {}
+		template<class VertexType>
+		void CreateShaders(std::filesystem::path filePath) {};
 	};
 }

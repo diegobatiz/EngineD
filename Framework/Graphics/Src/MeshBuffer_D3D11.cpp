@@ -59,12 +59,50 @@ void MeshBuffer_D3D11::Render(ID3D11DeviceContext* context)
 	}
 }
 
-void MeshBuffer_D3D11::CreateVertexBuffer(ID3D11Device* device, const void* vertices, uint32_t vertexSize, uint32_t vertexCount)
+void MeshBuffer_D3D11::InitDevice(ID3D11Device* device)
 {
+	mDevice = device;
+}
+
+void MeshBuffer_D3D11::CreateVertexBuffer(const void* vertices, uint32_t vertexSize, uint32_t vertexCount)
+{
+	mVertexSize = vertexSize;
+	mVertexCount = vertexCount;
+
+	D3D11_BUFFER_DESC bufferDesc = {};
+	bufferDesc.ByteWidth = static_cast<UINT>(vertexCount) * vertexSize;
+	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bufferDesc.MiscFlags = 0;
+	bufferDesc.StructureByteStride = 0;
+
+	D3D11_SUBRESOURCE_DATA initData = {};
+	initData.pSysMem = vertices;
+
+	HRESULT hr = mDevice->CreateBuffer(&bufferDesc, &initData, &mVertexBuffer);
+	ASSERT(SUCCEEDED(hr), "Failed to create vertex data");
 
 }
 
-void MeshBuffer_D3D11::CreateIndexBuffer(ID3D11Device* device, const uint32_t* indices, uint32_t indexCount)
+void MeshBuffer_D3D11::CreateIndexBuffer(const uint32_t* indices, uint32_t indexCount)
 {
+	if (indexCount == 0)
+	{
+		return;
+	}
 
+	mIndexCount = indexCount;
+
+	D3D11_BUFFER_DESC bufferDesc = {};
+	bufferDesc.ByteWidth = static_cast<UINT>(indexCount) * sizeof(uint32_t);
+	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bufferDesc.MiscFlags = 0;
+	bufferDesc.StructureByteStride = 0;
+
+	D3D11_SUBRESOURCE_DATA initData = {};
+	initData.pSysMem = indices;
+
+	HRESULT hr = mDevice->CreateBuffer(&bufferDesc, &initData, &mIndexBuffer);
+	ASSERT(SUCCEEDED(hr), "Failed to create index data");
 }

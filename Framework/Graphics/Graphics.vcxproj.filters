@@ -30,10 +30,22 @@
     <ClInclude Include="Inc\GraphicsType.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="Inc\GraphicsType_GL4.h">
+    <ClInclude Include="Inc\VertexTypes.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="Inc\VertexTypes.h">
+    <ClInclude Include="Inc\MeshBuffer.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\MeshTypes.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\MeshBuffer_D3D11.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\VertexShader_D3D11.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\PixelShader_D3D11.h">
       <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>
@@ -47,7 +59,13 @@
     <ClCompile Include="Src\GraphicsSystem.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="Src\GraphicsType_GL4.cpp">
+    <ClCompile Include="Src\MeshBuffer_D3D11.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\VertexShader_D3D11.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\PixelShader_D3D11.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>

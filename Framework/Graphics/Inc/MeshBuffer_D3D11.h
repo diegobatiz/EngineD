@@ -28,14 +28,16 @@ namespace EngineD::Graphics
 		void Terminate() override;
 		void SetTopology(Topology topology) override;
 		void Render(ID3D11DeviceContext* context);
+		void InitDevice(ID3D11Device* device);
 
 	protected:
-		void CreateVertexBuffer(ID3D11Device* device, const void* vertices, uint32_t vertexSize, uint32_t vertexCount);
-		void CreateIndexBuffer(ID3D11Device* device, const uint32_t* indices, uint32_t indexCount);
+		void CreateVertexBuffer(const void* vertices, uint32_t vertexSize, uint32_t vertexCount);
+		void CreateIndexBuffer(const uint32_t* indices, uint32_t indexCount);
 
 		ID3D11Buffer* mVertexBuffer = nullptr;
 		ID3D11Buffer* mIndexBuffer = nullptr;
 		D3D11_PRIMITIVE_TOPOLOGY mTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+		ID3D11Device* mDevice;
 
 		uint32_t mVertexSize;
 		uint32_t mVertexCount;

@@ -1,8 +1,6 @@
 #include "Precompiled.h"
 #include "GraphicsSystem.h"
-#include "GraphicsAPI_D3D11.h"
-
-#define D3D11
+#include "GraphicsType_D3D11.h"
 
 using namespace EngineD;
 using namespace EngineD::Graphics;
@@ -10,7 +8,7 @@ using namespace EngineD::Core;
 
 namespace
 {
-	std::unique_ptr<GraphicsAPI> sGraphicsSystem;
+	std::unique_ptr<GraphicsType> sGraphicsSystem;
 	WindowMessageHandler sWindowMessageHandler;
 }
 
@@ -59,8 +57,17 @@ void GraphicsSystem::StaticTerminate()
 	}
 }
 
-GraphicsAPI* GraphicsSystem::Get()
+#ifdef D3D11
+Graphics_D3D11* GraphicsSystem::Get()
+{
+	ASSERT(sGraphicsSystem != nullptr, "GraphicsSystem: is not initialized");
+	Graphics_D3D11* system = dynamic_cast<Graphics_D3D11*>(sGraphicsSystem.get());
+	return system;
+}
+#else
+GraphicsType* GraphicsSystem::Get()
 {
 	ASSERT(sGraphicsSystem != nullptr, "GraphicsSystem: is not initialized");
 	return sGraphicsSystem.get();
 }
+#endif

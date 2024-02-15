@@ -23,16 +23,18 @@ void GameState::Initialize()
 		1, 0, 5
 	};
 
-	GraphicsSystem::Get()->CreateTriangles(mMesh.vertices);
+	GraphicsSystem::Get()->CreateMeshBuffer(mMesh);
 
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/DoSomething.fx";
 
-	GraphicsSystem::Get()->CreateShaders(shaderFilePath);
+	GraphicsSystem::Get()->CreateVertexShader<VertexPC>(shaderFilePath);
+	GraphicsSystem::Get()->CreatePixelShader(shaderFilePath);
 }
 
 void GameState::Terminate()
 {
-	mVertices.clear();
+	mMesh.vertices.clear();
+	mMesh.indices.clear();
 }
 
 void GameState::Update(float deltaTime)
@@ -41,5 +43,5 @@ void GameState::Update(float deltaTime)
 
 void GameState::Render()
 {
-	GraphicsSystem::Get()->Render(mVertices.size(), mIndices.size());
+	GraphicsSystem::Get()->Render();
 }
