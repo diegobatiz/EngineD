@@ -60,6 +60,9 @@
     <ClInclude Include="Inc\VertexShader_D3D11.h">
       <Filter>Inc\D3D11</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\MeshBuilder.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -85,6 +88,9 @@
     </ClCompile>
     <ClCompile Include="Src\ConstantBuffer.cpp">
       <Filter>Src\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\MeshBuilder.cpp">
+      <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

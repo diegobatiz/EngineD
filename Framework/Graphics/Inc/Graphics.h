@@ -8,6 +8,7 @@
 #include "Colours.h"
 #include "ConstantBuffer.h"
 #include "MeshBuffer_D3D11.h"
+#include "MeshBuilder.h"
 #include "MeshTypes.h"
 #include "PixelShader_D3D11.h"
 #include "VertexTypes.h"
