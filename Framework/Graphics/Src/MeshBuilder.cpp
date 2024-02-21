@@ -216,6 +216,25 @@ MeshPC MeshBuilder::CreateCylinderPC(uint32_t slices, uint32_t rings)
 	int index = rand() % 100;
 
 	MeshPC mesh;
+	const float hh = static_cast<float>(rings) * 0.5f;
+
+	for (uint32_t r = 0; r <= rings; ++r)
+	{
+		float ringPos = static_cast<float>(r);
+		for (uint32_t s = 0; s <= slices; ++s)
+		{
+			float slicePos = static_cast<float>(s);
+			float rotation = (slicePos / static_cast<float>(slices) * Math::Constants::TwoPi);
+
+			mesh.vertices.push_back({ {
+					cos(rotation),
+					ringPos - hh,
+					sin(rotation)},
+					GetNextColour(index) });
+		}
+	}
+
+	CreatePlaneIndices(mesh.indices, rings, slices);
 
 	return mesh;
 }

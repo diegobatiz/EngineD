@@ -14,6 +14,7 @@ void GameState::Initialize()
 	//mMesh = MeshBuilder::CreateRectPC(2.0f, 4.0f, 1.0f);
 	//mMesh = MeshBuilder::CreateVerticalPlanePC(10, 10, 1.0f);
 	mMesh = MeshBuilder::CreateHorizontalPlanePC(10, 10, 1.0f);
+	//mMesh = MeshBuilder::CreateCylinderPC(10, 10);
 
 	GraphicsSystem::Get()->CreateMeshBuffer(mMesh);
 
