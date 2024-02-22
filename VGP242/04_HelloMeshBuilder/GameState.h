@@ -11,6 +11,8 @@ public:
 
 protected:
 	EngineD::Graphics::Camera mCamera;
-	EngineD::Graphics::MeshPC mMesh;
+	EngineD::Graphics::MeshPX mMesh;
 
+	EngineD::Graphics::Texture mTexture;
+	EngineD::Graphics::Sampler mSampler;
 };

@@ -67,6 +67,9 @@ namespace EngineD::Graphics
 		void InitializeBuffer(uint32_t bufferSize);
 		void UpdateBuffer(const void* data) const;
 
+		ID3D11Device* GetDevice() { return mD3DDevice; }
+		ID3D11DeviceContext* GetContext() { return mImmediateContext; }
+
 	private:
 		void SetVSync(bool vSync);
 
