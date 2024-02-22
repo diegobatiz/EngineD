@@ -234,6 +234,57 @@ MeshPC MeshBuilder::CreateCylinderPC(uint32_t slices, uint32_t rings)
 		}
 	}
 
+	mesh.vertices.push_back({ { 0.0f, hh, 0.0f }, GetNextColour(index) });
+	mesh.vertices.push_back({ { 0.0f, -hh, 0.0f }, GetNextColour(index) });
+
+	CreatePlaneIndices(mesh.indices, rings, slices);
+
+	uint32_t bottomIndex = mesh.vertices.size() - 1;
+	uint32_t topIndex = bottomIndex - 1;
+	for (uint32_t s = 0; s < slices; s++)
+	{
+		//bottom triangle
+		mesh.indices.push_back(bottomIndex);
+		mesh.indices.push_back(s);
+		mesh.indices.push_back(s + 1);
+
+		//top triangle
+		uint32_t topRowIndex = topIndex - slices - 1 + s;
+		mesh.indices.push_back(topIndex);
+		mesh.indices.push_back(topRowIndex + 1);
+		mesh.indices.push_back(topRowIndex);
+	}
+
+	return mesh;
+}
+
+MeshPC MeshBuilder::CreateSpherePC(uint32_t slices, uint32_t rings, float radius)
+{
+	srand(time(nullptr));
+	int index = rand() % 100;
+
+	MeshPC mesh;
+
+	const float vertRotation = (Math::Constants::Pi / static_cast<float>(rings - 1));
+	const float horzRotation = (Math::Constants::TwoPi / static_cast<float>(slices));
+
+	for (uint32_t r = 0; r <= rings; r++)
+	{
+		float ringPos = static_cast<float>(r);
+		float phi = ringPos * vertRotation;
+		for (uint32_t s = 0; s <= slices; s++)
+		{
+			float slicePos = static_cast<float>(s);
+			float rotation = slicePos * horzRotation;
+
+			mesh.vertices.push_back({ {
+					radius * sin(rotation) * sin(phi),
+					radius * cos(phi),
+					radius * cos(rotation) * sin(phi) },
+					GetNextColour(index) });
+		}
+	}
+
 	CreatePlaneIndices(mesh.indices, rings, slices);
 
 	return mesh;

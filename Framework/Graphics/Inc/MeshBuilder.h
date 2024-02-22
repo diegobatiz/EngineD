@@ -24,5 +24,8 @@ namespace EngineD::Graphics
 
 		//Cylinder
 		static MeshPC CreateCylinderPC(uint32_t slices, uint32_t rings);
+
+		//Sphere
+		static MeshPC CreateSpherePC(uint32_t slices, uint32_t rings, float radius);
 	};
 }
