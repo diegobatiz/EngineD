@@ -55,12 +55,10 @@ namespace EngineD::Graphics
 		template<class VertexType>
 		void CreateVertexShader(std::filesystem::path filePath)
 		{
-			mVertexShader.InitDevice(mD3DDevice);
 			mVertexShader.Initialize<VertexType>(filePath);
 		}
 		void CreatePixelShader(std::filesystem::path filePath)
 		{
-			mPixelShader.InitDevice(mD3DDevice);
 			mPixelShader.Initialize(filePath);
 		}
 

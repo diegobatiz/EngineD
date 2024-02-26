@@ -9,31 +9,11 @@ void GameState::Initialize()
 	mCamera.SetPosition({ 0.0f, 1.0f, -3.0f });
 	mCamera.SetLookAt({ 0.0f, 0.0f, 0.0f });
 
-	//mMesh = MeshBuilder::CreatePyramidPC(2.0f);
-	//mMesh = MeshBuilder::CreateCubePC(2.0f);
-	//mMesh = MeshBuilder::CreateRectPC(2.0f, 4.0f, 1.0f);
-	//mMesh = MeshBuilder::CreateVerticalPlanePC(10, 10, 1.0f);
-	//mMesh = MeshBuilder::CreateHorizontalPlanePC(10, 10, 1.0f);
-	//mMesh = MeshBuilder::CreateCylinderPC(100, 2);
-	//mMesh = MeshBuilder::CreateSpherePC(100, 100, 1.0f);
-
-	//mMesh = MeshBuilder::CreateVerticalPlanePX(10, 10, 1.0f);
-	//mMesh = MeshBuilder::CreateHorizontalPlanePX(10, 10, 1.0f);
-
-	//mMesh = MeshBuilder::CreateSkySpherePX(100, 100, 100.0f);
-	mMesh = MeshBuilder::CreateSkyBoxPX(100.0f);
-
-	GraphicsSystem::Get()->CreateMeshBuffer(mMesh);
+	CreateBuffer();
 
 	GraphicsSystem::Get()->InitializeBuffer(sizeof(Math::Matrix4));
 
-	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/DoTexturing.fx";
-
-	GraphicsSystem::Get()->CreateVertexShader<VertexPX>(shaderFilePath);
-	GraphicsSystem::Get()->CreatePixelShader(shaderFilePath);
-
-	mTexture.Initialize(L"../../Assets/Images/skybox/skybox_texture.jpg");
-	mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
+	CreateShader();
 }
 
 void GameState::Terminate()
@@ -95,4 +75,185 @@ void GameState::Render()
 
 	GraphicsSystem::Get()->UpdateBuffer(&wvp);
 	GraphicsSystem::Get()->Render();
+}
+
+void CubeState::Update(float deltaTime)
+{
+	GameState::Update(deltaTime);
+
+	if (InputSystem::Get()->IsKeyPressed(KeyCode::ENTER))
+	{
+		MainApp().ChangeState("RectState");
+	}
+}
+
+void CubeState::CreateBuffer()
+{
+	mMesh = MeshBuilder::CreateCubePC(4.0f);
+
+	GraphicsSystem::Get()->CreateMeshBuffer(mMesh);
+}
+
+void CubeState::CreateShader()
+{
+	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/DoTransform.fx";
+
+	GraphicsSystem::Get()->CreateVertexShader<VertexPC>(shaderFilePath);
+	GraphicsSystem::Get()->CreatePixelShader(shaderFilePath);
+}
+
+void RectState::Update(float deltaTime)
+{
+	GameState::Update(deltaTime);
+
+	if (InputSystem::Get()->IsKeyPressed(KeyCode::ENTER))
+	{
+		MainApp().ChangeState("PlaneState");
+	}
+}
+
+void RectState::CreateBuffer()
+{
+	mMesh = MeshBuilder::CreateRectPC(1.0f, 1.0f, 6.0f);
+
+	GraphicsSystem::Get()->CreateMeshBuffer(mMesh);
+}
+
+void RectState::CreateShader()
+{
+	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/DoTransform.fx";
+
+	GraphicsSystem::Get()->CreateVertexShader<VertexPC>(shaderFilePath);
+	GraphicsSystem::Get()->CreatePixelShader(shaderFilePath);
+}
+
+void PlaneState::Update(float deltaTime)
+{
+	GameState::Update(deltaTime);
+
+	if (InputSystem::Get()->IsKeyPressed(KeyCode::ENTER))
+	{
+		MainApp().ChangeState("SphereState");
+	}
+}
+
+void PlaneState::CreateBuffer()
+{
+	mMesh = MeshBuilder::CreateHorizontalPlanePC(15, 15, 1.0f);
+
+	GraphicsSystem::Get()->CreateMeshBuffer(mMesh);
+}
+
+void PlaneState::CreateShader()
+{
+	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/DoTransform.fx";
+
+	GraphicsSystem::Get()->CreateVertexShader<VertexPC>(shaderFilePath);
+	GraphicsSystem::Get()->CreatePixelShader(shaderFilePath);
+}
+
+void SphereState::Update(float deltaTime)
+{
+	GameState::Update(deltaTime);
+
+	if (InputSystem::Get()->IsKeyPressed(KeyCode::ENTER))
+	{
+		MainApp().ChangeState("CylinderState");
+	}
+}
+
+void SphereState::CreateBuffer()
+{
+	mMesh = MeshBuilder::CreateSpherePC(50, 50, 2.0f);
+
+	GraphicsSystem::Get()->CreateMeshBuffer(mMesh);
+}
+
+void SphereState::CreateShader()
+{
+	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/DoTransform.fx";
+
+	GraphicsSystem::Get()->CreateVertexShader<VertexPC>(shaderFilePath);
+	GraphicsSystem::Get()->CreatePixelShader(shaderFilePath);
+}
+
+void CylinderState::Update(float deltaTime)
+{
+	GameState::Update(deltaTime);
+
+	if (InputSystem::Get()->IsKeyPressed(KeyCode::ENTER))
+	{
+		MainApp().ChangeState("SkyBoxState");
+	}
+}
+
+void CylinderState::CreateBuffer()
+{
+	mMesh = MeshBuilder::CreateCylinderPC(90, 1);
+
+	GraphicsSystem::Get()->CreateMeshBuffer(mMesh);
+}
+
+void CylinderState::CreateShader()
+{
+	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/DoTransform.fx";
+
+	GraphicsSystem::Get()->CreateVertexShader<VertexPC>(shaderFilePath);
+	GraphicsSystem::Get()->CreatePixelShader(shaderFilePath);
+}
+
+void SkyBoxState::Update(float deltaTime)
+{
+	GameState::Update(deltaTime);
+
+	if (InputSystem::Get()->IsKeyPressed(KeyCode::ENTER))
+	{
+		MainApp().ChangeState("SkySphereState");
+	}
+}
+
+void SkyBoxState::CreateBuffer()
+{
+	mMesh = MeshBuilder::CreateSkyBoxPX(100);
+
+	GraphicsSystem::Get()->CreateMeshBuffer(mMesh);
+
+	mTexture.Initialize(L"../../Assets/Images/skybox/skybox_texture.jpg");
+	mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
+}
+
+void SkyBoxState::CreateShader()
+{
+	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/DoTexturing.fx";
+
+	GraphicsSystem::Get()->CreateVertexShader<VertexPX>(shaderFilePath);
+	GraphicsSystem::Get()->CreatePixelShader(shaderFilePath);
+}
+
+void SkySphereState::Update(float deltaTime)
+{
+	GameState::Update(deltaTime);
+
+	if (InputSystem::Get()->IsKeyPressed(KeyCode::ENTER))
+	{
+		MainApp().ChangeState("CubeState");
+	}
+}
+
+void SkySphereState::CreateBuffer()
+{
+	mMesh = MeshBuilder::CreateSkySpherePX(100, 100, 100);
+
+	GraphicsSystem::Get()->CreateMeshBuffer(mMesh);
+
+	mTexture.Initialize(L"../../Assets/Images/skysphere/space.jpg");
+	mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
+}
+
+void SkySphereState::CreateShader()
+{
+	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/DoTexturing.fx";
+
+	GraphicsSystem::Get()->CreateVertexShader<VertexPX>(shaderFilePath);
+	GraphicsSystem::Get()->CreatePixelShader(shaderFilePath);
 }
