@@ -51,6 +51,10 @@ namespace
 
 void VertexShader_D3D11::Initialize(const std::filesystem::path& filePath, uint32_t format)
 {	 
+	if (mDevice == nullptr)
+	{
+		mDevice = GraphicsSystem::Get()->GetDevice();
+	}
 	//create vertex shader
 	DWORD shaderFlags = D3DCOMPILE_ENABLE_STRICTNESS | D3DCOMPILE_DEBUG;
 	ID3DBlob* shaderBlob = nullptr;

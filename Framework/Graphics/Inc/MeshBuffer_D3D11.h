@@ -27,6 +27,7 @@ namespace EngineD::Graphics
 		void Initialize(const void* vertices, uint32_t vertexSize, uint32_t vertexCount, const uint32_t* indices, uint32_t indexCount) override;
 		void Terminate() override;
 		void SetTopology(Topology topology) override;
+		void Update(const void* vertices, uint32_t vertexCount);
 		void Render(ID3D11DeviceContext* context);
 		void InitDevice(ID3D11Device* device);
 

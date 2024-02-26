@@ -1,11 +1,18 @@
 #include "Precompiled.h"
 #include "PixelShader_D3D11.h"
 
+#include "GraphicsSystem.h"
+
 using namespace EngineD;
 using namespace EngineD::Graphics;
 
 void PixelShader_D3D11::Initialize(const std::filesystem::path& filePath)
 {
+	if (mDevice == nullptr)
+	{
+		mDevice = GraphicsSystem::Get()->GetDevice();
+	}
+
 	DWORD shaderFlags = D3DCOMPILE_ENABLE_STRICTNESS | D3DCOMPILE_DEBUG;
 	ID3DBlob* shaderBlob = nullptr;
 	ID3DBlob* errorBlob = nullptr;

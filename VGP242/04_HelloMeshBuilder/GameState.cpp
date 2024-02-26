@@ -17,14 +17,11 @@ void GameState::Initialize()
 	//mMesh = MeshBuilder::CreateCylinderPC(100, 2);
 	//mMesh = MeshBuilder::CreateSpherePC(100, 100, 1.0f);
 
-	mMesh.vertices.push_back({ {-1.0f, -1.0f, 0.0f}, {0.0f, 1.0f} });
-	mMesh.vertices.push_back({ {-1.0f,  1.0f, 0.0f}, {0.0f, 0.0f} });
-	mMesh.vertices.push_back({ { 1.0f,  1.0f, 0.0f}, {1.0f, 0.0f} });
-	mMesh.vertices.push_back({ { 1.0f, -1.0f, 0.0f}, {1.0f, 1.0f} });
-	mMesh.indices = {
-		0, 1, 2,
-		0, 2, 3
-	};
+	//mMesh = MeshBuilder::CreateVerticalPlanePX(10, 10, 1.0f);
+	//mMesh = MeshBuilder::CreateHorizontalPlanePX(10, 10, 1.0f);
+
+	//mMesh = MeshBuilder::CreateSkySpherePX(100, 100, 100.0f);
+	mMesh = MeshBuilder::CreateSkyBoxPX(100.0f);
 
 	GraphicsSystem::Get()->CreateMeshBuffer(mMesh);
 
@@ -35,7 +32,7 @@ void GameState::Initialize()
 	GraphicsSystem::Get()->CreateVertexShader<VertexPX>(shaderFilePath);
 	GraphicsSystem::Get()->CreatePixelShader(shaderFilePath);
 
-	mTexture.Initialize(L"../../Assets/Images/misc/basketball.jpg");
+	mTexture.Initialize(L"../../Assets/Images/skybox/skybox_texture.jpg");
 	mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
 }
 

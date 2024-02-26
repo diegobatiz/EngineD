@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -150,6 +150,7 @@
     <ClInclude Include="Inc\MeshTypes.h" />
     <ClInclude Include="Inc\PixelShader_D3D11.h" />
     <ClInclude Include="Inc\Sampler.h" />
+    <ClInclude Include="Inc\SimpleDraw.h" />
     <ClInclude Include="Inc\Texture.h" />
     <ClInclude Include="Inc\VertexShader_D3D11.h" />
     <ClInclude Include="Inc\VertexTypes.h" />
@@ -165,6 +166,7 @@
     <ClCompile Include="Src\PixelShader_D3D11.cpp" />
     <ClCompile Include="Src\Precompiled.cpp" />
     <ClCompile Include="Src\Sampler.cpp" />
+    <ClCompile Include="Src\SimpleDraw.cpp" />
     <ClCompile Include="Src\Texture.cpp" />
     <ClCompile Include="Src\VertexShader_D3D11.cpp" />
   </ItemGroup>

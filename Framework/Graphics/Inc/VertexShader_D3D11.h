@@ -14,10 +14,10 @@ namespace EngineD::Graphics
 		void Terminate();
 		void Bind(ID3D11DeviceContext* context);
 
-		void InitDevice(ID3D11Device* device)
-		{
-			mDevice = device;
-		}
+		//void InitDevice(ID3D11Device* device)
+		//{
+		//	mDevice = device;
+		//}
 
 	protected:
 		ID3D11VertexShader* mVertexShader = nullptr;

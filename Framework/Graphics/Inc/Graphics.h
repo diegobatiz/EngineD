@@ -12,6 +12,7 @@
 #include "MeshTypes.h"
 #include "PixelShader_D3D11.h"
 #include "Sampler.h"
+#include "SimpleDraw.h"
 #include "Texture.h"
 #include "VertexTypes.h"
 #include "VertexShader_D3D11.h"
