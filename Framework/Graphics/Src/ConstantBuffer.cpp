@@ -13,6 +13,11 @@ ConstantBuffer::~ConstantBuffer()
 
 void ConstantBuffer::Initialize(uint32_t bufferSize)
 {
+	if (mDevice == nullptr)
+	{
+		mDevice = GraphicsSystem::Get()->GetDevice();
+	}
+
 	D3D11_BUFFER_DESC desc{};
 	desc.ByteWidth = bufferSize;
 	desc.Usage = D3D11_USAGE_DEFAULT;
@@ -32,16 +37,34 @@ void ConstantBuffer::Terminate()
 
 void ConstantBuffer::Update(const void* data) const
 {
+	if (mContext == nullptr)
+	{
+		ID3D11DeviceContext* context = GraphicsSystem::Get()->GetContext();
+		context->UpdateSubresource(mConstantBuffer, 0, nullptr, data, 0, 0);
+		return;
+	}
 	mContext->UpdateSubresource(mConstantBuffer, 0, nullptr, data, 0, 0);
 }
 
 void ConstantBuffer::BindVS(uint32_t slot) const
 {
+	if (mContext == nullptr)
+	{
+		ID3D11DeviceContext* context = GraphicsSystem::Get()->GetContext();
+		context->VSSetConstantBuffers(slot, 1, &mConstantBuffer);
+		return;
+	}
 	mContext->VSSetConstantBuffers(slot, 1, &mConstantBuffer);
 }
 
 void ConstantBuffer::BindPS(uint32_t slot) const
 {
+	if (mContext == nullptr)
+	{
+		ID3D11DeviceContext* context = GraphicsSystem::Get()->GetContext();
+		context->PSSetConstantBuffers(slot, 1, &mConstantBuffer);
+		return;
+	}
 	mContext->PSSetConstantBuffers(slot, 1, &mConstantBuffer);
 }
 

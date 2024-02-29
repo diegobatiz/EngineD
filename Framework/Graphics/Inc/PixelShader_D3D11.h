@@ -8,6 +8,7 @@ namespace EngineD::Graphics
 		void Initialize(const std::filesystem::path& filePath);
 		void Terminate();
 		void Bind(ID3D11DeviceContext* context);
+		void Bind();
 
 	protected:
 		ID3D11PixelShader* mPixelShader;

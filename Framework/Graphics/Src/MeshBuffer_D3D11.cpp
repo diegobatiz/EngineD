@@ -70,6 +70,25 @@ void MeshBuffer_D3D11::Render(ID3D11DeviceContext* context)
 	}
 }
 
+void MeshBuffer_D3D11::Render()
+{
+	ID3D11DeviceContext* context = GraphicsSystem::Get()->GetContext();
+	context->IASetPrimitiveTopology(mTopology);
+
+	UINT offset = 0;
+	context->IASetVertexBuffers(0, 1, &mVertexBuffer, &mVertexSize, &offset);
+
+	if (mIndexBuffer != nullptr)
+	{
+		context->IASetIndexBuffer(mIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+		context->DrawIndexed((UINT)mIndexCount, 0, 0);
+	}
+	else
+	{
+		context->Draw(static_cast<UINT>(mVertexCount), 0);
+	}
+}
+
 void MeshBuffer_D3D11::InitDevice(ID3D11Device* device)
 {
 	mDevice = device;

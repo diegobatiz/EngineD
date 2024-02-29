@@ -109,3 +109,10 @@ void VertexShader_D3D11::Bind(ID3D11DeviceContext* context)
 	context->VSSetShader(mVertexShader, nullptr, 0);
 	context->IASetInputLayout(mInputLayout);
 }
+
+void EngineD::Graphics::VertexShader_D3D11::Bind()
+{
+	ID3D11DeviceContext* context = GraphicsSystem::Get()->GetContext();
+	context->VSSetShader(mVertexShader, nullptr, 0);
+	context->IASetInputLayout(mInputLayout);
+}

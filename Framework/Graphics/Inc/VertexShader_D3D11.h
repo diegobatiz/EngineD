@@ -13,6 +13,7 @@ namespace EngineD::Graphics
 		void Initialize(const std::filesystem::path& filePath, uint32_t format);
 		void Terminate();
 		void Bind(ID3D11DeviceContext* context);
+		void Bind();
 
 		//void InitDevice(ID3D11Device* device)
 		//{
