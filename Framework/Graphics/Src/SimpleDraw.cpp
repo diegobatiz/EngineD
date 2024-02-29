@@ -8,6 +8,7 @@
 #include "VertexShader_D3D11.h"
 #include "VertexTypes.h"
 
+#include "BlendState.h"
 #include "GraphicsSystem.h"
 
 using namespace EngineD;
@@ -32,6 +33,7 @@ namespace
 		PixelShader_D3D11 mPixelShader;
 		ConstantBuffer mConstantBuffer;
 		MeshBuffer_D3D11 mMeshBuffer;
+		BlendState mBlendState;
 
 		std::unique_ptr<VertexPC[]> mLineVertices;
 		std::unique_ptr<VertexPC[]> mFaceVertices;
@@ -49,6 +51,7 @@ namespace
 		mConstantBuffer.Initialize(sizeof(Matrix4));
 		mMeshBuffer.InitDevice(device);
 		mMeshBuffer.Initialize(nullptr, sizeof(VertexPC), maxVertexCount);
+		mBlendState.Initialize(BlendState::Mode::AlphaBlend);
 
 		mLineVertices = std::make_unique<VertexPC[]>(maxVertexCount);
 		mFaceVertices = std::make_unique<VertexPC[]>(maxVertexCount);
@@ -58,6 +61,7 @@ namespace
 	}
 	void SimpleDrawImpl::Terminate()
 	{
+		mBlendState.Terminate();
 		mMeshBuffer.Terminate();
 		mConstantBuffer.Terminate();
 		mPixelShader.Terminate();
@@ -92,6 +96,8 @@ namespace
 		mVertexShader.Bind();
 		mPixelShader.Bind();
 
+		mBlendState.Set();
+
 		mMeshBuffer.Update(mFaceVertices.get(), mFaceVertexCount);
 		mMeshBuffer.SetTopology(MeshBuffer::Topology::Triangles);
 		mMeshBuffer.Render();
@@ -99,6 +105,8 @@ namespace
 		mMeshBuffer.Update(mLineVertices.get(), mLineVertexCount);
 		mMeshBuffer.SetTopology(MeshBuffer::Topology::Lines);
 		mMeshBuffer.Render();
+
+		BlendState::ClearState();
 
 		mLineVertexCount = 0;
 		mFaceVertexCount = 0;

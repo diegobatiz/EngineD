@@ -28,12 +28,53 @@ namespace
 		case WM_MBUTTONDOWN:
 		case WM_MBUTTONDBLCLK:
 		case WM_MBUTTONUP:
+		case WM_MOUSEWHEEL:
+		case WM_MOUSEHWHEEL:
+			return true;
+		default:
+			break;
 		}
 
+		return false;
+	}
+
+	bool IsKeyboardInput(UINT message)
+	{
+		switch (message)
+		{
+		case WM_CHAR:
+		case WM_KEYUP:
+		case WM_KEYDOWN:
+		case WM_SYSKEYUP:
+		case WM_SYSKEYDOWN:
+			return true;
+		default:
+			break;
+		}
+
+		return false;
 	}
 
 	LRESULT CALLBACK DebugUIMessageHandler(HWND window, UINT message, WPARAM wParam, LPARAM lParam)
 	{
+		ImGuiIO& io = ImGui::GetIO();
+
+		if (io.WantCaptureMouse && IsMouseInput(message))
+		{
+			return ImGui_ImplWin32_WndProcHandler(window, message, wParam, lParam);
+		}
+
+		if (io.WantCaptureKeyboard && IsKeyboardInput(message))
+		{
+			return ImGui_ImplWin32_WndProcHandler(window, message, wParam, lParam);
+		}
+
+		LRESULT result = ImGui_ImplWin32_WndProcHandler(window, message, wParam, lParam);
+		if (result != 0)
+		{
+			return result;
+		}
+
 		return sWindowMessageHandler.ForwardMessage(window, message, wParam, lParam);
 	}
 }
@@ -103,5 +144,12 @@ void DebugUI::BeginRender()
 void DebugUI::EndRender()
 {
 	ImGui::Render();
-	ImGui_ImplDX11_RenderDrawData();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+	ImGuiIO& io = ImGui::GetIO();
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+	{
+		ImGui::UpdatePlatformWindows();
+		ImGui::RenderPlatformWindowsDefault();
+	}
 }

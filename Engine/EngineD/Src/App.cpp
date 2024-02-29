@@ -30,7 +30,8 @@ void App::Run(const AppConfig& config)
 	ASSERT(myWindow.IsActive(), "Failed to create a window");
 	auto handle = myWindow.GetWindowHandle();
 	GraphicsSystem::StaticInitialize(handle, false);
-	InputSystem::StaticInitialize(handle); 
+	InputSystem::StaticInitialize(handle);
+	DebugUI::StaticInitialize(handle, false, true);
 	SimpleDraw::StaticInitialize(config.maxVertexCount);
 
 	ASSERT(mCurrentState != nullptr, "App: need an app state");
@@ -62,11 +63,15 @@ void App::Run(const AppConfig& config)
 		GraphicsType* gs = GraphicsSystem::Get();
 		gs->BeginRender();
 			mCurrentState->Render();
+			DebugUI::BeginRender();
+				mCurrentState->DebugUI();
+			DebugUI::EndRender();
 		gs->EndRender();
 	}
 
 	mCurrentState->Terminate();
 
+	DebugUI::StaticTerminate();
 	InputSystem::StaticTerminate();
 	GraphicsSystem::StaticTerminate();
 	SimpleDraw::StaticTerminate();

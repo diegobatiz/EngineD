@@ -56,8 +56,18 @@ void GameState::Update(float deltaTime)
 
 void GameState::Render()
 {
+}
+
+bool buttonOn = false;
+void GameState::DebugUI()
+{
+	ImGui::Begin("DebugUI", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+	ImGui::LabelText("Title", "Yo What Up");
+	ImGui::End();
+
+
 	SimpleDraw::AddTransform(Matrix4::Identity);
-	SimpleDraw::AddGroundPlane(20, Colors::Pink);
+	SimpleDraw::AddGroundPlane(20, Colors::White);
 	SimpleDraw::AddSphere(60, 60, 1.0f, { 1.0f, 1.0f, 0.0f, 0.2f });
 	SimpleDraw::Render(mCamera);
 }
