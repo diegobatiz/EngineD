@@ -46,7 +46,7 @@ namespace
 		mPixelShader.Initialize(shaderPath);
 		mConstantBuffer.Initialize(sizeof(Matrix4));
 		mMeshBuffer.InitDevice(device);
-		//mMeshBuffer.Initialize();
+		mMeshBuffer.Initialize(nullptr, sizeof(VertexPC), maxVertexCount);
 
 		mLineVertexCount = 0;
 		mFaceVertexCount = 0;
