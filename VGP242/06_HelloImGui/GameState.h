@@ -14,5 +14,6 @@ protected:
 	EngineD::Graphics::Camera mCamera;
 
 	float mSphereAlpha = 1.0f;
+	float mSquareAlpha = 1.0f;
 	Math::Vector3 mPosition = Math::Vector3::Zero;
 };
