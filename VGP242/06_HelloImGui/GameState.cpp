@@ -73,8 +73,8 @@ bool checkOn = false;
 void GameState::DebugUI()
 {
 	DebugUI::SetTheme(DebugUI::Theme::Dark);
-	ImGui::Begin("DebugUI", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-	ImGui::LabelText("Title", "Hello World");
+	ImGui::Begin("Hello ImGui", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+	ImGui::LabelText(" ", "Edit Variables");
 
 	if (ImGui::Button("Button"))
 	{
@@ -91,7 +91,7 @@ void GameState::DebugUI()
 		ImGui::DragFloat3("TransformPos##Square", &mPosition.x, 0.01f, -2.0f, 2.0f);
 	}
 	ImGui::Combo("ShapeType", &currentValue, shapeType, 3);
-	ImGui::Checkbox("CheckBox", &checkOn);
+	ImGui::Checkbox("Enable Plane", &checkOn);
 	ImGui::ColorEdit4("ShapeColor", &shapeColor.r);
 	if (currentValue == 0 || currentValue == 2)
 	{
@@ -112,10 +112,10 @@ void GameState::DebugUI()
 	}
 	if (checkOn)
 	{
-		SimpleDraw::AddTransform(Math::Matrix4::Identity);
+		SimpleDraw::AddGroundPlane(20, Colors::White);
 	}
+	SimpleDraw::AddTransform(Math::Matrix4::Identity);
 	SimpleDraw::AddTransform(Math::Matrix4::Translation(mPosition));
-	SimpleDraw::AddGroundPlane(20, Colors::White);
 
 	SimpleDraw::Render(mCamera);
 }
