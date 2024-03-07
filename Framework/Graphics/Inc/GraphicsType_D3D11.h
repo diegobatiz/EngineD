@@ -24,6 +24,7 @@ namespace EngineD::Graphics
 
 		void BeginRender() override;
 		void Render() override;
+		void Render(int objNum);
 		void EndRender() override;
 
 		void ToggleFullScreen() override;
@@ -42,14 +43,18 @@ namespace EngineD::Graphics
 		template<class VertexType>
 		void CreateMeshBuffer(const std::vector<VertexType>& vertices)
 		{
-			mMeshBuffer.InitDevice(mD3DDevice);
-			mMeshBuffer.Initialize(vertices);
+			MeshBuffer_D3D11* meshBuffer = new MeshBuffer_D3D11();
+			meshBuffer->InitDevice(mD3DDevice);
+			meshBuffer->Initialize(vertices);
+			mMeshBuffers.push_back(meshBuffer);
 		}
 		template<class MeshType>
 		void CreateMeshBuffer(const MeshType& mesh)
 		{
-			mMeshBuffer.InitDevice(mD3DDevice);
-			mMeshBuffer.Initialize(mesh);
+			MeshBuffer_D3D11* meshBuffer = new MeshBuffer_D3D11();
+			meshBuffer->InitDevice(mD3DDevice);
+			meshBuffer->Initialize(mesh);
+			mMeshBuffers.push_back(meshBuffer);
 		}
 		
 		template<class VertexType>
@@ -71,7 +76,7 @@ namespace EngineD::Graphics
 	private:
 		void SetVSync(bool vSync);
 
-		MeshBuffer_D3D11 mMeshBuffer; 
+		std::vector<MeshBuffer_D3D11*> mMeshBuffers; 
 		VertexShader_D3D11 mVertexShader;
 		PixelShader_D3D11 mPixelShader;
 		ConstantBuffer mConstantBuffer;

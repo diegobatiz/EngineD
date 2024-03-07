@@ -6,6 +6,7 @@ namespace EngineD::Graphics
 	class MeshBuffer_D3D11 : public MeshBuffer
 	{
 	public:
+		MeshBuffer_D3D11() = default;
 		template<class VertexType>
 		void Initialize(const std::vector<VertexType>& vertices)
 		{
@@ -39,10 +40,10 @@ namespace EngineD::Graphics
 		ID3D11Buffer* mVertexBuffer = nullptr;
 		ID3D11Buffer* mIndexBuffer = nullptr;
 		D3D11_PRIMITIVE_TOPOLOGY mTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-		ID3D11Device* mDevice;
+		ID3D11Device* mDevice = nullptr;
 
-		uint32_t mVertexSize;
-		uint32_t mVertexCount;
-		uint32_t mIndexCount;
+		uint32_t mVertexSize{};
+		uint32_t mVertexCount{};
+		uint32_t mIndexCount{};
 	};
 }

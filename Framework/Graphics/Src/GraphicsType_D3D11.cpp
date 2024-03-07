@@ -63,10 +63,16 @@ void Graphics_D3D11::Terminate()
 	SafeRelease(mSwapChain);
 	SafeRelease(mImmediateContext);
 	SafeRelease(mD3DDevice);
-	mMeshBuffer.Terminate();
 	mVertexShader.Terminate();
 	mPixelShader.Terminate();
 	mConstantBuffer.Terminate();
+
+	for (int i = 0; i < mMeshBuffers.size(); i++)
+	{
+		mMeshBuffers[i]->Terminate();
+		delete mMeshBuffers[i];
+		mMeshBuffers[i] = nullptr;
+	}
 }
 
 void Graphics_D3D11::BeginRender()
@@ -83,7 +89,21 @@ void Graphics_D3D11::Render()
 
 	mConstantBuffer.BindVS(0);
 
-	mMeshBuffer.Render(mImmediateContext);
+	for (int i = 0; i < mMeshBuffers.size(); i++)
+	{
+		mMeshBuffers[i]->Render(mImmediateContext);
+	}
+}
+
+void Graphics_D3D11::Render(int objNum)
+{
+	mVertexShader.Bind(mImmediateContext);
+	mPixelShader.Bind(mImmediateContext);
+
+	mConstantBuffer.BindVS(0);
+
+	mMeshBuffers[objNum]->Render(mImmediateContext);
+	
 }
 
 void Graphics_D3D11::EndRender()
