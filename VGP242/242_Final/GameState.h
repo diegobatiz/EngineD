@@ -9,6 +9,7 @@ class GameState : public EngineD::AppState
 		float orbitRadius;
 		float orbitTime;
 		float dayTime;
+		float angle;
 	};
 
 public:

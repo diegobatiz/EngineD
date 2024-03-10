@@ -11,15 +11,16 @@ void GameState::Initialize()
 	mCamera.SetLookAt({ 5.0f, 0.0f, 0.0f });
 
 	//create all planets here
-	CreatePlanet(0.15,   1,    2, 176, L"../../Assets/Images/planets/mercury.jpg");
-	CreatePlanet( 0.2, 1.8,    5, 720, L"../../Assets/Images/planets/venus.jpg");
-	CreatePlanet( 0.2, 2.5,    8,   3, L"../../Assets/Images/planets/earth/earth.jpg");
-	CreatePlanet( 0.2, 3.8,   16,   3, L"../../Assets/Images/planets/mars.jpg");
-	CreatePlanet(   1,   6,   96,   1, L"../../Assets/Images/planets/jupiter.jpg");
-	CreatePlanet(0.75,  10,  240,   1, L"../../Assets/Images/planets/saturn.jpg");
-	CreatePlanet( 0.6,  15,  672,   2, L"../../Assets/Images/planets/uranus.jpg");
-	CreatePlanet( 0.5,  19, 1320,   2, L"../../Assets/Images/planets/neptune.jpg");
-	CreatePlanet( 0.2,  25, 1984,  50, L"../../Assets/Images/planets/pluto.jpg");
+	CreatePlanet(2,   0,    0, 0, L"../../Assets/Images/planets/sun.jpg");
+	CreatePlanet(0.15,   3,    2, 176, L"../../Assets/Images/planets/mercury.jpg");
+	CreatePlanet( 0.2, 3.8,    5, 720, L"../../Assets/Images/planets/venus.jpg");
+	CreatePlanet( 0.2, 4.5,    8,   3, L"../../Assets/Images/planets/earth/earth.jpg");
+	CreatePlanet( 0.2, 5.8,   16,   3, L"../../Assets/Images/planets/mars.jpg");
+	CreatePlanet(   1,   8,   96,   1, L"../../Assets/Images/planets/jupiter.jpg");
+	CreatePlanet(0.75,  12,  240,   1, L"../../Assets/Images/planets/saturn.jpg");
+	CreatePlanet( 0.6,  17,  672,   2, L"../../Assets/Images/planets/uranus.jpg");
+	CreatePlanet( 0.5,  21, 1320,   2, L"../../Assets/Images/planets/neptune.jpg");
+	CreatePlanet( 0.2,  27, 1984,  50, L"../../Assets/Images/planets/pluto.jpg");
 
 	GraphicsSystem::Get()->InitializeBuffer(sizeof(Math::Matrix4));
 
@@ -82,6 +83,13 @@ void GameState::Update(float deltaTime)
 		mCamera.Yaw(input->GetMouseMoveX() * turnSpeed * deltaTime);
 		mCamera.Pitch(input->GetMouseMoveY() * turnSpeed * deltaTime);
 	}
+
+	for (int i = 1; i < planetCount; i++)
+	{
+		mInfo[i]->angle += deltaTime * 2.0 * Math::Constants::Pi / mInfo[i]->orbitTime;
+		mInfo[i]->position.x = mInfo[i]->orbitRadius * cos(mInfo[i]->angle);
+		mInfo[i]->position.z = mInfo[i]->orbitRadius * sin(mInfo[i]->angle);
+	}
 }
 
 void GameState::Render()
@@ -91,10 +99,10 @@ void GameState::Render()
 		mTextures[i]->BindVS(0);
 		mTextures[i]->BindPS(0);
 
-		Math::Matrix4 matWorld = Math::Matrix4::Translation(mInfo[i]->position);
+		Math::Matrix4 matTranslate = Math::Matrix4::Translation(mInfo[i]->position);
 		Math::Matrix4 matView = mCamera.GetViewMatrix();
 		Math::Matrix4 matProj = mCamera.GetProjectionMatrix();
-		Math::Matrix4 matFinal = matWorld * matView * matProj;
+		Math::Matrix4 matFinal = matTranslate * matView * matProj;
 		Math::Matrix4 wvp = Math::Transpose(matFinal);
 
 		GraphicsSystem::Get()->UpdateBuffer(&wvp);
@@ -117,6 +125,7 @@ void GameState::CreatePlanet(float planetRadius, float orbitRadius, float orbitT
 	info->orbitRadius = orbitRadius;
 	info->orbitTime = orbitTime;
 	info->dayTime = dayTime;
+	info->angle = 0;
 
 	mInfo.push_back(info);
 
