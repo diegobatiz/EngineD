@@ -13,6 +13,7 @@
 #include "MeshBuilder.h"
 #include "MeshTypes.h"
 #include "PixelShader_D3D11.h"
+#include "RenderTarget.h"
 #include "Sampler.h"
 #include "SimpleDraw.h"
 #include "Texture.h"

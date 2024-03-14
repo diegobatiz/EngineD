@@ -25,9 +25,14 @@ public:
 protected:
 	void CreateSkySphere(std::filesystem::path texturePath);
 	void CreatePlanet(float planetRadius, float orbitRadius, float orbitTime, float dayTime, std::filesystem::path texturePath);
+	void RenderPlanet(int i);
+	void RenderPlanetImage(int i);
 
 	EngineD::Graphics::Camera mCamera;
+	EngineD::Graphics::Camera mCamera2;
 
+
+	std::vector<EngineD::Graphics::RenderTarget*> mRenderTargets;
 	std::vector<EngineD::Graphics::Texture*> mTextures;
 	std::vector<PlanetInfo*> mInfo;
 	EngineD::Graphics::Sampler mSampler;
