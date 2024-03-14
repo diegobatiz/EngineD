@@ -47,6 +47,7 @@ void GameState::Terminate()
 
 void GameState::Update(float deltaTime)
 {
+#pragma region Camera Stuff
 	auto input = Input::InputSystem::Get();
 	const float moveSpeed = input->IsKeyDown(KeyCode::LSHIFT) ? 10.0f : 1.0f;
 	const float turnSpeed = 0.1f;
@@ -83,12 +84,19 @@ void GameState::Update(float deltaTime)
 		mCamera.Yaw(input->GetMouseMoveX() * turnSpeed * deltaTime);
 		mCamera.Pitch(input->GetMouseMoveY() * turnSpeed * deltaTime);
 	}
+#pragma endregion
 
 	for (int i = 1; i < planetCount; i++)
 	{
-		mInfo[i]->angle += deltaTime * 2.0 * Math::Constants::Pi / mInfo[i]->orbitTime;
-		mInfo[i]->position.x = mInfo[i]->orbitRadius * cos(mInfo[i]->angle);
-		mInfo[i]->position.z = mInfo[i]->orbitRadius * sin(mInfo[i]->angle);
+		mInfo[i]->orbitAngle += deltaTime * 2.0 * Math::Constants::Pi / mInfo[i]->orbitTime;
+		mInfo[i]->position.x = mInfo[i]->orbitRadius * cos(mInfo[i]->orbitAngle);
+		mInfo[i]->position.z = mInfo[i]->orbitRadius * sin(mInfo[i]->orbitAngle);
+		if (mInfo[i]->orbitAngle >= 360.0f)
+		{
+			mInfo[i]->orbitAngle = 0.0f;
+		}
+
+		mInfo[i]->rotationAngle += deltaTime * 2.0 * Math::Constants::Pi / mInfo[i]->dayTime;
 	}
 }
 
@@ -100,9 +108,10 @@ void GameState::Render()
 		mTextures[i]->BindPS(0);
 
 		Math::Matrix4 matTranslate = Math::Matrix4::Translation(mInfo[i]->position);
+		Math::Matrix4 matRotation = Math::Matrix4::RotationY(mInfo[i]->rotationAngle);
 		Math::Matrix4 matView = mCamera.GetViewMatrix();
 		Math::Matrix4 matProj = mCamera.GetProjectionMatrix();
-		Math::Matrix4 matFinal = matTranslate * matView * matProj;
+		Math::Matrix4 matFinal = matRotation * matTranslate * matView * matProj;
 		Math::Matrix4 wvp = Math::Transpose(matFinal);
 
 		GraphicsSystem::Get()->UpdateBuffer(&wvp);
@@ -125,7 +134,8 @@ void GameState::CreatePlanet(float planetRadius, float orbitRadius, float orbitT
 	info->orbitRadius = orbitRadius;
 	info->orbitTime = orbitTime;
 	info->dayTime = dayTime;
-	info->angle = 0;
+	info->orbitAngle = 0;
+	info->rotationAngle = 0;
 
 	mInfo.push_back(info);
 

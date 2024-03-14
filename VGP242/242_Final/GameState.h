@@ -5,11 +5,12 @@ class GameState : public EngineD::AppState
 {
 	struct PlanetInfo
 	{
-		Vector3 position;
-		float orbitRadius;
-		float orbitTime;
-		float dayTime;
-		float angle;
+		Vector3 position{};
+		float orbitRadius{};
+		float orbitTime{};
+		float orbitAngle{};
+		float dayTime{};
+		float rotationAngle{};
 	};
 
 public:
