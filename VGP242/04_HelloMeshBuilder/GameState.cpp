@@ -6,7 +6,7 @@ using namespace EngineD::Input;
 
 void GameState::Initialize()
 {
-	mCamera.SetPosition({ 0.0f, 1.0f, -3.0f });
+	mCamera.SetPosition({ 0.0f, 3.0f, -10.0f });
 	mCamera.SetLookAt({ 0.0f, 0.0f, 0.0f });
 
 	CreateBuffer();
@@ -20,6 +20,7 @@ void GameState::Terminate()
 {
 	mSampler.Terminate();
 	mTexture.Terminate();
+	GraphicsSystem::Get()->ClearBuffer();
 }
 
 void GameState::Update(float deltaTime)

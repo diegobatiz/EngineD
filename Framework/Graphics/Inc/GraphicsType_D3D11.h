@@ -56,6 +56,16 @@ namespace EngineD::Graphics
 			meshBuffer->Initialize(mesh);
 			mMeshBuffers.push_back(meshBuffer);
 		}
+
+		void ClearBuffer()
+		{
+			for (auto buffer : mMeshBuffers)
+			{
+				buffer->Terminate();
+				delete buffer;
+			}
+			mMeshBuffers.clear();
+		}
 		
 		template<class VertexType>
 		void CreateVertexShader(std::filesystem::path filePath)

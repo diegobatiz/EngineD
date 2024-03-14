@@ -71,7 +71,6 @@ void Graphics_D3D11::Terminate()
 	{
 		mMeshBuffers[i]->Terminate();
 		delete mMeshBuffers[i];
-		mMeshBuffers[i] = nullptr;
 	}
 }
 

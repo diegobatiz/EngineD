@@ -132,6 +132,9 @@ void GameState::Render()
 	mTextures[planetCount]->BindVS(0);
 	mTextures[planetCount]->BindPS(0);
 
+	mSampler.BindVS(0);
+	mSampler.BindPS(0);
+
 	Math::Matrix4 matView = mCamera.GetViewMatrix();
 	Math::Matrix4 matProj = mCamera.GetProjectionMatrix();
 	Math::Matrix4 matFinal = matView * matProj;
@@ -168,7 +171,7 @@ void GameState::CreatePlanet(float planetRadius, float orbitRadius, float orbitT
 
 void GameState::CreateSkySphere(std::filesystem::path texturePath)
 {
-	MeshPX mMesh = MeshBuilder::CreateSkySpherePX(100, 100, 100);
+	MeshPX mMesh = MeshBuilder::CreateSkySpherePX(100, 100, 1000);
 
 	GraphicsSystem::Get()->CreateMeshBuffer(mMesh);
 
