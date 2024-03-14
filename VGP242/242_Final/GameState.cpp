@@ -22,6 +22,8 @@ void GameState::Initialize()
 	CreatePlanet( 0.5,  21, 1320,   2, L"../../Assets/Images/planets/neptune.jpg");
 	CreatePlanet( 0.2,  27, 1984,  50, L"../../Assets/Images/planets/pluto.jpg");
 
+	CreateSkySphere(L"../../Assets/Images/skysphere/nebula.png");
+
 	GraphicsSystem::Get()->InitializeBuffer(sizeof(Math::Matrix4));
 
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/DoTexturing.fx";
@@ -88,15 +90,21 @@ void GameState::Update(float deltaTime)
 
 	for (int i = 1; i < planetCount; i++)
 	{
+		mInfo[i]->orbitAngle /= mInfo[i]->orbitMultiplier;
 		mInfo[i]->orbitAngle += deltaTime * 2.0 * Math::Constants::Pi / mInfo[i]->orbitTime;
+		mInfo[i]->orbitAngle *= mInfo[i]->orbitMultiplier;
+
 		mInfo[i]->position.x = mInfo[i]->orbitRadius * cos(mInfo[i]->orbitAngle);
 		mInfo[i]->position.z = mInfo[i]->orbitRadius * sin(mInfo[i]->orbitAngle);
+
 		if (mInfo[i]->orbitAngle >= 360.0f)
 		{
 			mInfo[i]->orbitAngle = 0.0f;
 		}
 
+		mInfo[i]->rotationAngle /= mInfo[i]->dayMultiplier;
 		mInfo[i]->rotationAngle += deltaTime * 2.0 * Math::Constants::Pi / mInfo[i]->dayTime;
+		mInfo[i]->rotationAngle *= mInfo[i]->dayMultiplier;
 	}
 }
 
@@ -106,6 +114,9 @@ void GameState::Render()
 	{
 		mTextures[i]->BindVS(0);
 		mTextures[i]->BindPS(0);
+
+		mSampler.BindVS(0);
+		mSampler.BindPS(0);
 
 		Math::Matrix4 matTranslate = Math::Matrix4::Translation(mInfo[i]->position);
 		Math::Matrix4 matRotation = Math::Matrix4::RotationY(mInfo[i]->rotationAngle);
@@ -117,6 +128,17 @@ void GameState::Render()
 		GraphicsSystem::Get()->UpdateBuffer(&wvp);
 		GraphicsSystem::Get()->Render(i);
 	}
+
+	mTextures[planetCount]->BindVS(0);
+	mTextures[planetCount]->BindPS(0);
+
+	Math::Matrix4 matView = mCamera.GetViewMatrix();
+	Math::Matrix4 matProj = mCamera.GetProjectionMatrix();
+	Math::Matrix4 matFinal = matView * matProj;
+	Math::Matrix4 wvp = Math::Transpose(matFinal);
+
+	GraphicsSystem::Get()->UpdateBuffer(&wvp);
+	GraphicsSystem::Get()->Render(planetCount);
 }
 
 void GameState::CreatePlanet(float planetRadius, float orbitRadius, float orbitTime, float dayTime, std::filesystem::path texturePath)
@@ -126,7 +148,7 @@ void GameState::CreatePlanet(float planetRadius, float orbitRadius, float orbitT
 	GraphicsSystem::Get()->CreateMeshBuffer(mMesh);
 
 	Texture* texture = new Texture();
-	texture->Initialize(texturePath);	
+	texture->Initialize(texturePath);
 	mTextures.push_back(texture);
 
 	PlanetInfo* info = new PlanetInfo();
@@ -136,8 +158,99 @@ void GameState::CreatePlanet(float planetRadius, float orbitRadius, float orbitT
 	info->dayTime = dayTime;
 	info->orbitAngle = 0;
 	info->rotationAngle = 0;
+	info->orbitMultiplier = 1.0f;
+	info->dayMultiplier = 1.0f;
 
 	mInfo.push_back(info);
 
 	planetCount++;
+}
+
+void GameState::CreateSkySphere(std::filesystem::path texturePath)
+{
+	MeshPX mMesh = MeshBuilder::CreateSkySpherePX(100, 100, 100);
+
+	GraphicsSystem::Get()->CreateMeshBuffer(mMesh);
+
+	Texture* texture = new Texture();
+	texture->Initialize(texturePath);
+	mTextures.push_back(texture);
+}
+
+bool drawRings = false;
+void GameState::DebugUI()
+{
+	DebugUI::SetTheme(DebugUI::Theme::Dark);
+	ImGui::Begin("Solar System Model", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+	ImGui::LabelText(" ", "Edit Speed");
+
+	if (ImGui::Button("Toggle Rings"))
+	{
+		drawRings = !drawRings;
+	}
+
+	if (ImGui::CollapsingHeader("Mercury", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::DragFloat("Orbit Speed Multiplier##Mercury", &mInfo[1]->orbitMultiplier, 0.01f, 0.1f, 5.0f);
+		ImGui::DragFloat("Day Speed Multiplier##Mercury", &mInfo[1]->dayMultiplier, 0.01f, 0.01f, 2.0f);
+	}
+
+	if (ImGui::CollapsingHeader("Venus", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::DragFloat("Orbit Speed Multiplier##Venus", &mInfo[2]->orbitMultiplier, 0.01f, 0.1f, 5.0f);
+		ImGui::DragFloat("Day Speed Multiplier##Venus", &mInfo[2]->dayMultiplier, 0.01f, 0.01f, 2.0f);
+	}
+
+	if (ImGui::CollapsingHeader("Earth", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::DragFloat("Orbit Speed Multiplier##Earth", &mInfo[3]->orbitMultiplier, 0.01f, 0.1f, 6.0f);
+		ImGui::DragFloat("Day Speed Multiplier##Earth", &mInfo[3]->dayMultiplier, 0.01f, 0.01f, 2.0f);
+	}
+
+	if (ImGui::CollapsingHeader("Mars", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::DragFloat("Orbit Speed Multiplier##Mars", &mInfo[4]->orbitMultiplier, 0.01f, 0.1f, 10.0f);
+		ImGui::DragFloat("Day Speed Multiplier##Mars", &mInfo[4]->dayMultiplier, 0.01f, 0.01f, 2.0f);
+	}
+
+	if (ImGui::CollapsingHeader("Jupiter", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::DragFloat("Orbit Speed Multiplier##Jupiter", &mInfo[5]->orbitMultiplier, 0.1f, 0.1f, 24.0f);
+		ImGui::DragFloat("Day Speed Multiplier##Jupiter", &mInfo[5]->dayMultiplier, 0.01f, 0.01f, 2.0f);
+	}
+
+	if (ImGui::CollapsingHeader("Saturn", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::DragFloat("Orbit Speed Multiplier##Saturn", &mInfo[6]->orbitMultiplier, 0.1f, 0.1f, 60.0f);
+		ImGui::DragFloat("Day Speed Multiplier##Saturn", &mInfo[6]->dayMultiplier, 0.01f, 0.01f, 2.0f);
+	}
+
+	if (ImGui::CollapsingHeader("Uranus", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::DragFloat("Orbit Speed Multiplier##Uranus", &mInfo[7]->orbitMultiplier, 1.0f, 0.1f, 160.0f);
+		ImGui::DragFloat("Day Speed Multiplier##Uranus", &mInfo[7]->dayMultiplier, 0.01f, 0.01f, 2.0f);
+	}
+
+	if (ImGui::CollapsingHeader("Neptune", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::DragFloat("Orbit Speed Multiplier##Neptune", &mInfo[8]->orbitMultiplier, 1.0f, 0.1f, 200.0f);
+		ImGui::DragFloat("Day Speed Multiplier##Neptune", &mInfo[8]->dayMultiplier, 0.01f, 0.01f, 2.0f);
+	}
+
+	if (ImGui::CollapsingHeader("Pluto", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::DragFloat("Orbit Speed Multiplier##Pluto", &mInfo[9]->orbitMultiplier, 1.0f, 0.1f, 500.0f);
+		ImGui::DragFloat("Day Speed Multiplier##Pluto", &mInfo[9]->dayMultiplier, 0.01f, 0.01f, 2.0f);
+	}
+
+	ImGui::End();
+
+	if (drawRings)
+	{
+		for (int i = 0; i < planetCount; i++)
+		{
+			SimpleDraw::AddGroundCircle(100, mInfo[i]->orbitRadius, Colors::White);
+			SimpleDraw::Render(mCamera);
+		}
+	}
 }
