@@ -11,7 +11,7 @@ void GameState::Initialize()
 	mCamera.SetLookAt({ 5.0f, 0.0f, 0.0f });
 	mCamera2.SetAspectRatio(1.0f);
 	//create all planets here
-	CreatePlanet(2,   0,    0, 0, L"../../Assets/Images/planets/sun.jpg");
+	CreatePlanet(   2,   0,    0,   0, L"../../Assets/Images/planets/sun.jpg");
 	CreatePlanet(0.15,   3,    2, 176, L"../../Assets/Images/planets/mercury.jpg");
 	CreatePlanet( 0.2, 3.8,    5, 720, L"../../Assets/Images/planets/venus.jpg");
 	CreatePlanet( 0.2, 4.5,    8,   3, L"../../Assets/Images/planets/earth/earth.jpg");
