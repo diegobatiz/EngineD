@@ -29,8 +29,7 @@ namespace EngineD::Graphics
 		void Terminate() override;
 		void SetTopology(Topology topology) override;
 		void Update(const void* vertices, uint32_t vertexCount);
-		void Render(ID3D11DeviceContext* context);
-		void Render();
+		void Render() const;
 		void InitDevice(ID3D11Device* device);
 
 	protected:
