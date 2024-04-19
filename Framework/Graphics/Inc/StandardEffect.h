@@ -9,7 +9,6 @@ namespace EngineD::Graphics
 {
 	class Camera;
 	struct RenderObject;
-	class Texture;
 
 	class StandardEffect
 	{
@@ -22,7 +21,7 @@ namespace EngineD::Graphics
 
 		void Render(const RenderObject& renderObject);
 
-		void SetCamera(Camera* camera);
+		void SetCamera(const Camera& camera);
 
 		void DebugUI();
 
@@ -32,12 +31,23 @@ namespace EngineD::Graphics
 			Math::Matrix4 wvp;
 		};
 
+		struct SettingsData
+		{
+			int useDiffuseMap = 1;
+			float padding[3] = { 0 };
+		};
+
 		using TransformBuffer = TypedConstantBuffer<TransformData>;
+		using SettingsBuffer = TypedConstantBuffer<SettingsData>;
+
 		TransformBuffer mTransformBuffer;
+		SettingsBuffer mSettingsBuffer;
 
 		Sampler mSampler;
 		VertexShader_D3D11 mVertexShader;
 		PixelShader_D3D11 mPixelShader;
-		Camera* mCamera;
+
+		SettingsData mSettingsData;
+		const Camera* mCamera = nullptr;
 	};
 }

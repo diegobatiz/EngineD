@@ -11,11 +11,10 @@ public:
 	void DebugUI() override;
 
 protected:
-	void RenderObject(); 
 	EngineD::Graphics::Camera mCamera;
-	EngineD::Graphics::MeshPX mMesh;
+	EngineD::Graphics::Mesh mMesh;
 
 	EngineD::Graphics::StandardEffect mStandardEffect;
-	EngineD::Graphics::RenderObject mRenderObject
+	EngineD::Graphics::RenderObject mRenderObject;
 
 };

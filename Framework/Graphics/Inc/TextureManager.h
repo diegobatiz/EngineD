@@ -33,7 +33,7 @@ namespace EngineD::Graphics
 		using Inventory = std::unordered_map<TextureID, std::unique_ptr<Texture>>;
 		Inventory mInventory;
 
-		std::filesystem::path& mRootDirectory;
+		std::filesystem::path mRootDirectory;
 
 	};
 }

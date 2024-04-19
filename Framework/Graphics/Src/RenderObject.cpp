@@ -7,5 +7,4 @@ using namespace EngineD::Graphics;
 void RenderObject::Terminate()
 {
 	meshBuffer.Terminate();
-	texture.Terminate();
 }

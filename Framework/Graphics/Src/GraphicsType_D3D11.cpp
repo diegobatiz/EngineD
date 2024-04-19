@@ -90,7 +90,7 @@ void Graphics_D3D11::Render()
 
 	for (int i = 0; i < mMeshBuffers.size(); i++)
 	{
-		mMeshBuffers[i]->Render(mImmediateContext);
+		mMeshBuffers[i]->Render();
 	}
 }
 
@@ -101,7 +101,7 @@ void Graphics_D3D11::Render(int objNum)
 
 	mConstantBuffer.BindVS(0);
 
-	mMeshBuffers[objNum]->Render(mImmediateContext);
+	mMeshBuffers[objNum]->Render();
 	
 }
 

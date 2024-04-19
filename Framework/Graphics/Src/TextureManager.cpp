@@ -9,7 +9,6 @@ namespace
 	std::unique_ptr<TextureManager> sInstance;
 }
 
-
 void TextureManager::StaticInitialize(const std::filesystem::path& root)
 {
 	ASSERT(sInstance == nullptr, "TextureManager: already initialized");

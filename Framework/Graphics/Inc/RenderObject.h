@@ -8,11 +8,10 @@ namespace EngineD::Graphics
 {
 	struct RenderObject
 	{
-	public:
 		void Terminate();
 
-		MeshBuffer_D3D11 meshBuffer;
 		Transform transform;
+		MeshBuffer_D3D11 meshBuffer;
 
 		TextureID diffuseTextureId;
 	};

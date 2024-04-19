@@ -78,6 +78,7 @@ void MeshBuffer_D3D11::InitDevice(ID3D11Device* device)
 
 void MeshBuffer_D3D11::CreateVertexBuffer(const void* vertices, uint32_t vertexSize, uint32_t vertexCount)
 {
+	mDevice = GraphicsSystem::Get()->GetDevice();
 	mVertexSize = vertexSize;
 	mVertexCount = vertexCount;
 
