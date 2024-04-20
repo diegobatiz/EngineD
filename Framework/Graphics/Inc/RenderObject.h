@@ -3,6 +3,7 @@
 #include "MeshBuffer_D3D11.h"
 #include "TextureManager.h"
 #include "Transform.h"
+#include "Material.h"
 
 namespace EngineD::Graphics
 {
@@ -13,6 +14,10 @@ namespace EngineD::Graphics
 		Transform transform;
 		MeshBuffer_D3D11 meshBuffer;
 
-		TextureID diffuseTextureId;
+		Material material;
+
+		TextureID diffuseMapId;
+		TextureID normalMapId;
+		TextureID specMapId;
 	};
 }

@@ -17,7 +17,9 @@ void GameState::Initialize()
 	TextureManager* tm = TextureManager::Get();
 	mMesh = MeshBuilder::CreateSphere(100, 100, 1.0f);
 	mRenderObject.meshBuffer.Initialize(mMesh);
-	mRenderObject.diffuseTextureId = tm->LoadTexture("planets/earth/earth.jpg");
+	mRenderObject.diffuseMapId = tm->LoadTexture("planets/earth/earth.jpg");
+	mRenderObject.normalMapId = tm->LoadTexture("planets/earth/earth_normal.jpg");
+	mRenderObject.specMapId = tm->LoadTexture("planets/earth/earth_spec.jpg");
 
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/Standard.fx";
 	mStandardEffect.Initialize(shaderFilePath);
@@ -94,6 +96,15 @@ void GameState::DebugUI()
 		ImGui::ColorEdit4("Ambient##Light", &mDirectionalLight.ambient.r);
 		ImGui::ColorEdit4("Diffuse##Light", &mDirectionalLight.diffuse.r);
 		ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
+	}
+	if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::ColorEdit4("Ambient##Material", &mRenderObject.material.ambient.r);
+		ImGui::ColorEdit4("Diffuse##Material", &mRenderObject.material.diffuse.r);
+		ImGui::ColorEdit4("Specular##Material", &mRenderObject.material.specular.r);
+		ImGui::ColorEdit4("Emissive##Material", &mRenderObject.material.emissive.r);
+
+		ImGui::DragFloat("SpecPower##Material", &mRenderObject.material.power, 1.0f, 1.0f, 100.0f);
 	}
 		mStandardEffect.DebugUI();
 	ImGui::End();

@@ -12,6 +12,7 @@ void StandardEffect::Initialize(const std::filesystem::path& filename)
 	mTransformBuffer.Initialize();
 	mSettingsBuffer.Initialize();
 	mLightBuffer.Initialize();
+	mMaterialBuffer.Initialize();
 	mVertexShader.Initialize<Vertex>(filename);
 	mPixelShader.Initialize(filename);
 	mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
@@ -22,6 +23,7 @@ void StandardEffect::Terminate()
 	mVertexShader.Terminate();
 	mPixelShader.Terminate();
 	mSampler.Terminate();
+	mMaterialBuffer.Terminate();
 	mLightBuffer.Terminate();
 	mSettingsBuffer.Terminate();
 	mTransformBuffer.Terminate();
@@ -30,6 +32,7 @@ void StandardEffect::Terminate()
 void StandardEffect::Begin()
 {
 	ASSERT(mCamera != nullptr, "Standard Effect: no camera set!");
+	ASSERT(mDirectionalLight != nullptr, "Standard Effect: no light set!");
 
 	mVertexShader.Bind();
 	mPixelShader.Bind();
@@ -41,6 +44,8 @@ void StandardEffect::Begin()
 	mSettingsBuffer.BindPS(1);
 	mLightBuffer.BindVS(2);
 	mLightBuffer.BindPS(2);
+
+	mMaterialBuffer.BindPS(3);
 }
 
 void StandardEffect::End()
@@ -63,13 +68,19 @@ void StandardEffect::Render(const RenderObject& renderObject)
 	mTransformBuffer.Update(transformData);
 	
 	SettingsData settingsData;
-	settingsData.useDiffuseMap = renderObject.diffuseTextureId > 0 && mSettingsData.useDiffuseMap > 0 ? 1 : 0;
+	settingsData.useDiffuseMap = renderObject.diffuseMapId > 0 && mSettingsData.useDiffuseMap > 0 ? 1 : 0;
+	settingsData.useNormalMap = renderObject.normalMapId > 0 && mSettingsData.useNormalMap > 0 ? 1 : 0;
+	settingsData.useSpecMap = renderObject.specMapId > 0 && mSettingsData.useSpecMap > 0 ? 1 : 0;
+	settingsData.useLighting = mSettingsData.useLighting > 0 ? 1 : 0;
 	mSettingsBuffer.Update(settingsData);
 
 	mLightBuffer.Update(*mDirectionalLight);
+	mMaterialBuffer.Update(renderObject.material);
 
 	TextureManager* tm = TextureManager::Get();
-	tm->BindPS(renderObject.diffuseTextureId, 0);
+	tm->BindPS(renderObject.diffuseMapId, 0);
+	tm->BindPS(renderObject.normalMapId, 1);
+	tm->BindPS(renderObject.specMapId, 2);
 
 	renderObject.meshBuffer.Render();
 }
@@ -92,6 +103,24 @@ void StandardEffect::DebugUI()
 		if (ImGui::Checkbox("UseDiffuseMap", &useDiffuseMap))
 		{
 			mSettingsData.useDiffuseMap = useDiffuseMap ? 1 : 0;
+		}
+
+		bool useNormalMap = mSettingsData.useNormalMap > 0;
+		if (ImGui::Checkbox("UseNormalMap", &useNormalMap))
+		{
+			mSettingsData.useNormalMap = useNormalMap ? 1 : 0;
+		}
+
+		bool useSpecMap = mSettingsData.useSpecMap > 0;
+		if (ImGui::Checkbox("UseSpecMap", &useSpecMap))
+		{
+			mSettingsData.useSpecMap = useSpecMap ? 1 : 0;
+		}
+
+		bool useLighting = mSettingsData.useLighting > 0;
+		if (ImGui::Checkbox("UseLighting", &useLighting))
+		{
+			mSettingsData.useLighting = useLighting ? 1 : 0;
 		}
 	}
 }
