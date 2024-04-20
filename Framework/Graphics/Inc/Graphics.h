@@ -9,6 +9,7 @@
 #include "Colours.h"
 #include "ConstantBuffer.h"
 #include "DebugUI.h"
+#include "LightTypes.h"
 #include "MeshBuffer_D3D11.h"
 #include "MeshBuilder.h"
 #include "MeshTypes.h"

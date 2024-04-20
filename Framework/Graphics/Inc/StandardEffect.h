@@ -4,6 +4,7 @@
 #include "Sampler.h"
 #include "VertexShader_D3D11.h"
 #include "PixelShader_D3D11.h"
+#include "LightTypes.h"
 
 namespace EngineD::Graphics
 {
@@ -22,6 +23,7 @@ namespace EngineD::Graphics
 		void Render(const RenderObject& renderObject);
 
 		void SetCamera(const Camera& camera);
+		void SetDirectionalLight(const DirectionalLight& directionalLight);
 
 		void DebugUI();
 
@@ -29,6 +31,9 @@ namespace EngineD::Graphics
 		struct TransformData
 		{
 			Math::Matrix4 wvp;
+			Math::Matrix4 world;
+			Math::Vector3 viewPosition;
+			float padding = 0.0f;
 		};
 
 		struct SettingsData
@@ -39,9 +44,11 @@ namespace EngineD::Graphics
 
 		using TransformBuffer = TypedConstantBuffer<TransformData>;
 		using SettingsBuffer = TypedConstantBuffer<SettingsData>;
+		using LightBuffer = TypedConstantBuffer<DirectionalLight>;
 
 		TransformBuffer mTransformBuffer;
 		SettingsBuffer mSettingsBuffer;
+		LightBuffer mLightBuffer;
 
 		Sampler mSampler;
 		VertexShader_D3D11 mVertexShader;
@@ -49,5 +56,6 @@ namespace EngineD::Graphics
 
 		SettingsData mSettingsData;
 		const Camera* mCamera = nullptr;
+		const DirectionalLight* mDirectionalLight = nullptr;
 	};
 }

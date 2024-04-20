@@ -146,6 +146,7 @@
     <ClInclude Include="Inc\GraphicsType.h" />
     <ClInclude Include="Inc\GraphicsSystem.h" />
     <ClInclude Include="Inc\GraphicsType_D3D11.h" />
+    <ClInclude Include="Inc\LightTypes.h" />
     <ClInclude Include="Inc\MeshBuffer.h" />
     <ClInclude Include="Inc\MeshBuffer_D3D11.h" />
     <ClInclude Include="Inc\MeshBuilder.h" />

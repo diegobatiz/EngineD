@@ -9,6 +9,11 @@ void GameState::Initialize()
 	mCamera.SetPosition({ 0.0f, 3.0f, -10.0f });
 	mCamera.SetLookAt({ 0.0f, 0.0f, 0.0f });
 
+	mDirectionalLight.direction = Math::Normalize({ 1.0f, -1.0f, 1.0f });
+	mDirectionalLight.ambient = { 0.5f, 0.5f, 0.5f, 1.0f };
+	mDirectionalLight.diffuse = { 0.8f, 0.8f, 0.8f, 1.0f };
+	mDirectionalLight.specular = { 1.0f, 1.0f, 1.0f, 1.0f };
+
 	TextureManager* tm = TextureManager::Get();
 	mMesh = MeshBuilder::CreateSphere(100, 100, 1.0f);
 	mRenderObject.meshBuffer.Initialize(mMesh);
@@ -17,6 +22,7 @@ void GameState::Initialize()
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/Standard.fx";
 	mStandardEffect.Initialize(shaderFilePath);
 	mStandardEffect.SetCamera(mCamera);
+	mStandardEffect.SetDirectionalLight(mDirectionalLight);
 }
 
 void GameState::Terminate()
@@ -78,6 +84,17 @@ void GameState::Render()
 void GameState::DebugUI()
 {
 	ImGui::Begin("Debug Controls", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+	if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		if (ImGui::DragFloat3("Direction", &mDirectionalLight.direction.x, 0.01f))
+		{
+			mDirectionalLight.direction = Math::Normalize(mDirectionalLight.direction);
+		}
+
+		ImGui::ColorEdit4("Ambient##Light", &mDirectionalLight.ambient.r);
+		ImGui::ColorEdit4("Diffuse##Light", &mDirectionalLight.diffuse.r);
+		ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
+	}
 		mStandardEffect.DebugUI();
 	ImGui::End();
 }

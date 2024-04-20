@@ -93,6 +93,7 @@
     <ClInclude Include="Inc\TextureManager.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\LightTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">

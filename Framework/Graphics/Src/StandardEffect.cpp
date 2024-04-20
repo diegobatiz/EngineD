@@ -11,6 +11,7 @@ void StandardEffect::Initialize(const std::filesystem::path& filename)
 {
 	mTransformBuffer.Initialize();
 	mSettingsBuffer.Initialize();
+	mLightBuffer.Initialize();
 	mVertexShader.Initialize<Vertex>(filename);
 	mPixelShader.Initialize(filename);
 	mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
@@ -21,6 +22,7 @@ void StandardEffect::Terminate()
 	mVertexShader.Terminate();
 	mPixelShader.Terminate();
 	mSampler.Terminate();
+	mLightBuffer.Terminate();
 	mSettingsBuffer.Terminate();
 	mTransformBuffer.Terminate();
 }
@@ -37,6 +39,8 @@ void StandardEffect::Begin()
 
 	mTransformBuffer.BindVS(0);
 	mSettingsBuffer.BindPS(1);
+	mLightBuffer.BindVS(2);
+	mLightBuffer.BindPS(2);
 }
 
 void StandardEffect::End()
@@ -54,11 +58,15 @@ void StandardEffect::Render(const RenderObject& renderObject)
 
 	TransformData transformData;
 	transformData.wvp = Math::Transpose(matFinal);
+	transformData.world = Math::Transpose(matWorld);
+	transformData.viewPosition = mCamera->GetPosition();
 	mTransformBuffer.Update(transformData);
 	
 	SettingsData settingsData;
-	settingsData.useDiffuseMap = renderObject.diffuseTextureId > 0 && mSettingsData.useDiffuseMap > 0 ? 1 : 1;
+	settingsData.useDiffuseMap = renderObject.diffuseTextureId > 0 && mSettingsData.useDiffuseMap > 0 ? 1 : 0;
 	mSettingsBuffer.Update(settingsData);
+
+	mLightBuffer.Update(*mDirectionalLight);
 
 	TextureManager* tm = TextureManager::Get();
 	tm->BindPS(renderObject.diffuseTextureId, 0);
@@ -69,6 +77,11 @@ void StandardEffect::Render(const RenderObject& renderObject)
 void StandardEffect::SetCamera(const Camera& camera)
 {
 	mCamera = &camera;
+}
+
+void StandardEffect::SetDirectionalLight(const DirectionalLight& directionalLight)
+{
+	mDirectionalLight = &directionalLight;
 }
 
 void StandardEffect::DebugUI()

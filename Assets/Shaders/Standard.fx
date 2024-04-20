@@ -3,11 +3,21 @@
 cbuffer TransformBuffer : register(b0)
 {
     matrix wvp;
+    matrix world;
+    float3 viewPosition;
 }
 
 cbuffer SettingsBuffer : register(b1)
 {
     bool useDiffuseMap;
+}
+
+cbuffer LightBuffer : register(b2)
+{
+    float4 lightAmbient;
+    float4 lightDiffuse;
+    float4 lightSpecular;
+    float3 lightDirection;
 }
 
 Texture2D textureMap : register(t0);
@@ -24,23 +34,45 @@ struct VS_INPUT
 struct VS_OUTPUT
 {
     float4 position : SV_Position;
-    float2 texCoord : TEXCOORD;
+    float3 worldNormal : NORMAL;
+    float2 texCoord : TEXCOORD0;
+    float3 dirToLight : TEXCOORD1;
+    float3 dirToView : TEXCOORD2;
 };
 
 VS_OUTPUT VS(VS_INPUT input)
 {
-	VS_OUTPUT output;
+    VS_OUTPUT output;
+    float3 worldPosition = mul(float4(input.position, 1.0f), world);
     output.position = mul(float4(input.position, 1.0f), wvp);
+    output.worldNormal = mul(input.normal, (float3x3) world);
 	output.texCoord = input.texCoord;
+    output.dirToLight = -lightDirection;
+    output.dirToView = normalize(viewPosition - worldPosition);
 	return output;
 }
 
 float4 PS(VS_OUTPUT input) : SV_Target
 {
-    if (useDiffuseMap)
-    {
-        return textureMap.Sample(textureSampler, input.texCoord);
-    }
+    //light calculations
+    float3 n = normalize(input.worldNormal);
+    float3 light = normalize(input.dirToLight);
+    float3 view = normalize(input.dirToView);
     
-    return float4(1, 1, 1, 1);
+    float4 ambient = lightAmbient;
+    
+    float d = saturate(dot(light, n));
+    float4 diffuse = d * lightDiffuse;
+    
+    float3 r = reflect(-light, n);
+    float base = saturate(dot(r, view));
+    float s = pow(base, 10);
+    float4 specular = s * lightSpecular;
+    
+    float4 diffuseMapColor = (useDiffuseMap) ? textureMap.Sample(textureSampler, input.texCoord) : 1.0f;
+    
+    float4 finalColor = (ambient + diffuse) * diffuseMapColor + specular;
+    
+    
+    return finalColor;
 }
