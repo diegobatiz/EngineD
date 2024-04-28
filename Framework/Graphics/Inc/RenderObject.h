@@ -19,5 +19,6 @@ namespace EngineD::Graphics
 		TextureID diffuseMapId;
 		TextureID normalMapId;
 		TextureID specMapId;
+		TextureID bumpMapId;
 	};
 }

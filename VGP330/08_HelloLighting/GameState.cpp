@@ -15,11 +15,12 @@ void GameState::Initialize()
 	mDirectionalLight.specular = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 	TextureManager* tm = TextureManager::Get();
-	mMesh = MeshBuilder::CreateSphere(100, 100, 1.0f);
+	mMesh = MeshBuilder::CreateSphere(300, 300, 3.0f);
 	mRenderObject.meshBuffer.Initialize(mMesh);
-	mRenderObject.diffuseMapId = tm->LoadTexture("planets/earth/rock.jpg");
-	mRenderObject.normalMapId = tm->LoadTexture("planets/earth/dry_normal.png");
-	mRenderObject.specMapId = tm->LoadTexture("planets/earth/spec_map.jpg");
+	mRenderObject.diffuseMapId = tm->LoadTexture("planets/earth/earth.jpg");
+	mRenderObject.normalMapId = tm->LoadTexture("planets/earth/earth_normal.jpg");
+	mRenderObject.specMapId = tm->LoadTexture("planets/earth/earth_spec.jpg");
+	mRenderObject.bumpMapId = tm->LoadTexture("planets/earth/earth_bump.jpg");
 
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/Standard.fx";
 	mStandardEffect.Initialize(shaderFilePath);

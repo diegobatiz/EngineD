@@ -402,11 +402,11 @@ Mesh EngineD::Graphics::MeshBuilder::CreateSphere(uint32_t slices, uint32_t ring
 	const float uInc = 1.0f / static_cast<float>(slices);
 	const float vInc = 1.0f / static_cast<float>(rings);
 
-	for (uint32_t r = 0; r <= rings; r++)
+	for (uint32_t r = 0; r <= rings; ++r)
 	{
 		float ringPos = static_cast<float>(r);
 		float phi = ringPos * vertRotation;
-		for (uint32_t s = 0; s <= slices; s++)
+		for (uint32_t s = 0; s <= slices; ++s)
 		{
 			float slicePos = static_cast<float>(s);
 			float rotation = slicePos * horzRotation;
@@ -416,7 +416,7 @@ Mesh EngineD::Graphics::MeshBuilder::CreateSphere(uint32_t slices, uint32_t ring
 
 			float x = radius * sin(rotation) * sin(phi);
 			float y = radius * cos(phi);
-			float z = cos(rotation) * sin(phi);
+			float z = radius * cos(rotation) * sin(phi);
 
 			Math::Vector3 position = { x, y, z };
 			Math::Vector3 normal = Math::Normalize(position);
