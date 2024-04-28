@@ -102,12 +102,6 @@ float4 PS(VS_OUTPUT input) : SV_Target
         float3 light = normalize(input.dirToLight);
         float3 view = normalize(input.dirToView);
         
-        
-        //how far before we change colour
-        //how much of a blend
-        float stepThresholdMin = 0.005f;
-        float stepThresholdMax = 0.01f;
-        
         float4 ambient = lightAmbient * materialAmbient;
         
         //how far before we change colour
