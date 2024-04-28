@@ -1,4 +1,4 @@
-//Standard effect for rendering objects
+//Using cel shader effect
 
 cbuffer TransformBuffer : register(b0)
 {
@@ -102,17 +102,36 @@ float4 PS(VS_OUTPUT input) : SV_Target
         float3 light = normalize(input.dirToLight);
         float3 view = normalize(input.dirToView);
         
-        float4 emissive = materialEmissive;
-    
+        
+        //how far before we change colour
+        //how much of a blend
+        float stepThresholdMin = 0.005f;
+        float stepThresholdMax = 0.01f;
+        
         float4 ambient = lightAmbient * materialAmbient;
+        
+        //how far before we change colour
+        //how much of a blend
+        float stepThresholdMin = 0.005f;
+        float stepThresholdMax = 0.01f;
     
         float d = saturate(dot(light, n));
-        float4 diffuse = d * lightDiffuse * materialDiffuse;
+        float dIntensity = smoothstep(stepThresholdMin, stepThresholdMax, d);
+        float4 diffuse = dIntensity * lightDiffuse * materialDiffuse;
     
         float3 r = reflect(-light, n);
         float base = saturate(dot(r, view));
         float s = pow(base, materialPower);
-        float4 specular = s * lightSpecular * materialSpecular;
+        float sIntensity = smoothstep(stepThresholdMin, stepThresholdMax, s);
+        float4 specular = sIntensity * lightSpecular * materialSpecular;
+        
+        float edgeThickness = 0.85f;
+        float edgeThreshold = 0.01f;
+        float edgeStep = 0.01f;
+        float e = 1.0f - saturate(dot(view, n));
+        float eIntensity = e;// multiply e by this if only want border around lighting ->z * pow(d, edgeThreshold);
+        eIntensity = smoothstep(edgeThickness - edgeStep, edgeThickness + edgeStep, eIntensity);
+        float4 emissive = eIntensity * materialEmissive;
     
         float4 diffuseMapColor = (useDiffuseMap) ? diffuseMap.Sample(textureSampler, input.texCoord) : 1.0f;
         float4 specMapColor = (useSpecMap) ? specMap.Sample(textureSampler, input.texCoord).r : 1.0f;
