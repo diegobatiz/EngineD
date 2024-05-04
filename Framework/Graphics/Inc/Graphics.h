@@ -14,6 +14,8 @@
 #include "MeshBuffer_D3D11.h"
 #include "MeshBuilder.h"
 #include "MeshTypes.h"
+#include "Model.h"
+#include "ModelIO.h"
 #include "PixelShader_D3D11.h"
 #include "RenderTarget.h"
 #include "RenderObject.h"

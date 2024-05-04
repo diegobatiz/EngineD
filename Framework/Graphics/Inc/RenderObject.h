@@ -4,6 +4,7 @@
 #include "TextureManager.h"
 #include "Transform.h"
 #include "Material.h"
+#include "Model.h"
 
 namespace EngineD::Graphics
 {
@@ -21,4 +22,18 @@ namespace EngineD::Graphics
 		TextureID specMapId;
 		TextureID bumpMapId;
 	};
+
+	using RenderGroup = std::vector<RenderObject>;
+	[[nodiscard]] RenderGroup CreateRenderGroup(const Model& model);
+	void CleanupRenderGroup(RenderGroup& renderGroup);
+
+	template<class Effect>
+	void DrawRenderGroup(Effect effect, RenderGroup renderGroup)
+	{
+		for (RenderObject& renderObject : renderGroup)
+		{
+			effect.Render(renderObject);
+		}
+	}
+
 }
