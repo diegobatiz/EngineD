@@ -27,6 +27,8 @@ namespace EngineD::Graphics
 	[[nodiscard]] RenderGroup CreateRenderGroup(const Model& model);
 	void CleanupRenderGroup(RenderGroup& renderGroup);
 
+	void SetRenderGroupPosition(RenderGroup& renderGroup, const Math::Vector3& position);
+
 	template<class Effect>
 	void DrawRenderGroup(Effect effect, RenderGroup renderGroup)
 	{
