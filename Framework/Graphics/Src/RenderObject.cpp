@@ -9,7 +9,7 @@ void RenderObject::Terminate()
 	meshBuffer.Terminate();
 }
 
-RenderGroup CreateRenderGroup(const Model& model)
+RenderGroup Graphics::CreateRenderGroup(const Model& model)
 {
 	auto TryLoadTexture = [](const auto& textureName)->TextureID
 		{
@@ -18,7 +18,7 @@ RenderGroup CreateRenderGroup(const Model& model)
 				return 0;
 			}
 
-			return TextureManager::Get()->LoadTexture();
+			return TextureManager::Get()->LoadTexture(textureName, false);
 		};
 
 	RenderGroup renderGroup;
@@ -29,15 +29,30 @@ RenderGroup CreateRenderGroup(const Model& model)
 		renderObject.meshBuffer.Initialize(meshData.mesh);
 		if (meshData.materialIndex < model.materialData.size())
 		{
-			//const Model::MaterialData& materialData = model.materialData.
+			const Model::MaterialData& materialData = model.materialData[meshData.materialIndex];
+			renderObject.material = materialData.material;
+			renderObject.diffuseMapId = TryLoadTexture(materialData.diffuseMapName);
+			renderObject.normalMapId = TryLoadTexture(materialData.normalMapName);
+			renderObject.bumpMapId = TryLoadTexture(materialData.bumpMapName);
+			renderObject.specMapId = TryLoadTexture(materialData.specularMapName);
 		}
 	}
+
+	return renderGroup;
 }
 
-void CleanupRenderGroup(RenderGroup& renderGroup)
+void Graphics::CleanupRenderGroup(RenderGroup& renderGroup)
 {
 	for (RenderObject& renderObject : renderGroup)
 	{
 		renderObject.Terminate();
+	}
+}
+
+void Graphics::SetRenderGroupPosition(RenderGroup& renderGroup, const Math::Vector3& position)
+{
+	for (RenderObject& renderObject : renderGroup)
+	{
+		renderObject.transform.position = position;
 	}
 }

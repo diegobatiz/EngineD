@@ -56,7 +56,7 @@ bool ModelIO::LoadModel(std::filesystem::path filePath, Model& model)
 	filePath.replace_extension("model");
 
 	FILE* file = nullptr;
-	fopen_s(&file, filePath.u8string().c_str(), "w");
+	fopen_s(&file, filePath.u8string().c_str(), "r");
 	if (file == nullptr)
 	{
 		return false;
@@ -64,6 +64,7 @@ bool ModelIO::LoadModel(std::filesystem::path filePath, Model& model)
 
 	uint32_t meshCount = 0;
 	fscanf_s(file, "MeshCount: %d\n", &meshCount);
+	model.meshData.resize(meshCount);
 	for (uint32_t i = 0; i < meshCount; ++i)
 	{
 		Model::MeshData& meshData = model.meshData[i];
@@ -134,7 +135,7 @@ bool ModelIO::LoadMaterial(std::filesystem::path filePath, Model& model)
 	filePath.replace_extension("material");
 
 	FILE* file = nullptr;
-	fopen_s(&file, filePath.u8string().c_str(), "w");
+	fopen_s(&file, filePath.u8string().c_str(), "r");
 	if (file == nullptr)
 	{
 		return false;

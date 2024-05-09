@@ -82,7 +82,8 @@ void ExportEmbeddedTexture(const aiTexture* texture, const Arguments& args, cons
 	}
 
 	size_t written = fwrite(texture->pcData, 1, texture->mWidth, file);
-	ASSERT(written == texture->mWidth, "ERror: failed to extract embedded texture");
+	ASSERT(written == texture->mWidth, "Error: failed to extract embedded texture");
+	fclose(file);
 }
 
 std::string FindTexture(const aiScene* scene, const aiMaterial* aiMat, aiTextureType textureType, 
@@ -91,7 +92,7 @@ std::string FindTexture(const aiScene* scene, const aiMaterial* aiMat, aiTexture
 	const uint32_t textureCount = aiMat->GetTextureCount(textureType);
 	if (textureCount == 0)
 	{
-		return;
+		return "";
 	}
 
 	std::filesystem::path textureName;
@@ -152,6 +153,8 @@ std::string FindTexture(const aiScene* scene, const aiMaterial* aiMat, aiTexture
 			textureName = fileName;
 		}
 	}
+
+	return textureName.filename().u8string();
 }
 
 //-scale 0.01 input output
@@ -264,13 +267,23 @@ int main(int argc, char* argv[])
 	}
 
 	printf("Saving Model...\n");
-	if (!ModelIO::SaveModel(args.outputFileName, model))
+	if (ModelIO::SaveModel(args.outputFileName, model))
 	{
-		printf("Failed to save model");
+		printf("Saved Model success");
 	}
 	else
 	{
+		printf("Failed to save model data[%s]...\n", args.outputFileName.u8string().c_str());
+	}
 
+	printf("Saving Material...\n");
+	if (ModelIO::SaveMaterial(args.outputFileName, model))
+	{
+		printf("Saved Material success");
+	}
+	else
+	{
+		printf("Failed to save Material data...\n");
 	}
 
 	return 0;

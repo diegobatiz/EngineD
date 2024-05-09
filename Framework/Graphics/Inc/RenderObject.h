@@ -30,7 +30,7 @@ namespace EngineD::Graphics
 	void SetRenderGroupPosition(RenderGroup& renderGroup, const Math::Vector3& position);
 
 	template<class Effect>
-	void DrawRenderGroup(Effect effect, RenderGroup renderGroup)
+	void DrawRenderGroup(Effect& effect, RenderGroup& renderGroup)
 	{
 		for (RenderObject& renderObject : renderGroup)
 		{

@@ -14,7 +14,6 @@ protected:
 	EngineD::Graphics::DirectionalLight mDirectionalLight;
 	EngineD::Graphics::Camera mCamera;
 
+	EngineD::Graphics::RenderGroup mCharacter;
 	EngineD::Graphics::StandardEffect mStandardEffect;
-	EngineD::Graphics::RenderObject mRenderObject;
-
 };

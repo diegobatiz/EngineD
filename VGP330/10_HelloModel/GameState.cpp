@@ -15,7 +15,9 @@ void GameState::Initialize()
 	mDirectionalLight.specular = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 	Model model;
-	ModelIO::LoadModel("dir", model);
+	ModelIO::LoadModel("../../Assets/Models/Character_01/XBot.model", model);
+	ModelIO::LoadMaterial("../../Assets/Models/Character_01/XBot.model", model);
+	mCharacter = CreateRenderGroup(model);
 
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/Standard.fx";
 	mStandardEffect.Initialize(shaderFilePath);
@@ -26,7 +28,7 @@ void GameState::Initialize()
 void GameState::Terminate()
 {
 	mStandardEffect.Terminate();
-	mRenderObject.Terminate();
+	CleanupRenderGroup(mCharacter);
 }
 
 void GameState::Update(float deltaTime)
@@ -75,7 +77,7 @@ void GameState::Render()
 	SimpleDraw::Render(mCamera);
 
 	mStandardEffect.Begin();
-		mStandardEffect.Render(mRenderObject);
+		DrawRenderGroup(mStandardEffect, mCharacter);
 	mStandardEffect.End();
 }
 
@@ -93,15 +95,6 @@ void GameState::DebugUI()
 		ImGui::ColorEdit4("Diffuse##Light", &mDirectionalLight.diffuse.r);
 		ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
 	}
-	if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen))
-	{
-		ImGui::ColorEdit4("Ambient##Material", &mRenderObject.material.ambient.r);
-		ImGui::ColorEdit4("Diffuse##Material", &mRenderObject.material.diffuse.r);
-		ImGui::ColorEdit4("Specular##Material", &mRenderObject.material.specular.r);
-		ImGui::ColorEdit4("Emissive##Material", &mRenderObject.material.emissive.r);
-
-		ImGui::DragFloat("SpecPower##Material", &mRenderObject.material.power, 1.0f, 1.0f, 100.0f);
-	}
-		mStandardEffect.DebugUI();
+	mStandardEffect.DebugUI();
 	ImGui::End();
 }
