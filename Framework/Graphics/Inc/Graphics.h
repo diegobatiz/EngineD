@@ -17,6 +17,7 @@
 #include "Model.h"
 #include "ModelIO.h"
 #include "PixelShader_D3D11.h"
+#include "PostProcessingEffect.h"
 #include "RenderTarget.h"
 #include "RenderObject.h"
 #include "Sampler.h"

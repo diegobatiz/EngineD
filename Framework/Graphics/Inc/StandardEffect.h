@@ -44,7 +44,7 @@ namespace EngineD::Graphics
 			int useSpecMap = 1;
 			int useLighting = 1;
 			int useBumpMap = 1;
-			float bumpWeight = 1.0f;
+			float bumpWeight = 0.0f;
 			float padding[2] = { 0.0f };
 		};
 
