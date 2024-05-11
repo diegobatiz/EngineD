@@ -4,10 +4,11 @@
 #include "TextureManager.h"
 #include "Transform.h"
 #include "Material.h"
-#include "Model.h"
 
 namespace EngineD::Graphics
 {
+	struct Model;
+
 	struct RenderObject
 	{
 		void Terminate();

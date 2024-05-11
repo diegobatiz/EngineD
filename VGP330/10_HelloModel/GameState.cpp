@@ -15,9 +15,10 @@ void GameState::Initialize()
 	mDirectionalLight.specular = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 	Model model;
-	ModelIO::LoadModel("../../Assets/Models/Character_01/XBot.model", model);
-	ModelIO::LoadMaterial("../../Assets/Models/Character_01/XBot.model", model);
+	ModelIO::LoadModel("../../Assets/Models/Character_01/Ch44_nonPBR.model", model);
+	ModelIO::LoadMaterial("../../Assets/Models/Character_01/Ch44_nonPBR.model", model);
 	mCharacter = CreateRenderGroup(model);
+
 
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/Standard.fx";
 	mStandardEffect.Initialize(shaderFilePath);

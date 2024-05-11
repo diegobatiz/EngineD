@@ -279,7 +279,7 @@ int main(int argc, char* argv[])
 	printf("Saving Material...\n");
 	if (ModelIO::SaveMaterial(args.outputFileName, model))
 	{
-		printf("Saved Material success");
+		printf("Saved Material success\n");
 	}
 	else
 	{

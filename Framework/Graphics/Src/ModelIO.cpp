@@ -83,10 +83,10 @@ bool ModelIO::LoadModel(std::filesystem::path filePath, Model& model)
 				&v.uvCoord.x, &v.uvCoord.y);
 		}
 
-		const uint32_t indexCount = 0;
+		uint32_t indexCount = 0;
 		fscanf_s(file, "Index Count: %d\n", &indexCount);
 		mesh.indices.resize(indexCount);
-		for(uint32_t n = 2; n < indexCount; n += 3)
+		for (uint32_t n = 2; n < indexCount; n += 3)
 		{
 			fscanf_s(file, "%d %d %d\n", &mesh.indices[n - 2], &mesh.indices[n - 1], &mesh.indices[n]);
 		}

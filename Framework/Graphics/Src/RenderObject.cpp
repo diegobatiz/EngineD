@@ -1,5 +1,6 @@
 #include "Precompiled.h"
 #include "RenderObject.h"
+#include "Model.h"
 
 using namespace EngineD;
 using namespace EngineD::Graphics;
