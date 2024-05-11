@@ -19,6 +19,13 @@ void GameState::Initialize()
 	ModelIO::LoadMaterial("../../Assets/Models/Character_01/Ch44_nonPBR.model", model);
 	mCharacter = CreateRenderGroup(model);
 
+	Model model2;
+	ModelIO::LoadModel("../../Assets/Models/Character_02/Ch04_nonPBR.model", model2);
+	ModelIO::LoadMaterial("../../Assets/Models/Character_02/Ch04_nonPBR.model", model2);
+	mCharacter2 = CreateRenderGroup(model2);
+	SetRenderGroupPosition(mCharacter, { 1, 0, 0 });
+	SetRenderGroupPosition(mCharacter2, { -1, 0, 0 });
+
 
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/Standard.fx";
 	mStandardEffect.Initialize(shaderFilePath);
@@ -30,6 +37,7 @@ void GameState::Terminate()
 {
 	mStandardEffect.Terminate();
 	CleanupRenderGroup(mCharacter);
+	CleanupRenderGroup(mCharacter2);
 }
 
 void GameState::Update(float deltaTime)
@@ -79,6 +87,7 @@ void GameState::Render()
 
 	mStandardEffect.Begin();
 		DrawRenderGroup(mStandardEffect, mCharacter);
+		DrawRenderGroup(mStandardEffect, mCharacter2);
 	mStandardEffect.End();
 }
 

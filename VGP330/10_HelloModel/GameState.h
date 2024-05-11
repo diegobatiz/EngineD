@@ -15,5 +15,6 @@ protected:
 	EngineD::Graphics::Camera mCamera;
 
 	EngineD::Graphics::RenderGroup mCharacter;
+	EngineD::Graphics::RenderGroup mCharacter2;
 	EngineD::Graphics::StandardEffect mStandardEffect;
 };
