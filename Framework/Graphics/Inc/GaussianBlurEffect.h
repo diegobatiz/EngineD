@@ -13,7 +13,7 @@ namespace EngineD::Graphics
 	class GaussianBlurEffect final
 	{
 	public:
-		void Initialize();
+		void Initialize(const std::filesystem::path& filename);
 		void Terminate();
 
 		void Begin();

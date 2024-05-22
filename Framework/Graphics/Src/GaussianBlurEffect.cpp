@@ -8,7 +8,7 @@
 using namespace EngineD;
 using namespace EngineD::Graphics;
 
-void GaussianBlurEffect::Initialize()
+void GaussianBlurEffect::Initialize(const std::filesystem::path& filename)
 {
 	Graphics_D3D11* gs = GraphicsSystem::Get();
 	const float screenWidth = gs->GetBackBufferWidth();
@@ -19,10 +19,9 @@ void GaussianBlurEffect::Initialize()
 	mSettingsBuffer.Initialize();
 	mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
 
-	std::filesystem::path shaderFile = "../../Assets/Shaders/GaussianBlur.fx";
-	mVertexShader.Initialize<VertexPX>(shaderFile);
-	mHorizontalBlurPS.Initialize(shaderFile, "HorizontalBlurPS");
-	mVerticalBlurPS.Initialize(shaderFile, "VerticalBlurPS");
+	mVertexShader.Initialize<VertexPX>(filename);
+	mHorizontalBlurPS.Initialize(filename, "HorizontalBlurPS");
+	mVerticalBlurPS.Initialize(filename, "VerticalBlurPS");
 }
 
 void GaussianBlurEffect::Terminate()
@@ -99,7 +98,7 @@ void GaussianBlurEffect::DebugUI()
 	if (ImGui::CollapsingHeader("GaussianBlurEffect", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		ImGui::DragInt("BlurIterations", &mBlurIterations, 1, 1, 100);
-		ImGui::DragFloat("BlurSaturation", &mBlurSaturation, 0.001f, 1.0f, 10.0f);
+		ImGui::DragFloat("BlurSaturation", &mBlurSaturation, 0.001f, 0.01f, 10.0f);
 	}
 }
 

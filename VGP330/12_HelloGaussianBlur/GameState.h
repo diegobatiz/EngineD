@@ -17,13 +17,14 @@ protected:
 	//Effects
 	EngineD::Graphics::StandardEffect mStandardEffect;
 	EngineD::Graphics::PostProcessingEffect mPostProcessEffect;
+	EngineD::Graphics::GaussianBlurEffect mGaussianBlurEffect;
 
 	//Objects
 	EngineD::Graphics::RenderGroup mCharacter;
 	EngineD::Graphics::RenderObject mGround;
 	EngineD::Graphics::RenderObject mScreenQuad;
 
-	EngineD::Graphics::Texture mCombineTexture;
-
+	//Render Targets
 	EngineD::Graphics::RenderTarget mRenderTarget;
+	EngineD::Graphics::RenderTarget mBlurRenderTarget;
 };
