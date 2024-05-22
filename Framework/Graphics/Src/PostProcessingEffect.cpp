@@ -17,19 +17,18 @@ namespace
 		"Mirror",
 		"Blur",
 		"Combine2",
-		"MotionBlur",
-		"ChromaticAberration"
+		"ChromaticAberration",
+		"Wave"
 	};
 }
 
 void PostProcessingEffect::Initialize(const std::filesystem::path& filename)
 {
+	mPostProcessingBuffer.Initialize();
 	mVertexShader.Initialize<VertexPX>(filename);
 	mPixelShader.Initialize(filename);
 
 	mSampler.Initialize(Sampler::Filter::Point, Sampler::AddressMode::Wrap);
-
-	mPostProcessingBuffer.Initialize();
 }
 
 void PostProcessingEffect::Terminate()
@@ -76,12 +75,24 @@ void PostProcessingEffect::Begin()
 		data.params1 = mBlurStrength / screenHeight;
 	}
 	break;
+	case Mode::Combine2: 
+	{
+		data.params0 = mUVOffsetX;
+	}
+	break;
 	case Mode::ChromaticAberration:
 	{
 		data.params0 = mAberrationValue;
 		data.params1 = mAberrationValue;
 	}
 	break;
+	case Mode::Wave:
+	{
+		data.params0 = mWaveLength;
+		data.params1 = mNumWaves;
+	}
+	break;
+	default: break;
 	}
 
 	mPostProcessingBuffer.Update(data);
@@ -94,9 +105,14 @@ void PostProcessingEffect::End()
 	{
 		if (mTextures[i] != nullptr)
 		{
-			Texture::Unbind(i);
+			Texture::UnbindPS(i);
 		}
 	}
+}
+
+void PostProcessingEffect::Update(float deltaTime)
+{
+	mUVOffsetX += deltaTime * 0.1f;
 }
 
 void PostProcessingEffect::Render(const RenderObject& renderObject)
@@ -118,6 +134,9 @@ void PostProcessingEffect::DebugUI()
 		ImGui::DragFloat("MirrorY", &mMirrorY, 0.1f, -1.0f, 10.0f);
 		ImGui::DragFloat("BlurStrength", &mBlurStrength, 1.0f, 0.0f, 100.0f);
 		ImGui::DragFloat("AberrationValue", &mAberrationValue, 0.001f, 0.0f, 1.0f);
+		ImGui::DragFloat("WaveLength", &mWaveLength, 0.001f, 0.0f, 1.0f);
+		ImGui::DragFloat("NumWaves", &mNumWaves, 1.0f, 0.0f, 1000.0f);
+		ImGui::DragFloat("UVOffsetX", &mUVOffsetX, 0.001f);
 	}
 }
 
@@ -125,4 +144,9 @@ void PostProcessingEffect::SetTexture(const Texture* texture, uint32_t slot)
 {
 	ASSERT(slot < mTextures.size(), "PostProcessingEffect: invalid slot index");
 	mTextures[slot] = texture;
+}
+
+void PostProcessingEffect::SetMode(Mode mode)
+{
+	mMode = mode;
 }

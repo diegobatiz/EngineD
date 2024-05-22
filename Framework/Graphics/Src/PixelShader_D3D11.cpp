@@ -6,7 +6,7 @@
 using namespace EngineD;
 using namespace EngineD::Graphics;
 
-void PixelShader_D3D11::Initialize(const std::filesystem::path& filePath)
+void PixelShader_D3D11::Initialize(const std::filesystem::path& filePath, const char* entryPoint = "PS")
 {
 	if (mDevice == nullptr)
 	{
@@ -21,7 +21,7 @@ void PixelShader_D3D11::Initialize(const std::filesystem::path& filePath)
 		filePath.c_str(),
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,
-		"PS", "ps_5_0",
+		entryPoint, "ps_5_0",
 		shaderFlags, 0,
 		&shaderBlob,
 		&errorBlob

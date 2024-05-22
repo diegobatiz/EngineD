@@ -36,6 +36,7 @@ void GameState::Initialize()
 	mPostProcessEffect.Initialize(shaderFilePath);
 	mPostProcessEffect.SetTexture(&mRenderTarget);
 	mPostProcessEffect.SetTexture(&mCombineTexture, 1);
+	mPostProcessEffect.SetMode(PostProcessingEffect::Mode::Combine2);
 
 	Graphics_D3D11* gs = GraphicsSystem::Get();
 	const uint32_t screenWidth = gs->GetBackBufferWidth();

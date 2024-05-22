@@ -9,6 +9,7 @@
 #include "Colours.h"
 #include "ConstantBuffer.h"
 #include "DebugUI.h"
+#include "GaussianBlurEffect.h"
 #include "LightTypes.h"
 #include "Material.h"
 #include "MeshBuffer_D3D11.h"

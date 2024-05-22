@@ -11,7 +11,7 @@ namespace EngineD::Graphics
 			RGBA_U32,
 		};
 
-		static void Unbind(uint32_t slot);
+		static void UnbindPS(uint32_t slot);
 
 		Texture() = default;
 		virtual ~Texture();
