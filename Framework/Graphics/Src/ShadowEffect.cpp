@@ -62,30 +62,50 @@ void ShadowEffect::Render(const RenderObject& renderObject)
 
 void ShadowEffect::DebugUI()
 {
+	if (ImGui::CollapsingHeader("ShadowEffect", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::Text("DepthMap");
+		ImGui::Image(
+			mDepthMapRenderTarget.GetRawData(),
+			{ 144,144 },
+			{ 0, 0 },
+			{ 1, 1 },
+			{ 1, 1, 1, 1 },
+			{ 1, 1, 1, 1 });
+		ImGui::DragFloat("Size##Shadow", &mSize, 1.0f, 1.0f, 1000.0f);
+	}
 }
 
 void ShadowEffect::SetDirectionalLight(const DirectionalLight& directionalLight)
 {
+	mDirectionalLight = &directionalLight;
 }
 
 void ShadowEffect::SetFocus(const Math::Vector3& focusPosition)
 {
+	mFocusPosition = focusPosition;
 }
 
 void ShadowEffect::SetSize(float size)
 {
+	mSize = size;
 }
 
 const Camera& ShadowEffect::GetLightCamera() const
 {
-	// // O: ient here
+	return mLightCamera;
 }
 
 const Texture& ShadowEffect::GetDepthMap() const
 {
-	// // O: insert return statement here
+	return mDepthMapRenderTarget;
 }
 
 void ShadowEffect::UpdateLightCamera()
 {
+	ASSERT(mDirectionalLight != nullptr, "ShadowEffet: no light set!");
+	const Math::Vector3& direction = mDirectionalLight->direction;
+	mLightCamera.SetDirection(direction);
+	mLightCamera.SetPosition(mFocusPosition - (direction * 1000.0f));
+	mLightCamera.SetSize(mSize, mSize);
 }
