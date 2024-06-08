@@ -118,6 +118,12 @@
     <ClInclude Include="Inc\TerrainEffect.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\ComicBookEffect.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\DepthMapEffect.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -190,6 +196,12 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\TerrainEffect.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ComicBookEffect.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\DepthMapEffect.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>

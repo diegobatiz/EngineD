@@ -13,19 +13,14 @@ public:
 protected:
 	EngineD::Graphics::DirectionalLight mDirectionalLight;
 	EngineD::Graphics::Camera mCamera;
-
-	EngineD::Graphics::Mesh circle1;
-	EngineD::Graphics::Mesh circle2;
-	EngineD::Graphics::Mesh circle3;
-	EngineD::Graphics::Mesh horizontalPlane;
-	EngineD::Graphics::Mesh verticalPlane;
-
+	
+	//Effects
 	EngineD::Graphics::StandardEffect mStandardEffect;
+	EngineD::Graphics::DepthMapEffect mDepthMapEffect;
 
-	EngineD::Graphics::RenderObject circleObj1;
-	EngineD::Graphics::RenderObject circleObj2;
-	EngineD::Graphics::RenderObject circleObj3;
-	EngineD::Graphics::RenderObject hPlane;
-	EngineD::Graphics::RenderObject vPlane;
+	//Objects
+	EngineD::Graphics::RenderGroup mCharacter;
+	EngineD::Graphics::RenderObject mGround;
 
+	bool mOnTerrain = false;
 };
