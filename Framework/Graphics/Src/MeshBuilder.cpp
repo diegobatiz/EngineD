@@ -127,6 +127,15 @@ MeshPC MeshBuilder::CreateCubePC(float size)
 	return mesh;
 }
 
+Mesh MeshBuilder::CreateCube(float size)
+{
+	Mesh mesh;
+	const float hs = size * 0.5f;
+
+	
+	return mesh;
+}
+
 MeshPC EngineD::Graphics::MeshBuilder::CreateRectPC(float width, float height, float depth)
 {
 	MeshPC mesh;
