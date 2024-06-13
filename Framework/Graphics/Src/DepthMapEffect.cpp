@@ -9,7 +9,7 @@ using namespace EngineD::Graphics;
 
 void DepthMapEffect::Initialize()
 {	 
-	std::filesystem::path shaderFile = L"../../Assets/Shaders/Shadow.fx";
+	std::filesystem::path shaderFile = L"../../Assets/Shaders/NormalMap.fx";
 	mVertexShader.Initialize<Vertex>(shaderFile);
 	mPixelShader.Initialize(shaderFile);
 
@@ -78,8 +78,8 @@ void DepthMapEffect::SetSize(float size)
 void DepthMapEffect::SetCamera(Camera camera)
 {
 	mCamera = camera;
-	mCamera.SetNearPlane(1.0f);
-	mCamera.SetFarPlane(25.0f);
+	mCamera.SetNearPlane(0.2f);
+	mCamera.SetFarPlane(50.0f);
 }
 
 Camera& EngineD::Graphics::DepthMapEffect::GetCamera()
