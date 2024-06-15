@@ -18,6 +18,7 @@
 #include "MeshBuffer_D3D11.h"
 #include "MeshBuilder.h"
 #include "MeshTypes.h"
+#include "MoebiusEffect.h"
 #include "Model.h"
 #include "ModelIO.h"
 #include "NormalMapEffect.h"

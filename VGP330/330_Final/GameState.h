@@ -21,6 +21,8 @@ protected:
 	EngineD::Graphics::ComicBookEffect mComicBookEffect;
 	EngineD::Graphics::ShadowEffect mShadowEffect;
 
+	EngineD::Graphics::MoebiusEffect mMoebiusEffect;
+
 	//Objects
 	EngineD::Graphics::RenderGroup mCharacter;
 	EngineD::Graphics::RenderObject mGround;
@@ -28,4 +30,7 @@ protected:
 
 	//RenderTarget
 	EngineD::Graphics::RenderTarget mComicRenderTarget;
+	EngineD::Graphics::RenderTarget mShadowRenderTarget;
+
+	EngineD::Graphics::Texture mTexture;
 };

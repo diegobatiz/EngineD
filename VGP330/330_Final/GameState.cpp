@@ -32,16 +32,19 @@ void GameState::Initialize()
 	mDepthMapEffect.Initialize();
 	mDepthMapEffect.SetCamera(mNormalMapEffect.GetCamera());
 
-	TextureID crosshatchID = TextureManager::Get()->LoadTexture("misc/crosshatchPattern.jpg");
-
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/CrosshatchEffect.fx";
 	mCrosshatchEffect.Initialize(shaderFilePath);
 	mCrosshatchEffect.SetCamera(mCamera);
 	mCrosshatchEffect.SetDirectionalLight(mDirectionalLight);
 	mCrosshatchEffect.SetLightCamera(mShadowEffect.GetLightCamera());
 	mCrosshatchEffect.SetShadowMap(mShadowEffect.GetDepthMap());
-	//mCrosshatchEffect.SetHatchTextureID(crosshatchID);
-	//mCrosshatchEffect.SetComicEffectTexture(mComicRenderTarget);
+
+	mTexture.Initialize(L"../../Assets/Images/misc/crosshatchPattern.jpg");
+	shaderFilePath = L"../../Assets/Shaders/MoebiusEffect.fx";
+	mMoebiusEffect.Initialize(shaderFilePath);
+	mMoebiusEffect.SetTexture(&mTexture, 0);
+	mMoebiusEffect.SetTexture(&mComicRenderTarget, 1);
+	mMoebiusEffect.SetTexture(&mShadowRenderTarget, 2);
 
 	shaderFilePath = L"../../Assets/Shaders/ComicBook.fx";
 	mComicBookEffect.Initialize(shaderFilePath);
@@ -55,6 +58,7 @@ void GameState::Initialize()
 	const uint32_t screenWidth = gs->GetBackBufferWidth();
 	const uint32_t screenHeight = gs->GetBackBufferHeight();
 	mComicRenderTarget.Initialize(screenWidth, screenHeight, RenderTarget::Format::RGBA_U8);
+	mShadowRenderTarget.Initialize(screenWidth, screenHeight, RenderTarget::Format::RGBA_U8);
 }
 
 void GameState::Terminate()
@@ -68,6 +72,7 @@ void GameState::Terminate()
 	mScreenQuad.Terminate();
 	mGround.Terminate();
 	CleanupRenderGroup(mCharacter);
+	mTexture.Terminate();
 }
 
 void GameState::Update(float deltaTime)
@@ -150,10 +155,16 @@ void GameState::Render()
 		mComicBookEffect.End();
 	mComicRenderTarget.EndRender();
 
-	mCrosshatchEffect.Begin();
-		DrawRenderGroup(mCrosshatchEffect, mCharacter);
-		mCrosshatchEffect.Render(mGround);
-	mCrosshatchEffect.End();
+	mShadowRenderTarget.BeginRender();
+		mCrosshatchEffect.Begin();
+			DrawRenderGroup(mCrosshatchEffect, mCharacter);
+			mCrosshatchEffect.Render(mGround);
+		mCrosshatchEffect.End();
+	mShadowRenderTarget.EndRender();
+
+	mMoebiusEffect.Begin();
+		mMoebiusEffect.Render(mScreenQuad);
+	mMoebiusEffect.End();
 }
 
 void GameState::DebugUI()

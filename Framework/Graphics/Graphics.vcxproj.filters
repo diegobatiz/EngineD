@@ -130,6 +130,9 @@
     <ClInclude Include="Inc\CrosshatchShadowEffect.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\MoebiusEffect.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -214,6 +217,9 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\CrosshatchShadowEffect.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\MoebiusEffect.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
