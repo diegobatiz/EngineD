@@ -35,7 +35,8 @@ void ComicBookEffect::Terminate()
 void ComicBookEffect::Begin()
 {
 	mVertexShader.Bind();
-	mSourceTexture->BindPS(0);
+	mNormalTexture->BindPS(0);
+	mDepthTexture->BindPS(1);
 	mPixelShader.Bind();
 
 	Graphics_D3D11* gs = GraphicsSystem::Get();
@@ -51,6 +52,7 @@ void ComicBookEffect::Begin()
 void ComicBookEffect::End()
 {
 	Texture::UnbindPS(0);
+	Texture::UnbindPS(1);
 }
 
 void ComicBookEffect::Render(const RenderObject& renderObject)
@@ -63,9 +65,14 @@ void ComicBookEffect::DebugUI()
 	
 }
 
-void ComicBookEffect::SetSourceTexture(const Texture& texture)
+void ComicBookEffect::SetNormalTexture(const Texture& texture)
 {
-	mSourceTexture = &texture;
+	mNormalTexture = &texture;
+}
+
+void ComicBookEffect::SetDepthTexture(const Texture& texture)
+{
+	mDepthTexture = &texture;
 }
 
 const Texture& ComicBookEffect::GetResultTexture() const

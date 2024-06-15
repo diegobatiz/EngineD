@@ -16,6 +16,7 @@ protected:
 	
 	//Effects
 	EngineD::Graphics::StandardEffect mStandardEffect;
+	EngineD::Graphics::NormalMapEffect mNormalMapEffect;
 	EngineD::Graphics::DepthMapEffect mDepthMapEffect;
 	EngineD::Graphics::ComicBookEffect mComicBookEffect;
 

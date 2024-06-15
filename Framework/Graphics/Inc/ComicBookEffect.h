@@ -23,7 +23,8 @@ namespace EngineD::Graphics
 
 		void DebugUI();
 
-		void SetSourceTexture(const Texture& texture);
+		void SetNormalTexture(const Texture& texture);
+		void SetDepthTexture(const Texture& texture);
 		const Texture& GetResultTexture() const;
 
 	private:
@@ -44,7 +45,8 @@ namespace EngineD::Graphics
 
 		Sampler mSampler;
 
-		const Texture* mSourceTexture = nullptr;
+		const Texture* mNormalTexture = nullptr;
+		const Texture* mDepthTexture = nullptr;
 		int mDrawIterations = 1;
 	};
 }

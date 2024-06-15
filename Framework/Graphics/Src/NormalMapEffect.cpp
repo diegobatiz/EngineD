@@ -1,5 +1,5 @@
 #include "Precompiled.h"
-#include "DepthMapEffect.h"
+#include "NormalMapEffect.h"
 
 #include "RenderObject.h"
 #include "VertexTypes.h"
@@ -7,9 +7,9 @@
 using namespace EngineD;
 using namespace EngineD::Graphics;
 
-void DepthMapEffect::Initialize()
+void NormalMapEffect::Initialize()
 {	 
-	std::filesystem::path shaderFile = L"../../Assets/Shaders/Shadow.fx";
+	std::filesystem::path shaderFile = L"../../Assets/Shaders/NormalMap.fx";
 	mVertexShader.Initialize<Vertex>(shaderFile);
 	mPixelShader.Initialize(shaderFile);
 
@@ -19,7 +19,7 @@ void DepthMapEffect::Initialize()
 	mDepthMapRenderTarget.Initialize(depthMapResolution, depthMapResolution, Texture::Format::RGBA_U32);
 }	 
 	 
-void DepthMapEffect::Terminate()
+void NormalMapEffect::Terminate()
 {	 
 	mDepthMapRenderTarget.Terminate();
 	mTransformBuffer.Terminate();
@@ -27,7 +27,7 @@ void DepthMapEffect::Terminate()
 	mVertexShader.Terminate();
 }	 
 	 
-void DepthMapEffect::Begin()
+void NormalMapEffect::Begin()
 {	 
 	mVertexShader.Bind();
 	mPixelShader.Bind();
@@ -36,12 +36,12 @@ void DepthMapEffect::Begin()
 	mDepthMapRenderTarget.BeginRender();
 }	 
 	 
-void DepthMapEffect::End()
+void NormalMapEffect::End()
 {	 
 	mDepthMapRenderTarget.EndRender();
 }	 
 	 
-void DepthMapEffect::Render(const RenderObject& renderObject)
+void NormalMapEffect::Render(const RenderObject& renderObject)
 {	 
 	const Math::Matrix4 matWorld = renderObject.transform.GetMatrix4();
 	const Math::Matrix4 matView = mCamera.GetViewMatrix();
@@ -54,11 +54,11 @@ void DepthMapEffect::Render(const RenderObject& renderObject)
 	renderObject.meshBuffer.Render();
 }	 
 	 
-void DepthMapEffect::DebugUI()
+void NormalMapEffect::DebugUI()
 {	 
-	if (ImGui::CollapsingHeader("DepthMapEffect", ImGuiTreeNodeFlags_DefaultOpen))
+	if (ImGui::CollapsingHeader("NormalMapEffect", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		ImGui::Text("DepthMap");
+		ImGui::Text("NormalMap");
 		ImGui::Image(
 			mDepthMapRenderTarget.GetRawData(),
 			{ 144,144 },
@@ -66,28 +66,28 @@ void DepthMapEffect::DebugUI()
 			{ 1, 1 },
 			{ 1, 1, 1, 1 },
 			{ 1, 1, 1, 1 });
-		ImGui::DragFloat("Size##DepthMap", &mSize, 1.0f, 1.0f, 1000.0f);
+		ImGui::DragFloat("Size##NormalMap", &mSize, 1.0f, 1.0f, 1000.0f);
 	}
 }	 
 	 
-void DepthMapEffect::SetSize(float size)
+void NormalMapEffect::SetSize(float size)
 {
 	mSize = size;
 }
 
-void DepthMapEffect::SetCamera(const Camera& camera)
+void NormalMapEffect::SetCamera(Camera camera)
 {
 	mCamera = camera;
-	mCamera.SetNearPlane(0.5f);
-	mCamera.SetFarPlane(30.0f);
+	mCamera.SetNearPlane(0.2f);
+	mCamera.SetFarPlane(50.0f);
 }
 
-Camera& EngineD::Graphics::DepthMapEffect::GetCamera()
+Camera& NormalMapEffect::GetCamera()
 {
 	return mCamera;
 }
 
-const Texture& DepthMapEffect::GetDepthMap() const
+const Texture& NormalMapEffect::GetNormalMap() const
 {
 	return mDepthMapRenderTarget;
 }

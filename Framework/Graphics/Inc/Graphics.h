@@ -19,6 +19,7 @@
 #include "MeshTypes.h"
 #include "Model.h"
 #include "ModelIO.h"
+#include "NormalMapEffect.h"
 #include "PixelShader_D3D11.h"
 #include "PostProcessingEffect.h"
 #include "RenderTarget.h"

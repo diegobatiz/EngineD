@@ -11,7 +11,7 @@ namespace EngineD::Graphics
 {	
 	struct RenderObject;
 
-	class DepthMapEffect
+	class NormalMapEffect
 	{
 	public:
 		void Initialize();
@@ -25,9 +25,9 @@ namespace EngineD::Graphics
 
 		void SetSize(float size);
 
-		void SetCamera(const Camera& camera);
+		void SetCamera(Camera camera);
 		Camera& GetCamera();
-		const Texture& GetDepthMap() const;
+		const Texture& GetNormalMap() const;
 
 	private:
 		struct TransformData

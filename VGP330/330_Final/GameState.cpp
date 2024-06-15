@@ -26,25 +26,30 @@ void GameState::Initialize()
 	MeshPX screenQuad = MeshBuilder::CreateScreenQuad();
 	mScreenQuad.meshBuffer.Initialize(screenQuad);
 
+	mNormalMapEffect.Initialize();
+	mNormalMapEffect.SetCamera(mCamera);
+
 	mDepthMapEffect.Initialize();
-	mDepthMapEffect.SetCamera(mCamera);
+	mDepthMapEffect.SetCamera(mNormalMapEffect.GetCamera());
 
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/Standard.fx";
 	mStandardEffect.Initialize(shaderFilePath);
 	mStandardEffect.SetCamera(mCamera);
 	mStandardEffect.SetDirectionalLight(mDirectionalLight);
-	mStandardEffect.SetLightCamera(mDepthMapEffect.GetCamera());
-	mStandardEffect.SetShadowMap(mDepthMapEffect.GetDepthMap());
+	mStandardEffect.SetLightCamera(mNormalMapEffect.GetCamera());
+	mStandardEffect.SetShadowMap(mNormalMapEffect.GetNormalMap());
 
 	shaderFilePath = L"../../Assets/Shaders/ComicBook.fx";
 	mComicBookEffect.Initialize(shaderFilePath);
-	mComicBookEffect.SetSourceTexture(mDepthMapEffect.GetDepthMap());
+	mComicBookEffect.SetNormalTexture(mNormalMapEffect.GetNormalMap());
+	mComicBookEffect.SetDepthTexture(mDepthMapEffect.GetDepthMap());
 }
 
 void GameState::Terminate()
 {
-	mComicBookEffect.Terminate();
 	mDepthMapEffect.Terminate();
+	mComicBookEffect.Terminate();
+	mNormalMapEffect.Terminate();
 	mStandardEffect.Terminate();
 	mScreenQuad.Terminate();
 	mGround.Terminate();
@@ -53,6 +58,7 @@ void GameState::Terminate()
 
 void GameState::Update(float deltaTime)
 {
+	Camera* normalCamera = &mNormalMapEffect.GetCamera();
 	Camera* depthCamera = &mDepthMapEffect.GetCamera();
 	auto input = Input::InputSystem::Get();
 	const float moveSpeed = input->IsKeyDown(KeyCode::LSHIFT) ? 10.0f : 1.0f;
@@ -62,46 +68,59 @@ void GameState::Update(float deltaTime)
 	{
 		mCamera.Walk(moveSpeed * deltaTime);
 		depthCamera->Walk(moveSpeed * deltaTime);
+		normalCamera->Walk(moveSpeed * deltaTime);
 	}
 	else if (input->IsKeyDown(KeyCode::S))
 	{
 		mCamera.Walk(-moveSpeed * deltaTime);
 		depthCamera->Walk(-moveSpeed * deltaTime);
+		normalCamera->Walk(-moveSpeed * deltaTime);
 	}
 
 	if (input->IsKeyDown(KeyCode::D))
 	{
 		mCamera.Strafe(moveSpeed * deltaTime);
 		depthCamera->Strafe(moveSpeed * deltaTime);
+		normalCamera->Strafe(moveSpeed * deltaTime);
 	}
 	else if (input->IsKeyDown(KeyCode::A))
 	{
 		mCamera.Strafe(-moveSpeed * deltaTime);
 		depthCamera->Strafe(-moveSpeed * deltaTime);
+		normalCamera->Strafe(-moveSpeed * deltaTime);
 	}
 
 	if (input->IsKeyDown(KeyCode::E))
 	{
 		mCamera.Rise(moveSpeed * deltaTime);
 		depthCamera->Rise(moveSpeed * deltaTime);
+		normalCamera->Rise(moveSpeed * deltaTime);
 	}
 	else if (input->IsKeyDown(KeyCode::Q))
 	{
 		mCamera.Rise(-moveSpeed * deltaTime);
 		depthCamera->Rise(-moveSpeed * deltaTime);
+		normalCamera->Rise(-moveSpeed * deltaTime);
 	}
 
 	if (input->IsMouseDown(MouseButton::RBUTTON))
 	{
 		mCamera.Yaw(input->GetMouseMoveX() * turnSpeed * deltaTime);
 		depthCamera->Yaw(input->GetMouseMoveX() * turnSpeed * deltaTime);
+		normalCamera->Yaw(input->GetMouseMoveX() * turnSpeed * deltaTime);
 		mCamera.Pitch(input->GetMouseMoveY() * turnSpeed * deltaTime);
 		depthCamera->Pitch(input->GetMouseMoveY() * turnSpeed * deltaTime);
+		normalCamera->Pitch(input->GetMouseMoveY() * turnSpeed * deltaTime);
 	}
 }
 
 void GameState::Render()
 {
+	mNormalMapEffect.Begin();
+		DrawRenderGroup(mNormalMapEffect, mCharacter);
+		mNormalMapEffect.Render(mGround);
+	mNormalMapEffect.End();
+
 	mDepthMapEffect.Begin();
 		DrawRenderGroup(mDepthMapEffect, mCharacter);
 		mDepthMapEffect.Render(mGround);
@@ -129,6 +148,7 @@ void GameState::DebugUI()
 	ImGui::Text("Render Target:");
 
 	mStandardEffect.DebugUI();
+	mNormalMapEffect.DebugUI();
 	mDepthMapEffect.DebugUI();
 	mComicBookEffect.DebugUI();
 	ImGui::End();
