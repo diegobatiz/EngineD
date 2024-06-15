@@ -142,6 +142,7 @@
     <ClInclude Include="Inc\ComicBookEffect.h" />
     <ClInclude Include="Inc\Common.h" />
     <ClInclude Include="Inc\ConstantBuffer.h" />
+    <ClInclude Include="Inc\CrosshatchShadowEffect.h" />
     <ClInclude Include="Inc\DebugUI.h" />
     <ClInclude Include="Inc\DepthMapEffect.h" />
     <ClInclude Include="Inc\GaussianBlurEffect.h" />
@@ -180,6 +181,7 @@
     <ClCompile Include="Src\Camera.cpp" />
     <ClCompile Include="Src\ComicBookEffect.cpp" />
     <ClCompile Include="Src\ConstantBuffer.cpp" />
+    <ClCompile Include="Src\CrosshatchShadowEffect.cpp" />
     <ClCompile Include="Src\DebugUI.cpp" />
     <ClCompile Include="Src\DepthMapEffect.cpp" />
     <ClCompile Include="Src\GaussianBlurEffect.cpp" />

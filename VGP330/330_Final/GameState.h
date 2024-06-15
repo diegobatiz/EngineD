@@ -15,7 +15,7 @@ protected:
 	EngineD::Graphics::Camera mCamera;
 	
 	//Effects
-	EngineD::Graphics::StandardEffect mStandardEffect;
+	EngineD::Graphics::StandardEffect mCrosshatchEffect;
 	EngineD::Graphics::NormalMapEffect mNormalMapEffect;
 	EngineD::Graphics::DepthMapEffect mDepthMapEffect;
 	EngineD::Graphics::ComicBookEffect mComicBookEffect;
@@ -25,4 +25,7 @@ protected:
 	EngineD::Graphics::RenderGroup mCharacter;
 	EngineD::Graphics::RenderObject mGround;
 	EngineD::Graphics::RenderObject mScreenQuad;
+
+	//RenderTarget
+	EngineD::Graphics::RenderTarget mComicRenderTarget;
 };

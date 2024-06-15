@@ -23,7 +23,7 @@ VS_OUTPUT VS(VS_INPUT input)
 {
     VS_OUTPUT output;
     output.position = mul(float4(input.position, 1.0f), wvp);
-    output.depth = output.position.z / output.position.w;
+    output.depth = 1.0 - output.position.z / output.position.w;
     return output;
 }
 

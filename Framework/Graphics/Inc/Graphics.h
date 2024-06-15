@@ -9,6 +9,7 @@
 #include "Colours.h"
 #include "ComicBookEffect.h"
 #include "ConstantBuffer.h"
+#include "CrosshatchShadowEffect.h"
 #include "DebugUI.h"
 #include "DepthMapEffect.h"
 #include "GaussianBlurEffect.h"

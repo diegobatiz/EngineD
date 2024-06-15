@@ -32,25 +32,39 @@ void GameState::Initialize()
 	mDepthMapEffect.Initialize();
 	mDepthMapEffect.SetCamera(mNormalMapEffect.GetCamera());
 
-	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/Standard.fx";
-	mStandardEffect.Initialize(shaderFilePath);
-	mStandardEffect.SetCamera(mCamera);
-	mStandardEffect.SetDirectionalLight(mDirectionalLight);
-	mStandardEffect.SetLightCamera(mNormalMapEffect.GetCamera());
-	mStandardEffect.SetShadowMap(mNormalMapEffect.GetNormalMap());
+	TextureID crosshatchID = TextureManager::Get()->LoadTexture("misc/crosshatchPattern.jpg");
+
+	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/CrosshatchEffect.fx";
+	mCrosshatchEffect.Initialize(shaderFilePath);
+	mCrosshatchEffect.SetCamera(mCamera);
+	mCrosshatchEffect.SetDirectionalLight(mDirectionalLight);
+	mCrosshatchEffect.SetLightCamera(mShadowEffect.GetLightCamera());
+	mCrosshatchEffect.SetShadowMap(mShadowEffect.GetDepthMap());
+	//mCrosshatchEffect.SetHatchTextureID(crosshatchID);
+	//mCrosshatchEffect.SetComicEffectTexture(mComicRenderTarget);
 
 	shaderFilePath = L"../../Assets/Shaders/ComicBook.fx";
 	mComicBookEffect.Initialize(shaderFilePath);
 	mComicBookEffect.SetNormalTexture(mNormalMapEffect.GetNormalMap());
 	mComicBookEffect.SetDepthTexture(mDepthMapEffect.GetDepthMap());
+
+	mShadowEffect.Initialize();
+	mShadowEffect.SetDirectionalLight(mDirectionalLight);
+
+	Graphics_D3D11* gs = GraphicsSystem::Get();
+	const uint32_t screenWidth = gs->GetBackBufferWidth();
+	const uint32_t screenHeight = gs->GetBackBufferHeight();
+	mComicRenderTarget.Initialize(screenWidth, screenHeight, RenderTarget::Format::RGBA_U8);
 }
 
 void GameState::Terminate()
 {
+	mComicRenderTarget.EndRender();
+	mShadowEffect.Terminate();
 	mDepthMapEffect.Terminate();
 	mComicBookEffect.Terminate();
 	mNormalMapEffect.Terminate();
-	mStandardEffect.Terminate();
+	mCrosshatchEffect.Terminate();
 	mScreenQuad.Terminate();
 	mGround.Terminate();
 	CleanupRenderGroup(mCharacter);
@@ -116,6 +130,10 @@ void GameState::Update(float deltaTime)
 
 void GameState::Render()
 {
+	mShadowEffect.Begin();
+		DrawRenderGroup(mShadowEffect, mCharacter);
+	mShadowEffect.End();
+
 	mNormalMapEffect.Begin();
 		DrawRenderGroup(mNormalMapEffect, mCharacter);
 		mNormalMapEffect.Render(mGround);
@@ -126,9 +144,16 @@ void GameState::Render()
 		mDepthMapEffect.Render(mGround);
 	mDepthMapEffect.End();
 
-	mComicBookEffect.Begin();
-		mComicBookEffect.Render(mScreenQuad);
-	mComicBookEffect.End();
+	mComicRenderTarget.BeginRender();
+		mComicBookEffect.Begin();
+			mComicBookEffect.Render(mScreenQuad);
+		mComicBookEffect.End();
+	mComicRenderTarget.EndRender();
+
+	mCrosshatchEffect.Begin();
+		DrawRenderGroup(mCrosshatchEffect, mCharacter);
+		mCrosshatchEffect.Render(mGround);
+	mCrosshatchEffect.End();
 }
 
 void GameState::DebugUI()
@@ -145,9 +170,27 @@ void GameState::DebugUI()
 		ImGui::ColorEdit4("Diffuse##Light", &mDirectionalLight.diffuse.r);
 		ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
 	}
-	ImGui::Text("Render Target:");
+	ImGui::Text("Comic Render Target:");
+	ImGui::Image(
+		mComicRenderTarget.GetRawData(),
+		{ 128, 128 },
+		{ 0,0 },
+		{ 1,1 },
+		{ 1, 1, 1, 1 },
+		{ 1, 1, 1, 1 }
+	);
 
-	mStandardEffect.DebugUI();
+	ImGui::Text("Shadow Map:");
+	ImGui::Image(
+		mShadowEffect.GetDepthMap().GetRawData(),
+		{ 128, 128 },
+		{ 0,0 },
+		{ 1,1 },
+		{ 1, 1, 1, 1 },
+		{ 1, 1, 1, 1 }
+	);
+
+	mCrosshatchEffect.DebugUI();
 	mNormalMapEffect.DebugUI();
 	mDepthMapEffect.DebugUI();
 	mComicBookEffect.DebugUI();
