@@ -35,6 +35,8 @@ void ComicBookEffect::Terminate()
 void ComicBookEffect::Begin()
 {
 	mVertexShader.Bind();
+	mSourceTexture->BindPS(0);
+	mPixelShader.Bind();
 
 	Graphics_D3D11* gs = GraphicsSystem::Get();
 	SettingsData data;
@@ -48,54 +50,17 @@ void ComicBookEffect::Begin()
 
 void ComicBookEffect::End()
 {
-	Graphics_D3D11* gs = GraphicsSystem::Get();
-	gs->ResetRenderTarget();
-	gs->ResetViewport();
+	Texture::UnbindPS(0);
 }
 
 void ComicBookEffect::Render(const RenderObject& renderObject)
 {
-	Graphics_D3D11* gs = GraphicsSystem::Get();
-
-	mSobelRenderTexture.BeginRender();
-		mSourceTexture->BindPS(0);
-		mPixelShader.Bind();
-		renderObject.meshBuffer.Render();
-		Texture::UnbindPS(0);
-	mSobelRenderTexture.EndRender();
-
-	/*for (uint32_t i = 1; i < mBlurIterations; i++)
-	{
-		mVerticalLineRenderTexture.BeginRender();
-			mHorizontalLineRenderTexture.BindPS(0);
-			mVerticalLinesPS.Bind();
-			renderObject.meshBuffer.Render();
-			Texture::UnbindPS(0);
-		mVerticalLineRenderTexture.EndRender();
-
-		mHorizontalLineRenderTexture.BeginRender();
-			mVerticalLineRenderTexture.BindPS(0);
-			mHorizontalLinesPS.Bind();
-			renderObject.meshBuffer.Render();
-			Texture::UnbindPS(0);
-		mHorizontalLineRenderTexture.EndRender();
-	}
-
-	mHorizontalLineRenderTexture.BeginRender();
-		mVerticalLineRenderTexture.BindPS(0);
-		mHorizontalLinesPS.Bind();
-		renderObject.meshBuffer.Render();
-		Texture::UnbindPS(0);
-	mHorizontalLineRenderTexture.EndRender();
-	*/
+	renderObject.meshBuffer.Render();
 }
 
 void ComicBookEffect::DebugUI()
 {
-	if (ImGui::CollapsingHeader("GaussianBlurEffect", ImGuiTreeNodeFlags_DefaultOpen))
-	{
-		ImGui::DragInt("DrawIterations", &mDrawIterations, 1, 1, 100);
-	}
+	
 }
 
 void ComicBookEffect::SetSourceTexture(const Texture& texture)

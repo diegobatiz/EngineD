@@ -36,21 +36,9 @@ void GameState::Initialize()
 	mStandardEffect.SetLightCamera(mDepthMapEffect.GetCamera());
 	mStandardEffect.SetShadowMap(mDepthMapEffect.GetDepthMap());
 
-	shaderFilePath = L"../../Assets/Shaders/PostProcessing.fx";
-	mPostProcessEffect.Initialize(shaderFilePath);
-	mPostProcessEffect.SetTexture(&mComicBookEffect.GetResultTexture());
-	mPostProcessEffect.SetTexture(&mComicBookEffect.GetResultTexture(), 1);
-	mPostProcessEffect.SetMode(PostProcessingEffect::Mode::Combine2);
-
 	shaderFilePath = L"../../Assets/Shaders/ComicBook.fx";
 	mComicBookEffect.Initialize(shaderFilePath);
-	mComicBookEffect.SetSourceTexture(mLineRenderTarget);
-
-	Graphics_D3D11* gs = GraphicsSystem::Get();
-	const uint32_t screenWidth = gs->GetBackBufferWidth();
-	const uint32_t screenHeight = gs->GetBackBufferHeight();
-	mRenderTarget.Initialize(screenWidth, screenHeight, RenderTarget::Format::RGBA_U8);
-	mLineRenderTarget.Initialize(screenWidth, screenHeight, RenderTarget::Format::RGBA_U8);
+	mComicBookEffect.SetSourceTexture(mDepthMapEffect.GetDepthMap());
 }
 
 void GameState::Terminate()
@@ -58,11 +46,8 @@ void GameState::Terminate()
 	mComicBookEffect.Terminate();
 	mDepthMapEffect.Terminate();
 	mStandardEffect.Terminate();
-	mPostProcessEffect.Terminate();
 	mScreenQuad.Terminate();
 	mGround.Terminate();
-	mRenderTarget.Terminate();
-	mLineRenderTarget.Terminate();
 	CleanupRenderGroup(mCharacter);
 }
 
@@ -117,27 +102,14 @@ void GameState::Update(float deltaTime)
 
 void GameState::Render()
 {
-	mRenderTarget.BeginRender();
-		mStandardEffect.Begin();
-			DrawRenderGroup(mStandardEffect, mCharacter);
-			mStandardEffect.Render(mGround);
-		mStandardEffect.End();
-	mRenderTarget.EndRender();
-
-	mLineRenderTarget.BeginRender();
-		mStandardEffect.Begin();
-			DrawRenderGroup(mStandardEffect, mCharacter);
-			mStandardEffect.Render(mGround);
-		mStandardEffect.End();
-	mLineRenderTarget.EndRender();
+	mDepthMapEffect.Begin();
+		DrawRenderGroup(mDepthMapEffect, mCharacter);
+		mDepthMapEffect.Render(mGround);
+	mDepthMapEffect.End();
 
 	mComicBookEffect.Begin();
 		mComicBookEffect.Render(mScreenQuad);
 	mComicBookEffect.End();
-
-	mPostProcessEffect.Begin();
-		mPostProcessEffect.Render(mScreenQuad);
-	mPostProcessEffect.End();
 }
 
 void GameState::DebugUI()
@@ -155,17 +127,8 @@ void GameState::DebugUI()
 		ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
 	}
 	ImGui::Text("Render Target:");
-	ImGui::Image(
-		mRenderTarget.GetRawData(),
-		{ 128, 128 },
-		{ 0,0 },
-		{ 1,1 },
-		{ 1, 1, 1, 1 },
-		{ 1, 1, 1, 1 }
-	);
 
 	mStandardEffect.DebugUI();
-	mPostProcessEffect.DebugUI();
 	mDepthMapEffect.DebugUI();
 	mComicBookEffect.DebugUI();
 	ImGui::End();

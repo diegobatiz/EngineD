@@ -32,6 +32,7 @@ VS_OUTPUT VS(VS_INPUT input)
 
 float4 PS(VS_OUTPUT input) : SV_Target
 {
+    float4 finalColor = 1.0f;
     float w = 1.0f / screenWidth;
     float h = 1.0f / screenHeight;
     
@@ -50,5 +51,14 @@ float4 PS(VS_OUTPUT input) : SV_Target
     float4 sobelEdge_v = n[0] + (2.0f * n[1]) + n[2] - (n[6] + (2.0f * n[7]) + n[8]);
     float4 sobel = sqrt((sobelEdge_h * sobelEdge_h) + (sobelEdge_v * sobelEdge_v));
    
-    return float4(1.0f - sobel.rgb, 1.0f);
+    if (sobel.r + sobel.g + sobel.b < 1.5f)
+    {
+        finalColor = float4(1, 1, 1, 1);
+    }
+    else
+    {
+        finalColor = float4(0, 0, 0, 0);
+    }
+    
+    return finalColor;
 }

@@ -18,14 +18,9 @@ protected:
 	EngineD::Graphics::StandardEffect mStandardEffect;
 	EngineD::Graphics::DepthMapEffect mDepthMapEffect;
 	EngineD::Graphics::ComicBookEffect mComicBookEffect;
-	EngineD::Graphics::PostProcessingEffect mPostProcessEffect;
 
 	//Objects
 	EngineD::Graphics::RenderGroup mCharacter;
 	EngineD::Graphics::RenderObject mGround;
 	EngineD::Graphics::RenderObject mScreenQuad;
-
-	//Render Targets
-	EngineD::Graphics::RenderTarget mRenderTarget;
-	EngineD::Graphics::RenderTarget mLineRenderTarget;
 };
