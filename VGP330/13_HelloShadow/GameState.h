@@ -17,12 +17,8 @@ protected:
 	//Effects
 	EngineD::Graphics::StandardEffect mStandardEffect;
 	EngineD::Graphics::ShadowEffect mShadowEffect;
-	EngineD::Graphics::TerrainEffect mTerrainEffect;
 
 	//Objects
-	EngineD::Graphics::Terrain mTerrain;
 	EngineD::Graphics::RenderGroup mCharacter;
 	EngineD::Graphics::RenderObject mGround;
-
-	bool mOnTerrain = false;
 };
