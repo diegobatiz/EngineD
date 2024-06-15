@@ -19,6 +19,7 @@ protected:
 	EngineD::Graphics::NormalMapEffect mNormalMapEffect;
 	EngineD::Graphics::DepthMapEffect mDepthMapEffect;
 	EngineD::Graphics::ComicBookEffect mComicBookEffect;
+	EngineD::Graphics::ShadowEffect mShadowEffect;
 
 	//Objects
 	EngineD::Graphics::RenderGroup mCharacter;
