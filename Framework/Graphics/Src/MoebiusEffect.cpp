@@ -10,6 +10,7 @@ using namespace EngineD::Graphics;
 
 void MoebiusEffect::Initialize(const std::filesystem::path& filename)
 {
+	mMoebiusBuffer.Initialize();
 	mVertexShader.Initialize<VertexPX>(filename);
 	mPixelShader.Initialize(filename);
 
@@ -21,6 +22,7 @@ void MoebiusEffect::Terminate()
 	mSampler.Terminate();
 	mPixelShader.Terminate();
 	mVertexShader.Terminate();
+	mMoebiusBuffer.Terminate();
 }
 
 void MoebiusEffect::Begin()
@@ -35,6 +37,12 @@ void MoebiusEffect::Begin()
 			mTextures[i]->BindPS(i);
 		}
 	}
+	ComicSettings data;
+	data.params1 = mUVOffsetX;
+	data.params2 = mUVOffsetY;
+
+	mMoebiusBuffer.Update(data);
+	mMoebiusBuffer.BindPS(0);
 }
 
 void MoebiusEffect::End()
@@ -46,6 +54,12 @@ void MoebiusEffect::End()
 			Texture::UnbindPS(i);
 		}
 	}
+}
+
+void MoebiusEffect::Update(float x, float y)
+{
+	mUVOffsetX += x * 0.1f;
+	mUVOffsetY += y * 0.1f;
 }
 
 void MoebiusEffect::Render(const RenderObject& renderObject)

@@ -63,6 +63,7 @@ void GameState::Initialize()
 
 void GameState::Terminate()
 {
+	mMoebiusEffect.Terminate();
 	mComicRenderTarget.EndRender();
 	mShadowEffect.Terminate();
 	mDepthMapEffect.Terminate();
@@ -83,6 +84,9 @@ void GameState::Update(float deltaTime)
 	const float moveSpeed = input->IsKeyDown(KeyCode::LSHIFT) ? 10.0f : 1.0f;
 	const float turnSpeed = 0.1f;
 
+	float offsetX = 0.0f;
+	float offsetY = 0.0f;
+
 	if (input->IsKeyDown(KeyCode::W))
 	{
 		mCamera.Walk(moveSpeed * deltaTime);
@@ -101,12 +105,14 @@ void GameState::Update(float deltaTime)
 		mCamera.Strafe(moveSpeed * deltaTime);
 		depthCamera->Strafe(moveSpeed * deltaTime);
 		normalCamera->Strafe(moveSpeed * deltaTime);
+		offsetX = deltaTime;
 	}
 	else if (input->IsKeyDown(KeyCode::A))
 	{
 		mCamera.Strafe(-moveSpeed * deltaTime);
 		depthCamera->Strafe(-moveSpeed * deltaTime);
 		normalCamera->Strafe(-moveSpeed * deltaTime);
+		offsetX -= deltaTime;
 	}
 
 	if (input->IsKeyDown(KeyCode::E))
@@ -114,13 +120,17 @@ void GameState::Update(float deltaTime)
 		mCamera.Rise(moveSpeed * deltaTime);
 		depthCamera->Rise(moveSpeed * deltaTime);
 		normalCamera->Rise(moveSpeed * deltaTime);
+		offsetY -= deltaTime;
 	}
 	else if (input->IsKeyDown(KeyCode::Q))
 	{
 		mCamera.Rise(-moveSpeed * deltaTime);
 		depthCamera->Rise(-moveSpeed * deltaTime);
 		normalCamera->Rise(-moveSpeed * deltaTime);
+		offsetY += deltaTime;
 	}
+
+	mMoebiusEffect.Update(offsetX, offsetY);
 
 	if (input->IsMouseDown(MouseButton::RBUTTON))
 	{

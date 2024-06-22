@@ -6,6 +6,12 @@ Texture2D shadowTexture : register(t2);
 
 SamplerState textureSampler : register(s0);
 
+cbuffer ComicBuffer : register(b0)
+{
+    float params1;
+    float params2;
+}
+
 struct VS_INPUT
 {
     float3 position : POSITION;
@@ -32,9 +38,13 @@ float4 PS(VS_OUTPUT input) : SV_Target
     
     float4 shadow = shadowTexture.Sample(textureSampler, input.texCoord);
     
-    if (shadow.r < 0.9f)
+    float2 texCoord = input.texCoord;
+    texCoord.x += params1;
+    texCoord.y += params2;
+    
+    if (shadow.r < 0.5f && shadow.r != 0.0f)
     {
-        finalColor = crossHatchTexture.Sample(textureSampler, input.texCoord);
+        finalColor = crossHatchTexture.Sample(textureSampler, texCoord);
     }
     else
     {

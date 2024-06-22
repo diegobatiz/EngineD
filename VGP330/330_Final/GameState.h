@@ -20,7 +20,6 @@ protected:
 	EngineD::Graphics::DepthMapEffect mDepthMapEffect;
 	EngineD::Graphics::ComicBookEffect mComicBookEffect;
 	EngineD::Graphics::ShadowEffect mShadowEffect;
-
 	EngineD::Graphics::MoebiusEffect mMoebiusEffect;
 
 	//Objects

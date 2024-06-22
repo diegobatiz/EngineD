@@ -67,11 +67,7 @@ float4 PS(VS_OUTPUT input) : SV_Target
     float4 sobelEdge_v2 = n[0] + (2.0f * n[1]) + n[2] - (n[6] + (2.0f * n[7]) + n[8]);
     float4 sobel2 = sqrt((sobelEdge_h2 * sobelEdge_h2) + (sobelEdge_v2 * sobelEdge_v2));
    
-    if (sobel1.r + sobel1.g + sobel1.b < 1.5f)
-    {
-        finalColor = float4(1, 1, 1, 1);
-    }
-    else
+    if (sobel1.r + sobel1.g + sobel1.b > 1.5f)
     {
         finalColor = float4(0, 0, 0, 0);
     }
