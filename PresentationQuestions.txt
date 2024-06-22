@@ -1,7 +1,7 @@
 Shader: Hand drawn shader. Makes everything black and white and makes the shadows crosshatched
 
 How shader works:
-Create an image with a depth map
+Create an image with a depth mapwdw
 Create an image with a normal map -> normal * 0.5f + 0.5f
 
 Pass images through a sobel filter that detects if there is a big difference of colour, if there is a big difference it draws a line
@@ -19,6 +19,6 @@ Improvements:
 Use a perlin noise map to make lines slightly squiggly to look more hand drawn.
 Use less shaders and clean up the code.
 Make it so there can also be colour in the image.
-Use simpler and multiple crosshatch textures.
+Use simpler and multiple crosshatch textures.ds
 
 
