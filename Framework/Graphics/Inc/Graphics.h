@@ -4,6 +4,7 @@
 
 #include "GraphicsSystem.h"
 #include "GraphicsType_D3D11.h"
+#include "Animation.h"
 #include "BlendState.h"
 #include "Camera.h"
 #include "Colours.h"
@@ -13,6 +14,7 @@
 #include "DebugUI.h"
 #include "DepthMapEffect.h"
 #include "GaussianBlurEffect.h"
+#include "Keyframe.h"
 #include "LightTypes.h"
 #include "Material.h"
 #include "MeshBuffer_D3D11.h"
