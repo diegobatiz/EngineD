@@ -5,6 +5,7 @@
 #include "GraphicsSystem.h"
 #include "GraphicsType_D3D11.h"
 #include "Animation.h"
+#include "AnimationBuilder.h"
 #include "BlendState.h"
 #include "Camera.h"
 #include "Colours.h"

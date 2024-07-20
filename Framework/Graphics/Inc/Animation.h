@@ -16,6 +16,8 @@ namespace EngineD::Graphics
 		const Math::Quaternion& GetRotation(float time) const;
 		const Math::Vector3& GetScale(float time) const;
 
+		friend class AnimationBuilder;
+
 		PositionKeys mPositionKeys;
 		RotationKeys mRotationKeys;
 		ScaleKeys mScaleKeys;
