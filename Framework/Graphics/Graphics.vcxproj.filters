@@ -13,6 +13,12 @@
     <Filter Include="Src\D3D11">
       <UniqueIdentifier>{f008352a-bb2f-4f1a-97c3-aa437ffbe24c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Inc\Animation">
+      <UniqueIdentifier>{1ee8df22-e013-40cd-8723-536cd92d73b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Animation">
+      <UniqueIdentifier>{1d7109a8-d75a-4669-91e8-eef505c3709a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Precompiled.h">
@@ -133,6 +139,12 @@
     <ClInclude Include="Inc\MoebiusEffect.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\Animation.h">
+      <Filter>Inc\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Keyframe.h">
+      <Filter>Inc\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -221,6 +233,9 @@
     </ClCompile>
     <ClCompile Include="Src\MoebiusEffect.cpp">
       <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Animation.cpp">
+      <Filter>Src\Animation</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
