@@ -10,6 +10,26 @@ namespace
 	{
 		float t = (time - start) / (end - start);
 
+		switch (easeType)
+		{
+		case EaseType::Linear: break;
+		case EaseType::EaseInQuad: t = t * t; break;
+		case EaseType::EaseOutQuad: t = t * (2.0f - t); break;
+		case EaseType::EaseInOutQuad:
+		{
+			t *= 2.0f;
+			if (t < 1.0f)
+			{
+				t = 0.5f * t * t;
+			}
+			else
+			{
+				t -= 1.0f;
+				t = -0.5f * ((t * (t - 2.0f)) - 1.0f);
+			}
+		} break;
+		}
+
 		return t;
 	}
 }

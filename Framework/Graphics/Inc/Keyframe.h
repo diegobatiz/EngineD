@@ -6,7 +6,10 @@ namespace EngineD::Graphics
 {
 	enum class EaseType
 	{
-		Linear
+		Linear,
+		EaseInQuad,
+		EaseOutQuad,
+		EaseInOutQuad
 	};
 
 	template<class T>
