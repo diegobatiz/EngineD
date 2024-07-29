@@ -4,6 +4,7 @@
 #include "TextureManager.h"
 #include "Transform.h"
 #include "Material.h"
+#include "ModelManager.h"
 
 namespace EngineD::Graphics
 {
@@ -26,6 +27,7 @@ namespace EngineD::Graphics
 
 	using RenderGroup = std::vector<RenderObject>;
 	[[nodiscard]] RenderGroup CreateRenderGroup(const Model& model);
+	[[nodiscard]] RenderGroup CreateRenderGroup(ModelId id);
 	void CleanupRenderGroup(RenderGroup& renderGroup);
 
 	void SetRenderGroupPosition(RenderGroup& renderGroup, const Math::Vector3& position);

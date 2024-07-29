@@ -10,6 +10,12 @@ void RenderObject::Terminate()
 	meshBuffer.Terminate();
 }
 
+RenderGroup Graphics::CreateRenderGroup(ModelId id)
+{
+	const Model* model = ModelManager::Get()->GetModel(id);
+	return CreateRenderGroup(*model);
+}
+
 RenderGroup Graphics::CreateRenderGroup(const Model& model)
 {
 	auto TryLoadTexture = [](const auto& textureName)->TextureID
