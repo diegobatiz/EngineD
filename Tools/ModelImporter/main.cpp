@@ -400,5 +400,15 @@ int main(int argc, char* argv[])
 		printf("Failed to save Material data...\n");
 	}
 
+	printf("Saving Skeleton...\n");
+	if (ModelIO::SaveSkeleton(args.outputFileName, model))
+	{
+		printf("Saved Skeleton Success...\n");
+	}
+	else
+	{
+		printf("Failed to save Skeleton data...\n");
+	}
+
 	return 0;
 }

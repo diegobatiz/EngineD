@@ -198,7 +198,7 @@ bool ModelIO::SaveSkeleton(std::filesystem::path filePath, Model& model)
 	uint32_t boneCount = model.skeleton->bones.size();
 	fprintf_s(file, "BoneCount: %d\n", boneCount);
 	fprintf_s(file, "RootBone: %d\n", model.skeleton->root->index);
-	for (uint32_t i = 0; i < boneCount; i++)
+	for (uint32_t i = 0; i < boneCount; ++i)
 	{
 		const Bone* boneData = model.skeleton->bones[i].get();
 		fprintf_s(file, "BoneName: %s\n", boneData->name.c_str());
