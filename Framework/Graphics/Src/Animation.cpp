@@ -41,6 +41,8 @@ Transform Animation::GetTransform(float time) const
 	transform.position = GetPosition(time);
 	transform.rotation = GetRotation(time);
 	transform.scale = GetScale(time);
+
+	return transform;
 }
 
 float Animation::GetDuration() const

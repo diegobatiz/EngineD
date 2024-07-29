@@ -111,8 +111,7 @@ void GameState::DebugUI()
 		updateRotation = true;
 	}
 
-
-	mStandardEffect.DebugUI();
+		mStandardEffect.DebugUI();
 	ImGui::End();
 
 	if (updateRotation)

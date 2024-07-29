@@ -10,7 +10,7 @@ namespace
 	inline void PushKey(Keyframes<T>& keyframes, const T& value, float t, EaseType easeType)
 	{
 		ASSERT(keyframes.empty() || keyframes.back().time <= t, "AnimationBuilder: cannot add keyframe back in time");
-		keyframes.emplace_back(value, t, e);
+		keyframes.emplace_back(value, t, easeType);
 	}
 }
 
