@@ -41,7 +41,6 @@ namespace EngineD::Math
         //static functions
         static Quaternion Conjugate(const Quaternion& q);
         static float Magnitude(const Quaternion& q);
-        static float MagnitudeSqr(const Quaternion& q);
         static Quaternion Normalize(const Quaternion& q);
 
         static Quaternion CreateFromAxisAngle(const Vector3& acis, float angle) noexcept;

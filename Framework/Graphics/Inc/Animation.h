@@ -8,7 +8,7 @@ namespace EngineD::Graphics
 	class Animation
 	{
 	public:
-		Transform GetTransform(float timte) const;
+		Transform GetTransform(float time) const;
 		float GetDuration() const;
 
 	private:
