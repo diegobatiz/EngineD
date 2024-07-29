@@ -23,16 +23,26 @@ void GameState::Initialize()
 	mBall.meshBuffer.Initialize(ball);
 	mBall.diffuseMapId = TextureManager::Get()->LoadTexture("misc/basketball.jpg");
 
-	Mesh ground = MeshBuilder::CreateHorizontalPlane(60, 60, 1.0f);
+	Mesh ground = MeshBuilder::CreateHorizontalPlane(10, 10, 1.0f);
 	mGround.meshBuffer.Initialize(ground);
 	mGround.diffuseMapId = TextureManager::Get()->LoadTexture("misc/concrete.jpg");
 
 	mAnimationTime = 0.0f;
 
 	mAnimation = AnimationBuilder()
-		.AddPositionKey({ 0.0f, 1.0f, 0.0f }, 0.0f)
-		.AddPositionKey({ 0.0f, 3.0f, 0.0f }, 1.0f)
-		.AddPositionKey({ 0.0f, 1.0f, 0.0f }, 2.0f)
+		.AddPositionKey({ 0.0f, -0.3f, 0.0f }, 0.0f)
+		.AddPositionKey({ 0.0f, 3.0f, 0.0f }, 1.0f, EaseType::EaseOutQuad)
+		.AddPositionKey({ 0.0f, -0.3f, 0.0f }, 2.0f, EaseType::EaseInQuad)
+		.AddRotationKey({  1.0f, 0.0f, 0.0f, 0.0f }, 0.0f)
+		.AddRotationKey({  0.0f, 0.0f, 0.0f, 1.0f }, 1.0f, EaseType::EaseInQuad)
+		.AddRotationKey({ -1.0f, 0.0f, 0.0f, 0.0f }, 2.0f, EaseType::EaseOutQuad)
+		.AddScaleKey({1.5f, 0.5f, 1.5f}, 0.0f)
+		.AddScaleKey({0.6f, 1.5f, 0.6f}, 0.2f, EaseType::EaseOutQuad)
+		.AddScaleKey({1.0f, 1.0f, 1.0f}, 0.5f, EaseType::EaseInQuad)
+		.AddScaleKey({1.0f, 1.0f, 1.0f}, 1.0f)
+		.AddScaleKey({0.8f, 1.2f, 0.8f}, 1.7f, EaseType::EaseInQuad)
+		.AddScaleKey({1.0f, 1.0f, 1.0f}, 1.8f)
+		.AddScaleKey({1.5f, 0.5f, 1.5f}, 1.9f)
 		.Build();
 
 }
@@ -96,25 +106,25 @@ void GameState::Render()
 	mBall.transform = mAnimation.GetTransform(mAnimationTime);
 
 	mStandardEffect.Begin();
-
+		mStandardEffect.Render(mBall);
+		mStandardEffect.Render(mGround);
 	mStandardEffect.End();
 }
 
 void GameState::DebugUI()
 {
 	ImGui::Begin("Debug Controls", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-	if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))
-	{
-		if (ImGui::DragFloat3("Direction", &mDirectionalLight.direction.x, 0.01f))
+		if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))
 		{
-			mDirectionalLight.direction = Math::Normalize(mDirectionalLight.direction);
+			if (ImGui::DragFloat3("Direction", &mDirectionalLight.direction.x, 0.01f))
+			{
+				mDirectionalLight.direction = Math::Normalize(mDirectionalLight.direction);
+			}
+
+			ImGui::ColorEdit4("Ambient##Light", &mDirectionalLight.ambient.r);
+			ImGui::ColorEdit4("Diffuse##Light", &mDirectionalLight.diffuse.r);
+			ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
 		}
-
-		ImGui::ColorEdit4("Ambient##Light", &mDirectionalLight.ambient.r);
-		ImGui::ColorEdit4("Diffuse##Light", &mDirectionalLight.diffuse.r);
-		ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
-	}
-
-	mStandardEffect.DebugUI();
+		mStandardEffect.DebugUI();
 	ImGui::End();
 }

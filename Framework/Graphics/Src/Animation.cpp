@@ -54,14 +54,18 @@ float Animation::GetDuration() const
 
 const Math::Vector3& Animation::GetPosition(float time) const
 {
-	for (uint32_t i = 0; i < mPositionKeys.size(); i++)
+	for (uint32_t i = 0; i < mPositionKeys.size(); ++i)
 	{
 		if (time < mPositionKeys[i].time)
 		{
-			float t = GetLerpTime(mPositionKeys[i - 1].time, mPositionKeys[i].time, time, mPositionKeys[i].easeType);
-			return Math::Lerp(mPositionKeys[i - 1].key, mPositionKeys[i].key, t);
+			if (i > 0)
+			{
+				float t = GetLerpTime(mPositionKeys[i - 1].time, mPositionKeys[i].time, time, mPositionKeys[i].easeType);
+				return Math::Lerp(mPositionKeys[i - 1].key, mPositionKeys[i].key, t);
+			}
+
+			return mPositionKeys[i].key;
 		}
-		return mPositionKeys[i].key;
 	}
 
 	if (!mPositionKeys.empty())
@@ -78,10 +82,14 @@ const Math::Quaternion& Animation::GetRotation(float time) const
 	{
 		if (time < mRotationKeys[i].time)
 		{
-			float t = GetLerpTime(mRotationKeys[i - 1].time, mRotationKeys[i].time, time, mRotationKeys[i].easeType);
-			return Math::Quaternion::Slerp(mRotationKeys[i - 1].key, mRotationKeys[i].key, t);
+			if (i > 0)
+			{
+				float t = GetLerpTime(mRotationKeys[i - 1].time, mRotationKeys[i].time, time, mRotationKeys[i].easeType);
+				return Math::Quaternion::Slerp(mRotationKeys[i - 1].key, mRotationKeys[i].key, t);
+			}
+
+			return mRotationKeys[i].key;
 		}
-		return mRotationKeys[i].key;
 	}
 
 	if (!mRotationKeys.empty())
@@ -98,10 +106,14 @@ const Math::Vector3& Animation::GetScale(float time) const
 	{
 		if (time < mScaleKeys[i].time)
 		{
-			float t = GetLerpTime(mScaleKeys[i - 1].time, mScaleKeys[i].time, time, mScaleKeys[i].easeType);
-			return Math::Lerp(mScaleKeys[i - 1].key, mScaleKeys[i].key, t);
+			if (i > 0)
+			{
+				float t = GetLerpTime(mScaleKeys[i - 1].time, mScaleKeys[i].time, time, mScaleKeys[i].easeType);
+				return Math::Lerp(mScaleKeys[i - 1].key, mScaleKeys[i].key, t);
+			}
+
+			return mScaleKeys[i].key;
 		}
-		return mScaleKeys[i].key;
 	}
 	if (!mScaleKeys.empty())
 	{
