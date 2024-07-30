@@ -23,10 +23,13 @@ namespace EngineD::Graphics
 		TextureID normalMapId;
 		TextureID specMapId;
 		TextureID bumpMapId;
+
+		ModelId modelId;
+		const Skeleton* skeleton = nullptr;
 	};
 
 	using RenderGroup = std::vector<RenderObject>;
-	[[nodiscard]] RenderGroup CreateRenderGroup(const Model& model);
+	[[nodiscard]] RenderGroup CreateRenderGroup(const Model& model, ModelId id = 0);
 	[[nodiscard]] RenderGroup CreateRenderGroup(ModelId id);
 	void CleanupRenderGroup(RenderGroup& renderGroup);
 

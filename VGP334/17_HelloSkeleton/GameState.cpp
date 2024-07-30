@@ -14,11 +14,8 @@ void GameState::Initialize()
 	mDirectionalLight.diffuse = { 0.8f, 0.8f, 0.8f, 1.0f };
 	mDirectionalLight.specular = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-	Model model;
-	ModelIO::LoadModel("../../Assets/Models/Character_01/Ch44_nonPBR.model", model);
-	ModelIO::LoadMaterial("../../Assets/Models/Character_01/Ch44_nonPBR.model", model);
-	mCharacter = CreateRenderGroup(model);
-
+	mModelId = ModelManager::Get()->LoadModelId("../../Assets/Models/Character_01/Ch44_nonPBR.model");
+	mCharacter = CreateRenderGroup(mModelId);
 
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/Standard.fx";
 	mStandardEffect.Initialize(shaderFilePath);
@@ -74,53 +71,39 @@ void GameState::Update(float deltaTime)
 
 void GameState::Render()
 {
-	SimpleDraw::AddTransform(mTransform.GetMatrix4());
+	if (mDrawSkeleton)
+	{
+		AnimationUtil::BoneTransforms boneTransforms;
+		AnimationUtil::ComputeBoneTransforms(mModelId, boneTransforms);
+		AnimationUtil::DrawSkeleton(mModelId, boneTransforms);
+	}
+
 	SimpleDraw::AddGroundPlane(10.0f, Colors::White);
 	SimpleDraw::Render(mCamera);
 
-	mStandardEffect.Begin();
-		DrawRenderGroup(mStandardEffect, mCharacter);
-	mStandardEffect.End();
+	if (!mDrawSkeleton)
+	{
+		mStandardEffect.Begin();
+			DrawRenderGroup(mStandardEffect, mCharacter);
+		mStandardEffect.End();
+	}
 }
 
 void GameState::DebugUI()
 {
 	ImGui::Begin("Debug Controls", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-	if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))
-	{
-		if (ImGui::DragFloat3("Direction", &mDirectionalLight.direction.x, 0.01f))
+		if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))
 		{
-			mDirectionalLight.direction = Math::Normalize(mDirectionalLight.direction);
+			if (ImGui::DragFloat3("Direction", &mDirectionalLight.direction.x, 0.01f))
+			{
+				mDirectionalLight.direction = Math::Normalize(mDirectionalLight.direction);
+			}
+
+			ImGui::ColorEdit4("Ambient##Light", &mDirectionalLight.ambient.r);
+			ImGui::ColorEdit4("Diffuse##Light", &mDirectionalLight.diffuse.r);
+			ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
 		}
-
-		ImGui::ColorEdit4("Ambient##Light", &mDirectionalLight.ambient.r);
-		ImGui::ColorEdit4("Diffuse##Light", &mDirectionalLight.diffuse.r);
-		ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
-	}
-	bool updateRotation = false;
-	if (ImGui::DragFloat("PlayerYaw", &mYaw, 0.01f))
-	{
-		updateRotation = true;
-	}
-	if (ImGui::DragFloat("PlayerPitch", &mPitch, 0.01f))
-	{
-		updateRotation = true;
-	}
-	if (ImGui::DragFloat("PlayerRoll", &mRoll, 0.01f))
-	{
-		updateRotation = true;
-	}
-
+		ImGui::Checkbox("DrawSkeleton", &mDrawSkeleton);
 		mStandardEffect.DebugUI();
 	ImGui::End();
-
-	if (updateRotation)
-	{
-		Quaternion q = Quaternion::CreateFromYawPitchRoll(mYaw, mPitch, mRoll);
-		for (auto& ro : mCharacter)
-		{
-			ro.transform.rotation = q;
-			mTransform.rotation = q;
-		}
-	}
 }

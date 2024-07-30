@@ -399,7 +399,56 @@ int main(int argc, char* argv[])
 			materialData.normalMapName = FindTexture(scene, assimpMaterial, aiTextureType_NORMALS, args, "_norm", materialIndex);
 			materialData.bumpMapName = FindTexture(scene, assimpMaterial, aiTextureType_DISPLACEMENT, args, "_bump", materialIndex);
 			materialData.specularMapName = FindTexture(scene, assimpMaterial, aiTextureType_SPECULAR, args, "_spec", materialIndex);
+		}
+	}
 
+	if (scene->HasAnimations())
+	{
+		printf("Building animations...\n");
+		for (uint32_t animIndex = 0; animIndex < scene->mNumAnimations; ++animIndex)
+		{
+			const aiAnimation* aiAnim = scene->mAnimations[animIndex];
+			AnimationClip& animClip = model.animationClips.emplace_back();
+			if (aiAnim->mName.length > 0)
+			{
+				animClip.name = aiAnim->mName.C_Str();
+			}
+			else
+			{
+				animClip.name = "Anim" + std::to_string(animIndex);
+			}
+
+			animClip.tickDuration = static_cast<float>(aiAnim->mDuration);
+			animClip.ticksPerSecond = static_cast<float>(aiAnim->mTicksPerSecond);
+
+			printf("Reading bone animations for %s...\n", animClip.name.c_str());
+			animClip.boneAnimations.resize(model.skeleton->bones.size());
+			for (uint32_t boneAnimIndex = 0; boneAnimIndex < aiAnim->mNumChannels; ++boneAnimIndex)
+			{
+				const aiNodeAnim* aiBoneAnim = aiAnim->mChannels[boneAnimIndex];
+				const int boneIndex = boneIndexLookup[aiBoneAnim->mNodeName.C_Str()];
+				auto& boneAnimation = animClip.boneAnimations[boneIndex];
+				boneAnimation = std::make_unique<Animation>();
+
+				AnimationBuilder builder;
+				for (uint32_t keyIndex = 0; keyIndex < aiBoneAnim->mNumPositionKeys; ++keyIndex)
+				{
+					const aiVectorKey& pos = aiBoneAnim->mPositionKeys[keyIndex];
+					builder.AddPositionKey(ToVector3(pos.mValue)* args.scale, static_cast<float>(pos.mTime));
+				}
+				for (uint32_t keyIndex = 0; keyIndex < aiBoneAnim->mNumRotationKeys; ++keyIndex)
+				{
+					const aiQuatKey& rot = aiBoneAnim->mRotationKeys[keyIndex];
+					builder.AddRotationKey(ToQuaternion(rot.mValue), static_cast<float>(rot.mTime));
+				}
+				for (uint32_t keyIndex = 0; keyIndex < aiBoneAnim->mNumScalingKeys; ++keyIndex)
+				{
+					const aiVectorKey& scale = aiBoneAnim->mScalingKeys[keyIndex];
+					builder.AddScaleKey(ToVector3(scale.mValue), static_cast<float>(scale.mTime));
+				}
+
+				*boneAnimation = builder.Build();
+			}
 		}
 	}
 

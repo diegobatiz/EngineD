@@ -19,6 +19,12 @@
     <Filter Include="Src\Animation">
       <UniqueIdentifier>{1d7109a8-d75a-4669-91e8-eef505c3709a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Effects">
+      <UniqueIdentifier>{b1069413-1d49-49fc-a89d-744c5f658c72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Inc\Effects">
+      <UniqueIdentifier>{041db1a1-a118-475d-aed8-d071cb7a81ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Precompiled.h">
@@ -87,9 +93,6 @@
     <ClInclude Include="Inc\RenderTarget.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="Inc\StandardEffect.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
     <ClInclude Include="Inc\RenderObject.h">
       <Filter>Inc</Filter>
     </ClInclude>
@@ -109,34 +112,7 @@
     <ClInclude Include="Inc\ModelIO.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="Inc\PostProcessingEffect.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="Inc\GaussianBlurEffect.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="Inc\ShadowEffect.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
     <ClInclude Include="Inc\Terrain.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="Inc\TerrainEffect.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="Inc\ComicBookEffect.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="Inc\DepthMapEffect.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="Inc\NormalMapEffect.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="Inc\CrosshatchShadowEffect.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="Inc\MoebiusEffect.h">
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="Inc\Animation.h">
@@ -153,6 +129,45 @@
     </ClInclude>
     <ClInclude Include="Inc\Skeleton.h">
       <Filter>Inc\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\ComicBookEffect.h">
+      <Filter>Inc\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\CrosshatchShadowEffect.h">
+      <Filter>Inc\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\DepthMapEffect.h">
+      <Filter>Inc\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\GaussianBlurEffect.h">
+      <Filter>Inc\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\ShadowEffect.h">
+      <Filter>Inc\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\TerrainEffect.h">
+      <Filter>Inc\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\StandardEffect.h">
+      <Filter>Inc\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\PostProcessingEffect.h">
+      <Filter>Inc\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\NormalMapEffect.h">
+      <Filter>Inc\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\MoebiusEffect.h">
+      <Filter>Inc\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\AnimationClip.h">
+      <Filter>Inc\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\AnimationUtil.h">
+      <Filter>Inc\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\ModelManager.h">
+      <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -201,9 +216,6 @@
     <ClCompile Include="Src\RenderTarget.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="Src\StandardEffect.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
     <ClCompile Include="Src\RenderObject.cpp">
       <Filter>Src</Filter>
     </ClCompile>
@@ -213,34 +225,7 @@
     <ClCompile Include="Src\ModelIO.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="Src\PostProcessingEffect.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\GaussianBlurEffect.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\ShadowEffect.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Terrain.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\TerrainEffect.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\ComicBookEffect.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\DepthMapEffect.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\NormalMapEffect.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\CrosshatchShadowEffect.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\MoebiusEffect.cpp">
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\Animation.cpp">
@@ -248,6 +233,42 @@
     </ClCompile>
     <ClCompile Include="Src\AnimationBuilder.cpp">
       <Filter>Src\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\DepthMapEffect.cpp">
+      <Filter>Src\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ComicBookEffect.cpp">
+      <Filter>Src\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\CrosshatchShadowEffect.cpp">
+      <Filter>Src\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\GaussianBlurEffect.cpp">
+      <Filter>Src\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\MoebiusEffect.cpp">
+      <Filter>Src\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\NormalMapEffect.cpp">
+      <Filter>Src\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\PostProcessingEffect.cpp">
+      <Filter>Src\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\StandardEffect.cpp">
+      <Filter>Src\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\TerrainEffect.cpp">
+      <Filter>Src\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ShadowEffect.cpp">
+      <Filter>Src\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\AnimationUtil.cpp">
+      <Filter>Src\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ModelManager.cpp">
+      <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
