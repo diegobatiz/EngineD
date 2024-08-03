@@ -16,6 +16,7 @@ void GameState::Initialize()
 
 	mModelId = ModelManager::Get()->LoadModelId("../../Assets/Models/Character_01/Ch44_nonPBR.model");
 	mCharacter = CreateRenderGroup(mModelId);
+	mCharacterAnimator.Initialize(mModelId);
 
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/Standard.fx";
 	mStandardEffect.Initialize(shaderFilePath);
@@ -31,6 +32,7 @@ void GameState::Terminate()
 
 void GameState::Update(float deltaTime)
 {
+#pragma region CameraMovement
 	auto input = Input::InputSystem::Get();
 	const float moveSpeed = input->IsKeyDown(KeyCode::LSHIFT) ? 10.0f : 1.0f;
 	const float turnSpeed = 0.1f;
@@ -67,6 +69,9 @@ void GameState::Update(float deltaTime)
 		mCamera.Yaw(input->GetMouseMoveX() * turnSpeed * deltaTime);
 		mCamera.Pitch(input->GetMouseMoveY() * turnSpeed * deltaTime);
 	}
+#pragma endregion
+
+
 }
 
 void GameState::Render()
@@ -104,6 +109,10 @@ void GameState::DebugUI()
 			ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
 		}
 		ImGui::Checkbox("DrawSkeleton", &mDrawSkeleton);
+		//if (ImGui::DragInt("Animation", &mAnimIndex, 1, -1, mCharacterAnimator.GetAnimationCount() - 1))
+		{
+			//mCharacterAnimator.PlayAnimation(mAnimaInd)
+		}
 		mStandardEffect.DebugUI();
 	ImGui::End();
 }

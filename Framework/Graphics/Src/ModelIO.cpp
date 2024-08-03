@@ -60,6 +60,8 @@ void AnimationIO::Read(FILE* file, const Animation& animation)
 		fscanf_s(file, "%f %f %f %f\n", &time, &scale.x, &scale.y, &scale.z);
 		builder.AddScaleKey(scale, time);
 	}
+
+	animation = builder.Build();
 }
 
 bool ModelIO::SaveModel(std::filesystem::path filePath, const Model& model)

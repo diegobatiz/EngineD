@@ -16,6 +16,7 @@ protected:
 
 	EngineD::Graphics::ModelId mModelId;
 	EngineD::Graphics::RenderGroup mCharacter;
+	EngineD::Graphics::Animator mCharacterAnimator;
 	EngineD::Graphics::StandardEffect mStandardEffect;
 
 	bool mDrawSkeleton = false;
