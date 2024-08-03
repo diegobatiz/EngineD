@@ -1,9 +1,38 @@
 #include "Precompiled.h"
 #include"ModelIO.h"
 #include "Model.h"
+#include "Animation.h"
 
 using namespace EngineD;
 using namespace EngineD::Graphics;
+
+void AnimationIO::Write(FILE* file, const Animation& animation)
+{
+	uint32_t count = animation.mPositionKeys.size();
+	fprintf_s(file, "PositionKeyCount: %d\n", count);
+	for (auto& k : animation.mPositionKeys)
+	{
+		fprintf_s(file, "%f %f %f %f\n", k.time, k.key.x, k.key.y, k.key.z);
+	}
+
+	uint32_t count = animation.mRotationKeys.size();
+	fprintf_s(file, "RotationKeyCount: %d\n", count);
+	for (auto& k : animation.mRotationKeys)
+	{
+		fprintf_s(file, "%f %f %f %f %f\n", k.time, k.key.x, k.key.y, k.key.z, k.key.w);
+	}
+
+	uint32_t count = animation.mScaleKeys.size();
+	fprintf_s(file, "ScaleKeyCount: %d\n", count);
+	for (auto& k : animation.mScaleKeys)
+	{
+		fprintf_s(file, "%f %f %f %f\n", k.time, k.key.x, k.key.y, k.key.z);
+	}
+}
+
+void AnimationIO::Read(FILE* file, const Animation& animation)
+{
+}
 
 bool ModelIO::SaveModel(std::filesystem::path filePath, const Model& model)
 {
@@ -288,4 +317,53 @@ bool ModelIO::LoadSkeleton(std::filesystem::path filePath, Model& model)
 	fclose(file);
 
 	return true;
+}
+
+bool ModelIO::SaveAnimation(std::filesystem::path filePath, const Model& model)
+{
+	if (model.skeleton == nullptr || model.skeleton->bones.empty() || model.animationClips.empty())
+	{
+		return false;
+	}
+
+	filePath.replace_extension("animset");
+
+	FILE* file = nullptr;
+	fopen_s(&file, filePath.u8string().c_str(), "w");
+	if (file == nullptr)
+	{
+		return false;
+	}
+
+	uint32_t animClipCount = model.animationClips.size();
+	fprintf_s(file, "AnimClipCount: %d\n", animClipCount);
+	for (uint32_t i = 0; i < animClipCount; ++i)
+	{
+		const AnimationClip& animClipData = model.animationClips[i];
+		fprintf_s(file, "AnimationClipName: %s\n", animClipData.name.c_str());
+		fprintf_s(file, "TickDuration: %f\n", animClipData.tickDuration);
+		fprintf_s(file, "TickPerSecond: %f\n", animClipData.ticksPerSecond);
+
+		uint32_t boneAnimCount = animClipData.boneAnimations.size();
+		fprintf_s(file, "BoneAnimCount: %d\n", boneAnimCount);
+		for (uint32_t b = 0; b < boneAnimCount; ++b)
+		{
+			const Animation* boneAnim = animClipData.boneAnimations[b].get();
+			if (boneAnim == nullptr)
+			{
+				fprintf_s(file, "[EMPTY]\n");
+				continue;
+			}
+
+			fprintf_s(file, "[ANIMATION]\n");
+			AnimationIO::Write(file, *boneAnim);
+		}
+	}
+
+	return true;
+}
+
+bool ModelIO::LoadAnimation(std::filesystem::path filePath, const Model& model)
+{
+	return false;
 }
