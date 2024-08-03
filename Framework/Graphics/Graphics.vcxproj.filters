@@ -20,10 +20,10 @@
       <UniqueIdentifier>{1d7109a8-d75a-4669-91e8-eef505c3709a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Src\Effects">
-      <UniqueIdentifier>{b1069413-1d49-49fc-a89d-744c5f658c72}</UniqueIdentifier>
+      <UniqueIdentifier>{40add48c-d280-4739-af5b-7f1ee3542f10}</UniqueIdentifier>
     </Filter>
     <Filter Include="Inc\Effects">
-      <UniqueIdentifier>{041db1a1-a118-475d-aed8-d071cb7a81ea}</UniqueIdentifier>
+      <UniqueIdentifier>{a8f9e1a6-db94-47c3-8625-c8ea74cceada}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +130,12 @@
     <ClInclude Include="Inc\Skeleton.h">
       <Filter>Inc\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\AnimationUtil.h">
+      <Filter>Inc\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\ModelManager.h">
+      <Filter>Inc\Animation</Filter>
+    </ClInclude>
     <ClInclude Include="Inc\ComicBookEffect.h">
       <Filter>Inc\Effects</Filter>
     </ClInclude>
@@ -142,7 +148,7 @@
     <ClInclude Include="Inc\GaussianBlurEffect.h">
       <Filter>Inc\Effects</Filter>
     </ClInclude>
-    <ClInclude Include="Inc\ShadowEffect.h">
+    <ClInclude Include="Inc\MoebiusEffect.h">
       <Filter>Inc\Effects</Filter>
     </ClInclude>
     <ClInclude Include="Inc\TerrainEffect.h">
@@ -151,23 +157,14 @@
     <ClInclude Include="Inc\StandardEffect.h">
       <Filter>Inc\Effects</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\ShadowEffect.h">
+      <Filter>Inc\Effects</Filter>
+    </ClInclude>
     <ClInclude Include="Inc\PostProcessingEffect.h">
       <Filter>Inc\Effects</Filter>
     </ClInclude>
     <ClInclude Include="Inc\NormalMapEffect.h">
       <Filter>Inc\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="Inc\MoebiusEffect.h">
-      <Filter>Inc\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="Inc\AnimationClip.h">
-      <Filter>Inc\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="Inc\AnimationUtil.h">
-      <Filter>Inc\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="Inc\ModelManager.h">
-      <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -234,13 +231,19 @@
     <ClCompile Include="Src\AnimationBuilder.cpp">
       <Filter>Src\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="Src\DepthMapEffect.cpp">
-      <Filter>Src\Effects</Filter>
+    <ClCompile Include="Src\AnimationUtil.cpp">
+      <Filter>Src\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ModelManager.cpp">
+      <Filter>Src\Animation</Filter>
     </ClCompile>
     <ClCompile Include="Src\ComicBookEffect.cpp">
       <Filter>Src\Effects</Filter>
     </ClCompile>
     <ClCompile Include="Src\CrosshatchShadowEffect.cpp">
+      <Filter>Src\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\DepthMapEffect.cpp">
       <Filter>Src\Effects</Filter>
     </ClCompile>
     <ClCompile Include="Src\GaussianBlurEffect.cpp">
@@ -255,20 +258,14 @@
     <ClCompile Include="Src\PostProcessingEffect.cpp">
       <Filter>Src\Effects</Filter>
     </ClCompile>
-    <ClCompile Include="Src\StandardEffect.cpp">
+    <ClCompile Include="Src\ShadowEffect.cpp">
       <Filter>Src\Effects</Filter>
     </ClCompile>
     <ClCompile Include="Src\TerrainEffect.cpp">
       <Filter>Src\Effects</Filter>
     </ClCompile>
-    <ClCompile Include="Src\ShadowEffect.cpp">
+    <ClCompile Include="Src\StandardEffect.cpp">
       <Filter>Src\Effects</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\AnimationUtil.cpp">
-      <Filter>Src\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\ModelManager.cpp">
-      <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
