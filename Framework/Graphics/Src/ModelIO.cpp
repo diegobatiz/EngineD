@@ -2,6 +2,7 @@
 #include"ModelIO.h"
 #include "Model.h"
 #include "Animation.h"
+#include "AnimationBuilder.h"
 
 using namespace EngineD;
 using namespace EngineD::Graphics;
@@ -32,6 +33,33 @@ void AnimationIO::Write(FILE* file, const Animation& animation)
 
 void AnimationIO::Read(FILE* file, const Animation& animation)
 {
+	AnimationBuilder builder;
+	uint32_t count = 0;
+	float time = 0.0f;
+
+	fscanf_s(file, "PositionKeyCount: %d\n", &count);
+	for (uint32_t k = 0; k < count; ++k)
+	{
+		Math::Vector3 pos;
+		fscanf_s(file, "%f %f %f %f\n", &time, &pos.x, &pos.y, &pos.z);
+		builder.AddPositionKey(pos, time);
+	}
+
+	fscanf_s(file, "RotationKeyCount: %d\n", &count);
+	for (uint32_t k = 0; k < count; ++k)
+	{
+		Math::Quaternion rot;
+		fscanf_s(file, "%f %f %f %f %f\n", &time, &rot.x, &rot.y, &rot.z, &rot.w);
+		builder.AddRotationKey(rot, time);
+	}
+
+	fscanf_s(file, "ScaleKeyCount: %d\n", &count);
+	for (uint32_t k = 0; k < count; ++k)
+	{
+		Math::Vector3 scale;
+		fscanf_s(file, "%f %f %f %f\n", &time, &scale.x, &scale.y, &scale.z);
+		builder.AddScaleKey(scale, time);
+	}
 }
 
 bool ModelIO::SaveModel(std::filesystem::path filePath, const Model& model)
@@ -365,5 +393,42 @@ bool ModelIO::SaveAnimation(std::filesystem::path filePath, const Model& model)
 
 bool ModelIO::LoadAnimation(std::filesystem::path filePath, const Model& model)
 {
-	return false;
+	if (model.skeleton == nullptr || model.skeleton->bones.empty() || model.animationClips.empty())
+	{
+		return false;
+	}
+
+	filePath.replace_extension("animset");
+
+	FILE* file = nullptr;
+	fopen_s(&file, filePath.u8string().c_str(), "r");
+	if (file == nullptr)
+	{
+		return false;
+	}
+
+	uint32_t animClipCount = 0;
+	fscanf_s(file, "AnimClipCount: %d\n", animClipCount);
+	for (uint32_t i = 0; i < animClipCount; ++i)
+	{
+		AnimationClip animClipData = model.animationClips.emplace_back();
+
+		char animClipName[MAX_PATH]{};
+		fscanf_s(file, "AnimationClipName: %s\n", animClipName, (uint32_t)sizeof(animClipName));
+		animClipData.name = std::move(animClipName);
+
+		fscanf_s(file, "TickDuration: %f\n", &animClipData.tickDuration);
+		fscanf_s(file, "TickPerSecond: %f\n", &animClipData.ticksPerSecond);
+
+		uint32_t boneAnimCount = 0;
+		fscanf_s(file, "BoneAnimCount: %d\n", &boneAnimCount);
+		animClipData.boneAnimations.resize(boneAnimCount);
+
+		for (uint32_t b = 0; b < boneAnimCount; ++b)
+		{
+			
+		}
+	}
+
+	return true;
 }
