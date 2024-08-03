@@ -20,11 +20,11 @@ namespace
 			if (bone->parent != nullptr)
 			{
 				boneTransforms[bone->index] = boneTransforms[bone->index] * boneTransforms[bone->parentIndex];
+			}
 
-				for (const Bone* child : bone->children)
-				{
-					ComputeBoneTransformsRecursive(child, boneTransforms);
-				}
+			for (const Bone* child : bone->children)
+			{
+				ComputeBoneTransformsRecursive(child, boneTransforms);
 			}
 		}
 	}
@@ -66,8 +66,9 @@ void AnimationUtil::DrawSkeleton(ModelId id, const BoneTransforms& boneTransform
 				if (Math::DistanceSqr(posA, posB) > 0.0001f)
 				{
 					SimpleDraw::AddLine(posA, posB, Colors::Blue);
-					SimpleDraw::AddSphere(10, 10, 0.03f, posA, Colors::Pink);
 				}
+
+				SimpleDraw::AddSphere(10, 10, 0.03f, posA, Colors::Pink);
 			}
 		}
 	}
