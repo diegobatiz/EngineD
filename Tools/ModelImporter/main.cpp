@@ -289,12 +289,12 @@ int main(int argc, char* argv[])
 		}
 		for (auto& bone : model.skeleton->bones)
 		{
-			bone->offsetTransform._41 * args.scale;
-			bone->offsetTransform._42 * args.scale;
-			bone->offsetTransform._43 * args.scale;
-			bone->toParentTransform._41 * args.scale;
-			bone->toParentTransform._42 * args.scale;
-			bone->toParentTransform._43 * args.scale;
+			bone->offsetTransform._41 *= args.scale;
+			bone->offsetTransform._42 *= args.scale;
+			bone->offsetTransform._43 *= args.scale;
+			bone->toParentTransform._41 *= args.scale;
+			bone->toParentTransform._42 *= args.scale;
+			bone->toParentTransform._43 *= args.scale;
 		}
 
 		printf("Reading mesh data...\n");
