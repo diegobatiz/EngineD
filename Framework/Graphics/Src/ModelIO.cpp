@@ -16,14 +16,14 @@ void AnimationIO::Write(FILE* file, const Animation& animation)
 		fprintf_s(file, "%f %f %f %f\n", k.time, k.key.x, k.key.y, k.key.z);
 	}
 
-	uint32_t count = animation.mRotationKeys.size();
+	count = animation.mRotationKeys.size();
 	fprintf_s(file, "RotationKeyCount: %d\n", count);
 	for (auto& k : animation.mRotationKeys)
 	{
 		fprintf_s(file, "%f %f %f %f %f\n", k.time, k.key.x, k.key.y, k.key.z, k.key.w);
 	}
 
-	uint32_t count = animation.mScaleKeys.size();
+	count = animation.mScaleKeys.size();
 	fprintf_s(file, "ScaleKeyCount: %d\n", count);
 	for (auto& k : animation.mScaleKeys)
 	{
@@ -31,7 +31,7 @@ void AnimationIO::Write(FILE* file, const Animation& animation)
 	}
 }
 
-void AnimationIO::Read(FILE* file, const Animation& animation)
+void AnimationIO::Read(FILE* file, Animation& animation)
 {
 	AnimationBuilder builder;
 	uint32_t count = 0;
@@ -235,7 +235,7 @@ bool ModelIO::LoadMaterial(std::filesystem::path filePath, Model& model)
 	return true;
 }
 
-bool ModelIO::SaveSkeleton(std::filesystem::path filePath, Model& model)
+bool ModelIO::SaveSkeleton(std::filesystem::path filePath, const Model& model)
 {
 	if (model.skeleton == nullptr || model.skeleton->bones.empty())
 	{
@@ -393,7 +393,7 @@ bool ModelIO::SaveAnimation(std::filesystem::path filePath, const Model& model)
 	return true;
 }
 
-bool ModelIO::LoadAnimation(std::filesystem::path filePath, const Model& model)
+bool ModelIO::LoadAnimation(std::filesystem::path filePath, Model& model)
 {
 	if (model.skeleton == nullptr || model.skeleton->bones.empty() || model.animationClips.empty())
 	{

@@ -19,7 +19,7 @@ namespace EngineD::Graphics
 	private:
 		ModelId mModelId = 0;
 		int mClipIndex = -1;
-		int mAnimationTick = 0.0f;
+		float mAnimationTick = 0.0f;
 		bool mIsLooping = false;
 	};
 }

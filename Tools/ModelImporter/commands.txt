@@ -1,1 +1,1 @@
--scale 0.01 ../../Assets/Models/Character_01/Ch44_nonPBR.fbx ../../Assets/Models/Character_01/Ch44_nonPBR.model
+-scale 0.01 ../../Assets/Models/Character_02/character.fbx ../../Assets/Models/Character_02/character.model
