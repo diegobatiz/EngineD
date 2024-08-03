@@ -31,8 +31,8 @@ namespace EngineD::Graphics
 	};
 
 	using RenderGroup = std::vector<RenderObject>;
-	[[nodiscard]] RenderGroup CreateRenderGroup(const Model& model, ModelId id = 0, const Animator * animator = nullptr);
 	[[nodiscard]] RenderGroup CreateRenderGroup(ModelId id, const Animator* animator = nullptr);
+	[[nodiscard]] RenderGroup CreateRenderGroup(const Model& model, ModelId id = 0, const Animator* animator = nullptr);
 	void CleanupRenderGroup(RenderGroup& renderGroup);
 
 	void SetRenderGroupPosition(RenderGroup& renderGroup, const Math::Vector3& position);

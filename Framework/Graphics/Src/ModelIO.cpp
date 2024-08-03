@@ -395,11 +395,6 @@ bool ModelIO::SaveAnimation(std::filesystem::path filePath, const Model& model)
 
 bool ModelIO::LoadAnimation(std::filesystem::path filePath, Model& model)
 {
-	if (model.skeleton == nullptr || model.skeleton->bones.empty() || model.animationClips.empty())
-	{
-		return false;
-	}
-
 	filePath.replace_extension("animset");
 
 	FILE* file = nullptr;
@@ -410,10 +405,10 @@ bool ModelIO::LoadAnimation(std::filesystem::path filePath, Model& model)
 	}
 
 	uint32_t animClipCount = 0;
-	fscanf_s(file, "AnimClipCount: %d\n", animClipCount);
+	fscanf_s(file, "AnimClipCount: %d\n", &animClipCount);
 	for (uint32_t i = 0; i < animClipCount; ++i)
 	{
-		AnimationClip animClipData = model.animationClips.emplace_back();
+		AnimationClip& animClipData = model.animationClips.emplace_back();
 
 		char animClipName[MAX_PATH]{};
 		fscanf_s(file, "AnimationClipName: %s\n", animClipName, (uint32_t)sizeof(animClipName));
@@ -428,7 +423,13 @@ bool ModelIO::LoadAnimation(std::filesystem::path filePath, Model& model)
 
 		for (uint32_t b = 0; b < boneAnimCount; ++b)
 		{
-			
+			char label[128]{};
+			fscanf_s(file, "%s\n", label, (uint32_t)sizeof(label));
+			if (strcmp(label, "[ANIMATION]") == 0);
+			{
+				animClipData.boneAnimations[b] = std::make_unique<Animation>();
+				AnimationIO::Read(file, *animClipData.boneAnimations[b]);
+			}
 		}
 	}
 

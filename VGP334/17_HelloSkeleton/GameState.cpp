@@ -17,6 +17,9 @@ void GameState::Initialize()
 	mModelId = ModelManager::Get()->LoadModelId("../../Assets/Models/Character_01/Ch44_nonPBR.model");
 	mCharacter = CreateRenderGroup(mModelId);
 
+	mModelId2 = ModelManager::Get()->LoadModelId("../../Assets/Models/Character_02/character.model");
+	mCharacter2 = CreateRenderGroup(mModelId2);
+
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/Standard.fx";
 	mStandardEffect.Initialize(shaderFilePath);
 	mStandardEffect.SetCamera(mCamera);
@@ -27,10 +30,12 @@ void GameState::Terminate()
 {
 	mStandardEffect.Terminate();
 	CleanupRenderGroup(mCharacter);
+	CleanupRenderGroup(mCharacter2);
 }
 
 void GameState::Update(float deltaTime)
 {
+#pragma region Camera Movement
 	auto input = Input::InputSystem::Get();
 	const float moveSpeed = input->IsKeyDown(KeyCode::LSHIFT) ? 10.0f : 1.0f;
 	const float turnSpeed = 0.1f;
@@ -67,6 +72,7 @@ void GameState::Update(float deltaTime)
 		mCamera.Yaw(input->GetMouseMoveX() * turnSpeed * deltaTime);
 		mCamera.Pitch(input->GetMouseMoveY() * turnSpeed * deltaTime);
 	}
+#pragma endregion
 }
 
 void GameState::Render()
@@ -76,6 +82,10 @@ void GameState::Render()
 		AnimationUtil::BoneTransforms boneTransforms;
 		AnimationUtil::ComputeBoneTransforms(mModelId, boneTransforms);
 		AnimationUtil::DrawSkeleton(mModelId, boneTransforms);
+
+		AnimationUtil::BoneTransforms boneTransforms2;
+		AnimationUtil::ComputeBoneTransforms(mModelId2, boneTransforms);
+		AnimationUtil::DrawSkeleton(mModelId2, boneTransforms);
 	}
 
 	SimpleDraw::AddGroundPlane(10.0f, Colors::White);
@@ -84,7 +94,8 @@ void GameState::Render()
 	if (!mDrawSkeleton)
 	{
 		mStandardEffect.Begin();
-			DrawRenderGroup(mStandardEffect, mCharacter);
+			//DrawRenderGroup(mStandardEffect, mCharacter);
+			DrawRenderGroup(mStandardEffect, mCharacter2);
 		mStandardEffect.End();
 	}
 }
