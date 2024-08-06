@@ -15,6 +15,7 @@ struct Arguments
 	std::filesystem::path inputFileName;
 	std::filesystem::path outputFileName;
 	float scale = 1.0f;
+	bool animOnly = false;
 };
 
 Vector3 ToVector3(const aiVector3D& v)
@@ -80,6 +81,11 @@ std::optional<Arguments> ParseArgs(int argc, char* argv[])
 		if (strcmp(argv[i], "-scale") == 0)
 		{
 			args.scale = atof(argv[i + 1]);
+			++i;
+		}
+		else if (strcmp(argv[i], "-animOnly") == 0)
+		{
+			args.animOnly = argv[i + 1] == "1";
 			++i;
 		}
 	}
@@ -297,72 +303,75 @@ int main(int argc, char* argv[])
 			bone->toParentTransform._43 *= args.scale;
 		}
 
-		printf("Reading mesh data...\n");
-		for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex)
+		if (!args.animOnly)
 		{
-			const aiMesh* assimpMesh = scene->mMeshes[meshIndex];
-			if (assimpMesh->mPrimitiveTypes != aiPrimitiveType_TRIANGLE)
+			printf("Reading mesh data...\n");
+			for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex)
 			{
-				continue;
-			}
-
-			const uint32_t numVertices = assimpMesh->mNumVertices;
-			const uint32_t numFaces = assimpMesh->mNumFaces;
-			const uint32_t numIndices = numFaces * 3;
-
-			Model::MeshData& meshData = model.meshData.emplace_back();
-
-			printf("Reading Material Index...\n");
-			meshData.materialIndex = assimpMesh->mMaterialIndex;
-
-			printf("Reading Vertices...\n");
-			Mesh& mesh = meshData.mesh;
-			mesh.vertices.reserve(numVertices);
-
-			const aiVector3D* positions = assimpMesh->mVertices;
-			const aiVector3D* normals = assimpMesh->mNormals;
-			const aiVector3D* tangents = assimpMesh->HasTangentsAndBitangents() ? assimpMesh->mTangents : nullptr;
-			const aiVector3D* texCoords = assimpMesh->HasTextureCoords(0) ? assimpMesh->mTextureCoords[0] : nullptr;
-
-			for (uint32_t v = 0; v < numVertices; ++v)
-			{
-				Vertex& vertex = mesh.vertices.emplace_back();
-				vertex.position = ToVector3(positions[v]) * args.scale;
-				vertex.normal = ToVector3(normals[v]);
-				vertex.tangent = tangents ? ToVector3(tangents[v]) : Vector3::Zero;
-				vertex.uvCoord = texCoords ? ToTexCoord(texCoords[v]) : Vector2::Zero;
-			}
-
-			printf("Reading indices...\n");
-			mesh.indices.reserve(numIndices);
-			const aiFace* aiFaces = assimpMesh->mFaces;
-			for (uint32_t f = 0; f < numFaces; f++)
-			{
-				const aiFace& assimpFace = aiFaces[f];
-				for (uint32_t i = 0; i < 3; ++i)
+				const aiMesh* assimpMesh = scene->mMeshes[meshIndex];
+				if (assimpMesh->mPrimitiveTypes != aiPrimitiveType_TRIANGLE)
 				{
-					mesh.indices.push_back(assimpFace.mIndices[i]);
+					continue;
 				}
-			}
 
-			if (assimpMesh->HasBones())
-			{
-				printf("Reading bone weights...\n");
-				std::vector<int> numWeightsAdded(mesh.vertices.size());
-				for (uint32_t b = 0; b < assimpMesh->mNumBones; ++b)
+				const uint32_t numVertices = assimpMesh->mNumVertices;
+				const uint32_t numFaces = assimpMesh->mNumFaces;
+				const uint32_t numIndices = numFaces * 3;
+
+				Model::MeshData& meshData = model.meshData.emplace_back();
+
+				printf("Reading Material Index...\n");
+				meshData.materialIndex = assimpMesh->mMaterialIndex;
+
+				printf("Reading Vertices...\n");
+				Mesh& mesh = meshData.mesh;
+				mesh.vertices.reserve(numVertices);
+
+				const aiVector3D* positions = assimpMesh->mVertices;
+				const aiVector3D* normals = assimpMesh->mNormals;
+				const aiVector3D* tangents = assimpMesh->HasTangentsAndBitangents() ? assimpMesh->mTangents : nullptr;
+				const aiVector3D* texCoords = assimpMesh->HasTextureCoords(0) ? assimpMesh->mTextureCoords[0] : nullptr;
+
+				for (uint32_t v = 0; v < numVertices; ++v)
 				{
-					const aiBone* bone = assimpMesh->mBones[b];
-					uint32_t boneIndex = GetBoneIndex(bone, boneIndexLookup);
-					for (uint32_t w = 0; w < bone->mNumWeights; w++)
+					Vertex& vertex = mesh.vertices.emplace_back();
+					vertex.position = ToVector3(positions[v]) * args.scale;
+					vertex.normal = ToVector3(normals[v]);
+					vertex.tangent = tangents ? ToVector3(tangents[v]) : Vector3::Zero;
+					vertex.uvCoord = texCoords ? ToTexCoord(texCoords[v]) : Vector2::Zero;
+				}
+
+				printf("Reading indices...\n");
+				mesh.indices.reserve(numIndices);
+				const aiFace* aiFaces = assimpMesh->mFaces;
+				for (uint32_t f = 0; f < numFaces; f++)
+				{
+					const aiFace& assimpFace = aiFaces[f];
+					for (uint32_t i = 0; i < 3; ++i)
 					{
-						const aiVertexWeight& weight = bone->mWeights[w];
-						Vertex& vertex = mesh.vertices[weight.mVertexId];
-						int& count = numWeightsAdded[weight.mVertexId];
-						if (count < Vertex::MaxBoneWeights)
+						mesh.indices.push_back(assimpFace.mIndices[i]);
+					}
+				}
+
+				if (assimpMesh->HasBones())
+				{
+					printf("Reading bone weights...\n");
+					std::vector<int> numWeightsAdded(mesh.vertices.size());
+					for (uint32_t b = 0; b < assimpMesh->mNumBones; ++b)
+					{
+						const aiBone* bone = assimpMesh->mBones[b];
+						uint32_t boneIndex = GetBoneIndex(bone, boneIndexLookup);
+						for (uint32_t w = 0; w < bone->mNumWeights; w++)
 						{
-							vertex.boneIndices[count] = boneIndex;
-							vertex.boneWeights[count] = weight.mWeight;
-							++count;
+							const aiVertexWeight& weight = bone->mWeights[w];
+							Vertex& vertex = mesh.vertices[weight.mVertexId];
+							int& count = numWeightsAdded[weight.mVertexId];
+							if (count < Vertex::MaxBoneWeights)
+							{
+								vertex.boneIndices[count] = boneIndex;
+								vertex.boneWeights[count] = weight.mWeight;
+								++count;
+							}
 						}
 					}
 				}
@@ -370,7 +379,7 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	if (scene->HasMaterials())
+	if (!args.animOnly && scene->HasMaterials())
 	{
 		printf("Reading Material Data...\n");
 
@@ -452,34 +461,37 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	printf("Saving Model...\n");
-	if (ModelIO::SaveModel(args.outputFileName, model))
+	if (!args.animOnly)
 	{
-		printf("Saved Model success");
-	}
-	else
-	{
-		printf("Failed to save model data[%s]...\n", args.outputFileName.u8string().c_str());
-	}
+		printf("Saving Model...\n");
+		if (ModelIO::SaveModel(args.outputFileName, model))
+		{
+			printf("Saved Model success");
+		}
+		else
+		{
+			printf("Failed to save model data[%s]...\n", args.outputFileName.u8string().c_str());
+		}
 
-	printf("Saving Material...\n");
-	if (ModelIO::SaveMaterial(args.outputFileName, model))
-	{
-		printf("Saved Material success\n");
-	}
-	else
-	{
-		printf("Failed to save Material data...\n");
-	}
+		printf("Saving Material...\n");
+		if (ModelIO::SaveMaterial(args.outputFileName, model))
+		{
+			printf("Saved Material success\n");
+		}
+		else
+		{
+			printf("Failed to save Material data...\n");
+		}
 
-	printf("Saving Skeleton...\n");
-	if (ModelIO::SaveSkeleton(args.outputFileName, model))
-	{
-		printf("Saved Skeleton Success...\n");
-	}
-	else
-	{
-		printf("Failed to save Skeleton data...\n");
+		printf("Saving Skeleton...\n");
+		if (ModelIO::SaveSkeleton(args.outputFileName, model))
+		{
+			printf("Saved Skeleton Success...\n");
+		}
+		else
+		{
+			printf("Failed to save Skeleton data...\n");
+		}
 	}
 
 	printf("Saving Animation...\n");
