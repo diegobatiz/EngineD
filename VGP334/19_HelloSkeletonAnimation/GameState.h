@@ -19,5 +19,6 @@ protected:
 	EngineD::Graphics::Animator mCharacterAnimator;
 	EngineD::Graphics::StandardEffect mStandardEffect;
 
+	int mAnimIndex = -1;
 	bool mDrawSkeleton = false;
 };

@@ -94,7 +94,7 @@ void GameState::Render()
 	if (!mDrawSkeleton)
 	{
 		mStandardEffect.Begin();
-			//DrawRenderGroup(mStandardEffect, mCharacter);
+			DrawRenderGroup(mStandardEffect, mCharacter);
 			DrawRenderGroup(mStandardEffect, mCharacter2);
 		mStandardEffect.End();
 	}

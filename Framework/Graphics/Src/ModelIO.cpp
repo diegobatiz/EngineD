@@ -279,6 +279,8 @@ bool ModelIO::SaveSkeleton(std::filesystem::path filePath, const Model& model)
 		WriteMatrix(boneData->offsetTransform);
 	}
 	fclose(file);
+
+	return true;
 }
 
 bool ModelIO::LoadSkeleton(std::filesystem::path filePath, Model& model)
@@ -372,7 +374,7 @@ bool ModelIO::SaveAnimation(std::filesystem::path filePath, const Model& model)
 		const AnimationClip& animClipData = model.animationClips[i];
 		fprintf_s(file, "AnimationClipName: %s\n", animClipData.name.c_str());
 		fprintf_s(file, "TickDuration: %f\n", animClipData.tickDuration);
-		fprintf_s(file, "TickPerSecond: %f\n", animClipData.ticksPerSecond);
+		fprintf_s(file, "TicksPerSecond: %f\n", animClipData.ticksPerSecond);
 
 		uint32_t boneAnimCount = animClipData.boneAnimations.size();
 		fprintf_s(file, "BoneAnimCount: %d\n", boneAnimCount);
@@ -415,7 +417,7 @@ bool ModelIO::LoadAnimation(std::filesystem::path filePath, Model& model)
 		animClipData.name = std::move(animClipName);
 
 		fscanf_s(file, "TickDuration: %f\n", &animClipData.tickDuration);
-		fscanf_s(file, "TickPerSecond: %f\n", &animClipData.ticksPerSecond);
+		fscanf_s(file, "TicksPerSecond: %f\n", &animClipData.ticksPerSecond);
 
 		uint32_t boneAnimCount = 0;
 		fscanf_s(file, "BoneAnimCount: %d\n", &boneAnimCount);

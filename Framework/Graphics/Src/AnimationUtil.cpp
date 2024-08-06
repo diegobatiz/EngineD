@@ -25,6 +25,7 @@ namespace
 			{
 				boneTransforms[bone->index] = bone->toParentTransform;
 			}
+
 			if (bone->parent != nullptr)
 			{
 				boneTransforms[bone->index] = boneTransforms[bone->index] * boneTransforms[bone->parentIndex];

@@ -3,7 +3,7 @@
 namespace EngineD::Graphics
 {
 	struct Model;
-	struct Animation;
+	class Animation;
 
 	class AnimationIO
 	{

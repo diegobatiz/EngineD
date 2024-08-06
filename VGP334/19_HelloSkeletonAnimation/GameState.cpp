@@ -14,7 +14,7 @@ void GameState::Initialize()
 	mDirectionalLight.diffuse = { 0.8f, 0.8f, 0.8f, 1.0f };
 	mDirectionalLight.specular = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-	mModelId = ModelManager::Get()->LoadModelId("../../Assets/Models/Character_01/Ch44_nonPBR.model");
+	mModelId = ModelManager::Get()->LoadModelId("../../Assets/Models/SillyDancing/SillyDancing.model");
 	mCharacter = CreateRenderGroup(mModelId);
 	mCharacterAnimator.Initialize(mModelId);
 
@@ -32,6 +32,8 @@ void GameState::Terminate()
 
 void GameState::Update(float deltaTime)
 {
+	mCharacterAnimator.Update(deltaTime);
+
 #pragma region CameraMovement
 	auto input = Input::InputSystem::Get();
 	const float moveSpeed = input->IsKeyDown(KeyCode::LSHIFT) ? 10.0f : 1.0f;
@@ -71,7 +73,6 @@ void GameState::Update(float deltaTime)
 	}
 #pragma endregion
 
-
 }
 
 void GameState::Render()
@@ -79,7 +80,7 @@ void GameState::Render()
 	if (mDrawSkeleton)
 	{
 		AnimationUtil::BoneTransforms boneTransforms;
-		AnimationUtil::ComputeBoneTransforms(mModelId, boneTransforms);
+		AnimationUtil::ComputeBoneTransforms(mModelId, boneTransforms, &mCharacterAnimator);
 		AnimationUtil::DrawSkeleton(mModelId, boneTransforms);
 	}
 
@@ -109,9 +110,9 @@ void GameState::DebugUI()
 			ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
 		}
 		ImGui::Checkbox("DrawSkeleton", &mDrawSkeleton);
-		//if (ImGui::DragInt("Animation", &mAnimIndex, 1, -1, mCharacterAnimator.GetAnimationCount() - 1))
+		if (ImGui::DragInt("Animation", &mAnimIndex, 1, -1, mCharacterAnimator.GetAnimationCount() - 1))
 		{
-			//mCharacterAnimator.PlayAnimation(mAnimaInd)
+			mCharacterAnimator.PlayAnimation(mAnimIndex, true);
 		}
 		mStandardEffect.DebugUI();
 	ImGui::End();
