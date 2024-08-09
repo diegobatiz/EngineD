@@ -1,6 +1,8 @@
 -scale 0.01 ../../Assets/Models/Character_02/character.fbx ../../Assets/Models/Character_02/character.model
 -scale 0.01 ../../Assets/Models/Character_01/Ch44_nonPBR.fbx ../../Assets/Models/Character_01/Ch44_nonPBR.model
 -scale 0.01 ../../Assets/Models/SillyDancing/SillyDancing.fbx ../../Assets/Models/SillyDancing/SillyDancing.fbx
--scale 0.01 -animOnly 1 ../../Assets/Models/Drunk/drunkidle.fbx ../../Assets/Models/Animations/drunkidle.fbx
--scale 0.01 -animOnly 1 ../../Assets/Models/Drunk/drunkidlevariation.fbx ../../Assets/Models/Animations/drunkidlevariation.fbx
--scale 0.01 -animOnly 1 ../../Assets/Models/Drunk/drunkwalk.fbx ../../Assets/Models/Animations/drunkwalk.fbx
+-scale 0.01 ../../Assets/Models/Animations/ymcaDance.fbx ../../Assets/Models/Animations/ymca.fbx
+-scale 0.01 -animOnly 1 ../../Assets/Models/Animations/waveDance.fbx ../../Assets/Models/Animations/waveDance.fbx
+-scale 0.01 -animOnly 1 ../../Assets/Models/Animations/stepDance.fbx ../../Assets/Models/Animations/stepDance.fbx
+
+-scale 0.01 ../../Assets/Models/Drunk/Man.fbx ../../Assets/Models/Animations/Man.fbx
