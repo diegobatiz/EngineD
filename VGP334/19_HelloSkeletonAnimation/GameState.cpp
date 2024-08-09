@@ -18,7 +18,7 @@ void GameState::Initialize()
 	ModelManager::Get()->AddAnimation(mModelId, "../../Assets/Models/Animations/drunkidle.animset");
 	ModelManager::Get()->AddAnimation(mModelId, "../../Assets/Models/Animations/drunkwalk.animset");
 	ModelManager::Get()->AddAnimation(mModelId, "../../Assets/Models/Animations/drunkidlevariation.animset");
-	mCharacter = CreateRenderGroup(mModelId);
+	mCharacter = CreateRenderGroup(mModelId, &mCharacterAnimator);
 	mCharacterAnimator.Initialize(mModelId);
 
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/Standard.fx";
