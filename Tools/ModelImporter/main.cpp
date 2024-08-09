@@ -85,7 +85,7 @@ std::optional<Arguments> ParseArgs(int argc, char* argv[])
 		}
 		else if (strcmp(argv[i], "-animOnly") == 0)
 		{
-			args.animOnly = argv[i + 1] == "1";
+			args.animOnly = atoi(argv[i + 1]) == 1;
 			++i;
 		}
 	}
@@ -271,11 +271,13 @@ int main(int argc, char* argv[])
 
 	Model model;
 	BoneIndexLookup boneIndexLookup;
-	if (scene->HasMeshes())
+
+	printf("Build skeleton...\n");
+	model.skeleton = std::make_unique<Skeleton>();
+	BuildSkeleton(*scene->mRootNode, nullptr, *model.skeleton, boneIndexLookup);
+
+	if (!args.animOnly && scene->HasMeshes())
 	{
-		printf("Build skeleton...\n");
-		model.skeleton = std::make_unique<Skeleton>();
-		BuildSkeleton(*scene->mRootNode, nullptr, *model.skeleton, boneIndexLookup);
 		for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex)
 		{
 			const aiMesh* assimpMesh = scene->mMeshes[meshIndex];
@@ -303,80 +305,78 @@ int main(int argc, char* argv[])
 			bone->toParentTransform._43 *= args.scale;
 		}
 
-		if (!args.animOnly)
+		printf("Reading mesh data...\n");
+		for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex)
 		{
-			printf("Reading mesh data...\n");
-			for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex)
+			const aiMesh* assimpMesh = scene->mMeshes[meshIndex];
+			if (assimpMesh->mPrimitiveTypes != aiPrimitiveType_TRIANGLE)
 			{
-				const aiMesh* assimpMesh = scene->mMeshes[meshIndex];
-				if (assimpMesh->mPrimitiveTypes != aiPrimitiveType_TRIANGLE)
+				continue;
+			}
+
+			const uint32_t numVertices = assimpMesh->mNumVertices;
+			const uint32_t numFaces = assimpMesh->mNumFaces;
+			const uint32_t numIndices = numFaces * 3;
+
+			Model::MeshData& meshData = model.meshData.emplace_back();
+
+			printf("Reading Material Index...\n");
+			meshData.materialIndex = assimpMesh->mMaterialIndex;
+
+			printf("Reading Vertices...\n");
+			Mesh& mesh = meshData.mesh;
+			mesh.vertices.reserve(numVertices);
+
+			const aiVector3D* positions = assimpMesh->mVertices;
+			const aiVector3D* normals = assimpMesh->mNormals;
+			const aiVector3D* tangents = assimpMesh->HasTangentsAndBitangents() ? assimpMesh->mTangents : nullptr;
+			const aiVector3D* texCoords = assimpMesh->HasTextureCoords(0) ? assimpMesh->mTextureCoords[0] : nullptr;
+
+			for (uint32_t v = 0; v < numVertices; ++v)
+			{
+				Vertex& vertex = mesh.vertices.emplace_back();
+				vertex.position = ToVector3(positions[v]) * args.scale;
+				vertex.normal = ToVector3(normals[v]);
+				vertex.tangent = tangents ? ToVector3(tangents[v]) : Vector3::Zero;
+				vertex.uvCoord = texCoords ? ToTexCoord(texCoords[v]) : Vector2::Zero;
+			}
+
+			printf("Reading indices...\n");
+			mesh.indices.reserve(numIndices);
+			const aiFace* aiFaces = assimpMesh->mFaces;
+			for (uint32_t f = 0; f < numFaces; f++)
+			{
+				const aiFace& assimpFace = aiFaces[f];
+				for (uint32_t i = 0; i < 3; ++i)
 				{
-					continue;
+					mesh.indices.push_back(assimpFace.mIndices[i]);
 				}
+			}
 
-				const uint32_t numVertices = assimpMesh->mNumVertices;
-				const uint32_t numFaces = assimpMesh->mNumFaces;
-				const uint32_t numIndices = numFaces * 3;
-
-				Model::MeshData& meshData = model.meshData.emplace_back();
-
-				printf("Reading Material Index...\n");
-				meshData.materialIndex = assimpMesh->mMaterialIndex;
-
-				printf("Reading Vertices...\n");
-				Mesh& mesh = meshData.mesh;
-				mesh.vertices.reserve(numVertices);
-
-				const aiVector3D* positions = assimpMesh->mVertices;
-				const aiVector3D* normals = assimpMesh->mNormals;
-				const aiVector3D* tangents = assimpMesh->HasTangentsAndBitangents() ? assimpMesh->mTangents : nullptr;
-				const aiVector3D* texCoords = assimpMesh->HasTextureCoords(0) ? assimpMesh->mTextureCoords[0] : nullptr;
-
-				for (uint32_t v = 0; v < numVertices; ++v)
+			if (assimpMesh->HasBones())
+			{
+				printf("Reading bone weights...\n");
+				std::vector<int> numWeightsAdded(mesh.vertices.size());
+				for (uint32_t b = 0; b < assimpMesh->mNumBones; ++b)
 				{
-					Vertex& vertex = mesh.vertices.emplace_back();
-					vertex.position = ToVector3(positions[v]) * args.scale;
-					vertex.normal = ToVector3(normals[v]);
-					vertex.tangent = tangents ? ToVector3(tangents[v]) : Vector3::Zero;
-					vertex.uvCoord = texCoords ? ToTexCoord(texCoords[v]) : Vector2::Zero;
-				}
-
-				printf("Reading indices...\n");
-				mesh.indices.reserve(numIndices);
-				const aiFace* aiFaces = assimpMesh->mFaces;
-				for (uint32_t f = 0; f < numFaces; f++)
-				{
-					const aiFace& assimpFace = aiFaces[f];
-					for (uint32_t i = 0; i < 3; ++i)
+					const aiBone* bone = assimpMesh->mBones[b];
+					uint32_t boneIndex = GetBoneIndex(bone, boneIndexLookup);
+					for (uint32_t w = 0; w < bone->mNumWeights; w++)
 					{
-						mesh.indices.push_back(assimpFace.mIndices[i]);
-					}
-				}
-
-				if (assimpMesh->HasBones())
-				{
-					printf("Reading bone weights...\n");
-					std::vector<int> numWeightsAdded(mesh.vertices.size());
-					for (uint32_t b = 0; b < assimpMesh->mNumBones; ++b)
-					{
-						const aiBone* bone = assimpMesh->mBones[b];
-						uint32_t boneIndex = GetBoneIndex(bone, boneIndexLookup);
-						for (uint32_t w = 0; w < bone->mNumWeights; w++)
+						const aiVertexWeight& weight = bone->mWeights[w];
+						Vertex& vertex = mesh.vertices[weight.mVertexId];
+						int& count = numWeightsAdded[weight.mVertexId];
+						if (count < Vertex::MaxBoneWeights)
 						{
-							const aiVertexWeight& weight = bone->mWeights[w];
-							Vertex& vertex = mesh.vertices[weight.mVertexId];
-							int& count = numWeightsAdded[weight.mVertexId];
-							if (count < Vertex::MaxBoneWeights)
-							{
-								vertex.boneIndices[count] = boneIndex;
-								vertex.boneWeights[count] = weight.mWeight;
-								++count;
-							}
+							vertex.boneIndices[count] = boneIndex;
+							vertex.boneWeights[count] = weight.mWeight;
+							++count;
 						}
 					}
 				}
 			}
 		}
+		
 	}
 
 	if (!args.animOnly && scene->HasMaterials())

@@ -19,6 +19,7 @@ void GameState::Initialize()
 
 	mModelId2 = ModelManager::Get()->LoadModelId("../../Assets/Models/Character_02/character.model");
 	mCharacter2 = CreateRenderGroup(mModelId2);
+	SetRenderGroupPosition(mCharacter, { -1.0f, 0.0f, 0.0f });
 
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/Standard.fx";
 	mStandardEffect.Initialize(shaderFilePath);

@@ -15,6 +15,9 @@ void GameState::Initialize()
 	mDirectionalLight.specular = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 	mModelId = ModelManager::Get()->LoadModelId("../../Assets/Models/SillyDancing/SillyDancing.model");
+	ModelManager::Get()->AddAnimation(mModelId, "../../Assets/Models/Animations/drunkidle.animset");
+	ModelManager::Get()->AddAnimation(mModelId, "../../Assets/Models/Animations/drunkwalk.animset");
+	ModelManager::Get()->AddAnimation(mModelId, "../../Assets/Models/Animations/drunkidlevariation.animset");
 	mCharacter = CreateRenderGroup(mModelId);
 	mCharacterAnimator.Initialize(mModelId);
 
