@@ -5,6 +5,7 @@ namespace EngineD::Physics
 {
 	class PhysicsObject
 	{
+	public:
 		PhysicsObject() = default;
 		virtual ~PhysicsObject() = default;
 

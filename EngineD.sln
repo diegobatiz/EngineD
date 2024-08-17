@@ -105,11 +105,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "16_HelloAnimation", "VGP334
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "17_HelloSkeleton", "VGP334\17_HelloSkeleton\17_HelloSkeleton.vcxproj", "{88702EF0-2B49-4486-9C92-E274F902FE2F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "19_HelloSkeletonAnimation", "VGP334\19_HelloSkeletonAnimation\19_HelloSkeletonAnimation.vcxproj", "{7622BC0C-383F-4E6F-9033-4A06882CEAA4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "18_HelloSkeletonAnimation", "VGP334\19_HelloSkeletonAnimation\19_HelloSkeletonAnimation.vcxproj", "{7622BC0C-383F-4E6F-9033-4A06882CEAA4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bullet", "External\Bullet\Bullet.vcxproj", "{516192EB-788A-4FE7-B2B7-2EF9AC036B12}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Physics", "Framework\Physics\Physics.vcxproj", "{CC30B33E-62B2-49A2-9394-6FCA5A6FB5A9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "19_HelloPhysics", "VGP334\19_HelloPhysics\19_HelloPhysics.vcxproj", "{14034D8F-0D7B-4BAC-9A38-9E442B8F744D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -359,6 +361,14 @@ Global
 		{CC30B33E-62B2-49A2-9394-6FCA5A6FB5A9}.Release|x64.Build.0 = Release|x64
 		{CC30B33E-62B2-49A2-9394-6FCA5A6FB5A9}.Release|x86.ActiveCfg = Release|Win32
 		{CC30B33E-62B2-49A2-9394-6FCA5A6FB5A9}.Release|x86.Build.0 = Release|Win32
+		{14034D8F-0D7B-4BAC-9A38-9E442B8F744D}.Debug|x64.ActiveCfg = Debug|x64
+		{14034D8F-0D7B-4BAC-9A38-9E442B8F744D}.Debug|x64.Build.0 = Debug|x64
+		{14034D8F-0D7B-4BAC-9A38-9E442B8F744D}.Debug|x86.ActiveCfg = Debug|Win32
+		{14034D8F-0D7B-4BAC-9A38-9E442B8F744D}.Debug|x86.Build.0 = Debug|Win32
+		{14034D8F-0D7B-4BAC-9A38-9E442B8F744D}.Release|x64.ActiveCfg = Release|x64
+		{14034D8F-0D7B-4BAC-9A38-9E442B8F744D}.Release|x64.Build.0 = Release|x64
+		{14034D8F-0D7B-4BAC-9A38-9E442B8F744D}.Release|x86.ActiveCfg = Release|Win32
+		{14034D8F-0D7B-4BAC-9A38-9E442B8F744D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -397,6 +407,7 @@ Global
 		{7622BC0C-383F-4E6F-9033-4A06882CEAA4} = {5E78E4FB-11D4-4802-8B3E-9B81C5F60FDA}
 		{516192EB-788A-4FE7-B2B7-2EF9AC036B12} = {AE34D983-CCFF-419E-9D32-821451C1ADFB}
 		{CC30B33E-62B2-49A2-9394-6FCA5A6FB5A9} = {43065273-F74F-4529-A8FF-0DEA004ECDE7}
+		{14034D8F-0D7B-4BAC-9A38-9E442B8F744D} = {5E78E4FB-11D4-4802-8B3E-9B81C5F60FDA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {19B1DB02-12F6-4B09-B23A-FB585D24135C}

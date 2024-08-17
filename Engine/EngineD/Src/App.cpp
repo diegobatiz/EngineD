@@ -6,6 +6,7 @@ using namespace EngineD;
 using namespace EngineD::Core;
 using namespace EngineD::Graphics;
 using namespace EngineD::Input;
+using namespace EngineD::Physics;
 
 void App::ChangeState(const std::string& stateName)
 {
@@ -36,6 +37,9 @@ void App::Run(const AppConfig& config)
 	TextureManager::StaticInitialize("../../Assets/Images/");
 	ModelManager::StaticInitialize();
 
+	PhysicsWorld::Settings settings;
+	PhysicsWorld::StaticInitialize(settings);
+
 	ASSERT(mCurrentState != nullptr, "App: need an app state");
 	mCurrentState->Initialize();
 
@@ -60,7 +64,11 @@ void App::Run(const AppConfig& config)
 			mCurrentState->Initialize();
 		}
 		float deltaTime = TimeUtil::GetDeltaTime();
-		mCurrentState->Update(deltaTime);
+		if (deltaTime < 0.5f)
+		{
+			PhysicsWorld::Get()->Update(deltaTime);
+			mCurrentState->Update(deltaTime);
+		}
 
 		GraphicsType* gs = GraphicsSystem::Get();
 		gs->BeginRender();
@@ -72,6 +80,8 @@ void App::Run(const AppConfig& config)
 	}
 
 	mCurrentState->Terminate();
+
+	PhysicsWorld::StaticTerminate();
 
 	ModelManager::StaticTerminate();
 	TextureManager::StaticTerminate();
