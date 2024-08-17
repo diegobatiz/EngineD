@@ -20,4 +20,7 @@ protected:
 
 	EngineD::Physics::CollisionShape mBallShape;
 	EngineD::Physics::RigidBody mBallRB;
+
+	EngineD::Physics::CollisionShape mGroundShape;
+	EngineD::Physics::RigidBody mGroundRB;
 };

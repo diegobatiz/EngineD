@@ -1,5 +1,7 @@
 #pragma once
 
+#include "PhysicsDebugDrawer.h"
+
 namespace EngineD::Physics
 {
 	class PhysicsObject;
@@ -35,6 +37,7 @@ namespace EngineD::Physics
 		PhysicsObjects mPhysicsObjects;
 
 		Settings mSettings;
+		PhysicsDebugDrawer mDebugDrawer;
 
 		//Bullet Objects
 		btBroadphaseInterface* mInterface = nullptr;

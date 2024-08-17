@@ -4,13 +4,13 @@
 #include "PhysicsWorld.h"
 
 using namespace EngineD;
-using namespace EngineD::Math;
 using namespace EngineD::Physics;
+using namespace EngineD::Math;
 using namespace EngineD::Graphics;
 
 RigidBody::~RigidBody()
 {
-	ASSERT(mRigidBody == nullptr && mMotionState == nullptr, "RigidBody: terminate muse be called");
+	ASSERT(mRigidBody == nullptr && mMotionState == nullptr, "RigidBody: terminate must be called");
 }
 
 void RigidBody::Initialize(EngineD::Graphics::Transform& graphicsTransform, const CollisionShape& shape, float mass)

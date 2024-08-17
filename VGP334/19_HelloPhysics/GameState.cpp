@@ -22,17 +22,20 @@ void GameState::Initialize()
 	Mesh ball = MeshBuilder::CreateSphere(60, 60, 1.0f);
 	mBall.meshBuffer.Initialize(ball);
 	mBall.diffuseMapId = TextureManager::Get()->LoadTexture("misc/basketball.jpg");
-
 	mBallShape.InitializeSphere(1.0f);
 	mBallRB.Initialize(mBall.transform, mBallShape, 3.0f);
 
 	Mesh ground = MeshBuilder::CreateHorizontalPlane(10, 10, 1.0f);
 	mGround.meshBuffer.Initialize(ground);
 	mGround.diffuseMapId = TextureManager::Get()->LoadTexture("misc/concrete.jpg");
+	mGroundShape.InitializeHull({ 5.0f, 5.0f, 0.5f }, { 0.0f, 0.0f, 0.0f });
+	mGroundRB.Initialize(mGround.transform, mGroundShape);
 }
 
 void GameState::Terminate()
 {
+	mGroundRB.Terminate();
+	mGroundShape.Terminate();
 	mGround.Terminate();
 	mBallRB.Terminate();
 	mBallShape.Terminate();

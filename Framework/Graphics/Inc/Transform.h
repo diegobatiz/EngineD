@@ -7,7 +7,7 @@ namespace EngineD::Graphics
 	struct Transform
 	{
 		Math::Vector3 position = Math::Vector3::Zero;
-		Math::Quaternion rotation = Math::Quaternion::Zero;
+		Math::Quaternion rotation = Math::Quaternion::Identity;
 		Math::Vector3 scale = Math::Vector3::One;
 
 		Math::Matrix4 GetMatrix4() const

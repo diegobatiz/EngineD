@@ -10,7 +10,7 @@ namespace EngineD::Physics
 
 		void InitializeSphere(float radius);
 		void InitializeBox(const EngineD::Math::Vector3& halfExtents);
-		void InitializeHull(const EngineD::Math::Vector3&, const EngineD::Math::Vector3& origin);
+		void InitializeHull(const EngineD::Math::Vector3& halfExtents, const EngineD::Math::Vector3& origin);
 		void InitializeEmpty();
 		void Terminate();
 

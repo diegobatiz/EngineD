@@ -33,9 +33,7 @@ inline btQuaternion ConvertTobtQuaternion(const EngineD::Math::Quaternion& q)
 
 inline btTransform ConvertTobtTransform(const EngineD::Graphics::Transform& transform)
 {
-	btVector3 v = ConvertTobtVector3(transform.position);
-	btQuaternion q = ConvertTobtQuaternion(transform.rotation);
-	return btTransform(q, v);
+	return btTransform(ConvertTobtQuaternion(transform.rotation), ConvertTobtVector3(transform.position));
 }
 
 inline EngineD::Math::Vector3 ConvertToVector3(const btVector3& v)
