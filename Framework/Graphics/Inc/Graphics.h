@@ -30,6 +30,7 @@
 #include "ModelIO.h"
 #include "ModelManager.h"
 #include "NormalMapEffect.h"
+#include "ParticleSystemEffect.h"
 #include "PixelShader_D3D11.h"
 #include "PostProcessingEffect.h"
 #include "RenderTarget.h"

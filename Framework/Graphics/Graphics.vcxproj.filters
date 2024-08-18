@@ -169,6 +169,9 @@
     <ClInclude Include="Inc\Animator.h">
       <Filter>Inc\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\ParticleSystemEffect.h">
+      <Filter>Inc\Effects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -272,6 +275,9 @@
     </ClCompile>
     <ClCompile Include="Src\Animator.cpp">
       <Filter>Src\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ParticleSystemEffect.cpp">
+      <Filter>Src\Effects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

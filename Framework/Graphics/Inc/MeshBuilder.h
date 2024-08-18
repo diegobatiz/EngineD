@@ -38,5 +38,8 @@ namespace EngineD::Graphics
 
 		//screen stuff
 		static MeshPX CreateScreenQuad();
+		
+		//Sprite Quad
+		static Mesh CreateSpriteQuad(float width, float height);
 	};
 }

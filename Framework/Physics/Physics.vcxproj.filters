@@ -7,6 +7,12 @@
     <Filter Include="Src">
       <UniqueIdentifier>{ce3a4a84-95d7-443c-a5eb-026927752301}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Inc\Particles">
+      <UniqueIdentifier>{5beefbe0-f704-4c13-b002-7246cf834dc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Particles">
+      <UniqueIdentifier>{fcb8eef1-2386-4474-b7a9-42d781783c6a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Inc\Common.h">
@@ -33,6 +39,12 @@
     <ClInclude Include="Inc\PhysicsDebugDrawer.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\Particle.h">
+      <Filter>Inc\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\ParticleSystem.h">
+      <Filter>Inc\Particles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\PhysicsWorld.cpp">
@@ -49,6 +61,12 @@
     </ClCompile>
     <ClCompile Include="Src\PhysicsDebugDrawer.cpp">
       <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Particle.cpp">
+      <Filter>Src\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ParticleSystem.cpp">
+      <Filter>Src\Particles</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
