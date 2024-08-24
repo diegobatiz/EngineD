@@ -88,10 +88,12 @@ void PhysicsWorld::DebugUI()
 			debugMode = (isEnabled) ? debugMode | btIDebugDraw::DBG_DrawAabb : debugMode & ~btIDebugDraw::DBG_DrawAabb;
 		}
 		isEnabled = (debugMode & btIDebugDraw::DBG_DrawContactPoints) > 0;
-		if (ImGui::Checkbox("DrawAABB", &isEnabled))
+		if (ImGui::Checkbox("DrawContactPoints", &isEnabled))
 		{
 			debugMode = (isEnabled) ? debugMode | btIDebugDraw::DBG_DrawContactPoints : debugMode & ~btIDebugDraw::DBG_DrawContactPoints;
 		}
+		mDebugDrawer.setDebugMode(debugMode);
+		mDynamicsWorld->debugDrawWorld();
 	}
 }
 

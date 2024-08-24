@@ -28,7 +28,7 @@ void GameState::Initialize()
 	Mesh ground = MeshBuilder::CreateHorizontalPlane(10, 10, 1.0f);
 	mGround.meshBuffer.Initialize(ground);
 	mGround.diffuseMapId = TextureManager::Get()->LoadTexture("misc/concrete.jpg");
-	mGroundShape.InitializeHull({ 5.0f, 5.0f, 0.5f }, { 0.0f, 0.0f, 0.0f });
+	mGroundShape.InitializeHull({ 5.0f, 0.5f, 5.0f }, { 0.0f, -0.5f, 0.0f });
 	mGroundRB.Initialize(mGround.transform, mGroundShape);
 }
 
@@ -114,5 +114,8 @@ void GameState::DebugUI()
 			ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
 		}
 		mStandardEffect.DebugUI();
+		Physics::PhysicsWorld::Get()->DebugUI();
 	ImGui::End();
+
+	SimpleDraw::Render(mCamera);
 }

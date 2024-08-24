@@ -55,7 +55,7 @@ namespace EngineD::Physics
 				CurrentParticleInfo info;
 				for (const int& index : mParticleIndices)
 				{
-					Particle* particle = mParticle[index].get();
+					Particle* particle = mParticles[index].get();
 					if (particle->IsActive())
 					{
 						particle->ObtainCurrentInfo(info);

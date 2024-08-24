@@ -22,7 +22,14 @@ void ParticleSystem::Initialize(const ParticleSystemInfo& info)
 
 void ParticleSystem::InitializeParticles(uint32_t count)
 {
-
+	mParticleIndices.resize(count);
+	mParticles.resize(count);
+	for (uint32_t i = 0; i < count; ++i)
+	{
+		mParticleIndices[i] = i;
+		mParticles[i] = std::make_unique<Particle>();
+		mParticles[i]->Initialize();
+	}
 }
 
 void ParticleSystem::Terminate()
@@ -49,12 +56,30 @@ void ParticleSystem::Update(float deltaTime)
 		{
 			p->Update(deltaTime);
 		}
-		std::sort(mParticleIndices.begin(), mParticleIndices.end(), [&](const int& a, const int& b))
+		std::sort(mParticleIndices.begin(), mParticleIndices.end(), [&](const int& a, const int& b)
+			{
+				float distSqrA = MagnitudeSqr(mParticles[a]->GetPosition() - mCamera->GetPosition());
+				float distSqrB = MagnitudeSqr(mParticles[b]->GetPosition() - mCamera->GetPosition());
+				return distSqrB < distSqrA;
+			});
 	}
 }
 
 bool ParticleSystem::IsActive() const
 {
+	if (mLifeTime > 0.0f)
+	{
+		return true;
+	}
+
+	for (auto& p : mParticles)
+	{
+		if (p->IsActive())
+		{
+			return true;
+		}
+	}
+
 	return false;
 }
 
@@ -64,10 +89,12 @@ void ParticleSystem::DebugUI()
 	 
 void ParticleSystem::SetPosition(const Math::Vector3& position)
 {	 
+	mInfo.spawnPosition = position;
 }	 
 	 
 void ParticleSystem::SetCamera(const Graphics::Camera& camera)
 {	 
+	mCamera = &camera;
 }	 
 	 
 void ParticleSystem::SpawnParticles()

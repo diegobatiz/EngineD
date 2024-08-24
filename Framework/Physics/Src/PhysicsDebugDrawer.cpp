@@ -19,18 +19,21 @@ void PhysicsDebugDrawer::drawContactPoint(const btVector3& PointOnB, const btVec
 
 void PhysicsDebugDrawer::reportErrorWarning(const char* warningString)
 {
-	
+	LOG("[PhysicsErrorWarning] %s", warningString);
 }
 
 void PhysicsDebugDrawer::draw3dText(const btVector3& location, const char* textString)
 {
+	//nothing
 }
 
 void PhysicsDebugDrawer::setDebugMode(int debugMode)
 {
+	mDebugMode = debugMode;
 }
 
 int PhysicsDebugDrawer::getDebugMode() const
 {
+	return mDebugMode;
 	return 0;
 }

@@ -49,3 +49,8 @@ void Particle::ObtainCurrentInfo(CurrentParticleInfo& info) const
 		info.transform.scale = Lerp(mData.startScale, mData.endScale, t);
 	}
 }
+
+const Math::Vector3& Particle::GetPosition() const
+{
+	return mTransform.position;
+}
