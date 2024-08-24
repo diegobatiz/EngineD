@@ -13,8 +13,6 @@ public:
 protected:
 	EngineD::Graphics::DirectionalLight mDirectionalLight;
 	EngineD::Graphics::Camera mCamera;
-	EngineD::Graphics::StandardEffect mStandardEffect;
-
-	EngineD::Graphics::RenderObject mParticleRenderObj;
-	EngineD::Physics::Particle mParticle;
+	EngineD::Graphics::ParticleSystemEffect mParticleEffect;
+	EngineD::Physics::ParticleSystem mParticleSystem;
 };
