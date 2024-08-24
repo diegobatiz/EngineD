@@ -39,9 +39,9 @@ void SoftBody::Initialize(Graphics::Mesh& mesh, float mass, const std::vector<ui
 	for (size_t i = 0; i < mesh.indices.size(); i += 6)
 	{
 		int index0 = mesh.indices[i];
-		int index1 = mesh.indices[i + 1];
-		int index2 = mesh.indices[i + 2];
-		int index3 = mesh.indices[i + 5];
+		int index1 = mesh.indices[i + 4];
+		int index2 = mesh.indices[i + 5];
+		int index3 = mesh.indices[i + 2];
 
 		mSoftBody->appendLink(index0, index1);
 		mSoftBody->appendLink(index1, index2);
