@@ -25,20 +25,20 @@ void GameState::Initialize()
 	info.spawnDirection = Math::Vector3::YAxis;
 	info.spawnDelay = 0.0f;
 	info.spawnLifeTime = 9999999999999.0f;
-	info.minParticlePerEmit = 2;
-	info.maxParticlePerEmit = 5;
-	info.minTimeBetweenEmit = 0.25f;
-	info.maxTimeBetweenEmit = 0.5f;
+	info.minParticlePerEmit = 1;
+	info.maxParticlePerEmit = 3;
+	info.minTimeBetweenEmit = 0.01f;
+	info.maxTimeBetweenEmit = 0.05f;
 	info.minSpawnAngle = -30.0f * Math::Constants::Pi / 180.0f;
 	info.maxSpawnAngle = 30.0f * Math::Constants::Pi / 180.0f;
-	info.minSpeed = 10.0f;
-	info.maxSpeed = 20.0f;
+	info.minSpeed = 5.0f;
+	info.maxSpeed = 10.0f;
 	info.minParticleLifetime = 0.5f;
-	info.maxParticleLifetime = 1.0f;
+	info.maxParticleLifetime = 3.0f;
 	info.minStartColor = Colors::Red;
-	info.maxStartColor = Colors::Yellow;
-	info.minEndColor = Colors::White;
-	info.maxEndColor = Colors::Orange;
+	info.maxStartColor = Colors::Red;
+	info.minEndColor = Colors::Yellow;
+	info.maxEndColor = Colors::Yellow;
 	info.minStartScale = Math::Vector3::One;
 	info.maxStartScale = { 1.5f, 1.5f, 1.5f };
 	info.minEndScale = { 0.5f, 0.5f, 0.5f };
@@ -123,6 +123,7 @@ void GameState::DebugUI()
 		}
 		Physics::PhysicsWorld::Get()->DebugUI();
 		mParticleEffect.DebugUI();
+		mParticleSystem.DebugUI();
 	ImGui::End();
 
 	SimpleDraw::Render(mCamera);

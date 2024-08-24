@@ -104,8 +104,8 @@ void ParticleSystem::DebugUI()
 		ImGui::DragFloat("MaxLife", &mInfo.maxParticleLifetime, 0.25f, mInfo.minParticleLifetime);
 		ImGui::ColorEdit4("MinStartColor", &mInfo.minStartColor.r);
 		ImGui::ColorEdit4("MaxStartColor", &mInfo.maxStartColor.r);
-		ImGui::ColorEdit4("MinStartColor", &mInfo.minEndColor.r);
-		ImGui::ColorEdit4("MinStartColor", &mInfo.maxEndColor.r);
+		ImGui::ColorEdit4("MinEndColor", &mInfo.minEndColor.r);
+		ImGui::ColorEdit4("MaxEndColor", &mInfo.maxEndColor.r);
 		ImGui::DragFloat3("MinStartScale", &mInfo.minStartScale.x, 0.1f, 0.001f);
 		ImGui::DragFloat3("MaxStartScale", &mInfo.maxStartScale.x, 0.1f, 0.001f);
 		ImGui::DragFloat3("MinEndScale", &mInfo.minEndScale.x, 0.1f, 0.001f);

@@ -11,7 +11,7 @@ void Particle::Initialize()
 	mLifeTime = 0.0f;
 	mCollisionShape.InitializeEmpty();
 	mTransform.position = { static_cast<float>(std::rand()), static_cast<float>(std::rand()), static_cast<float>(std::rand()) };
-	mRigidBody.Initialize(mTransform, mCollisionShape);
+	mRigidBody.Initialize(mTransform, mCollisionShape, 0.1f);
 }
 
 void Particle::Terminate()
