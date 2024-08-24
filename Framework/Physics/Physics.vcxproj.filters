@@ -45,6 +45,9 @@
     <ClInclude Include="Inc\ParticleSystem.h">
       <Filter>Inc\Particles</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\SoftBody.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\PhysicsWorld.cpp">
@@ -67,6 +70,9 @@
     </ClCompile>
     <ClCompile Include="Src\ParticleSystem.cpp">
       <Filter>Src\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SoftBody.cpp">
+      <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
