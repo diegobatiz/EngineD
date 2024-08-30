@@ -17,7 +17,7 @@ namespace EngineD::Physics
 		btSoftBody* GetSoftBody() override { return mSoftBody; }
 
 		btSoftBody* mSoftBody = nullptr;
-		Mesh* mMesh = nullptr;
+		Graphics::Mesh* mMesh = nullptr;
 	};
 
 }

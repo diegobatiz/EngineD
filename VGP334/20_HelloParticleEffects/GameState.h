@@ -11,7 +11,6 @@ public:
 	void DebugUI() override;
 
 protected:
-	EngineD::Graphics::DirectionalLight mDirectionalLight;
 	EngineD::Graphics::Camera mCamera;
 	EngineD::Graphics::ParticleSystemEffect mParticleEffect;
 	EngineD::Physics::ParticleSystem mParticleSystem;

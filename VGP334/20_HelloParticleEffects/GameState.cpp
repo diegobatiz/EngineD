@@ -10,11 +10,6 @@ void GameState::Initialize()
 	mCamera.SetPosition({ 0.0f, 3.0f, -10.0f });
 	mCamera.SetLookAt({ 0.0f, 0.0f, 0.0f });
 
-	mDirectionalLight.direction = Math::Normalize({ 1.0f, -1.0f, 1.0f });
-	mDirectionalLight.ambient = { 0.5f, 0.5f, 0.5f, 1.0f };
-	mDirectionalLight.diffuse = { 0.8f, 0.8f, 0.8f, 1.0f };
-	mDirectionalLight.specular = { 1.0f, 1.0f, 1.0f, 1.0f };
-
 	mParticleEffect.Initialize();
 	mParticleEffect.SetCamera(mCamera);
 
@@ -110,17 +105,6 @@ void GameState::Render()
 void GameState::DebugUI()
 {
 	ImGui::Begin("Debug Controls", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-		if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))
-		{
-			if (ImGui::DragFloat3("Direction", &mDirectionalLight.direction.x, 0.01f))
-			{
-				mDirectionalLight.direction = Math::Normalize(mDirectionalLight.direction);
-			}
-
-			ImGui::ColorEdit4("Ambient##Light", &mDirectionalLight.ambient.r);
-			ImGui::ColorEdit4("Diffuse##Light", &mDirectionalLight.diffuse.r);
-			ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
-		}
 		Physics::PhysicsWorld::Get()->DebugUI();
 		mParticleEffect.DebugUI();
 		mParticleSystem.DebugUI();

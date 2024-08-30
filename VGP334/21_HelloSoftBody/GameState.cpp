@@ -22,18 +22,35 @@ void GameState::Initialize()
 	Mesh ball = MeshBuilder::CreateSphere(60, 60, 1.0f);
 	mBall.meshBuffer.Initialize(ball);
 	mBall.diffuseMapId = TextureManager::Get()->LoadTexture("misc/basketball.jpg");
+	mBall.transform.position = { 0.0f, 5.0f, 0.0f };
 	mBallShape.InitializeSphere(1.0f);
-	mBallRB.Initialize(mBall.transform, mBallShape, 3.0f);
+	mBallRB.Initialize(mBall.transform, mBallShape, 10.0f);
 
 	Mesh ground = MeshBuilder::CreateHorizontalPlane(10, 10, 1.0f);
 	mGround.meshBuffer.Initialize(ground);
 	mGround.diffuseMapId = TextureManager::Get()->LoadTexture("misc/concrete.jpg");
 	mGroundShape.InitializeHull({ 5.0f, 0.5f, 5.0f }, { 0.0f, -0.5f, 0.0f });
 	mGroundRB.Initialize(mGround.transform, mGroundShape);
+
+	int rows = 10;
+	int cols = 10;
+	mClothMesh = MeshBuilder::CreateHorizontalPlane(rows, cols, 1.0f);
+	for (Vertex& v : mClothMesh.vertices)
+	{
+		v.position.y = 10.0f;
+	}
+	uint32_t lastVertex = mClothMesh.vertices.size() - 1;
+	uint32_t lastVertexOtherSide = lastVertex - rows;
+	mClothSoftBody.Initialize(mClothMesh, 1.0f, { lastVertex, lastVertexOtherSide });
+	mCloth.meshBuffer.Initialize(nullptr, sizeof(Vertex), mClothMesh.vertices.size(),
+		mClothMesh.indices.data(), mClothMesh.indices.size());
+	mCloth.diffuseMapId = TextureManager::Get()->LoadTexture("planets/earth/earth.jpg");
 }
 
 void GameState::Terminate()
 {
+	mCloth.Terminate();
+	mClothSoftBody.Terminate();
 	mGroundRB.Terminate();
 	mGroundShape.Terminate();
 	mGround.Terminate();
@@ -93,9 +110,11 @@ void GameState::Update(float deltaTime)
 
 void GameState::Render()
 {
+	mCloth.meshBuffer.Update(mClothMesh.vertices.data(), mClothMesh.vertices.size());
 	mStandardEffect.Begin();
 		mStandardEffect.Render(mBall);
 		mStandardEffect.Render(mGround);
+		mStandardEffect.Render(mCloth);
 	mStandardEffect.End();
 }
 

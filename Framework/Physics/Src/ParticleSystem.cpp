@@ -94,8 +94,8 @@ void ParticleSystem::DebugUI()
 		}
 		ImGui::DragInt("MinPerEmit", &mInfo.minParticlePerEmit);
 		ImGui::DragInt("MaxPerEmit", &mInfo.maxParticlePerEmit, 1, mInfo.minParticlePerEmit);
-		ImGui::DragFloat("MinTimeToEmit", &mInfo.minTimeBetweenEmit);
-		ImGui::DragFloat("MaxTimeToEmit", &mInfo.maxTimeBetweenEmit, mInfo.minTimeBetweenEmit);
+		ImGui::DragFloat("MinTimeToEmit", &mInfo.minTimeBetweenEmit, 0.01f);
+		ImGui::DragFloat("MaxTimeToEmit", &mInfo.maxTimeBetweenEmit, 0.01f, mInfo.minTimeBetweenEmit);
 		ImGui::DragFloat("MinSpawnAngle", &mInfo.minSpawnAngle, 0.001f, -Math::Constants::Pi);
 		ImGui::DragFloat("MaxSpawnAngle", &mInfo.maxSpawnAngle, 0.001f, mInfo.minSpawnAngle);
 		ImGui::DragFloat("MinSpeed", &mInfo.minSpeed);

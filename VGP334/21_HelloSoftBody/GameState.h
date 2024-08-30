@@ -16,11 +16,10 @@ protected:
 	EngineD::Graphics::StandardEffect mStandardEffect;
 
 	EngineD::Graphics::RenderObject mBall;
-	EngineD::Graphics::RenderObject mGround;
-
 	EngineD::Physics::CollisionShape mBallShape;
 	EngineD::Physics::RigidBody mBallRB;
 
+	EngineD::Graphics::RenderObject mGround;
 	EngineD::Physics::CollisionShape mGroundShape;
 	EngineD::Physics::RigidBody mGroundRB;
 
