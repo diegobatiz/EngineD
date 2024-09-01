@@ -121,3 +121,14 @@ const Math::Vector3& Animation::GetScale(float time) const
 	}
 	return Math::Vector3::One;
 }
+
+void Animation::PlayEvents(float prevTime, float curTime)
+{
+	for (uint32_t i = 0; i < mEventKeys.size(); i++)
+	{
+		if (mEventKeys[i].time > prevTime && mEventKeys[i].time <= curTime)
+		{
+			mEventKeys[i].key();
+		}
+	}
+}

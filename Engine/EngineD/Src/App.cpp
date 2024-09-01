@@ -1,12 +1,14 @@
 #include "Precompiled.h"
 #include "App.h"
 #include "AppState.h"
+#include "EventManager.h"
 
 using namespace EngineD;
 using namespace EngineD::Core;
 using namespace EngineD::Graphics;
 using namespace EngineD::Input;
 using namespace EngineD::Physics;
+using namespace EngineD::Audio;
 
 void App::ChangeState(const std::string& stateName)
 {
@@ -36,9 +38,11 @@ void App::Run(const AppConfig& config)
 	SimpleDraw::StaticInitialize(config.maxVertexCount);
 	TextureManager::StaticInitialize("../../Assets/Images/");
 	ModelManager::StaticInitialize();
-
 	PhysicsWorld::Settings settings;
 	PhysicsWorld::StaticInitialize(settings);
+	AudioSystem::StaticInitialize();
+	SoundEffectManager::StaticInitialize("../../Sounds/");
+	EventManager::StaticInitialize();
 
 	ASSERT(mCurrentState != nullptr, "App: need an app state");
 	mCurrentState->Initialize();
@@ -63,6 +67,9 @@ void App::Run(const AppConfig& config)
 			mCurrentState = std::exchange(mNextState, nullptr);
 			mCurrentState->Initialize();
 		}
+
+		AudioSystem::Get()->Update();
+
 		float deltaTime = TimeUtil::GetDeltaTime();
 		if (deltaTime < 0.5f)
 		{
@@ -81,8 +88,10 @@ void App::Run(const AppConfig& config)
 
 	mCurrentState->Terminate();
 
+	EventManager::StaticTerminate();
+	SoundEffectManager::StaticTerminate();
+	AudioSystem::StaticTerminate();
 	PhysicsWorld::StaticTerminate();
-
 	ModelManager::StaticTerminate();
 	TextureManager::StaticTerminate();
 	SimpleDraw::StaticTerminate();
