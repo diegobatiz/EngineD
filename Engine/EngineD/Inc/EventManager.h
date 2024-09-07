@@ -5,6 +5,7 @@
 
 namespace EngineD
 {
+	using ListenerId = std::size_t;
 	using EventCallback = std::function<void(const Event*)>;
 
 	class EventManager final
@@ -21,7 +22,7 @@ namespace EngineD
 		void Initialize();
 		void Terminate();
 
-		uint32_t AddListener(EventType eventType, const EventCallback& cb);
+		ListenerId AddListener(EventType eventType, const EventCallback& cb);
 		void RemoveListener(EventType eventType, uint32_t listenerId);
 
 	private:

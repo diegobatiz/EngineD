@@ -24,6 +24,7 @@ namespace EngineD
 
 	class AnimEvent : public Event
 	{
+	public:
 		AnimEvent() : Event(EventType::AnimEvent) {}
 		~AnimEvent() = default;
 
@@ -33,6 +34,7 @@ namespace EngineD
 
 	class SpacePressedEvent : public Event
 	{
+	public:
 		SpacePressedEvent() : Event(EventType::SpacePressed) {}
 		~SpacePressedEvent() = default;
 

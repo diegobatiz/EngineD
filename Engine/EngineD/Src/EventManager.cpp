@@ -49,7 +49,7 @@ void EventManager::Terminate()
 	mEventListeners.clear();
 }
 
-uint32_t EventManager::AddListener(EventType eventType, const EventCallback& cb)
+ListenerId EventManager::AddListener(EventType eventType, const EventCallback& cb)
 {
 	mEventListeners[eventType][++mListenerId] = cb;
 	return mListenerId;
@@ -71,11 +71,11 @@ void EventManager::RemoveListener(EventType eventType, uint32_t listenerId)
 
 void EventManager::BroadcastPrivate(const Event* event)
 {
-	auto listenersIter = mEventListeners.find(event);
+	auto listenersIter = mEventListeners.find(event->GetType());
 
 	if (listenersIter != mEventListeners.end())
 	{
-		for (auto& cb : listeners)
+		for (auto& cb : listenersIter->second)
 		{
 			cb.second(event);
 		}

@@ -11,6 +11,12 @@ public:
 	void DebugUI() override;
 
 protected:
+	void OnEvent2();
+	void OnEvent3();
+
+	void OnSpaceEvent(const EngineD::Event* event);
+	void OnAnimEvent(const EngineD::Event* event);
+
 	EngineD::Graphics::DirectionalLight mDirectionalLight;
 	EngineD::Graphics::Camera mCamera;
 
@@ -18,6 +24,13 @@ protected:
 	EngineD::Graphics::RenderGroup mCharacter;
 	EngineD::Graphics::Animator mCharacterAnimator;
 	EngineD::Graphics::StandardEffect mStandardEffect;
+
+	EngineD::ListenerId mSpaceEventId = 0;
+	EngineD::ListenerId mAnimEventId = 0;
+
+	std::vector<EngineD::Audio::SoundId> mEventSoundIds;
+	EngineD::Graphics::Animation mEventAnimation;
+	float mEventAnimationTime = 0.0f;
 
 	int mAnimIndex = -1;
 	bool mDrawSkeleton = false;

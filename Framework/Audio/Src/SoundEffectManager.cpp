@@ -30,7 +30,7 @@ void SoundEffectManager::StaticTerminate()
 
 SoundEffectManager* SoundEffectManager::Get()
 {
-	ASSERT(sSoundEffectManager == nullptr, "AudioSystem: is not initialized");
+	ASSERT(sSoundEffectManager != nullptr, "AudioSystem: is not initialized");
 	return sSoundEffectManager.get();
 }
 
@@ -54,7 +54,7 @@ SoundId SoundEffectManager::Load(const std::filesystem::path& fileName)
 		AudioSystem* as = AudioSystem::Get();
 		auto& soundEventPtr = iter->second;
 		soundEventPtr = std::make_unique<Entry>();
-		soundEventPtr->effect = std::make_unique<SoundEffect>(as->mAudioEngine, fullPath.wstring());
+		soundEventPtr->effect = std::make_unique<SoundEffect>(as->mAudioEngine, fullPath.wstring().c_str());
 		soundEventPtr->instance = soundEventPtr->effect->CreateInstance();
 	}
 

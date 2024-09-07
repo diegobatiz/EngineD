@@ -41,7 +41,7 @@ void App::Run(const AppConfig& config)
 	PhysicsWorld::Settings settings;
 	PhysicsWorld::StaticInitialize(settings);
 	AudioSystem::StaticInitialize();
-	SoundEffectManager::StaticInitialize("../../Sounds/");
+	SoundEffectManager::StaticInitialize("../../Assets/Sounds/");
 	EventManager::StaticInitialize();
 
 	ASSERT(mCurrentState != nullptr, "App: need an app state");

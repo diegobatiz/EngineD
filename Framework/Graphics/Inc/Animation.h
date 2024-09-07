@@ -10,13 +10,12 @@ namespace EngineD::Graphics
 	public:
 		Transform GetTransform(float time) const;
 		float GetDuration() const;
+		void PlayEvents(float prevTime, float curTime);
 
 	private:
 		const Math::Vector3& GetPosition(float time) const;
 		const Math::Quaternion& GetRotation(float time) const;
 		const Math::Vector3& GetScale(float time) const;
-
-		void PlayEvents(float prevTime, float curTime);
 
 		friend class AnimationBuilder;
 		friend class AnimationIO;

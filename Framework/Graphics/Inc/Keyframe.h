@@ -29,7 +29,7 @@ namespace EngineD::Graphics
 		EaseType easeType = EaseType::Linear;
 	};
 
-	using AnimationCallback = std::function<void>();
+	using AnimationCallback = std::function<void()>;
 
 	template<class T>
 	using Keyframes = std::vector<Keyframe<T>>;
