@@ -39,7 +39,7 @@ void GameState::Initialize()
 		.AddPositionKey({ 0.0f, 0.0f, 0.0f }, 0.0f)
 		.AddPositionKey({ 3.0f, 0.0f, 0.0f }, 2.0f)
 		.AddPositionKey({ 0.0f, 0.0f, 0.0f }, 3.0f)
-		.AddEventKey(cb, 1.0f)
+		//.AddEventKey(cb, 1.0f)
 		.AddEventKey(std::bind(&GameState::OnEvent2, this), 2.0f)
 		.AddEventKey(std::bind(&GameState::OnEvent3, this), 3.0f)
 		.Build();

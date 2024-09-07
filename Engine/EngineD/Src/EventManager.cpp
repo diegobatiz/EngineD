@@ -26,7 +26,7 @@ void EventManager::StaticTerminate()
 
 EventManager* EventManager::Get()
 {
-	ASSERT(sEventManager == nullptr, "AudioSystem: is not initialized");
+	ASSERT(sEventManager != nullptr, "EventSystem: is not initialized");
 	return sEventManager.get();
 }
 

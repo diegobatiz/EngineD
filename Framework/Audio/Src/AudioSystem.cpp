@@ -28,7 +28,7 @@ void AudioSystem::StaticTerminate()
 
 AudioSystem* AudioSystem::Get()
 {
-	ASSERT(sAudioSystem == nullptr, "AudioSystem: is not initialized");
+	ASSERT(sAudioSystem != nullptr, "AudioSystem: is not initialized");
 	return sAudioSystem.get();
 }
 

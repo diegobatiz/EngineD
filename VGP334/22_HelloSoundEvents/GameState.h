@@ -32,6 +32,6 @@ protected:
 	EngineD::Graphics::Animation mEventAnimation;
 	float mEventAnimationTime = 0.0f;
 
-	int mAnimIndex = -1;
+	int mAnimIndex = 1;
 	bool mDrawSkeleton = false;
 };
