@@ -20,10 +20,8 @@ void GameState::Initialize()
 	mSky.diffuseMapId = TextureManager::Get()->LoadTexture("skysphere/CloudySky.jpg");
 	mSky.UseLighting(false);
 
-	mModelId = ModelManager::Get()->LoadModelId("../../Assets/Models/SillyDancing/SillyDancing.model");
-	ModelManager::Get()->AddAnimation(mModelId, "../../Assets/Models/Animations/stepDance.animset");
-	ModelManager::Get()->AddAnimation(mModelId, "../../Assets/Models/Animations/waveDance.animset");
-	ModelManager::Get()->AddAnimation(mModelId, "../../Assets/Models/Animations/ymca.animset");
+	mModelId = ModelManager::Get()->LoadModelId("../../Assets/Models/Granny/Granny.model");
+	ModelManager::Get()->AddAnimation(mModelId, "../../Assets/Models/Final_Animations/Walking.animset");
 	mCharacter = CreateRenderGroup(mModelId, &mCharacterAnimator);
 	mCharacterAnimator.Initialize(mModelId);
 
@@ -32,26 +30,12 @@ void GameState::Initialize()
 	mStandardEffect.SetCamera(mCamera);
 	mStandardEffect.SetDirectionalLight(mDirectionalLight);
 
-	SoundEffectManager* sem = SoundEffectManager::Get();
-	mEventSoundIds.push_back(sem->Load("photongun1.wav"));
-	mEventSoundIds.push_back(sem->Load("megamanx_blast.wav"));
-	mEventSoundIds.push_back(sem->Load("explosion.wav"));
-
-	AnimationCallback cb = [&]() { sem->Play(mEventSoundIds[0]); };
-
 	mEventAnimationTime = 0.0f;
 	mEventAnimation = AnimationBuilder()
 		.AddPositionKey({ 0.0f, 0.0f, 0.0f }, 0.0f)
-		.AddPositionKey({ 3.0f, 0.0f, 0.0f }, 2.0f)
-		.AddPositionKey({ 0.0f, 0.0f, 0.0f }, 3.0f)
-		//.AddEventKey(cb, 1.0f)
-		.AddEventKey(std::bind(&GameState::OnEvent2, this), 2.0f)
-		.AddEventKey(std::bind(&GameState::OnEvent3, this), 3.0f)
 		.Build();
 
-	EventManager* em = EventManager::Get();
-	mSpaceEventId = em->AddListener(EventType::SpacePressed, std::bind(&GameState::OnSpaceEvent, this, std::placeholders::_1));
-	mAnimEventId = em->AddListener(EventType::AnimEvent, std::bind(&GameState::OnAnimEvent, this, std::placeholders::_1));
+	ChangeAnimation(1);
 }
 
 void GameState::Terminate()
@@ -104,27 +88,15 @@ void GameState::Update(float deltaTime)
 	}
 #pragma endregion
 
-	if (input->IsKeyPressed(KeyCode::SPACE))
-	{
-		SpacePressedEvent spacePressed;
-		EventManager::Broadcast(&spacePressed);
-	}
-
-	float prevTime = mEventAnimationTime;
-	mEventAnimationTime += deltaTime;
-	mEventAnimation.PlayEvents(prevTime, mEventAnimationTime);
-	while (mEventAnimationTime >= mEventAnimation.GetDuration())
-	{
-		mEventAnimationTime -= mEventAnimation.GetDuration();
-	}
 }
 
 void GameState::Render()
 {
-	for (auto& ro : mCharacter)
-	{
-		ro.transform = mEventAnimation.GetTransform(mEventAnimationTime);
-	}
+	//for (auto& ro : mCharacter)
+	//{
+	//	ro.transform = mEventAnimation.GetTransform(mEventAnimationTime);
+	//}
+	/*
 	if (mDrawSkeleton)
 	{
 		Matrix4 transform = mCharacter[0].transform.GetMatrix4();
@@ -136,10 +108,16 @@ void GameState::Render()
 		}
 		AnimationUtil::DrawSkeleton(mModelId, boneTransforms);
 	}
+	*/
 
 	SimpleDraw::AddGroundPlane(10.0f, Colors::White);
 	SimpleDraw::Render(mCamera);
 
+
+	mStandardEffect.Begin();
+		DrawRenderGroup(mStandardEffect, mCharacter);
+		mStandardEffect.Render(mSky);
+	mStandardEffect.End();
 	if (!mDrawSkeleton)
 	{
 		mStandardEffect.Begin();
@@ -172,37 +150,7 @@ void GameState::DebugUI()
 	ImGui::End();
 }
 
-void GameState::OnEvent2()
+void GameState::ChangeAnimation(int animId)
 {
-	SoundEffectManager::Get()->Play(mEventSoundIds[1]);
-	AnimEvent animEvent;
-	animEvent.eventName = "Shoot";
-	EventManager::Broadcast(&animEvent);
-}
-
-void GameState::OnEvent3()
-{
-	SoundEffectManager::Get()->Play(mEventSoundIds[2]);
-	AnimEvent animEvent;
-	animEvent.eventName = "Explode";
-	EventManager::Broadcast(&animEvent);
-}
-
-void GameState::OnSpaceEvent(const EngineD::Event* event)
-{
-	LOG("SPACE EVENT OCCURED");
-	SoundEffectManager::Get()->Play(mEventSoundIds[2]);
-}
-
-void GameState::OnAnimEvent(const EngineD::Event* event)
-{
-	AnimEvent* eventData = (AnimEvent*)event;
-	if (eventData->eventName == "Shoot")
-	{
-		LOG("SHOOT EVENT OCCURED");
-	}
-	else if (eventData->eventName == "Explode")
-	{
-		LOG("EXPLODE EVENT OCCURED");
-	}
+	mCharacterAnimator.PlayAnimation(animId, true);
 }

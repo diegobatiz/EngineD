@@ -11,11 +11,6 @@ public:
 	void DebugUI() override;
 
 protected:
-	void OnEvent2();
-	void OnEvent3();
-
-	void OnSpaceEvent(const EngineD::Event* event);
-	void OnAnimEvent(const EngineD::Event* event);
 
 	EngineD::Graphics::DirectionalLight mDirectionalLight;
 	EngineD::Graphics::Camera mCamera;
@@ -36,4 +31,6 @@ protected:
 	bool mDrawSkeleton = false;
 
 	EngineD::Graphics::RenderObject mSky;
+
+	void ChangeAnimation(int animId);
 };
