@@ -72,7 +72,7 @@ void StandardEffect::Render(const RenderObject& renderObject)
 	settingsData.useDiffuseMap = renderObject.diffuseMapId > 0 && mSettingsData.useDiffuseMap > 0 ? 1 : 0;
 	settingsData.useNormalMap = renderObject.normalMapId > 0 && mSettingsData.useNormalMap > 0 ? 1 : 0;
 	settingsData.useSpecMap = renderObject.specMapId > 0 && mSettingsData.useSpecMap > 0 ? 1 : 0;
-	settingsData.useLighting = mSettingsData.useLighting > 0 ? 1 : 0;
+	settingsData.useLighting = renderObject.useLighting > 0 ? 1 : 0;
 	settingsData.useBumpMap = renderObject.bumpMapId > 0 && mSettingsData.useBumpMap > 0;
 	settingsData.bumpWeight = mSettingsData.bumpWeight;
 	settingsData.useShadowMap = mShadowMap != nullptr && mSettingsData.useShadowMap > 0;

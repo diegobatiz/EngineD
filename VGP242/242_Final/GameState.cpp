@@ -22,7 +22,7 @@ void GameState::Initialize()
 	CreatePlanet( 0.5,  21, 1320,   2, L"../../Assets/Images/planets/neptune.jpg");
 	CreatePlanet( 0.2,  27, 1984,  50, L"../../Assets/Images/planets/pluto.jpg");
 
-	CreateSkySphere(L"../../Assets/Images/skysphere/nebula.png");
+	CreateSkySphere(L"../../Assets/Images/skysphere/CloudySky.jpg");
 
 	GraphicsSystem::Get()->InitializeBuffer(sizeof(Math::Matrix4));
 

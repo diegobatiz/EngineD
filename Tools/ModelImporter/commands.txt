@@ -6,3 +6,6 @@
 -scale 0.01 -animOnly 1 ../../Assets/Models/Animations/stepDance.fbx ../../Assets/Models/Animations/stepDance.fbx
 
 -scale 0.01 ../../Assets/Models/Drunk/Man.fbx ../../Assets/Models/Animations/Man.fbx
+
+-scale 0.01 ../../Assets/Models/Granny/Granny.fbx ../../Assets/Models/Granny/Granny.model
+-scale 0.01 -animOnly 1 ../../Assets/Models/Final_Animations/Walking.fbx ../../Assets/Models/Final_Animations/Walking.fbx

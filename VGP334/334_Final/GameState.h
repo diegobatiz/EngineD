@@ -34,4 +34,6 @@ protected:
 
 	int mAnimIndex = 1;
 	bool mDrawSkeleton = false;
+
+	EngineD::Graphics::RenderObject mSky;
 };

@@ -15,6 +15,11 @@ void GameState::Initialize()
 	mDirectionalLight.diffuse = { 0.8f, 0.8f, 0.8f, 1.0f };
 	mDirectionalLight.specular = { 1.0f, 1.0f, 1.0f, 1.0f };
 
+	Mesh sky = MeshBuilder::CreateSkySphere(60, 60, 100.0f);
+	mSky.meshBuffer.Initialize(sky);
+	mSky.diffuseMapId = TextureManager::Get()->LoadTexture("skysphere/CloudySky.jpg");
+	mSky.UseLighting(false);
+
 	mModelId = ModelManager::Get()->LoadModelId("../../Assets/Models/SillyDancing/SillyDancing.model");
 	ModelManager::Get()->AddAnimation(mModelId, "../../Assets/Models/Animations/stepDance.animset");
 	ModelManager::Get()->AddAnimation(mModelId, "../../Assets/Models/Animations/waveDance.animset");
@@ -53,6 +58,7 @@ void GameState::Terminate()
 {
 	mStandardEffect.Terminate();
 	CleanupRenderGroup(mCharacter);
+	mSky.Terminate();
 }
 
 void GameState::Update(float deltaTime)
@@ -138,6 +144,7 @@ void GameState::Render()
 	{
 		mStandardEffect.Begin();
 			DrawRenderGroup(mStandardEffect, mCharacter);
+			mStandardEffect.Render(mSky);
 		mStandardEffect.End();
 	}
 }

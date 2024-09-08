@@ -24,10 +24,16 @@ namespace EngineD::Graphics
 		TextureID normalMapId;
 		TextureID specMapId;
 		TextureID bumpMapId;
+		bool useLighting = 1;
 
 		ModelId modelId;
 		const Skeleton* skeleton = nullptr;
 		const Animator* animator = nullptr;
+
+		void UseLighting(bool lighting)
+		{
+			useLighting = lighting;
+		}
 	};
 
 	using RenderGroup = std::vector<RenderObject>;
