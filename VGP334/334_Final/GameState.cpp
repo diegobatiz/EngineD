@@ -20,8 +20,8 @@ void GameState::Initialize()
 	mSky.diffuseMapId = TextureManager::Get()->LoadTexture("skysphere/CloudySky.jpg");
 	mSky.UseLighting(false);
 
-	mModelId = ModelManager::Get()->LoadModelId("../../Assets/Models/Granny/Granny.model");
-	ModelManager::Get()->AddAnimation(mModelId, "../../Assets/Models/Final_Animations/Walking.animset");
+	mModelId = ModelManager::Get()->LoadModelId("../../Assets/Models/Racer/Racer.model");
+	ModelManager::Get()->AddAnimation(mModelId, "../../Assets/Models/Racer/RacerAnimations/Walking.animset");
 	mCharacter = CreateRenderGroup(mModelId, &mCharacterAnimator);
 	mCharacterAnimator.Initialize(mModelId);
 

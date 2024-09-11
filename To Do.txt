@@ -1,0 +1,4 @@
+For Grass Shader
+https://www.braynzarsoft.net/viewtutorial/q16390-33-instancing-with-indexed-primitives
+
+Make model more than 0.01 for scale

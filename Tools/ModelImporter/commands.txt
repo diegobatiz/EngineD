@@ -7,5 +7,5 @@
 
 -scale 0.01 ../../Assets/Models/Drunk/Man.fbx ../../Assets/Models/Animations/Man.fbx
 
--scale 0.01 ../../Assets/Models/Granny/Granny.fbx ../../Assets/Models/Granny/Granny.model
--scale 0.01 -animOnly 1 ../../Assets/Models/Final_Animations/Walking.fbx ../../Assets/Models/Final_Animations/Walking.fbx
+-scale 0.01 ../../Assets/Models/Racer/Racer.fbx ../../Assets/Models/Racer/Racer.model
+-scale 0.01 -animOnly 1 ../../Assets/Models/Racer/RacerAnimations/Walking.fbx ../../Assets/Models/Racer/RacerAnimations/Walking.fbx
