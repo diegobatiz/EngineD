@@ -1,19 +1,45 @@
 Person A walking <- camera follows him 3rd person
+- A Walking anim
 
-Person A greets Person B 
+- B Waving anim
+
+Person A greets Person B unenthousiastically
+- A Waving anim
 
 Start talking <- camera is chest height and up
+
+- B Arguing anim
+
+- A Arguing anim
 
 Guy running at them with axe <-show whole body
 
 guy with axe runs at them and hits Person B  <- 3rd person
 
+- A Reacting anim
+
 Person B dies
 
 Person A runs away
 
+- A Running anim
+
 Person A cries <- Close up
+
+- A Crying anim
+
+- A Kneeling anim
+
+- A Praying anim
+
+Guy charges Person A
+
+- A idle anim
 
 Person A points
 
-Camera pans away and world blows up
+- A Pointing anim
+
+Guy goes flying
+
+Camera pans away and moon blows up

@@ -22,6 +22,9 @@ void GameState::Initialize()
 
 	mModelId = ModelManager::Get()->LoadModelId("../../Assets/Models/Racer/Racer.model");
 	ModelManager::Get()->AddAnimation(mModelId, "../../Assets/Models/Racer/RacerAnimations/Walking.animset");
+	ModelManager::Get()->AddAnimation(mModelId, "../../Assets/Models/Racer/RacerAnimations/Waving.animset");
+	ModelManager::Get()->AddAnimation(mModelId, "../../Assets/Models/Racer/RacerAnimations/Arguing.animset");
+	ModelManager::Get()->AddAnimation(mModelId, "../../Assets/Models/Racer/RacerAnimations/Reacting.animset");
 	mCharacter = CreateRenderGroup(mModelId, &mCharacterAnimator);
 	mCharacterAnimator.Initialize(mModelId);
 
