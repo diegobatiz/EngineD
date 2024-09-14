@@ -9,3 +9,6 @@
 
 -scale 0.01 ../../Assets/Models/Racer/Racer.fbx ../../Assets/Models/Racer/Racer.model
 -scale 0.01 -animOnly 1 ../../Assets/Models/Racer/RacerAnimations/Walking.fbx ../../Assets/Models/Racer/RacerAnimations/Walking.fbx
+
+-scale 0.01 ../../Assets/Models/Joe/Joe.fbx ../../Assets/Models/Joe/Joe.model
+-scale 0.01 -animOnly 1 ../../Assets/Models/Joe/JoeAnimations/Walking.fbx ../../Assets/Models/Joe/JoeAnimations/Walking.fbx
