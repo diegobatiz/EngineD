@@ -7,11 +7,11 @@ using namespace EngineD::Audio;
 
 void GameState::Initialize()
 {
-	mCamera.SetPosition({ 0.0f, 3.0f, -10.0f });
-	mCamera.SetLookAt({ 0.0f, 0.0f, 0.0f });
+	mCamera.SetPosition({ 0, 2.5f, -3.0f });
+	mCamera.SetLookAt({ 0.0f, 1.0f, 0.0f });
 
 	mDirectionalLight.direction = Math::Normalize({ 1.0f, -1.0f, 1.0f });
-	mDirectionalLight.ambient = { 0.5f, 0.5f, 0.5f, 1.0f };
+	mDirectionalLight.ambient = { 1.0f, 1.0f, 1.0f, 1.0f };
 	mDirectionalLight.diffuse = { 0.8f, 0.8f, 0.8f, 1.0f };
 	mDirectionalLight.specular = { 1.0f, 1.0f, 1.0f, 1.0f };
 
@@ -20,34 +20,122 @@ void GameState::Initialize()
 	mSky.diffuseMapId = TextureManager::Get()->LoadTexture("skysphere/CloudySky.jpg");
 	mSky.UseLighting(false);
 
-	mModelId = ModelManager::Get()->LoadModelId("../../Assets/Models/Joe/Joe.model");
-	ModelManager::Get()->AddAnimation(mModelId, "../../Assets/Models/Joe/JoeAnimations/Waving.animset");
-	mCharacter = CreateRenderGroup(mModelId, &mCharacterAnimator);
-	mCharacterAnimator.Initialize(mModelId);
+	mModelIdA = ModelManager::Get()->LoadModelId("../../Assets/Models/Racer/Racer.model");
+	ModelManager::Get()->AddAnimation(mModelIdA, "../../Assets/Models/Racer/RacerAnimations/Walking.animset");
+	ModelManager::Get()->AddAnimation(mModelIdA, "../../Assets/Models/Racer/RacerAnimations/Idle.animset");
+	ModelManager::Get()->AddAnimation(mModelIdA, "../../Assets/Models/Racer/RacerAnimations/Waving.animset");
+	ModelManager::Get()->AddAnimation(mModelIdA, "../../Assets/Models/Racer/RacerAnimations/Arguing.animset");
+	mCharacterA = CreateRenderGroup(mModelIdA, &mCharacterAnimatorA);
+	mCharacterAnimatorA.Initialize(mModelIdA);
+
+	mModelIdB = ModelManager::Get()->LoadModelId("../../Assets/Models/Joe/Joe.model");
+	ModelManager::Get()->AddAnimation(mModelIdB, "../../Assets/Models/Joe/JoeAnimations/Waving.animset");
+	ModelManager::Get()->AddAnimation(mModelIdB, "../../Assets/Models/Joe/JoeAnimations/Arguing.animset");
+	ModelManager::Get()->AddAnimation(mModelIdB, "../../Assets/Models/Joe/JoeAnimations/Idle.animset");
+	mCharacterB = CreateRenderGroup(mModelIdB, &mCharacterAnimatorB);
+	mCharacterAnimatorB.Initialize(mModelIdB);
+
+	mModelIdC = ModelManager::Get()->LoadModelId("../../Assets/Models/Guy/Guy.model");
+	ModelManager::Get()->AddAnimation(mModelIdC, "../../Assets/Models/Guy/GuyAnimations/Run.animset");
+	mCharacterC = CreateRenderGroup(mModelIdC, &mCharacterAnimatorC);
+	mCharacterAnimatorC.Initialize(mModelIdC);
 
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/Standard.fx";
 	mStandardEffect.Initialize(shaderFilePath);
 	mStandardEffect.SetCamera(mCamera);
 	mStandardEffect.SetDirectionalLight(mDirectionalLight);
 
-	mEventAnimationTime = 0.0f;
-	mEventAnimation = AnimationBuilder()
+	mAnimationTime = 0.0f;
+	mAnimationA = AnimationBuilder()
 		.AddPositionKey({ 0.0f, 0.0f, 0.0f }, 0.0f)
+		.AddPositionKey({ 0.0f, 0.0f, -10.0f }, 6.0f)
+		.AddRotationKey({ 0, 0, 0, 0 }, 7.0f)
+		.AddPositionKey({ 0.0f, 0.0f, -12.0f }, 7.0f)
+		.AddRotationKey({ 0, -0.7071, 0, 0.7071 }, 7.1f)
+		.AddEventKey(std::bind(&GameState::IdleAnimationA, this), 7.0f)
+		.AddEventKey(std::bind(&GameState::FaceLightingLeft, this), 9.0f)
+		.AddEventKey(std::bind(&GameState::FaceLightingRight, this), 10.0f)
+		.AddEventKey(std::bind(&GameState::FaceLightingLeft, this), 12.0f)
+		.AddEventKey(std::bind(&GameState::WavingAnimationA, this), 12.0f)
+		.AddEventKey(std::bind(&GameState::FaceLightingMiddle, this), 16.5f)
+		.AddEventKey(std::bind(&GameState::ArgueAnimationA, this), 16.5f)
+		.AddEventKey(std::bind(&GameState::FaceLightingBack, this), 26.1f)
+		.AddPositionKey({ 0.0f, 0.0f, -12.0f }, 100.0f)
 		.Build();
 
-	ChangeAnimation(1);
+	mAnimationB = AnimationBuilder()
+		.AddPositionKey({ 4.0f, 0.0f, -12.0f }, 0.0f)
+		.AddRotationKey({ 0, 0.7071f, 0, 0.7071f }, 0.0f)
+		.AddPositionKey({ 4.0f, 0.0f, -12.0f }, 16.48f)
+		.AddPositionKey({ 2.5f, 0.0f, -12.0f }, 16.5f)
+		.AddEventKey(std::bind(&GameState::ArgueAnimationB, this), 16.5f)
+		.AddPositionKey({ 2.5f, 0.0f, -12.0f }, 100.0f)
+		.Build();
+
+	mAnimationC = AnimationBuilder()
+		.AddPositionKey({ 2.5f, 0.0f, -30.0f }, 0.0f)
+		.AddRotationKey({ 0, 1, 0, 0 }, 0.0f)
+		.AddPositionKey({ 2.5f, 0.0f, -40.0f }, 26.0f)
+		.AddPositionKey({ 2.5f, 0.0f, -13.0f }, 36.0f)
+		.AddEventKey(std::bind(&GameState::AttackAnimationC, this), 16.5f)
+		.Build();
+
+	mCameraAnimation = AnimationBuilder()
+		.AddPositionKey({ 0, 2.5f, -3.0f }, 0.0f)
+		.AddPositionKey({ 0, 2.5f, -13.0f }, 6.09f)
+		.AddPositionKey({ 2.5f, 1.7f, -12.5f }, 6.1f)
+		.AddEventKey(std::bind(&GameState::SetCameraLookAtB, this), 6.1f)
+		.AddPositionKey({ 2.5f, 1.7f, -12.5f }, 8.99f)
+		.AddPositionKey({ 1.15f, 1.6f, -12.3f }, 9.0f)
+		.AddEventKey(std::bind(&GameState::SetCameraLookAtA, this), 9.0f)
+		.AddPositionKey({ 1.15f, 1.6f, -12.3f }, 9.99f)
+		.AddPositionKey({ 2.5f, 1.7f, -12.5f }, 10.0f)
+		.AddEventKey(std::bind(&GameState::SetCameraLookAtB, this), 10.0f)
+		.AddPositionKey({ 2.5f, 1.7f, -12.5f }, 11.99f)
+		.AddPositionKey({ 1.15f, 1.6f, -12.3f }, 12.0f)
+		.AddEventKey(std::bind(&GameState::SetCameraLookAtA, this), 12.0f)
+		.AddPositionKey({ 1.15f, 1.6f, -12.3f }, 16.49f)
+		.AddPositionKey({ 1.6f, 2.3f, -14.6f }, 16.5f)
+		.AddEventKey(std::bind(&GameState::SetCameraLookAtMiddle, this), 16.51f)
+		.AddPositionKey({ 1.6f, 2.3f, -14.6f }, 25.99f)
+		.AddPositionKey({ 1.0f, 2.3f, -9.7f }, 26.0f)
+		.AddEventKey(std::bind(&GameState::SetCameraLookAtC, this), 26.1f)
+		.AddPositionKey({ 1.0f, 2.3f, -9.7f }, 34.99f)
+		.AddPositionKey({ 1.0f, 2.3f, -9.7f }, 35.0f)
+		.Build();
+
+	ChangeAnimation(1, mCharacterAnimatorA);
+	ChangeAnimation(1, mCharacterAnimatorB);
+	ChangeAnimation(1, mCharacterAnimatorC);
 }
 
 void GameState::Terminate()
 {
 	mStandardEffect.Terminate();
-	CleanupRenderGroup(mCharacter);
+	CleanupRenderGroup(mCharacterC);
+	CleanupRenderGroup(mCharacterB);
+	CleanupRenderGroup(mCharacterA);
 	mSky.Terminate();
 }
 
 void GameState::Update(float deltaTime)
 {
-	mCharacterAnimator.Update(deltaTime);
+	if (!mPauseAnimation)
+	{
+		mCharacterAnimatorA.Update(deltaTime);
+		mCharacterAnimatorB.Update(deltaTime);
+		mCharacterAnimatorC.Update(deltaTime);
+
+		float prevTime = mAnimationTime;
+		mAnimationTime += deltaTime;
+		mCameraAnimation.PlayEvents(prevTime, mAnimationTime);
+		mAnimationA.PlayEvents(prevTime, mAnimationTime);
+		mAnimationB.PlayEvents(prevTime, mAnimationTime);
+		while (mAnimationTime >= mAnimationA.GetDuration())
+		{
+			mAnimationTime -= mAnimationA.GetDuration();
+		}
+	}
 
 #pragma region CameraMovement
 	auto input = Input::InputSystem::Get();
@@ -92,39 +180,36 @@ void GameState::Update(float deltaTime)
 
 void GameState::Render()
 {
-	//for (auto& ro : mCharacter)
-	//{
-	//	ro.transform = mEventAnimation.GetTransform(mEventAnimationTime);
-	//}
-	/*
-	if (mDrawSkeleton)
+	for (auto& ro : mCharacterA)
 	{
-		Matrix4 transform = mCharacter[0].transform.GetMatrix4();
-		AnimationUtil::BoneTransforms boneTransforms;
-		AnimationUtil::ComputeBoneTransforms(mModelId, boneTransforms, &mCharacterAnimator);
-		for (auto& boneTransform : boneTransforms)
-		{
-			boneTransform = boneTransform * transform;
-		}
-		AnimationUtil::DrawSkeleton(mModelId, boneTransforms);
+		ro.transform = mAnimationA.GetTransform(mAnimationTime);
 	}
-	*/
+
+	for (auto& ro : mCharacterB)
+	{
+		ro.transform = mAnimationB.GetTransform(mAnimationTime);
+	}
+
+	for (auto& ro : mCharacterC)
+	{
+		ro.transform = mAnimationC.GetTransform(mAnimationTime);
+	}
+
+	if (!mPauseAnimation)
+	{
+		mCamera.SetPosition(mCameraAnimation.GetTransform(mAnimationTime).position);
+	}
 
 	SimpleDraw::AddGroundPlane(10.0f, Colors::White);
 	SimpleDraw::Render(mCamera);
 
 
 	mStandardEffect.Begin();
-		DrawRenderGroup(mStandardEffect, mCharacter);
+		DrawRenderGroup(mStandardEffect, mCharacterA);
+		DrawRenderGroup(mStandardEffect, mCharacterB);
+		DrawRenderGroup(mStandardEffect, mCharacterC);
 		mStandardEffect.Render(mSky);
 	mStandardEffect.End();
-	if (!mDrawSkeleton)
-	{
-		mStandardEffect.Begin();
-			DrawRenderGroup(mStandardEffect, mCharacter);
-			mStandardEffect.Render(mSky);
-		mStandardEffect.End();
-	}
 }
 
 void GameState::DebugUI()
@@ -141,16 +226,91 @@ void GameState::DebugUI()
 			ImGui::ColorEdit4("Diffuse##Light", &mDirectionalLight.diffuse.r);
 			ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
 		}
-		ImGui::Checkbox("DrawSkeleton", &mDrawSkeleton);
-		if (ImGui::DragInt("Animation", &mAnimIndex, 1, -1, mCharacterAnimator.GetAnimationCount() - 1))
+
+		if (ImGui::CollapsingHeader("CameraTransform", ImGuiTreeNodeFlags_DefaultOpen))
 		{
-			mCharacterAnimator.PlayAnimation(mAnimIndex, true);
+			Vector3 position = mCamera.GetPosition();
+			ImGui::DragFloat3("Position", &position.x, 0.1f);
 		}
+
+		ImGui::DragFloat("Time", &mAnimationTime, 0.1f);
+
+		ImGui::Checkbox("PauseAnimation", &mPauseAnimation);
 		mStandardEffect.DebugUI();
 	ImGui::End();
 }
 
-void GameState::ChangeAnimation(int animId)
+void GameState::ChangeAnimation(int animId, Animator& animator)
 {
-	mCharacterAnimator.PlayAnimation(animId, true);
+	animator.PlayAnimation(animId, true);
+}
+
+void GameState::IdleAnimationA()
+{
+	 ChangeAnimation(2, mCharacterAnimatorA);
+}
+
+void GameState::WavingAnimationA()
+{
+	ChangeAnimation(3, mCharacterAnimatorA);
+}
+
+void GameState::ArgueAnimationA()
+{
+	ChangeAnimation(4, mCharacterAnimatorA);
+}
+
+void GameState::ArgueAnimationB()
+{
+	ChangeAnimation(2, mCharacterAnimatorB);
+}
+
+void GameState::AttackAnimationC()
+{
+}
+
+void GameState::SetCameraLookAtA()
+{
+	Vector3 targetPosition = mCharacterA[0].transform.position;
+	targetPosition.y += 1.2;
+	mCamera.SetLookAt(targetPosition);
+}
+
+void GameState::SetCameraLookAtB()
+{
+	Vector3 targetPosition = mCharacterB[0].transform.position;
+	targetPosition.y += 1.2f;
+	mCamera.SetLookAt(targetPosition);
+}
+
+void GameState::SetCameraLookAtC()
+{
+	Vector3 targetPosition = mCharacterC[0].transform.position;
+	targetPosition.y += 1.2f;
+	mCamera.SetLookAt(targetPosition);
+}
+
+void GameState::SetCameraLookAtMiddle()
+{
+	mCamera.SetLookAt({1.5, 1.0f, -12.0f});
+}
+
+void GameState::FaceLightingLeft()
+{
+	mDirectionalLight.direction = Math::Normalize({-1.0f, -1.0f, 1.0f });
+}
+
+void GameState::FaceLightingRight()
+{
+	mDirectionalLight.direction = Math::Normalize({ 1.0f, -0.3f, -0.3f });
+}
+
+void GameState::FaceLightingMiddle()
+{
+	mDirectionalLight.direction = { 0.037f, -0.815f, 0.578f };
+}
+
+void GameState::FaceLightingBack()
+{
+	mDirectionalLight.direction = { 0.269f, -0.283f, -0.921f };
 }

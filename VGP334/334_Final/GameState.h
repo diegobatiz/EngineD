@@ -12,25 +12,56 @@ public:
 
 protected:
 
+	EngineD::Graphics::StandardEffect mStandardEffect;
 	EngineD::Graphics::DirectionalLight mDirectionalLight;
+
 	EngineD::Graphics::Camera mCamera;
 
-	EngineD::Graphics::ModelId mModelId;
-	EngineD::Graphics::RenderGroup mCharacter;
-	EngineD::Graphics::Animator mCharacterAnimator;
-	EngineD::Graphics::StandardEffect mStandardEffect;
+	EngineD::Graphics::ModelId mModelIdA;
+	EngineD::Graphics::RenderGroup mCharacterA;
+	EngineD::Graphics::Animator mCharacterAnimatorA;
 
-	EngineD::ListenerId mSpaceEventId = 0;
-	EngineD::ListenerId mAnimEventId = 0;
+	EngineD::Graphics::ModelId mModelIdB;
+	EngineD::Graphics::RenderGroup mCharacterB;
+	EngineD::Graphics::Animator mCharacterAnimatorB;
 
-	std::vector<EngineD::Audio::SoundId> mEventSoundIds;
-	EngineD::Graphics::Animation mEventAnimation;
-	float mEventAnimationTime = 0.0f;
+	EngineD::Graphics::ModelId mModelIdC;
+	EngineD::Graphics::RenderGroup mCharacterC;
+	EngineD::Graphics::Animator mCharacterAnimatorC;
 
-	int mAnimIndex = 1;
-	bool mDrawSkeleton = false;
+	float mAnimationTime = 0.0f;
+
+	EngineD::Graphics::Animation mCameraAnimation;
+	EngineD::Graphics::Animation mAnimationA;
+	EngineD::Graphics::Animation mAnimationB;
+	EngineD::Graphics::Animation mAnimationC;
+
+	bool mPauseAnimation = false;
 
 	EngineD::Graphics::RenderObject mSky;
 
-	void ChangeAnimation(int animId);
+	void ChangeAnimation(int animId, EngineD::Graphics::Animator& animator);
+
+	//Character A Events
+	void IdleAnimationA();
+	void WavingAnimationA();
+	void ArgueAnimationA();
+
+	//Character B Events
+	void ArgueAnimationB();
+
+	//Character B Events
+	void AttackAnimationC();
+
+	//Camera Events
+	void SetCameraLookAtA();
+	void SetCameraLookAtB();
+	void SetCameraLookAtC();
+	void SetCameraLookAtMiddle();
+
+	//Lighting Events
+	void FaceLightingLeft();
+	void FaceLightingRight();
+	void FaceLightingMiddle();
+	void FaceLightingBack();
 };

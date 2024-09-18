@@ -12,3 +12,6 @@
 
 -scale 0.01 ../../Assets/Models/Joe/Joe.fbx ../../Assets/Models/Joe/Joe.model
 -scale 0.01 -animOnly 1 ../../Assets/Models/Joe/JoeAnimations/Walking.fbx ../../Assets/Models/Joe/JoeAnimations/Walking.fbx
+
+-scale 0.01 ../../Assets/Models/Guy/Guy.fbx ../../Assets/Models/Guy/Guy.model
+-scale 0.01 -animOnly 1 ../../Assets/Models/Guy/GuyAnimations/Run.fbx ../../Assets/Models/Guy/GuyAnimations/Run.fbx
