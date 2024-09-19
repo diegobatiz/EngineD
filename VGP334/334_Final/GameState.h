@@ -35,6 +35,7 @@ protected:
 	EngineD::Graphics::Animation mAnimationA;
 	EngineD::Graphics::Animation mAnimationB;
 	EngineD::Graphics::Animation mAnimationC;
+	EngineD::Graphics::Animation mEvents;
 
 	bool mPauseAnimation = false;
 
@@ -49,8 +50,10 @@ protected:
 
 	//Character B Events
 	void ArgueAnimationB();
+	void DeathAnimationB();
+	void DeathLastFrameB();
 
-	//Character B Events
+	//Character C Events
 	void AttackAnimationC();
 
 	//Camera Events
@@ -58,6 +61,7 @@ protected:
 	void SetCameraLookAtB();
 	void SetCameraLookAtC();
 	void SetCameraLookAtMiddle();
+	void SetCameraLookAtDeath();
 
 	//Lighting Events
 	void FaceLightingLeft();

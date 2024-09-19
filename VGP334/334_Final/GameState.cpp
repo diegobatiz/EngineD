@@ -31,12 +31,15 @@ void GameState::Initialize()
 	mModelIdB = ModelManager::Get()->LoadModelId("../../Assets/Models/Joe/Joe.model");
 	ModelManager::Get()->AddAnimation(mModelIdB, "../../Assets/Models/Joe/JoeAnimations/Waving.animset");
 	ModelManager::Get()->AddAnimation(mModelIdB, "../../Assets/Models/Joe/JoeAnimations/Arguing.animset");
+	ModelManager::Get()->AddAnimation(mModelIdB, "../../Assets/Models/Joe/JoeAnimations/Death.animset");
+	ModelManager::Get()->AddAnimation(mModelIdB, "../../Assets/Models/Joe/JoeAnimations/DeathLastFrame.animset");
 	ModelManager::Get()->AddAnimation(mModelIdB, "../../Assets/Models/Joe/JoeAnimations/Idle.animset");
 	mCharacterB = CreateRenderGroup(mModelIdB, &mCharacterAnimatorB);
 	mCharacterAnimatorB.Initialize(mModelIdB);
 
 	mModelIdC = ModelManager::Get()->LoadModelId("../../Assets/Models/Guy/Guy.model");
 	ModelManager::Get()->AddAnimation(mModelIdC, "../../Assets/Models/Guy/GuyAnimations/Run.animset");
+	ModelManager::Get()->AddAnimation(mModelIdC, "../../Assets/Models/Guy/GuyAnimations/Attack.animset");
 	mCharacterC = CreateRenderGroup(mModelIdC, &mCharacterAnimatorC);
 	mCharacterAnimatorC.Initialize(mModelIdC);
 
@@ -52,14 +55,6 @@ void GameState::Initialize()
 		.AddRotationKey({ 0, 0, 0, 0 }, 7.0f)
 		.AddPositionKey({ 0.0f, 0.0f, -12.0f }, 7.0f)
 		.AddRotationKey({ 0, -0.7071, 0, 0.7071 }, 7.1f)
-		.AddEventKey(std::bind(&GameState::IdleAnimationA, this), 7.0f)
-		.AddEventKey(std::bind(&GameState::FaceLightingLeft, this), 9.0f)
-		.AddEventKey(std::bind(&GameState::FaceLightingRight, this), 10.0f)
-		.AddEventKey(std::bind(&GameState::FaceLightingLeft, this), 12.0f)
-		.AddEventKey(std::bind(&GameState::WavingAnimationA, this), 12.0f)
-		.AddEventKey(std::bind(&GameState::FaceLightingMiddle, this), 16.5f)
-		.AddEventKey(std::bind(&GameState::ArgueAnimationA, this), 16.5f)
-		.AddEventKey(std::bind(&GameState::FaceLightingBack, this), 26.1f)
 		.AddPositionKey({ 0.0f, 0.0f, -12.0f }, 100.0f)
 		.Build();
 
@@ -68,7 +63,6 @@ void GameState::Initialize()
 		.AddRotationKey({ 0, 0.7071f, 0, 0.7071f }, 0.0f)
 		.AddPositionKey({ 4.0f, 0.0f, -12.0f }, 16.48f)
 		.AddPositionKey({ 2.5f, 0.0f, -12.0f }, 16.5f)
-		.AddEventKey(std::bind(&GameState::ArgueAnimationB, this), 16.5f)
 		.AddPositionKey({ 2.5f, 0.0f, -12.0f }, 100.0f)
 		.Build();
 
@@ -76,32 +70,52 @@ void GameState::Initialize()
 		.AddPositionKey({ 2.5f, 0.0f, -30.0f }, 0.0f)
 		.AddRotationKey({ 0, 1, 0, 0 }, 0.0f)
 		.AddPositionKey({ 2.5f, 0.0f, -40.0f }, 26.0f)
-		.AddPositionKey({ 2.5f, 0.0f, -13.0f }, 36.0f)
-		.AddEventKey(std::bind(&GameState::AttackAnimationC, this), 16.5f)
+		.AddPositionKey({ 2.5f, 0.0f, -13.3f }, 36.0f)
 		.Build();
 
 	mCameraAnimation = AnimationBuilder()
 		.AddPositionKey({ 0, 2.5f, -3.0f }, 0.0f)
 		.AddPositionKey({ 0, 2.5f, -13.0f }, 6.09f)
 		.AddPositionKey({ 2.5f, 1.7f, -12.5f }, 6.1f)
-		.AddEventKey(std::bind(&GameState::SetCameraLookAtB, this), 6.1f)
 		.AddPositionKey({ 2.5f, 1.7f, -12.5f }, 8.99f)
 		.AddPositionKey({ 1.15f, 1.6f, -12.3f }, 9.0f)
-		.AddEventKey(std::bind(&GameState::SetCameraLookAtA, this), 9.0f)
 		.AddPositionKey({ 1.15f, 1.6f, -12.3f }, 9.99f)
 		.AddPositionKey({ 2.5f, 1.7f, -12.5f }, 10.0f)
-		.AddEventKey(std::bind(&GameState::SetCameraLookAtB, this), 10.0f)
 		.AddPositionKey({ 2.5f, 1.7f, -12.5f }, 11.99f)
 		.AddPositionKey({ 1.15f, 1.6f, -12.3f }, 12.0f)
-		.AddEventKey(std::bind(&GameState::SetCameraLookAtA, this), 12.0f)
 		.AddPositionKey({ 1.15f, 1.6f, -12.3f }, 16.49f)
 		.AddPositionKey({ 1.6f, 2.3f, -14.6f }, 16.5f)
-		.AddEventKey(std::bind(&GameState::SetCameraLookAtMiddle, this), 16.51f)
 		.AddPositionKey({ 1.6f, 2.3f, -14.6f }, 25.99f)
 		.AddPositionKey({ 1.0f, 2.3f, -9.7f }, 26.0f)
-		.AddEventKey(std::bind(&GameState::SetCameraLookAtC, this), 26.1f)
 		.AddPositionKey({ 1.0f, 2.3f, -9.7f }, 34.99f)
-		.AddPositionKey({ 1.0f, 2.3f, -9.7f }, 35.0f)
+		.AddPositionKey({ 0.325f, 2.0f, -11.0f }, 35.0f)
+		.AddPositionKey({ 0.325f, 2.0f, -11.0f }, 38.05f)
+		.AddPositionKey({ 4.1f, 1.13f, -12.92f }, 38.06f)
+		.Build();
+
+	mEvents = AnimationBuilder()
+		.AddEventKey(std::bind(&GameState::SetCameraLookAtB, this), 6.1f)
+		.AddEventKey(std::bind(&GameState::IdleAnimationA, this), 7.0f)
+		.AddEventKey(std::bind(&GameState::SetCameraLookAtA, this), 9.01f)
+		.AddEventKey(std::bind(&GameState::FaceLightingLeft, this), 9.0f)
+		.AddEventKey(std::bind(&GameState::FaceLightingRight, this), 10.0f)
+		.AddEventKey(std::bind(&GameState::SetCameraLookAtB, this), 10.01f)
+		.AddEventKey(std::bind(&GameState::FaceLightingLeft, this), 12.0f)
+		.AddEventKey(std::bind(&GameState::WavingAnimationA, this), 12.0f)
+		.AddEventKey(std::bind(&GameState::SetCameraLookAtA, this), 12.01f)
+		.AddEventKey(std::bind(&GameState::FaceLightingMiddle, this), 16.5f)
+		.AddEventKey(std::bind(&GameState::ArgueAnimationA, this), 16.5f)
+		.AddEventKey(std::bind(&GameState::ArgueAnimationB, this), 16.5f)
+		.AddEventKey(std::bind(&GameState::SetCameraLookAtMiddle, this), 16.51f)
+		.AddEventKey(std::bind(&GameState::FaceLightingBack, this), 26.0f)
+		.AddEventKey(std::bind(&GameState::SetCameraLookAtC, this), 26.01f)
+		.AddEventKey(std::bind(&GameState::FaceLightingRight, this), 35.0f)
+		.AddEventKey(std::bind(&GameState::AttackAnimationC, this), 35.0f)
+		.AddEventKey(std::bind(&GameState::SetCameraLookAtB, this), 35.01f)
+		.AddEventKey(std::bind(&GameState::DeathAnimationB, this), 35.9f)
+		.AddEventKey(std::bind(&GameState::DeathLastFrameB, this), 38.06f)
+		.AddEventKey(std::bind(&GameState::SetCameraLookAtDeath, this), 38.07f)
+		.AddEventKey(std::bind(&GameState::FaceLightingMiddle, this), 38.06f)
 		.Build();
 
 	ChangeAnimation(1, mCharacterAnimatorA);
@@ -128,9 +142,7 @@ void GameState::Update(float deltaTime)
 
 		float prevTime = mAnimationTime;
 		mAnimationTime += deltaTime;
-		mCameraAnimation.PlayEvents(prevTime, mAnimationTime);
-		mAnimationA.PlayEvents(prevTime, mAnimationTime);
-		mAnimationB.PlayEvents(prevTime, mAnimationTime);
+		mEvents.PlayEvents(prevTime, mAnimationTime);
 		while (mAnimationTime >= mAnimationA.GetDuration())
 		{
 			mAnimationTime -= mAnimationA.GetDuration();
@@ -265,8 +277,19 @@ void GameState::ArgueAnimationB()
 	ChangeAnimation(2, mCharacterAnimatorB);
 }
 
+void GameState::DeathAnimationB()
+{
+	ChangeAnimation(3, mCharacterAnimatorB);
+}
+
+void GameState::DeathLastFrameB()
+{
+	ChangeAnimation(4, mCharacterAnimatorB);
+}
+
 void GameState::AttackAnimationC()
 {
+	ChangeAnimation(2, mCharacterAnimatorC);
 }
 
 void GameState::SetCameraLookAtA()
@@ -293,6 +316,11 @@ void GameState::SetCameraLookAtC()
 void GameState::SetCameraLookAtMiddle()
 {
 	mCamera.SetLookAt({1.5, 1.0f, -12.0f});
+}
+
+void GameState::SetCameraLookAtDeath()
+{
+	mCamera.SetLookAt({ 4, 0.2f, -11.9f });
 }
 
 void GameState::FaceLightingLeft()
