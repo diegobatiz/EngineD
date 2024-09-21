@@ -29,17 +29,29 @@ protected:
 	EngineD::Graphics::RenderGroup mCharacterC;
 	EngineD::Graphics::Animator mCharacterAnimatorC;
 
+	
 	float mAnimationTime = 0.0f;
+	float mRotationTime = 0.0f;
 
 	EngineD::Graphics::Animation mCameraAnimation;
 	EngineD::Graphics::Animation mAnimationA;
 	EngineD::Graphics::Animation mAnimationB;
 	EngineD::Graphics::Animation mAnimationC;
+	EngineD::Graphics::Animation mEarthAnimation;
 	EngineD::Graphics::Animation mEvents;
 
 	bool mPauseAnimation = false;
+	bool mSpaceView = false;
+	bool mRenderParticles = false;
 
-	EngineD::Graphics::RenderObject mSky;
+	EngineD::Graphics::RenderObject mSky; 
+	EngineD::Graphics::RenderObject mGround;
+	EngineD::Graphics::RenderObject mEarth;
+
+
+	EngineD::Graphics::ParticleSystemEffect mParticleEffect;
+	EngineD::Physics::ParticleSystem mParticleSystem;
+
 
 	void ChangeAnimation(int animId, EngineD::Graphics::Animator& animator);
 
@@ -58,6 +70,8 @@ protected:
 
 	//Character C Events
 	void AttackAnimationC();
+	void DanceAnimationC();
+	void IdleAnimationC();
 
 	//Camera Events
 	void SetCameraLookAtA();
@@ -66,10 +80,17 @@ protected:
 	void SetCameraLookAtMiddle();
 	void SetCameraLookAtDeath();
 	void SetCameraLookAtDistance();
+	void SetCameraLookAtEarth();
 
 	//Lighting Events
 	void FaceLightingLeft();
 	void FaceLightingRight();
 	void FaceLightingMiddle();
 	void FaceLightingBack();
+
+	//Other
+	void ActivateParticleSystem()
+	{
+		mRenderParticles = true;
+	}
 };

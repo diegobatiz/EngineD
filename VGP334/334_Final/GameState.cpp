@@ -4,6 +4,7 @@ using namespace EngineD;
 using namespace EngineD::Graphics;
 using namespace EngineD::Input;
 using namespace EngineD::Audio;
+using namespace EngineD::Physics;
 
 void GameState::Initialize()
 {
@@ -15,10 +16,18 @@ void GameState::Initialize()
 	mDirectionalLight.diffuse = { 0.8f, 0.8f, 0.8f, 1.0f };
 	mDirectionalLight.specular = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-	Mesh sky = MeshBuilder::CreateSkySphere(60, 60, 100.0f);
+	Mesh sky = MeshBuilder::CreateSkySphere(60, 60, 175.0f);
 	mSky.meshBuffer.Initialize(sky);
 	mSky.diffuseMapId = TextureManager::Get()->LoadTexture("skysphere/CloudySky.jpg");
 	mSky.UseLighting(false);
+
+	Mesh groundMesh = MeshBuilder::CreateHorizontalPlane(100, 100, 1.0f);
+	mGround.meshBuffer.Initialize(groundMesh); 
+	mGround.diffuseMapId = TextureManager::Get()->LoadTexture("terrain/ground.jpg");
+
+	Mesh earthMesh = MeshBuilder::CreateSphere(60, 60, 180.0f);
+	mEarth.meshBuffer.Initialize(earthMesh);
+	mEarth.diffuseMapId = TextureManager::Get()->LoadTexture("planets/earth/earth.jpg");
 
 	mModelIdA = ModelManager::Get()->LoadModelId("../../Assets/Models/Racer/Racer.model");
 	ModelManager::Get()->AddAnimation(mModelIdA, "../../Assets/Models/Racer/RacerAnimations/Walking.animset");
@@ -43,6 +52,8 @@ void GameState::Initialize()
 	mModelIdC = ModelManager::Get()->LoadModelId("../../Assets/Models/Guy/Guy.model");
 	ModelManager::Get()->AddAnimation(mModelIdC, "../../Assets/Models/Guy/GuyAnimations/Run.animset");
 	ModelManager::Get()->AddAnimation(mModelIdC, "../../Assets/Models/Guy/GuyAnimations/Attack.animset");
+	ModelManager::Get()->AddAnimation(mModelIdC, "../../Assets/Models/Guy/GuyAnimations/Dancing.animset");
+	ModelManager::Get()->AddAnimation(mModelIdC, "../../Assets/Models/Guy/GuyAnimations/Idle.animset");
 	mCharacterC = CreateRenderGroup(mModelIdC, &mCharacterAnimatorC);
 	mCharacterAnimatorC.Initialize(mModelIdC);
 
@@ -62,7 +73,7 @@ void GameState::Initialize()
 		.AddRotationKey({ 0,  0.7071, 0, 0.7071 }, 41.0f)
 		.AddPositionKey({ 0.0f, 0.0f, -12.0f }, 41.0f)
 		.AddPositionKey({ -28.0f, 0.0f, -12.0f }, 46.0f)
-		.AddRotationKey({ 0,  0.7071, 0, 0.7071 }, 50.0f)
+		.AddRotationKey({ 0,  0.7071, 0, 0.7071 }, 52.0f)
 		.AddRotationKey({ 0, -0.7071, 0, 0.7071 }, 53.0f)
 		.Build();
 
@@ -79,8 +90,15 @@ void GameState::Initialize()
 		.AddPositionKey({ 2.5f, 0.0f, -40.0f }, 26.0f)
 		.AddPositionKey({ 2.5f, 0.0f, -13.3f }, 36.0f)
 		.AddPositionKey({ 2.5f, 0.0f, -13.3f }, 38.06)
-		.AddPositionKey({ 2.5f, 0.0f, -23.3f }, 38.5f)
-		.AddPositionKey({ 2.5f, 0.0f, -23.3f }, 100.5f)
+		.AddPositionKey({ 0.0f, 0.0f, -13.3f }, 38.5f)
+		.AddPositionKey({ 0.0f, 0.0f, -13.3f }, 59.0f)
+		.AddPositionKey({ 250.0f, 100.0f, -13.3f }, 70.0f, EaseType::EaseOutQuad)
+		.AddPositionKey({ 250.0f, 100.0f, -13.3f }, 100.5f)
+		.Build();
+
+	mEarthAnimation = AnimationBuilder()
+		.AddRotationKey({ 0, -0.7071, 0, 0.7071 }, 0.0f)
+		.AddRotationKey({ 0,  0.7071, 0, 0.7071 }, 20.0f)
 		.Build();
 
 	mCameraAnimation = AnimationBuilder()
@@ -105,8 +123,14 @@ void GameState::Initialize()
 		.AddPositionKey({ -4.1f, 1.5f, -16.0f }, 41.0f)
 		.AddPositionKey({ -4.1f, 1.5f, -16.0f }, 45.95f)
 		.AddPositionKey({ -28.418f, 1.679f, -12.53f }, 46.0f)
-		.AddPositionKey({ -28.418f, 1.679f, -12.53f }, 51.9f)
-		.AddPositionKey({ -28.495f, 1.646f, -12.287f }, 52.1f)
+		.AddPositionKey({ -28.418f, 1.679f, -12.53f }, 51.99f)
+		.AddPositionKey({ -1.95f, 1.91f, -12.41f }, 52.0f)
+		.AddPositionKey({ -1.95f, 1.91f, -12.41f }, 57.99f)
+		.AddPositionKey({ -28.495f, 1.646f, -12.287f }, 58.0f)
+		.AddPositionKey({ -28.495f, 1.646f, -12.287f }, 60.99f)
+		.AddPositionKey({ -1.95f, 1.91f, -12.41f }, 61.0f)
+		.AddPositionKey({ -1.95f, 1.91f, -12.41f }, 62.49f)
+		.AddPositionKey({ -0, 400.0f, -500.0f }, 62.5f)
 		.Build();
 
 	mEvents = AnimationBuilder()
@@ -133,24 +157,65 @@ void GameState::Initialize()
 		.AddEventKey(std::bind(&GameState::SetCameraLookAtDeath, this), 38.07f)
 		.AddEventKey(std::bind(&GameState::FaceLightingMiddle, this), 38.06f)
 		.AddEventKey(std::bind(&GameState::RunAnimationA, this), 41.0f)
+		.AddEventKey(std::bind(&GameState::DanceAnimationC, this), 41.0f)
 		.AddEventKey(std::bind(&GameState::SetCameraLookAtDistance, this), 41.01f)
 		.AddEventKey(std::bind(&GameState::SetCameraLookAtA, this), 46.05f)
+		.AddEventKey(std::bind(&GameState::FaceLightingRight, this), 46.0f)
 		.AddEventKey(std::bind(&GameState::CryAnimationA, this), 46.0f)
-		.AddEventKey(std::bind(&GameState::PointAnimationA, this), 52.1f)
-		.AddEventKey(std::bind(&GameState::SetCameraLookAtB, this), 52.13f)
+		.AddEventKey(std::bind(&GameState::SetCameraLookAtC, this), 52.05f)
+		.AddEventKey(std::bind(&GameState::PointAnimationA, this), 58.0f)
+		.AddEventKey(std::bind(&GameState::SetCameraLookAtC, this), 58.05f)
+		.AddEventKey(std::bind(&GameState::SetCameraLookAtC, this), 61.05)
+		.AddEventKey(std::bind(&GameState::SetCameraLookAtEarth, this), 62.55f)
+		.AddEventKey(std::bind(&GameState::ActivateParticleSystem, this), 66.0f)
 		.Build();
 
 	ChangeAnimation(1, mCharacterAnimatorA);
 	ChangeAnimation(1, mCharacterAnimatorB);
 	ChangeAnimation(1, mCharacterAnimatorC);
+
+	mParticleEffect.Initialize();
+	mParticleEffect.SetCamera(mCamera);
+
+	ParticleSystemInfo info;
+	info.maxParticles = 200;
+	info.particleTextureId = TextureManager::Get()->LoadTexture("Explosion.png");
+	info.spawnPosition = Math::Vector3::Zero;
+	info.spawnDirection = Math::Vector3::YAxis;
+	info.spawnDelay = 0.0f;
+	info.spawnLifeTime = 9999999999999.0f;
+	info.minParticlePerEmit = 4;
+	info.maxParticlePerEmit = 7;
+	info.minTimeBetweenEmit = 0.5f;
+	info.maxTimeBetweenEmit = 1.0f;
+	info.minSpawnAngle = -130.0f * Math::Constants::Pi / 180.0f;
+	info.maxSpawnAngle = 130.0f * Math::Constants::Pi / 180.0f;
+	info.minSpeed = 50.0f;
+	info.maxSpeed = 100.0f;
+	info.minParticleLifetime = 3.0f;
+	info.maxParticleLifetime = 6.0f;
+	info.minStartColor = Colors::Yellow;
+	info.maxStartColor = Colors::Orange;
+	info.minEndColor = Colors::DarkRed;
+	info.maxEndColor = Colors::Red;
+	info.minStartScale = { 1000.0f, 1000.0f, 1000.0f };
+	info.maxStartScale = { 1000.0f, 1000.0f, 1000.0f };
+	info.minEndScale = { 1500.0f, 1500.0f, 1500.0f };
+	info.maxEndScale = { 1500.0f, 1500.0f, 1500.0f };
+	mParticleSystem.Initialize(info);
+	mParticleSystem.SetCamera(mCamera);
 }
 
 void GameState::Terminate()
 {
+	mParticleSystem.Terminate();
+	mParticleEffect.Terminate();
 	mStandardEffect.Terminate();
 	CleanupRenderGroup(mCharacterC);
 	CleanupRenderGroup(mCharacterB);
 	CleanupRenderGroup(mCharacterA);
+	mEarth.Terminate();
+	mGround.Terminate();
 	mSky.Terminate();
 }
 
@@ -169,6 +234,21 @@ void GameState::Update(float deltaTime)
 		{
 			mAnimationTime -= mAnimationA.GetDuration();
 		}
+
+		if (mSpaceView)
+		{
+			float prevTime = mRotationTime;
+			mRotationTime += deltaTime;
+			while (mRotationTime >= mEarthAnimation.GetDuration())
+			{
+				mRotationTime -= mEarthAnimation.GetDuration();
+			}
+		}
+	}
+
+	if (mRenderParticles)
+	{
+		mParticleSystem.Update(deltaTime);
 	}
 
 #pragma region CameraMovement
@@ -234,16 +314,30 @@ void GameState::Render()
 		mCamera.SetPosition(mCameraAnimation.GetTransform(mAnimationTime).position);
 	}
 
-	SimpleDraw::AddGroundPlane(10.0f, Colors::White);
-	SimpleDraw::Render(mCamera);
+	if (mSpaceView)
+	{
+		mEarth.transform = mEarthAnimation.GetTransform(mRotationTime);
+	}
 
 
 	mStandardEffect.Begin();
 		DrawRenderGroup(mStandardEffect, mCharacterA);
 		DrawRenderGroup(mStandardEffect, mCharacterB);
 		DrawRenderGroup(mStandardEffect, mCharacterC);
+		mStandardEffect.Render(mGround);
 		mStandardEffect.Render(mSky);
+		if (mSpaceView)
+		{
+			mStandardEffect.Render(mEarth);
+		}
 	mStandardEffect.End();
+
+	if (mRenderParticles)
+	{
+		mParticleEffect.Begin();
+			mParticleSystem.Render(mParticleEffect);
+		mParticleEffect.End();
+	}
 }
 
 void GameState::DebugUI()
@@ -329,6 +423,16 @@ void GameState::AttackAnimationC()
 	ChangeAnimation(2, mCharacterAnimatorC);
 }
 
+void GameState::DanceAnimationC()
+{
+	ChangeAnimation(3, mCharacterAnimatorC);
+}
+
+void GameState::IdleAnimationC()
+{
+	ChangeAnimation(4, mCharacterAnimatorC);
+}
+
 void GameState::SetCameraLookAtA()
 {
 	Vector3 targetPosition = mCharacterA[0].transform.position;
@@ -363,6 +467,12 @@ void GameState::SetCameraLookAtDeath()
 void GameState::SetCameraLookAtDistance()
 {
 	mCamera.SetLookAt({ -80, 1.5f, 100.0f });
+}
+
+void GameState::SetCameraLookAtEarth()
+{
+	mCamera.SetLookAt({ 0, 0, 0 });
+	mSpaceView = true;
 }
 
 void GameState::FaceLightingLeft()
