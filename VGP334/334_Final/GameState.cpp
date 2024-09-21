@@ -25,6 +25,9 @@ void GameState::Initialize()
 	ModelManager::Get()->AddAnimation(mModelIdA, "../../Assets/Models/Racer/RacerAnimations/Idle.animset");
 	ModelManager::Get()->AddAnimation(mModelIdA, "../../Assets/Models/Racer/RacerAnimations/Waving.animset");
 	ModelManager::Get()->AddAnimation(mModelIdA, "../../Assets/Models/Racer/RacerAnimations/Arguing.animset");
+	ModelManager::Get()->AddAnimation(mModelIdA, "../../Assets/Models/Racer/RacerAnimations/Running.animset");
+	ModelManager::Get()->AddAnimation(mModelIdA, "../../Assets/Models/Racer/RacerAnimations/Crying.animset");
+	ModelManager::Get()->AddAnimation(mModelIdA, "../../Assets/Models/Racer/RacerAnimations/Pointing.animset");
 	mCharacterA = CreateRenderGroup(mModelIdA, &mCharacterAnimatorA);
 	mCharacterAnimatorA.Initialize(mModelIdA);
 
@@ -55,7 +58,12 @@ void GameState::Initialize()
 		.AddRotationKey({ 0, 0, 0, 0 }, 7.0f)
 		.AddPositionKey({ 0.0f, 0.0f, -12.0f }, 7.0f)
 		.AddRotationKey({ 0, -0.7071, 0, 0.7071 }, 7.1f)
-		.AddPositionKey({ 0.0f, 0.0f, -12.0f }, 100.0f)
+		.AddRotationKey({ 0, -0.7071, 0, 0.7071 }, 40.0f)
+		.AddRotationKey({ 0,  0.7071, 0, 0.7071 }, 41.0f)
+		.AddPositionKey({ 0.0f, 0.0f, -12.0f }, 41.0f)
+		.AddPositionKey({ -28.0f, 0.0f, -12.0f }, 46.0f)
+		.AddRotationKey({ 0,  0.7071, 0, 0.7071 }, 50.0f)
+		.AddRotationKey({ 0, -0.7071, 0, 0.7071 }, 53.0f)
 		.Build();
 
 	mAnimationB = AnimationBuilder()
@@ -63,7 +71,6 @@ void GameState::Initialize()
 		.AddRotationKey({ 0, 0.7071f, 0, 0.7071f }, 0.0f)
 		.AddPositionKey({ 4.0f, 0.0f, -12.0f }, 16.48f)
 		.AddPositionKey({ 2.5f, 0.0f, -12.0f }, 16.5f)
-		.AddPositionKey({ 2.5f, 0.0f, -12.0f }, 100.0f)
 		.Build();
 
 	mAnimationC = AnimationBuilder()
@@ -71,6 +78,9 @@ void GameState::Initialize()
 		.AddRotationKey({ 0, 1, 0, 0 }, 0.0f)
 		.AddPositionKey({ 2.5f, 0.0f, -40.0f }, 26.0f)
 		.AddPositionKey({ 2.5f, 0.0f, -13.3f }, 36.0f)
+		.AddPositionKey({ 2.5f, 0.0f, -13.3f }, 38.06)
+		.AddPositionKey({ 2.5f, 0.0f, -23.3f }, 38.5f)
+		.AddPositionKey({ 2.5f, 0.0f, -23.3f }, 100.5f)
 		.Build();
 
 	mCameraAnimation = AnimationBuilder()
@@ -91,6 +101,12 @@ void GameState::Initialize()
 		.AddPositionKey({ 0.325f, 2.0f, -11.0f }, 35.0f)
 		.AddPositionKey({ 0.325f, 2.0f, -11.0f }, 38.05f)
 		.AddPositionKey({ 4.1f, 1.13f, -12.92f }, 38.06f)
+		.AddPositionKey({ 4.1f, 1.13f, -12.92f }, 40.99f)
+		.AddPositionKey({ -4.1f, 1.5f, -16.0f }, 41.0f)
+		.AddPositionKey({ -4.1f, 1.5f, -16.0f }, 45.95f)
+		.AddPositionKey({ -28.418f, 1.679f, -12.53f }, 46.0f)
+		.AddPositionKey({ -28.418f, 1.679f, -12.53f }, 51.9f)
+		.AddPositionKey({ -28.495f, 1.646f, -12.287f }, 52.1f)
 		.Build();
 
 	mEvents = AnimationBuilder()
@@ -116,6 +132,12 @@ void GameState::Initialize()
 		.AddEventKey(std::bind(&GameState::DeathLastFrameB, this), 38.06f)
 		.AddEventKey(std::bind(&GameState::SetCameraLookAtDeath, this), 38.07f)
 		.AddEventKey(std::bind(&GameState::FaceLightingMiddle, this), 38.06f)
+		.AddEventKey(std::bind(&GameState::RunAnimationA, this), 41.0f)
+		.AddEventKey(std::bind(&GameState::SetCameraLookAtDistance, this), 41.01f)
+		.AddEventKey(std::bind(&GameState::SetCameraLookAtA, this), 46.05f)
+		.AddEventKey(std::bind(&GameState::CryAnimationA, this), 46.0f)
+		.AddEventKey(std::bind(&GameState::PointAnimationA, this), 52.1f)
+		.AddEventKey(std::bind(&GameState::SetCameraLookAtB, this), 52.13f)
 		.Build();
 
 	ChangeAnimation(1, mCharacterAnimatorA);
@@ -143,7 +165,7 @@ void GameState::Update(float deltaTime)
 		float prevTime = mAnimationTime;
 		mAnimationTime += deltaTime;
 		mEvents.PlayEvents(prevTime, mAnimationTime);
-		while (mAnimationTime >= mAnimationA.GetDuration())
+		while (mAnimationTime >= mAnimationC.GetDuration())
 		{
 			mAnimationTime -= mAnimationA.GetDuration();
 		}
@@ -272,6 +294,21 @@ void GameState::ArgueAnimationA()
 	ChangeAnimation(4, mCharacterAnimatorA);
 }
 
+void GameState::RunAnimationA()
+{
+	ChangeAnimation(5, mCharacterAnimatorA);
+}
+
+void GameState::CryAnimationA()
+{
+	ChangeAnimation(6, mCharacterAnimatorA);
+}
+
+void GameState::PointAnimationA()
+{
+	ChangeAnimation(7, mCharacterAnimatorA);
+}
+
 void GameState::ArgueAnimationB()
 {
 	ChangeAnimation(2, mCharacterAnimatorB);
@@ -295,7 +332,7 @@ void GameState::AttackAnimationC()
 void GameState::SetCameraLookAtA()
 {
 	Vector3 targetPosition = mCharacterA[0].transform.position;
-	targetPosition.y += 1.2;
+	targetPosition.y += 1.3;
 	mCamera.SetLookAt(targetPosition);
 }
 
@@ -321,6 +358,11 @@ void GameState::SetCameraLookAtMiddle()
 void GameState::SetCameraLookAtDeath()
 {
 	mCamera.SetLookAt({ 4, 0.2f, -11.9f });
+}
+
+void GameState::SetCameraLookAtDistance()
+{
+	mCamera.SetLookAt({ -80, 1.5f, 100.0f });
 }
 
 void GameState::FaceLightingLeft()

@@ -47,6 +47,9 @@ protected:
 	void IdleAnimationA();
 	void WavingAnimationA();
 	void ArgueAnimationA();
+	void RunAnimationA();
+	void CryAnimationA();
+	void PointAnimationA();
 
 	//Character B Events
 	void ArgueAnimationB();
@@ -62,6 +65,7 @@ protected:
 	void SetCameraLookAtC();
 	void SetCameraLookAtMiddle();
 	void SetCameraLookAtDeath();
+	void SetCameraLookAtDistance();
 
 	//Lighting Events
 	void FaceLightingLeft();
