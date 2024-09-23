@@ -19,6 +19,8 @@
 #include "DebugUI.h"
 #include "DepthMapEffect.h"
 #include "GaussianBlurEffect.h"
+#include "GrassBuffer.h"
+#include "GrassShader.h"
 #include "Keyframe.h"
 #include "LightTypes.h"
 #include "Material.h"

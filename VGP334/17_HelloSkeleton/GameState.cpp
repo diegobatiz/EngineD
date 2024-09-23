@@ -9,29 +9,23 @@ void GameState::Initialize()
 	mCamera.SetPosition({ 0.0f, 3.0f, -10.0f });
 	mCamera.SetLookAt({ 0.0f, 0.0f, 0.0f });
 
-	mDirectionalLight.direction = Math::Normalize({ 1.0f, -1.0f, 1.0f });
-	mDirectionalLight.ambient = { 0.5f, 0.5f, 0.5f, 1.0f };
-	mDirectionalLight.diffuse = { 0.8f, 0.8f, 0.8f, 1.0f };
-	mDirectionalLight.specular = { 1.0f, 1.0f, 1.0f, 1.0f };
+	Mesh mesh;
+	const float hw = 1.0f * 0.5f;
+	const float hh = 1.0f * 0.5f;
 
-	mModelId = ModelManager::Get()->LoadModelId("../../Assets/Models/Character_01/Ch44_nonPBR.model");
-	mCharacter = CreateRenderGroup(mModelId);
+	mesh.vertices.push_back({ {-hw, -hh, 0.0f}, -Math::Vector3::ZAxis, Math::Vector3::XAxis, {0.0f, 1.0f} });
+	mesh.vertices.push_back({ {-hw,  hh, 0.0f}, -Math::Vector3::ZAxis, Math::Vector3::XAxis, {0.0f, 0.0f} });
+	mesh.vertices.push_back({ { hw,  hh, 0.0f}, -Math::Vector3::ZAxis, Math::Vector3::XAxis, {1.0f, 0.0f} });
+	mesh.vertices.push_back({ { hw, -hh, 0.0f}, -Math::Vector3::ZAxis, Math::Vector3::XAxis, {1.0f, 1.0f} });
 
-	mModelId2 = ModelManager::Get()->LoadModelId("../../Assets/Models/Character_02/character.model");
-	mCharacter2 = CreateRenderGroup(mModelId2);
-	SetRenderGroupPosition(mCharacter, { -1.0f, 0.0f, 0.0f });
-
-	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/Standard.fx";
-	mStandardEffect.Initialize(shaderFilePath);
-	mStandardEffect.SetCamera(mCamera);
-	mStandardEffect.SetDirectionalLight(mDirectionalLight);
+	mesh.indices = {
+		0, 1, 2,
+		0, 2, 3
+	};
 }
 
 void GameState::Terminate()
 {
-	mStandardEffect.Terminate();
-	CleanupRenderGroup(mCharacter);
-	CleanupRenderGroup(mCharacter2);
 }
 
 void GameState::Update(float deltaTime)
@@ -78,27 +72,8 @@ void GameState::Update(float deltaTime)
 
 void GameState::Render()
 {
-	if (mDrawSkeleton)
-	{
-		AnimationUtil::BoneTransforms boneTransforms;
-		AnimationUtil::ComputeBoneTransforms(mModelId, boneTransforms);
-		AnimationUtil::DrawSkeleton(mModelId, boneTransforms);
-
-		AnimationUtil::BoneTransforms boneTransforms2;
-		AnimationUtil::ComputeBoneTransforms(mModelId2, boneTransforms);
-		AnimationUtil::DrawSkeleton(mModelId2, boneTransforms);
-	}
-
 	SimpleDraw::AddGroundPlane(10.0f, Colors::White);
 	SimpleDraw::Render(mCamera);
-
-	if (!mDrawSkeleton)
-	{
-		mStandardEffect.Begin();
-			DrawRenderGroup(mStandardEffect, mCharacter);
-			DrawRenderGroup(mStandardEffect, mCharacter2);
-		mStandardEffect.End();
-	}
 }
 
 void GameState::DebugUI()
@@ -115,7 +90,5 @@ void GameState::DebugUI()
 			ImGui::ColorEdit4("Diffuse##Light", &mDirectionalLight.diffuse.r);
 			ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
 		}
-		ImGui::Checkbox("DrawSkeleton", &mDrawSkeleton);
-		mStandardEffect.DebugUI();
 	ImGui::End();
 }

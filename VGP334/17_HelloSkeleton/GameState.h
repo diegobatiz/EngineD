@@ -14,11 +14,4 @@ protected:
 	EngineD::Graphics::DirectionalLight mDirectionalLight;
 	EngineD::Graphics::Camera mCamera;
 
-	EngineD::Graphics::ModelId mModelId;
-	EngineD::Graphics::ModelId mModelId2;
-	EngineD::Graphics::RenderGroup mCharacter;
-	EngineD::Graphics::RenderGroup mCharacter2;
-	EngineD::Graphics::StandardEffect mStandardEffect;
-
-	bool mDrawSkeleton = false;
 };
