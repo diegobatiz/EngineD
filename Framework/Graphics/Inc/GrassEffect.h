@@ -3,6 +3,8 @@
 #include "Sampler.h"
 #include "GrassShader.h"
 #include "PixelShader_D3D11.h"
+#include "TextureManager.h"
+#include "BlendState.h"
 
 namespace EngineD::Graphics
 {
@@ -17,6 +19,7 @@ namespace EngineD::Graphics
 		void Begin();
 		void End();
 		void SetCamera(const Camera& camera);
+		void SetGrassTextureID(TextureID id);
 		void DebugUI();
 
 	private:
@@ -32,6 +35,9 @@ namespace EngineD::Graphics
 		Sampler mSampler;
 		GrassVertexShader mVertexShader;
 		PixelShader_D3D11 mPixelShader;
+		BlendState mBlendState;
+
+		TextureID mGrassTextureId;
 
 		const Camera* mCamera = nullptr;
 	};

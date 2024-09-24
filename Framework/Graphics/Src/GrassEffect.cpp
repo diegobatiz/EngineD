@@ -11,11 +11,13 @@ void GrassEffect::Initialize(const std::filesystem::path& filename)
 	mTransformBuffer.Initialize();
 	mVertexShader.Initialize(filename);
 	mPixelShader.Initialize(filename);
-	mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
+	mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Clamp);
+	mBlendState.Initialize(BlendState::Mode::AlphaBlend);
 }
 
 void GrassEffect::Terminate()
 {
+	mBlendState.Terminate();
 	mSampler.Terminate();
 	mPixelShader.Terminate();
 	mVertexShader.Terminate();
@@ -34,6 +36,8 @@ void GrassEffect::Begin()
 
 	mTransformBuffer.BindVS(0);
 
+	mBlendState.Set();
+
 	Math::Matrix4 matWorld = Math::Matrix4::Identity;
 	Math::Matrix4 matView = mCamera->GetViewMatrix();
 	Math::Matrix4 matProj = mCamera->GetProjectionMatrix();
@@ -43,15 +47,25 @@ void GrassEffect::Begin()
 	data.wvp = Math::Transpose(matFinal);
 
 	mTransformBuffer.Update(data);
+
+	TextureManager* tm = TextureManager::Get();
+	tm->BindPS(mGrassTextureId, 0);
+
 }
 
 void GrassEffect::End()
 {
+	mBlendState.ClearState();
 }
 
 void GrassEffect::SetCamera(const Camera& camera)
 {
 	mCamera = &camera;
+}
+
+void GrassEffect::SetGrassTextureID(TextureID id)
+{
+	mGrassTextureId = id;
 }
 
 void GrassEffect::DebugUI()

@@ -31,8 +31,6 @@ void GameState::Initialize()
 	mesh.vertices.push_back({ {qSqr2,  hh, qSqr2}, -Math::Vector3::ZAxis, Math::Vector3::XAxis, {1.0f, 0.0f} });
 	mesh.vertices.push_back({ {qSqr2, -hh, qSqr2}, -Math::Vector3::ZAxis, Math::Vector3::XAxis, {1.0f, 1.0f} });
 
-	
-
 	mesh.indices = {
 		0, 1, 2,
 		0, 2, 3,
@@ -46,7 +44,10 @@ void GameState::Initialize()
 	mGrassBuffer.Initialize(mesh);
 
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/GrassShader.fx";
+	TextureID id = TextureManager::Get()->LoadTexture("terrain/Grass.png");
+
 	mGrassEffect.Initialize(shaderFilePath);
+	mGrassEffect.SetGrassTextureID(id);
 	mGrassEffect.SetCamera(mCamera);
 }
 

@@ -5,6 +5,9 @@ cbuffer ConstantBuffer : register(b0)
     matrix wvp;
 }
 
+Texture2D grassTexture : register(t0);
+SamplerState textureSampler : register(s0);
+
 struct VS_INPUT
 {
     float3 position : POSITION;
@@ -34,5 +37,5 @@ VS_OUTPUT VS(VS_INPUT input)
 
 float4 PS(VS_OUTPUT input) : SV_Target
 {
-    return float4(1, 1, 1, 1);
+    return grassTexture.Sample(textureSampler, input.texCoord);
 }
