@@ -6,7 +6,7 @@ namespace EngineD::Graphics
 	{
 		struct InstanceType
 		{
-			uint32_t id;
+			EngineD::Math::Vector3 id;
 		};
 
 	public:

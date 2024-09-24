@@ -14,4 +14,6 @@ protected:
 	EngineD::Graphics::DirectionalLight mDirectionalLight;
 	EngineD::Graphics::Camera mCamera;
 
+	EngineD::Graphics::GrassBuffer mGrassBuffer;
+	EngineD::Graphics::GrassEffect mGrassEffect;
 };

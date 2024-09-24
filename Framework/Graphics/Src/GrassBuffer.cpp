@@ -70,10 +70,15 @@ void GrassBuffer::CreateVertexBuffer(const void* vertices, uint32_t vertexSize, 
 	ASSERT(SUCCEEDED(hr), "Failed to create vertex data");
 
 	InstanceType* instances = new InstanceType[mInstanceCount];
+	int index = 0;
 
-	for (uint32_t i = 0; i < mInstanceCount; i++)
+	for (int i = 0; i < 10; i++)
 	{
-		instances[i].id = i;
+		for (int j = 0; j < 10; j++)
+		{
+			instances[index].id = { i - 5.0f, 0.0f, j - 5.0f };
+			index++;
+		}
 	}
 
 	D3D11_BUFFER_DESC instanceBufferDesc = {};

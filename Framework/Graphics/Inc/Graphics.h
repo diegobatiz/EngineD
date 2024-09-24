@@ -20,6 +20,7 @@
 #include "DepthMapEffect.h"
 #include "GaussianBlurEffect.h"
 #include "GrassBuffer.h"
+#include "GrassEffect.h"
 #include "GrassShader.h"
 #include "Keyframe.h"
 #include "LightTypes.h"

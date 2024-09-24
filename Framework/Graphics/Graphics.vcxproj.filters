@@ -172,6 +172,15 @@
     <ClInclude Include="Inc\ParticleSystemEffect.h">
       <Filter>Inc\Effects</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\GrassShader.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\GrassBuffer.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\GrassEffect.h">
+      <Filter>Inc\Effects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -278,6 +287,15 @@
     </ClCompile>
     <ClCompile Include="Src\ParticleSystemEffect.cpp">
       <Filter>Src\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\GrassShader.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\GrassBuffer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\GrassEffect.cpp">
+      <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
