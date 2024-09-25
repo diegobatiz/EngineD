@@ -11,6 +11,11 @@ void GameState::Initialize()
 
 	GraphicsSystem::Get()->SetClearColor(Colors::SkyBlue);
 
+	Model model;
+	ModelIO::LoadModel("../../Assets/Models/Grass/Grass.model", model);
+
+	Mesh mMesh = model.meshData[0].mesh;
+
 	MeshPX mesh;
 	const float hw = 1.0f * 0.5f;
 	const float h = 1.0f;
