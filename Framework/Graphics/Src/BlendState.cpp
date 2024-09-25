@@ -62,9 +62,12 @@ void BlendState::Initialize(Mode mode)
 
 	D3D11_BLEND_DESC desc{};
 	desc.RenderTarget[0].BlendEnable = (srcBlend != D3D11_BLEND_ONE) || (destBlend != D3D11_BLEND_ZERO);
-	desc.RenderTarget[0].SrcBlend = desc.RenderTarget[0].SrcBlendAlpha = srcBlend;
-	desc.RenderTarget[0].DestBlend = desc.RenderTarget[0].DestBlendAlpha = destBlend;
-	desc.RenderTarget[0].BlendOp = desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 	desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
 	auto device = GraphicsSystem::Get()->GetDevice();
@@ -72,9 +75,12 @@ void BlendState::Initialize(Mode mode)
 	ASSERT(SUCCEEDED(hr), "BlendState: failed to create blend state");
 
 	D3D11_DEPTH_STENCIL_DESC dsDesc{};
-	dsDesc.DepthEnable = true;
+	dsDesc.DepthEnable = false;
 	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-	dsDesc.DepthFunc = D3D11_COMPARISON_NOT_EQUAL;
+	dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
+
+	//disable stencil testing
+	dsDesc.StencilEnable = false;
 
 	hr = device->CreateDepthStencilState(&dsDesc, &mDepthStencilState);
 	ASSERT(SUCCEEDED(hr), "BlendState: failed to create depth stencil state");
@@ -89,6 +95,7 @@ void BlendState::Terminate()
 void BlendState::Set()
 {
 	auto context = GraphicsSystem::Get()->GetContext();
-	context->OMSetBlendState(mBlendState, nullptr, UINT_MAX);
+	float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	context->OMSetBlendState(mBlendState, blendFactor, UINT_MAX);
 	context->OMSetDepthStencilState(mDepthStencilState, 0);
 }

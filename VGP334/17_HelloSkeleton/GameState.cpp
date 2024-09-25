@@ -6,30 +6,30 @@ using namespace EngineD::Input;
 
 void GameState::Initialize()
 {
-	mCamera.SetPosition({ 0.0f, 3.0f, -10.0f });
-	mCamera.SetLookAt({ 0.0f, 0.0f, 0.0f });
+	mCamera.SetPosition({ -15.0f, 2.0f, -50.0f });
+	mCamera.SetLookAt({ -50.0f, 0.0f, 0.0f });
 
 	GraphicsSystem::Get()->SetClearColor(Colors::SkyBlue);
 
-	Mesh mesh;
+	MeshPX mesh;
 	const float hw = 1.0f * 0.5f;
-	const float hh = 1.0f * 0.5f;
+	const float h = 1.0f;
 	const float qSqr2 = sqrt(2.0f) * 0.25f;
 
-	mesh.vertices.push_back({ {-hw, -hh, 0.0f}, -Math::Vector3::ZAxis, Math::Vector3::XAxis, {0.0f, 1.0f} });
-	mesh.vertices.push_back({ {-hw,  hh, 0.0f}, -Math::Vector3::ZAxis, Math::Vector3::XAxis, {0.0f, 0.0f} });
-	mesh.vertices.push_back({ { hw,  hh, 0.0f}, -Math::Vector3::ZAxis, Math::Vector3::XAxis, {1.0f, 0.0f} });
-	mesh.vertices.push_back({ { hw, -hh, 0.0f}, -Math::Vector3::ZAxis, Math::Vector3::XAxis, {1.0f, 1.0f} });
+	mesh.vertices.push_back({ {-hw, 0.0f, 0.0f}, {0.0f, 1.0f} });
+	mesh.vertices.push_back({ {-hw,  h, 0.0f}, {0.0f, 0.0f} });
+	mesh.vertices.push_back({ { hw,  h, 0.0f}, {1.0f, 0.0f} });
+	mesh.vertices.push_back({ { hw, 0.0f, 0.0f}, {1.0f, 1.0f} });
 
-	mesh.vertices.push_back({ {-qSqr2, -hh, qSqr2}, -Math::Vector3::ZAxis, Math::Vector3::XAxis, {0.0f, 1.0f} });
-	mesh.vertices.push_back({ {-qSqr2,  hh, qSqr2}, -Math::Vector3::ZAxis, Math::Vector3::XAxis, {0.0f, 0.0f} });
-	mesh.vertices.push_back({ { qSqr2,  hh, -qSqr2}, -Math::Vector3::ZAxis, Math::Vector3::XAxis, {1.0f, 0.0f} });
-	mesh.vertices.push_back({ { qSqr2, -hh, -qSqr2}, -Math::Vector3::ZAxis, Math::Vector3::XAxis, {1.0f, 1.0f} });
+	mesh.vertices.push_back({ {-qSqr2, 0.0f, qSqr2}, {0.0f, 1.0f} });
+	mesh.vertices.push_back({ {-qSqr2,  h, qSqr2}, {0.0f, 0.0f} });
+	mesh.vertices.push_back({ { qSqr2,  h, -qSqr2}, {1.0f, 0.0f} });
+	mesh.vertices.push_back({ { qSqr2, 0.0f, -qSqr2}, {1.0f, 1.0f} });
 
-	mesh.vertices.push_back({ {-qSqr2, -hh, -qSqr2}, -Math::Vector3::ZAxis, Math::Vector3::XAxis, {0.0f, 1.0f} });
-	mesh.vertices.push_back({ {-qSqr2,  hh, -qSqr2}, -Math::Vector3::ZAxis, Math::Vector3::XAxis, {0.0f, 0.0f} });
-	mesh.vertices.push_back({ {qSqr2,  hh, qSqr2}, -Math::Vector3::ZAxis, Math::Vector3::XAxis, {1.0f, 0.0f} });
-	mesh.vertices.push_back({ {qSqr2, -hh, qSqr2}, -Math::Vector3::ZAxis, Math::Vector3::XAxis, {1.0f, 1.0f} });
+	mesh.vertices.push_back({ {-qSqr2, 0.0f, -qSqr2}, {0.0f, 1.0f} });
+	mesh.vertices.push_back({ {-qSqr2,  h, -qSqr2}, {0.0f, 0.0f} });
+	mesh.vertices.push_back({ {qSqr2,  h, qSqr2}, {1.0f, 0.0f} });
+	mesh.vertices.push_back({ {qSqr2, 0.0f, qSqr2}, {1.0f, 1.0f} });
 
 	mesh.indices = {
 		0, 1, 2,
@@ -40,7 +40,8 @@ void GameState::Initialize()
 		8, 10, 11
 	};
 
-	mGrassBuffer.SetInstanceAmount(100);
+	mGrassBuffer.SetDensity(2);
+	mGrassBuffer.SetSideSize(50);
 	mGrassBuffer.Initialize(mesh);
 
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/GrassShader.fx";
@@ -119,6 +120,11 @@ void GameState::DebugUI()
 			ImGui::ColorEdit4("Ambient##Light", &mDirectionalLight.ambient.r);
 			ImGui::ColorEdit4("Diffuse##Light", &mDirectionalLight.diffuse.r);
 			ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
+		}
+		if (ImGui::CollapsingHeader("CameraTransform", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			Vector3 position = mCamera.GetPosition();
+			ImGui::DragFloat3("Position", &position.x, 0.1f);
 		}
 	ImGui::End();
 }

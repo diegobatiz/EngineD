@@ -6,6 +6,16 @@
 using namespace EngineD;
 using namespace EngineD::Graphics;
 
+void EngineD::Graphics::GrassBuffer::SetSideSize(uint32_t length)
+{
+	mSideLength = length;
+}
+
+void EngineD::Graphics::GrassBuffer::SetDensity(uint32_t density)
+{
+	mDensity = density;
+}
+
 void GrassBuffer::SetInstanceAmount(uint32_t amount)
 {
 	mInstanceCount = amount;
@@ -69,15 +79,21 @@ void GrassBuffer::CreateVertexBuffer(const void* vertices, uint32_t vertexSize, 
 	HRESULT hr = mDevice->CreateBuffer(&vertexBufferDesc, &initData, &mVertexBuffer);
 	ASSERT(SUCCEEDED(hr), "Failed to create vertex data");
 
-	InstanceType* instances = new InstanceType[mInstanceCount];
-	int index = 0;
+	mInstanceCount = mSideLength * mSideLength * mDensity * mDensity;
 
-	for (int i = 0; i < 10; i++)
+	InstanceType* instances = new InstanceType[mInstanceCount];
+	int index = mInstanceCount - 1;
+
+	uint32_t x = mSideLength * mDensity;
+	uint32_t y = mSideLength * mDensity;
+	float step = 1.0f / mDensity;
+
+	for (int i = 0; i < y; i++)
 	{
-		for (int j = 0; j < 10; j++)
+		for (int j = 0; j < x; j++)
 		{
-			instances[index].id = { i - 5.0f, 0.0f, j - 5.0f };
-			index++;
+			instances[index].id = { (j * step - mSideLength), 0.0f, (i * step - mSideLength) };
+			index--;
 		}
 	}
 

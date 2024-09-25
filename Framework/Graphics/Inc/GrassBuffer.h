@@ -23,6 +23,8 @@ namespace EngineD::Graphics
 			);
 		}
 
+		void SetSideSize(uint32_t area);
+		void SetDensity(uint32_t density);
 		void SetInstanceAmount(uint32_t amount);
 		void Initialize(const void* vertices, uint32_t vertexSize, uint32_t vertexCount, const uint32_t* indices, uint32_t indexCount);
 		void Terminate();
@@ -42,5 +44,8 @@ namespace EngineD::Graphics
 		uint32_t mVertexCount{};
 		uint32_t mIndexCount{};
 		uint32_t mInstanceCount{};
+
+		uint32_t mSideLength{};
+		uint32_t mDensity{};
 	};
 }
