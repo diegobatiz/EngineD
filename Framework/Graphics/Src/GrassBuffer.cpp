@@ -86,13 +86,14 @@ void GrassBuffer::CreateVertexBuffer(const void* vertices, uint32_t vertexSize, 
 
 	uint32_t x = mSideLength * mDensity;
 	uint32_t y = mSideLength * mDensity;
+	float halfLength = mSideLength * 0.5f;
 	float step = 1.0f / mDensity;
 
 	for (int i = 0; i < y; i++)
 	{
 		for (int j = 0; j < x; j++)
 		{
-			instances[index].id = { (j * step - mSideLength), 0.0f, (i * step - mSideLength) };
+			instances[index].id = { ((j * step) - halfLength), 0.0f, ((i * step) - halfLength) };
 			index--;
 		}
 	}

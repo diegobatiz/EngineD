@@ -6,16 +6,16 @@ using namespace EngineD::Input;
 
 void GameState::Initialize()
 {
-	mCamera.SetPosition({ -15.0f, 2.0f, -50.0f });
-	mCamera.SetLookAt({ -50.0f, 0.0f, 0.0f });
+	mCamera.SetPosition({ 0.0f, 5.0f, -50.0f });
+	mCamera.SetLookAt({ 0.0f, 0.0f, 0.0f });
 
 	GraphicsSystem::Get()->SetClearColor(Colors::SkyBlue);
 
-	Model model;
-	ModelIO::LoadModel("../../Assets/Models/Grass/Grass.model", model);
+	////////////////////////////////////////
+	//        Billboard Grass Mesh       //
+	///////////////////////////////////////
 
-	Mesh mMesh = model.meshData[0].mesh;
-
+	/*
 	MeshPX mesh;
 	const float hw = 1.0f * 0.5f;
 	const float h = 1.0f;
@@ -35,6 +35,7 @@ void GameState::Initialize()
 	mesh.vertices.push_back({ {-qSqr2,  h, -qSqr2}, {0.0f, 0.0f} });
 	mesh.vertices.push_back({ {qSqr2,  h, qSqr2}, {1.0f, 0.0f} });
 	mesh.vertices.push_back({ {qSqr2, 0.0f, qSqr2}, {1.0f, 1.0f} });
+	
 
 	mesh.indices = {
 		0, 1, 2,
@@ -44,16 +45,20 @@ void GameState::Initialize()
 		8, 9, 10,
 		8, 10, 11
 	};
+	*/
 
-	mGrassBuffer.SetDensity(2);
-	mGrassBuffer.SetSideSize(50);
-	mGrassBuffer.Initialize(mesh);
+	Model model;
+	ModelIO::LoadModel("../../Assets/Models/Grass/Grass.model", model);
+
+	Mesh mMesh = model.meshData[0].mesh;
+
+	mGrassBuffer.SetDensity(1);
+	mGrassBuffer.SetSideSize(100);
+	mGrassBuffer.Initialize(mMesh);
 
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/GrassShader.fx";
-	TextureID id = TextureManager::Get()->LoadTexture("terrain/Grass.png");
 
 	mGrassEffect.Initialize(shaderFilePath);
-	mGrassEffect.SetGrassTextureID(id);
 	mGrassEffect.SetCamera(mCamera);
 }
 

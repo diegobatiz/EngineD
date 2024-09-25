@@ -200,9 +200,6 @@ VS_OUTPUT VS(VS_INPUT input)
 
 float4 PS(VS_OUTPUT input) : SV_Target
 {
-    float4 texColour = grassTexture.Sample(textureSampler, input.texCoord);
-    
-
-    return texColour;
+   return float4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
