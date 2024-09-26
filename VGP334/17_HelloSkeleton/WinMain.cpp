@@ -9,6 +9,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	AppConfig config;
 	config.appName = L"Grass";
+	config.winHeight = 1080;
+	config.winWidth = 1920;
 
 	myApp.Run(config);
 

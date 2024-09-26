@@ -181,6 +181,9 @@
     <ClInclude Include="Inc\GrassEffect.h">
       <Filter>Inc\Effects</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\Noise.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -295,6 +298,9 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\GrassEffect.cpp">
+      <Filter>Src\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Noise.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>

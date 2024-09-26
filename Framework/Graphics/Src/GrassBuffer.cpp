@@ -1,6 +1,7 @@
 #include "Precompiled.h"
 #include "GrassBuffer.h"
 
+#include "Noise.h"
 #include "GraphicsSystem.h"
 
 using namespace EngineD;
@@ -82,8 +83,12 @@ void GrassBuffer::CreateVertexBuffer(const void* vertices, uint32_t vertexSize, 
 	mInstanceCount = mSideLength * mSideLength * mDensity * mDensity;
 
 	InstanceType* instances = new InstanceType[mInstanceCount];
+	
 	int index = mInstanceCount - 1;
 
+	float frequency = 0.5f;
+	float heightFrequency = 0.2f;
+	float amplitude = 0.7f;
 	uint32_t x = mSideLength * mDensity;
 	uint32_t y = mSideLength * mDensity;
 	float halfLength = mSideLength * 0.5f;
@@ -93,10 +98,23 @@ void GrassBuffer::CreateVertexBuffer(const void* vertices, uint32_t vertexSize, 
 	{
 		for (int j = 0; j < x; j++)
 		{
-			instances[index].id = { ((j * step) - halfLength), 0.0f, ((i * step) - halfLength) };
+			Math::Vector3 position = { ((j * step) - halfLength), (float)j + i * y, ((i * step) - halfLength) };
+			float noiseX = Noise::NoiseSimplex({ position.y * frequency, position.z * frequency });
+			float noiseZ = Noise::NoiseSimplex({ position.x * frequency, position.z * frequency });
+			float noiseY = Noise::NoiseSimplex({ -position.x * heightFrequency, -position.z * heightFrequency });
+
+			noiseX *= amplitude;
+			noiseZ *= amplitude;
+
+			position.x += noiseX;
+			position.z += noiseZ;
+
+			instances[index].id = position;
+			instances[index].heightValue = noiseY;
 			index--;
 		}
 	}
+	
 
 	D3D11_BUFFER_DESC instanceBufferDesc = {};
 	instanceBufferDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -135,5 +153,24 @@ void GrassBuffer::CreateIndexBuffer(const uint32_t* indices, uint32_t indexCount
 	initData.SysMemSlicePitch = 0;
 
 	HRESULT hr = mDevice->CreateBuffer(&bufferDesc, &initData, &mIndexBuffer);
+	ASSERT(SUCCEEDED(hr), "Failed to create index data");
+}
+
+void GrassBuffer::CreateComputeShader()
+{
+	D3D11_BUFFER_DESC bufferDesc = {};
+	bufferDesc.ByteWidth = static_cast<UINT>(mInstanceCount) * sizeof(InstanceType);
+	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	bufferDesc.MiscFlags = 0;
+	bufferDesc.StructureByteStride = 0;
+
+	InstanceType* instances = new InstanceType[mInstanceCount];
+	D3D11_SUBRESOURCE_DATA initData = {};
+	initData.pSysMem = instances;
+	initData.SysMemPitch = 0;
+	initData.SysMemSlicePitch = 0;
+
+	HRESULT hr = mDevice->CreateBuffer(&bufferDesc, &initData, &mComputeBuffer);
 	ASSERT(SUCCEEDED(hr), "Failed to create index data");
 }

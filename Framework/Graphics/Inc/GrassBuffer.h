@@ -7,6 +7,7 @@ namespace EngineD::Graphics
 		struct InstanceType
 		{
 			EngineD::Math::Vector3 id;
+			float heightValue;
 		};
 
 	public:
@@ -33,10 +34,18 @@ namespace EngineD::Graphics
 	protected:
 		void CreateVertexBuffer(const void* vertices, uint32_t vertexSize, uint32_t vertexCount);
 		void CreateIndexBuffer(const uint32_t* indices, uint32_t indexCount);
+		void CreateComputeShader();
 
 		ID3D11Buffer* mVertexBuffer = nullptr;
-		ID3D11Buffer* mIndexBuffer = nullptr;
 		ID3D11Buffer* mInstanceBuffer = nullptr;
+		ID3D11Buffer* mIndexBuffer = nullptr;
+
+		ID3D11Buffer* mComputeBuffer = nullptr;
+		ID3D11UnorderedAccessView* mComputeBufferUAV;
+		ID3D11ShaderResourceView* mComputeSRV;
+
+
+
 		D3D11_PRIMITIVE_TOPOLOGY mTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 		ID3D11Device* mDevice = nullptr;
 

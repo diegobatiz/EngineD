@@ -5,6 +5,7 @@
 #include "PixelShader_D3D11.h"
 #include "TextureManager.h"
 #include "BlendState.h"
+#include "Colours.h"
 
 namespace EngineD::Graphics
 {
@@ -28,9 +29,19 @@ namespace EngineD::Graphics
 			Math::Matrix4 wvp;
 		};
 
+		struct ColorData
+		{
+			EngineD::Color albedo1Colour;
+			EngineD::Color albedo2Colour;
+			EngineD::Color AOColour;
+			EngineD::Color tipColour;
+		};
+
 		using TransformBuffer = TypedConstantBuffer<TransformData>;
+		using ColorBuffer = TypedConstantBuffer<ColorData>;
 
 		TransformBuffer mTransformBuffer;
+		ColorBuffer mColorBuffer;
 
 		Sampler mSampler;
 		GrassVertexShader mVertexShader;
@@ -40,5 +51,6 @@ namespace EngineD::Graphics
 		TextureID mGrassTextureId;
 
 		const Camera* mCamera = nullptr;
+		ColorData mColorData;
 	};
 }

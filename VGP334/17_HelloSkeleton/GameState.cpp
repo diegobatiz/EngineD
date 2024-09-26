@@ -55,10 +55,13 @@ void GameState::Initialize()
 	mGrassBuffer.SetDensity(1);
 	mGrassBuffer.SetSideSize(100);
 	mGrassBuffer.Initialize(mMesh);
+	TextureID id = TextureManager::Get()->LoadTexture("terrain/Grass.png");
+
 
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/GrassShader.fx";
 
 	mGrassEffect.Initialize(shaderFilePath);
+	mGrassEffect.SetGrassTextureID(id);
 	mGrassEffect.SetCamera(mCamera);
 }
 
@@ -115,6 +118,9 @@ void GameState::Render()
 	mGrassEffect.Begin();
 		mGrassBuffer.Render();
 	mGrassEffect.End();
+
+	int height = GraphicsSystem::Get()->GetBackBufferHeight();
+	int width = GraphicsSystem::Get()->GetBackBufferWidth();
 }
 
 void GameState::DebugUI()
@@ -136,5 +142,8 @@ void GameState::DebugUI()
 			Vector3 position = mCamera.GetPosition();
 			ImGui::DragFloat3("Position", &position.x, 0.1f);
 		}
+
+		mGrassEffect.DebugUI();
+
 	ImGui::End();
 }

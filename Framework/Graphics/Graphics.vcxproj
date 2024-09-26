@@ -170,6 +170,7 @@
     <ClInclude Include="Inc\ModelIO.h" />
     <ClInclude Include="Inc\ModelManager.h" />
     <ClInclude Include="Inc\MoebiusEffect.h" />
+    <ClInclude Include="Inc\Noise.h" />
     <ClInclude Include="Inc\NormalMapEffect.h" />
     <ClInclude Include="Inc\ParticleSystemEffect.h" />
     <ClInclude Include="Inc\PixelShader_D3D11.h" />
@@ -213,6 +214,7 @@
     <ClCompile Include="Src\ModelIO.cpp" />
     <ClCompile Include="Src\ModelManager.cpp" />
     <ClCompile Include="Src\MoebiusEffect.cpp" />
+    <ClCompile Include="Src\Noise.cpp" />
     <ClCompile Include="Src\NormalMapEffect.cpp" />
     <ClCompile Include="Src\ParticleSystemEffect.cpp" />
     <ClCompile Include="Src\PixelShader_D3D11.cpp" />
