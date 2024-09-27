@@ -7,7 +7,6 @@ namespace EngineD::Graphics
 		struct InstanceType
 		{
 			EngineD::Math::Vector3 id;
-			float heightValue;
 		};
 
 	public:

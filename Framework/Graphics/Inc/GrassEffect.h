@@ -17,6 +17,7 @@ namespace EngineD::Graphics
 		void Initialize(const std::filesystem::path& filename);
 		void Terminate();
 
+		void Update(float deltaTime);
 		void Begin();
 		void End();
 		void SetCamera(const Camera& camera);
@@ -37,11 +38,19 @@ namespace EngineD::Graphics
 			EngineD::Color tipColour;
 		};
 
+		struct TimeData
+		{
+			float time;
+			float padding[3] = { 0.0f };
+		};
+
 		using TransformBuffer = TypedConstantBuffer<TransformData>;
 		using ColorBuffer = TypedConstantBuffer<ColorData>;
+		using TimeBuffer = TypedConstantBuffer<TimeData>;
 
 		TransformBuffer mTransformBuffer;
 		ColorBuffer mColorBuffer;
+		TimeBuffer mTimeBuffer;
 
 		Sampler mSampler;
 		GrassVertexShader mVertexShader;
@@ -52,5 +61,6 @@ namespace EngineD::Graphics
 
 		const Camera* mCamera = nullptr;
 		ColorData mColorData;
+		float mCurrentTime;
 	};
 }

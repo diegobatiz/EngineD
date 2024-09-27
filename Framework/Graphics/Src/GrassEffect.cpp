@@ -8,6 +8,7 @@ using namespace EngineD::Graphics;
 
 void GrassEffect::Initialize(const std::filesystem::path& filename)
 {
+	mTimeBuffer.Initialize();
 	mColorBuffer.Initialize();
 	mTransformBuffer.Initialize();
 	mVertexShader.Initialize(filename);
@@ -29,6 +30,17 @@ void GrassEffect::Terminate()
 	mVertexShader.Terminate();
 	mTransformBuffer.Terminate();
 	mColorBuffer.Terminate();
+	mTimeBuffer.Terminate();
+}
+
+void GrassEffect::Update(float deltaTime)
+{
+	mCurrentTime += deltaTime;
+
+	if (mCurrentTime >= 60.0f)
+	{
+		mCurrentTime = 0.0f;
+	}
 }
 
 void GrassEffect::Begin()
@@ -44,6 +56,8 @@ void GrassEffect::Begin()
 	mTransformBuffer.BindVS(0);
 
 	mColorBuffer.BindPS(1);
+
+	mTimeBuffer.BindVS(2);
 
 	mBlendState.Set();
 
@@ -65,10 +79,13 @@ void GrassEffect::Begin()
 
 	mColorBuffer.Update(colorData);
 
+	TimeData timeData;
+	timeData.time = mCurrentTime;
+	
+	mTimeBuffer.Update(timeData);
+
 	TextureManager* tm = TextureManager::Get();
 	tm->BindPS(mGrassTextureId, 0);
-
-
 }
 
 void GrassEffect::End()

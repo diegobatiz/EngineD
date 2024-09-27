@@ -6,7 +6,7 @@ using namespace EngineD::Input;
 
 void GameState::Initialize()
 {
-	mCamera.SetPosition({ 0.0f, 5.0f, -50.0f });
+	mCamera.SetPosition({ 0.0f, 15.0f, -50.0f });
 	mCamera.SetLookAt({ 0.0f, 0.0f, 0.0f });
 
 	GraphicsSystem::Get()->SetClearColor(Colors::SkyBlue);
@@ -111,6 +111,8 @@ void GameState::Update(float deltaTime)
 		mCamera.Pitch(input->GetMouseMoveY() * turnSpeed * deltaTime);
 	}
 #pragma endregion
+
+	mGrassEffect.Update(deltaTime);
 }
 
 void GameState::Render()
