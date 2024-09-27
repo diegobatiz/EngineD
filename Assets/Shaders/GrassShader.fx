@@ -191,7 +191,7 @@ VS_OUTPUT VS(VS_INPUT input)
 {
 	VS_OUTPUT output;
     
-    float extraHeight = (input.id.y + 2.0f) * 3.5f;
+    float extraHeight = (input.id.y + 1.0f) * 0.5f;
     input.position.y += (input.texCoord.y - 1.0f) * -1.0f * extraHeight;
     input.position.xz += input.id.xz;
     
