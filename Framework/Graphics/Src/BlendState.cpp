@@ -80,7 +80,7 @@ void BlendState::Initialize(Mode mode)
 	dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
 
 	//disable stencil testing
-	dsDesc.StencilEnable = false;
+	//dsDesc.StencilEnable = false;
 
 	hr = device->CreateDepthStencilState(&dsDesc, &mDepthStencilState);
 	ASSERT(SUCCEEDED(hr), "BlendState: failed to create depth stencil state");
@@ -97,5 +97,5 @@ void BlendState::Set()
 	auto context = GraphicsSystem::Get()->GetContext();
 	float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
 	context->OMSetBlendState(mBlendState, blendFactor, UINT_MAX);
-	context->OMSetDepthStencilState(mDepthStencilState, 0);
+	context->OMSetDepthStencilState(mDepthStencilState, 1);
 }
