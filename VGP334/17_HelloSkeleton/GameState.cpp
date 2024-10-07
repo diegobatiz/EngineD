@@ -52,8 +52,8 @@ void GameState::Initialize()
 
 	Mesh mMesh = model.meshData[0].mesh;
 
-	mGrassBuffer.SetDensity(1);
-	mGrassBuffer.SetSideSize(100);
+	mGrassBuffer.SetDensity(2);
+	mGrassBuffer.SetSideSize(50);
 	mGrassBuffer.Initialize(mMesh);
 	TextureID id = TextureManager::Get()->LoadTexture("terrain/Grass.png");
 
@@ -139,12 +139,7 @@ void GameState::DebugUI()
 			ImGui::ColorEdit4("Diffuse##Light", &mDirectionalLight.diffuse.r);
 			ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
 		}
-		if (ImGui::CollapsingHeader("CameraTransform", ImGuiTreeNodeFlags_DefaultOpen))
-		{
-			Vector3 position = mCamera.GetPosition();
-			ImGui::DragFloat3("Position", &position.x, 0.1f);
-		}
-
+	
 		mGrassEffect.DebugUI();
 
 	ImGui::End();

@@ -3,6 +3,7 @@
 cbuffer WorldBuffer : register(b0)
 {
     matrix wvp;
+    float3 cameraPos;
 }
 
 cbuffer ColorBuffer : register(b1)
@@ -11,6 +12,9 @@ cbuffer ColorBuffer : register(b1)
     float4 albedo2Color;
     float4 AOColor;
     float4 tipColor;
+    float4 fogColour;
+    float fogDensity;
+    float fogOffset;
 }
 
 cbuffer TimeBuffer : register(b2)
@@ -31,7 +35,8 @@ struct VS_INPUT
 struct VS_OUTPUT
 {
 	float4 position : SV_Position;
-	float2 texCoord : TEXCOORD;
+	float2 texCoord : TEXCOORD0;
+    float2 worldPos : TEXCOORD1;
 };
 
 #define FASTFLOOR(x) ( ((x)>0) ? ((int)x) : (((int)x)-1) )
@@ -191,13 +196,14 @@ VS_OUTPUT VS(VS_INPUT input)
 {
 	VS_OUTPUT output;
     
-    float extraHeight = (input.id.y + 1.0f) * 0.5f;
+    float extraHeight = (input.id.y + 2.0f) * 1.1f;
     input.position.y += (input.texCoord.y - 1.0f) * -1.0f * extraHeight;
     input.position.xz += input.id.xz;
     
     float sway = NoiseSimplex(input.position.xz * 0.35f + time * 0.25f) * ((input.texCoord.y - 1.0f) * -1.0f) * 0.1f;
     input.position.xz += sway;
     
+    output.worldPos = input.position.xz;
     output.position = mul(float4(input.position, 1.0f), wvp);
 	output.texCoord = input.texCoord;
 	return output;
@@ -210,8 +216,13 @@ float4 PS(VS_OUTPUT input) : SV_Target
     float4 ao = lerp(1.0f, AOColor, input.texCoord.y);
     float4 tip = lerp(tipColor, 0.0f, input.texCoord.y * input.texCoord.y);
     
-    float4 finalColour = (color + tip) * ao;
+    float4 grassColour = (color + tip) * ao;
+    
+    float distance = length(cameraPos.xz - input.worldPos);
+    float fogFactor = (fogDensity / sqrt(log(2))) * (max(0.0f, distance - fogOffset));
+    fogFactor = exp2(-fogFactor * fogFactor);
+    
+    return lerp(fogColour, grassColour, fogFactor);
 
-    return finalColour;
 }
 

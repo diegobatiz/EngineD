@@ -88,7 +88,7 @@ void GrassBuffer::CreateVertexBuffer(const void* vertices, uint32_t vertexSize, 
 
 	float frequency = 0.5f;
 	float heightFrequency = 0.2f;
-	float amplitude = 0.8f;
+	float amplitude = 0.3f;
 	uint32_t x = mSideLength * mDensity;
 	uint32_t y = mSideLength * mDensity;
 	float halfLength = mSideLength * 0.5f;
@@ -101,7 +101,7 @@ void GrassBuffer::CreateVertexBuffer(const void* vertices, uint32_t vertexSize, 
 			Math::Vector3 position = { ((j * step) - halfLength), 0.0f, ((i * step) - halfLength) };
 			float noiseX = Noise::NoiseSimplex({ position.z * frequency, position.x * frequency });
 			float noiseZ = Noise::NoiseSimplex({ -position.x * frequency, -position.z * frequency });
-			float noiseY = Noise::NoiseSimplex({ -position.z * heightFrequency, position.x * heightFrequency });
+			float noiseY = Noise::NoiseSimplex({ noiseZ, noiseX });
 
 			noiseX *= amplitude;
 			noiseZ *= amplitude;

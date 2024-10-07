@@ -28,6 +28,8 @@ namespace EngineD::Graphics
 		struct TransformData
 		{
 			Math::Matrix4 wvp;
+			Math::Vector3 cameraPos;
+			float padding;
 		};
 
 		struct ColorData
@@ -36,6 +38,10 @@ namespace EngineD::Graphics
 			EngineD::Color albedo2Colour;
 			EngineD::Color AOColour;
 			EngineD::Color tipColour;
+			EngineD::Color fogColour;
+			float fogDensity;
+			float fogOffset;
+			float padding[2] = { 0.0f };
 		};
 
 		struct TimeData
@@ -55,7 +61,6 @@ namespace EngineD::Graphics
 		Sampler mSampler;
 		GrassVertexShader mVertexShader;
 		PixelShader_D3D11 mPixelShader;
-		BlendState mBlendState;
 
 		TextureID mGrassTextureId;
 

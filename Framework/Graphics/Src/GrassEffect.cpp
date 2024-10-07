@@ -1,5 +1,6 @@
 #include "Precompiled.h"
 #include "GrassEffect.h"
+#include "GraphicsSystem.h"
 
 #include "Camera.h"
 
@@ -14,17 +15,20 @@ void GrassEffect::Initialize(const std::filesystem::path& filename)
 	mVertexShader.Initialize(filename);
 	mPixelShader.Initialize(filename);
 	mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Clamp);
-	mBlendState.Initialize(BlendState::Mode::AlphaBlend);
 
 	mColorData.albedo1Colour = { 0.43137255f, 0.80392157f, 0.36862745f, 1.0f };
 	mColorData.albedo2Colour = { 0.08235294f, 0.49019608f, 0.16470588f, 1.0f };
 	mColorData.AOColour = { 0.31372549f, 0.31372549f, 0.31372549f, 1.0f };
 	mColorData.tipColour = { 0.0f, 0.15686275f, 0.0f, 1.0f };
+	mColorData.fogColour = { 0.62745098f, 0.62745098f, 0.62745098f, 1.0f };
+	mColorData.fogDensity = 0.01f;
+	mColorData.fogOffset = 1.0f;
+
+	GraphicsSystem::Get()->SetClearColor(mColorData.fogColour);
 }
 
 void GrassEffect::Terminate()
 {
-	mBlendState.Terminate();
 	mSampler.Terminate();
 	mPixelShader.Terminate();
 	mVertexShader.Terminate();
@@ -54,20 +58,22 @@ void GrassEffect::Begin()
 	mSampler.BindPS(0);
 
 	mTransformBuffer.BindVS(0);
+	mTransformBuffer.BindPS(0);
 
 	mColorBuffer.BindPS(1);
 
 	mTimeBuffer.BindVS(2);
-
-	mBlendState.Set();
 
 	Math::Matrix4 matWorld = Math::Matrix4::Identity;
 	Math::Matrix4 matView = mCamera->GetViewMatrix();
 	Math::Matrix4 matProj = mCamera->GetProjectionMatrix();
 	Math::Matrix4 matFinal = matWorld * matView * matProj;
 
+	Math::Vector3 camPos = mCamera->GetPosition();
+
 	TransformData data;
 	data.wvp = Math::Transpose(matFinal);
+	data.cameraPos = camPos;
 
 	mTransformBuffer.Update(data);
 
@@ -76,6 +82,9 @@ void GrassEffect::Begin()
 	colorData.albedo2Colour = mColorData.albedo2Colour;
 	colorData.AOColour = mColorData.AOColour;
 	colorData.tipColour = mColorData.tipColour;
+	colorData.fogColour = mColorData.fogColour;
+	colorData.fogDensity = mColorData.fogDensity;
+	colorData.fogOffset = mColorData.fogOffset;
 
 	mColorBuffer.Update(colorData);
 
@@ -90,7 +99,6 @@ void GrassEffect::Begin()
 
 void GrassEffect::End()
 {
-	mBlendState.ClearState();
 }
 
 void GrassEffect::SetCamera(const Camera& camera)
@@ -111,5 +119,13 @@ void GrassEffect::DebugUI()
 		ImGui::ColorEdit4("Albedo Bottom", &mColorData.albedo2Colour.r);
 		ImGui::ColorEdit4("Ambient Occlusion", &mColorData.AOColour.r);
 		ImGui::ColorEdit4("Tip Color", &mColorData.tipColour.r);
+		ImGui::ColorEdit4("Fog Color", &mColorData.fogColour.r);
+		ImGui::DragFloat("Fog Density", &mColorData.fogDensity, 0.01f, 0.00001f, 1.0f);
+		ImGui::DragFloat("Fog Offset", &mColorData.fogOffset, 0.1f, 0.01f, 10.0f);
+	}
+	if (ImGui::CollapsingHeader("CameraTransform", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		Math::Vector3 position = mCamera->GetPosition();
+		ImGui::DragFloat3("Position", &position.x, 0.1f);
 	}
 }
