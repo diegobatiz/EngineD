@@ -47,6 +47,24 @@ void GameState::Initialize()
 	};
 	*/
 
+	//SETS TEXTURE FOR BILLBOARD GRASS//
+	
+	//TextureID id = TextureManager::Get()->LoadTexture("terrain/Grass.png");
+	//mGrassEffect.SetGrassTextureID(id);
+
+	mTerrain.Initialize("../../Assets/Images/terrain/heightmap_512x512.raw", 10.0f);
+	const Mesh& m = mTerrain.GetMesh();
+	mGround.meshBuffer.Initialize(
+		nullptr,
+		static_cast<uint32_t>(sizeof(Vertex)),
+		static_cast<uint32_t>(m.vertices.size()),
+		m.indices.data(),
+		static_cast<uint32_t>(m.indices.size())
+	);
+	mGround.meshBuffer.Update(m.vertices.data(), m.vertices.size());
+	mGround.diffuseMapId = TextureManager::Get()->LoadTexture("terrain/dirt_seamless.jpg");
+	mGround.bumpMapId = TextureManager::Get()->LoadTexture("terrain/grass_2048.jpg");
+
 	Model model;
 	ModelIO::LoadModel("../../Assets/Models/Grass/Grass.model", model);
 
@@ -54,21 +72,27 @@ void GameState::Initialize()
 
 	mGrassBuffer.SetDensity(2);
 	mGrassBuffer.SetSideSize(50);
+	mGrassBuffer.SetTerrain(mTerrain);
+
 	mGrassBuffer.Initialize(mMesh);
-	TextureID id = TextureManager::Get()->LoadTexture("terrain/Grass.png");
 
 
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/GrassShader.fx";
 
+	mTerrainEffect.SetLightingMode(false);
+	mTerrainEffect.Initialize(L"../../Assets/Shaders/Standard.fx");
+	mTerrainEffect.SetCamera(mCamera);
+
 	mGrassEffect.Initialize(shaderFilePath);
-	mGrassEffect.SetGrassTextureID(id);
 	mGrassEffect.SetCamera(mCamera);
 }
 
 void GameState::Terminate()
 {
+	mTerrainEffect.Terminate();
 	mGrassEffect.Terminate();
 	mGrassBuffer.Terminate();
+	mGround.Terminate();
 }
 
 void GameState::Update(float deltaTime)
@@ -117,6 +141,10 @@ void GameState::Update(float deltaTime)
 
 void GameState::Render()
 {
+	//mTerrainEffect.Begin();
+	//	mTerrainEffect.Render(mGround);
+	//mTerrainEffect.End();
+
 	mGrassEffect.Begin();
 		mGrassBuffer.Render();
 	mGrassEffect.End();
@@ -138,7 +166,9 @@ void GameState::DebugUI()
 			ImGui::ColorEdit4("Ambient##Light", &mDirectionalLight.ambient.r);
 			ImGui::ColorEdit4("Diffuse##Light", &mDirectionalLight.diffuse.r);
 			ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
-		}
+		}		
+
+		mTerrainEffect.DebugUI();
 	
 		mGrassEffect.DebugUI();
 

@@ -37,7 +37,10 @@ void StandardEffect::Terminate()
 void StandardEffect::Begin()
 {
 	ASSERT(mCamera != nullptr, "Standard Effect: no camera set!");
-	ASSERT(mDirectionalLight != nullptr, "Standard Effect: no light set!");
+	if (mUseLighting)
+	{
+		ASSERT(mDirectionalLight != nullptr, "Standard Effect: no light set!");
+	}
 
 	mVertexShader.Bind();
 	mPixelShader.Bind();
@@ -50,8 +53,11 @@ void StandardEffect::Begin()
 	mSettingsBuffer.BindVS(1);
 	mSettingsBuffer.BindPS(1);
 
-	mLightBuffer.BindVS(2);
-	mLightBuffer.BindPS(2);
+	if (mUseLighting)
+	{
+		mLightBuffer.BindVS(2);
+		mLightBuffer.BindPS(2);
+	}
 
 	mMaterialBuffer.BindPS(3);
 
@@ -72,7 +78,7 @@ void StandardEffect::Render(const RenderObject& renderObject)
 	settingsData.useDiffuseMap = renderObject.diffuseMapId > 0 && mSettingsData.useDiffuseMap > 0 ? 1 : 0;
 	settingsData.useNormalMap = renderObject.normalMapId > 0 && mSettingsData.useNormalMap > 0 ? 1 : 0;
 	settingsData.useSpecMap = renderObject.specMapId > 0 && mSettingsData.useSpecMap > 0 ? 1 : 0;
-	settingsData.useLighting = renderObject.useLighting > 0 ? 1 : 0;
+	settingsData.useLighting = mSettingsData.useLighting > 0 ? 1 : 0;
 	settingsData.useBumpMap = renderObject.bumpMapId > 0 && mSettingsData.useBumpMap > 0;
 	settingsData.bumpWeight = mSettingsData.bumpWeight;
 	settingsData.useShadowMap = mShadowMap != nullptr && mSettingsData.useShadowMap > 0;
@@ -115,7 +121,10 @@ void StandardEffect::Render(const RenderObject& renderObject)
 		mBoneTransformBuffer.Update(boneTransforms.data());
 	}
 
+	if (mUseLighting)
+	{
 	mLightBuffer.Update(*mDirectionalLight);
+	}
 	mMaterialBuffer.Update(renderObject.material);
 
 	TextureManager* tm = TextureManager::Get();
@@ -194,4 +203,9 @@ void StandardEffect::DebugUI()
 			mSettingsData.useSkinning = useSkinning > 0 ? 1 : 0;
 		}
 	}
+}
+
+void StandardEffect::SetLightingMode(bool mode)
+{
+	mUseLighting = mode;
 }

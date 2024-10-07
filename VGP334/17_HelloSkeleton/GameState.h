@@ -13,7 +13,10 @@ public:
 protected:
 	EngineD::Graphics::DirectionalLight mDirectionalLight;
 	EngineD::Graphics::Camera mCamera;
+	EngineD::Graphics::Terrain mTerrain;
 
 	EngineD::Graphics::GrassBuffer mGrassBuffer;
-	EngineD::Graphics::GrassEffect mGrassEffect;
+	EngineD::Graphics::GrassEffect mGrassEffect; 
+	EngineD::Graphics::StandardEffect mTerrainEffect;
+	EngineD::Graphics::RenderObject mGround;
 };

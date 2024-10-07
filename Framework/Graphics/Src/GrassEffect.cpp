@@ -20,9 +20,9 @@ void GrassEffect::Initialize(const std::filesystem::path& filename)
 	mColorData.albedo2Colour = { 0.08235294f, 0.49019608f, 0.16470588f, 1.0f };
 	mColorData.AOColour = { 0.31372549f, 0.31372549f, 0.31372549f, 1.0f };
 	mColorData.tipColour = { 0.0f, 0.15686275f, 0.0f, 1.0f };
-	mColorData.fogColour = { 0.62745098f, 0.62745098f, 0.62745098f, 1.0f };
-	mColorData.fogDensity = 0.01f;
-	mColorData.fogOffset = 1.0f;
+	mColorData.fogColour = { 0.905882353, 0.905882353, 0.905882353, 1.0f };
+	mColorData.fogDensity = 0.03f;
+	mColorData.fogOffset = 3.0f;
 
 	GraphicsSystem::Get()->SetClearColor(mColorData.fogColour);
 }
@@ -93,8 +93,11 @@ void GrassEffect::Begin()
 	
 	mTimeBuffer.Update(timeData);
 
-	TextureManager* tm = TextureManager::Get();
-	tm->BindPS(mGrassTextureId, 0);
+
+	//FOR BILLBOARD GRASS//
+
+	//TextureManager* tm = TextureManager::Get();
+	//tm->BindPS(mGrassTextureId, 0);
 }
 
 void GrassEffect::End()
@@ -106,6 +109,7 @@ void GrassEffect::SetCamera(const Camera& camera)
 	mCamera = &camera;
 }
 
+//FOR BILLBOARD GRASS//
 void GrassEffect::SetGrassTextureID(TextureID id)
 {
 	mGrassTextureId = id;
@@ -121,7 +125,7 @@ void GrassEffect::DebugUI()
 		ImGui::ColorEdit4("Tip Color", &mColorData.tipColour.r);
 		ImGui::ColorEdit4("Fog Color", &mColorData.fogColour.r);
 		ImGui::DragFloat("Fog Density", &mColorData.fogDensity, 0.01f, 0.00001f, 1.0f);
-		ImGui::DragFloat("Fog Offset", &mColorData.fogOffset, 0.1f, 0.01f, 10.0f);
+		ImGui::DragFloat("Fog Offset", &mColorData.fogOffset, 0.1f, 0.01f, 100.0f);
 	}
 	if (ImGui::CollapsingHeader("CameraTransform", ImGuiTreeNodeFlags_DefaultOpen))
 	{

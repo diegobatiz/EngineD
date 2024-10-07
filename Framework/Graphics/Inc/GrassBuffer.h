@@ -1,4 +1,5 @@
 #pragma once
+#include "Terrain.h"
 
 namespace EngineD::Graphics
 {
@@ -6,7 +7,7 @@ namespace EngineD::Graphics
 	{
 		struct InstanceType
 		{
-			EngineD::Math::Vector3 id;
+			EngineD::Math::Vector4 id;
 		};
 
 	public:
@@ -29,6 +30,7 @@ namespace EngineD::Graphics
 		void Initialize(const void* vertices, uint32_t vertexSize, uint32_t vertexCount, const uint32_t* indices, uint32_t indexCount);
 		void Terminate();
 		void Render() const;
+		void SetTerrain(const Terrain& terrain);
 
 	protected:
 		void CreateVertexBuffer(const void* vertices, uint32_t vertexSize, uint32_t vertexCount);
@@ -43,10 +45,10 @@ namespace EngineD::Graphics
 		ID3D11UnorderedAccessView* mComputeBufferUAV;
 		ID3D11ShaderResourceView* mComputeSRV;
 
-
-
 		D3D11_PRIMITIVE_TOPOLOGY mTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 		ID3D11Device* mDevice = nullptr;
+
+		const Terrain* mTerrain;
 
 		uint32_t mVertexSize{};
 		uint32_t mVertexCount{};

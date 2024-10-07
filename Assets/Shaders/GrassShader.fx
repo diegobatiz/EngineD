@@ -29,7 +29,7 @@ struct VS_INPUT
 {
     float3 position : POSITION;
     float2 texCoord : TEXCOORD;
-    float3 id : INSTANCEPOS;
+    float4 id : INSTANCEPOS;
 };
 
 struct VS_OUTPUT
@@ -199,6 +199,7 @@ VS_OUTPUT VS(VS_INPUT input)
     float extraHeight = (input.id.y + 2.0f) * 1.1f;
     input.position.y += (input.texCoord.y - 1.0f) * -1.0f * extraHeight;
     input.position.xz += input.id.xz;
+    input.position.y += input.id.w;
     
     float sway = NoiseSimplex(input.position.xz * 0.35f + time * 0.25f) * ((input.texCoord.y - 1.0f) * -1.0f) * 0.1f;
     input.position.xz += sway;

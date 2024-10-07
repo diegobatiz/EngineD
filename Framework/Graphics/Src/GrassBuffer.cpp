@@ -58,6 +58,11 @@ void GrassBuffer::Render() const
 	context->DrawIndexedInstanced(mIndexCount, mInstanceCount, 0, 0, 0);
 }
 
+void GrassBuffer::SetTerrain(const Terrain& terrain)
+{
+	mTerrain = &terrain;
+}
+
 void GrassBuffer::CreateVertexBuffer(const void* vertices, uint32_t vertexSize, uint32_t vertexCount)
 {
 	mDevice = GraphicsSystem::Get()->GetDevice();
@@ -110,7 +115,19 @@ void GrassBuffer::CreateVertexBuffer(const void* vertices, uint32_t vertexSize, 
 			position.z += noiseZ;
 			position.y += noiseY;
 
-			instances[index].id = position;
+			Math::Vector3 terrainPosition = position;
+			terrainPosition.x += halfLength;
+			terrainPosition.x -= noiseX;
+			terrainPosition.y = 0.0f;
+			terrainPosition.z += halfLength;
+			terrainPosition.z -= noiseZ;
+			terrainPosition *= mDensity;
+			float height = mTerrain->GetVertexHeight(terrainPosition);
+
+			instances[index].id.x = position.x;
+			instances[index].id.y = position.y;
+			instances[index].id.z = position.z;
+			instances[index].id.a = height;
 			index--;
 		}
 	}

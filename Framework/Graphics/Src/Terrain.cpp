@@ -117,6 +117,18 @@ float Terrain::GetHeight(const Math::Vector3& position) const
 	return height;
 }
 
+float Terrain::GetVertexHeight(const Math::Vector3& position) const
+{
+	const int x = static_cast<int>(position.x);
+	const int z = static_cast<int>(position.z);
+
+	const uint32_t index = x + (z * mColumns);
+
+	Vertex vertex = mMesh.vertices[index];
+	
+	return vertex.position.y;
+}
+
 const Mesh& Terrain::GetMesh() const
 {
 	return mMesh;
