@@ -124,7 +124,7 @@ void GrassEffect::DebugUI()
 		ImGui::ColorEdit4("Ambient Occlusion", &mColorData.AOColour.r);
 		ImGui::ColorEdit4("Tip Color", &mColorData.tipColour.r);
 		ImGui::ColorEdit4("Fog Color", &mColorData.fogColour.r);
-		ImGui::DragFloat("Fog Density", &mColorData.fogDensity, 0.01f, 0.00001f, 1.0f);
+		ImGui::DragFloat("Fog Density", &mColorData.fogDensity, 0.001f, 0.00001f, 1.0f);
 		ImGui::DragFloat("Fog Offset", &mColorData.fogOffset, 0.1f, 0.01f, 100.0f);
 	}
 	if (ImGui::CollapsingHeader("CameraTransform", ImGuiTreeNodeFlags_DefaultOpen))
