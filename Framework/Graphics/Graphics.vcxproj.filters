@@ -184,6 +184,12 @@
     <ClInclude Include="Inc\Noise.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\SimpleTerrain.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\FogEffect.h">
+      <Filter>Inc\Effects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -302,6 +308,12 @@
     </ClCompile>
     <ClCompile Include="Src\Noise.cpp">
       <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SimpleTerrain.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\FogEffect.cpp">
+      <Filter>Src\Effects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

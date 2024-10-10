@@ -151,6 +151,7 @@
     <ClInclude Include="Inc\CrosshatchShadowEffect.h" />
     <ClInclude Include="Inc\DebugUI.h" />
     <ClInclude Include="Inc\DepthMapEffect.h" />
+    <ClInclude Include="Inc\FogEffect.h" />
     <ClInclude Include="Inc\GaussianBlurEffect.h" />
     <ClInclude Include="Inc\Graphics.h" />
     <ClInclude Include="Inc\GraphicsType.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Inc\Sampler.h" />
     <ClInclude Include="Inc\ShadowEffect.h" />
     <ClInclude Include="Inc\SimpleDraw.h" />
+    <ClInclude Include="Inc\SimpleTerrain.h" />
     <ClInclude Include="Inc\Skeleton.h" />
     <ClInclude Include="Inc\StandardEffect.h" />
     <ClInclude Include="Inc\Terrain.h" />
@@ -203,6 +205,7 @@
     <ClCompile Include="Src\CrosshatchShadowEffect.cpp" />
     <ClCompile Include="Src\DebugUI.cpp" />
     <ClCompile Include="Src\DepthMapEffect.cpp" />
+    <ClCompile Include="Src\FogEffect.cpp" />
     <ClCompile Include="Src\GaussianBlurEffect.cpp" />
     <ClCompile Include="Src\GraphicsSystem.cpp" />
     <ClCompile Include="Src\GraphicsType_D3D11.cpp" />
@@ -225,6 +228,7 @@
     <ClCompile Include="Src\Sampler.cpp" />
     <ClCompile Include="Src\ShadowEffect.cpp" />
     <ClCompile Include="Src\SimpleDraw.cpp" />
+    <ClCompile Include="Src\SimpleTerrain.cpp" />
     <ClCompile Include="Src\StandardEffect.cpp" />
     <ClCompile Include="Src\Terrain.cpp" />
     <ClCompile Include="Src\TerrainEffect.cpp" />

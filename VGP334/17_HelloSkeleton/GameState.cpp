@@ -52,39 +52,34 @@ void GameState::Initialize()
 	//TextureID id = TextureManager::Get()->LoadTexture("terrain/Grass.png");
 	//mGrassEffect.SetGrassTextureID(id);
 
-	mTerrain.Initialize("../../Assets/Images/terrain/heightmap_512x512.raw", 10.0f);
-	const Mesh& m = mTerrain.GetMesh();
+	mTerrain.SetOffset(50);
+	mTerrain.SetDensity(2);
+	mTerrain.Initialize("../../Assets/Images/terrain/heightmap_512x512.raw", 10.0f, Colors::DarkGreen);
+
+	const MeshPC& m = mTerrain.GetMesh();
 	mGround.meshBuffer.Initialize(
 		nullptr,
-		static_cast<uint32_t>(sizeof(Vertex)),
+		static_cast<uint32_t>(sizeof(VertexPC)),
 		static_cast<uint32_t>(m.vertices.size()),
 		m.indices.data(),
 		static_cast<uint32_t>(m.indices.size())
 	);
 	mGround.meshBuffer.Update(m.vertices.data(), m.vertices.size());
-	mGround.diffuseMapId = TextureManager::Get()->LoadTexture("terrain/dirt_seamless.jpg");
-	mGround.bumpMapId = TextureManager::Get()->LoadTexture("terrain/grass_2048.jpg");
 
 	Model model;
 	ModelIO::LoadModel("../../Assets/Models/Grass/Grass.model", model);
-
 	Mesh mMesh = model.meshData[0].mesh;
-
 	mGrassBuffer.SetDensity(2);
 	mGrassBuffer.SetSideSize(50);
 	mGrassBuffer.SetTerrain(mTerrain);
-
 	mGrassBuffer.Initialize(mMesh);
 
-
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/GrassShader.fx";
-
-	mTerrainEffect.SetLightingMode(false);
-	mTerrainEffect.Initialize(L"../../Assets/Shaders/Standard.fx");
-	mTerrainEffect.SetCamera(mCamera);
-
 	mGrassEffect.Initialize(shaderFilePath);
 	mGrassEffect.SetCamera(mCamera);
+
+	mTerrainEffect.Initialize(L"../../Assets/Shaders/Fog.fx");
+	mTerrainEffect.SetCamera(mCamera);
 }
 
 void GameState::Terminate()
@@ -141,9 +136,9 @@ void GameState::Update(float deltaTime)
 
 void GameState::Render()
 {
-	//mTerrainEffect.Begin();
-	//	mTerrainEffect.Render(mGround);
-	//mTerrainEffect.End();
+	mTerrainEffect.Begin();
+		mTerrainEffect.Render(mGround);
+	mTerrainEffect.End();
 
 	mGrassEffect.Begin();
 		mGrassBuffer.Render();

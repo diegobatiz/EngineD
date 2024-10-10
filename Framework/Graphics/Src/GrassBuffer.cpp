@@ -58,7 +58,7 @@ void GrassBuffer::Render() const
 	context->DrawIndexedInstanced(mIndexCount, mInstanceCount, 0, 0, 0);
 }
 
-void GrassBuffer::SetTerrain(const Terrain& terrain)
+void GrassBuffer::SetTerrain(const SimpleTerrain& terrain)
 {
 	mTerrain = &terrain;
 }

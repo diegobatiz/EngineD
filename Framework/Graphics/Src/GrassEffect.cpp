@@ -21,8 +21,8 @@ void GrassEffect::Initialize(const std::filesystem::path& filename)
 	mColorData.AOColour = { 0.31372549f, 0.31372549f, 0.31372549f, 1.0f };
 	mColorData.tipColour = { 0.0f, 0.15686275f, 0.0f, 1.0f };
 	mColorData.fogColour = { 0.905882353, 0.905882353, 0.905882353, 1.0f };
-	mColorData.fogDensity = 0.03f;
-	mColorData.fogOffset = 3.0f;
+	mColorData.fogDensity = 0.016f;
+	mColorData.fogOffset = 0.0f;
 
 	GraphicsSystem::Get()->SetClearColor(mColorData.fogColour);
 }

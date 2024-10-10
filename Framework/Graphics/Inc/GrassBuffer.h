@@ -1,5 +1,5 @@
 #pragma once
-#include "Terrain.h"
+#include "SimpleTerrain.h"
 
 namespace EngineD::Graphics
 {
@@ -30,7 +30,7 @@ namespace EngineD::Graphics
 		void Initialize(const void* vertices, uint32_t vertexSize, uint32_t vertexCount, const uint32_t* indices, uint32_t indexCount);
 		void Terminate();
 		void Render() const;
-		void SetTerrain(const Terrain& terrain);
+		void SetTerrain(const SimpleTerrain& terrain);
 
 	protected:
 		void CreateVertexBuffer(const void* vertices, uint32_t vertexSize, uint32_t vertexCount);
@@ -48,7 +48,7 @@ namespace EngineD::Graphics
 		D3D11_PRIMITIVE_TOPOLOGY mTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 		ID3D11Device* mDevice = nullptr;
 
-		const Terrain* mTerrain;
+		const SimpleTerrain* mTerrain;
 
 		uint32_t mVertexSize{};
 		uint32_t mVertexCount{};
