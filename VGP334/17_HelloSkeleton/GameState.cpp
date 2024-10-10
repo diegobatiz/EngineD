@@ -52,7 +52,7 @@ void GameState::Initialize()
 	//TextureID id = TextureManager::Get()->LoadTexture("terrain/Grass.png");
 	//mGrassEffect.SetGrassTextureID(id);
 
-	mTerrain.SetOffset(50);
+	mTerrain.SetOffset(200);
 	mTerrain.SetDensity(2);
 	mTerrain.Initialize("../../Assets/Images/terrain/heightmap_512x512.raw", 10.0f, Colors::DarkGreen);
 
@@ -70,7 +70,7 @@ void GameState::Initialize()
 	ModelIO::LoadModel("../../Assets/Models/Grass/Grass.model", model);
 	Mesh mMesh = model.meshData[0].mesh;
 	mGrassBuffer.SetDensity(2);
-	mGrassBuffer.SetSideSize(50);
+	mGrassBuffer.SetSideSize(200);
 	mGrassBuffer.SetTerrain(mTerrain);
 	mGrassBuffer.Initialize(mMesh);
 
