@@ -15,4 +15,5 @@ protected:
 	EngineD::Graphics::Camera m_Camera;
 
 	EngineD::Graphics::RenderObject m_Water;
+	EngineD::Graphics::WaveEffect m_WaveEffect;
 };

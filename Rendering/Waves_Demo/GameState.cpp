@@ -6,18 +6,23 @@ using namespace EngineD::Input;
 
 void GameState::Initialize()
 {
-	m_Camera.SetPosition({ 0.0f, 15.0f, -50.0f });
+	m_Camera.SetPosition({ -1.0f, 4.0f, -8.0f });
 	m_Camera.SetLookAt({ 0.0f, 0.0f, 0.0f });
 
 	GraphicsSystem::Get()->SetClearColor(Colors::SkyBlue);
 
 	MeshD mesh = MeshBuilder::CreatePlane(100, 100, 0.1f, Colors::White);
 	m_Water.meshBuffer.Initialize(mesh);
+
+	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/WaveShader.fx";
+	m_WaveEffect.Initialize(shaderFilePath);
+	m_WaveEffect.SetCamera(m_Camera);
 }
 
 void GameState::Terminate()
 {
-	
+	m_WaveEffect.Terminate();
+	m_Water.Terminate();
 }
 
 void GameState::Update(float deltaTime)
@@ -65,13 +70,19 @@ void GameState::Update(float deltaTime)
 
 void GameState::Render()
 {
-	
+	m_WaveEffect.Begin();
+		m_WaveEffect.Render(m_Water);
+	m_WaveEffect.End();
 }
 
 void GameState::DebugUI()
 {
 	ImGui::Begin("Debug Controls", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-		
+
+		Math::Vector3 position = m_Camera.GetPosition();
+		ImGui::DragFloat3("Camera Position", &position.x, 0.1f);
+
+		m_WaveEffect.DebugUI();
 
 	ImGui::End();
 }

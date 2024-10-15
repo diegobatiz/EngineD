@@ -3,6 +3,7 @@
 
 #include "VertexTypes.h"
 #include "Camera.h"
+#include "RenderObject.h"
 
 using namespace EngineD;
 using namespace EngineD::Graphics;
@@ -49,6 +50,7 @@ void WaveEffect::Begin()
 
 	TransformData data;
 	data.wvp = Math::Transpose(matFinal);
+	data.worldMatrix = matWorld;
 
 	mTransformBuffer.Update(data);
 
@@ -56,6 +58,11 @@ void WaveEffect::Begin()
 	timeData.time = mCurrentTime;
 
 	mTimeBuffer.Update(timeData);
+}
+
+void WaveEffect::Render(const RenderObject& renderObject)
+{
+	renderObject.meshBuffer.Render();
 }
 
 void WaveEffect::End()

@@ -7,6 +7,7 @@
 namespace EngineD::Graphics
 {
 	class Camera;
+	struct RenderObject;
 
 	class WaveEffect
 	{
@@ -15,7 +16,8 @@ namespace EngineD::Graphics
 		void Terminate();
 
 		void Update(float deltaTime);
-		void Begin();
+		void Begin(); 
+		void Render(const RenderObject& renderObject);
 		void End();
 		void SetCamera(const Camera& camera);
 		void DebugUI();
@@ -24,6 +26,7 @@ namespace EngineD::Graphics
 		struct TransformData
 		{
 			Math::Matrix4 wvp;
+			Math::Matrix4 worldMatrix;
 		};
 
 
