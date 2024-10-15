@@ -52,3 +52,4 @@
 #include "TextureManager.h"
 #include "VertexTypes.h"
 #include "VertexShader_D3D11.h"
+#include "WaveEffect.h"

@@ -290,9 +290,6 @@ MeshPX MeshBuilder::CreateHorizontalPlanePX(uint32_t numRows, uint32_t numCols, 
 
 Mesh EngineD::Graphics::MeshBuilder::CreateHorizontalPlane(uint32_t numRows, uint32_t numCols, float spacing)
 {
-	srand(time(nullptr));
-	int index = rand() % 100;
-
 	Mesh mesh;
 
 	const Math::Vector3& up = Math::Vector3::YAxis;
@@ -312,6 +309,41 @@ Mesh EngineD::Graphics::MeshBuilder::CreateHorizontalPlane(uint32_t numRows, uin
 		for (uint32_t c = 0; c <= numCols; ++c)
 		{
 			mesh.vertices.push_back({ { x, 00.0f, z }, up, right, {u, v} });
+			x += spacing;
+			u += uInc;
+		}
+		x = -hpw;
+		z += spacing;
+		u = 0.0f;
+		v += (-vInc);
+	}
+
+	CreatePlaneIndices(mesh.indices, numRows, numCols);
+
+	return mesh;
+}
+
+MeshD MeshBuilder::CreatePlane(uint32_t numRows, uint32_t numCols, float spacing, EngineD::Color color)
+{
+	MeshD mesh;
+
+	const Math::Vector3& up = Math::Vector3::YAxis;
+	const Math::Vector3& right = Math::Vector3::XAxis;
+	const float hpw = static_cast<float>(numCols) * spacing * 0.5f;
+	const float hph = static_cast<float>(numRows) * spacing * 0.5f;
+	const float uInc = 1.0f / static_cast<float>(numCols);
+	const float vInc = 1.0f / static_cast<float>(numRows);
+
+	float x = -hpw;
+	float z = -hph;
+	float u = 0.0f;
+	float v = 1.0f;
+
+	for (uint32_t r = 0; r <= numRows; ++r)
+	{
+		for (uint32_t c = 0; c <= numCols; ++c)
+		{
+			mesh.vertices.push_back({ { x, 00.0f, z }, up, right, color, {u, v} });
 			x += spacing;
 			u += uInc;
 		}

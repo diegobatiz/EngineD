@@ -49,6 +49,17 @@ namespace EngineD::Graphics
 		int boneIndices[MaxBoneWeights] = {};
 		float boneWeights[MaxBoneWeights] = {};
 	};
+
+	struct VertexD
+	{
+		VERTEX_FORMAT(VE_Position | VE_Color | VE_Normal | VE_Tangent | VE_TexCoord);
+
+		Math::Vector3 position;
+		Math::Vector3 normal;
+		Math::Vector3 tangent;
+		Color color;
+		Math::Vector2 uvCoord;
+	};
 }
 
 

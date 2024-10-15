@@ -15,4 +15,5 @@ namespace EngineD::Graphics
 	using MeshPC = MeshBase<VertexPC>;
 	using MeshPX = MeshBase<VertexPX>;
 	using Mesh = MeshBase<Vertex>;
+	using MeshD = MeshBase<VertexD>;
 }

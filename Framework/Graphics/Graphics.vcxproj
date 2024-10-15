@@ -191,6 +191,7 @@
     <ClInclude Include="Inc\Transform.h" />
     <ClInclude Include="Inc\VertexShader_D3D11.h" />
     <ClInclude Include="Inc\VertexTypes.h" />
+    <ClInclude Include="Inc\WaveEffect.h" />
     <ClInclude Include="Src\Precompiled.h" />
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +236,7 @@
     <ClCompile Include="Src\Texture.cpp" />
     <ClCompile Include="Src\TextureManager.cpp" />
     <ClCompile Include="Src\VertexShader_D3D11.cpp" />
+    <ClCompile Include="Src\WaveEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\External\DirectXTK\DirectXTK_Desktop_2019.vcxproj">
