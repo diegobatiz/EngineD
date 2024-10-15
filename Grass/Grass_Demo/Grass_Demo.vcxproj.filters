@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\..\VGP334\17_HelloSkeleton\GameState.cpp" />
-    <ClCompile Include="..\..\VGP334\17_HelloSkeleton\WinMain.cpp" />
+    <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\VGP334\17_HelloSkeleton\GameState.h" />
+    <ClInclude Include="GameState.h" />
   </ItemGroup>
 </Project>
