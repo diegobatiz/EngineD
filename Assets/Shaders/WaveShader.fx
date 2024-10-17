@@ -11,7 +11,10 @@ cbuffer TimeBuffer : register(b1)
     float time;
 }
 
-
+cbuffer WaveBuffer : register(b2)
+{
+    int waveCount;
+}
 
 struct VS_INPUT
 {
@@ -38,8 +41,9 @@ struct Wave
     float amplitude;
     float phase;
     float steepness;
-    int waveType;
 };
+
+StructuredBuffer<Wave> waves : register(t0);
 
 float2 GetDirection(float3 pos, Wave wave)
 {
@@ -81,10 +85,10 @@ VS_OUTPUT VS(VS_INPUT input)
     
     for (int wi = 0; wi < waveCount; ++wi)
     {
-        height += CalculateOffset(output.worldPos, Waves);
+        height += CalculateOffset(output.worldPos, waves[wi]);
     }
     
-    float4 newPos = float4(input.position + height, 0.0f);
+    float4 newPos = float4(input.position + height, 1.0f);
     
     output.worldPos = mul(newPos, worldMatrix);
     output.position = mul(newPos, wvp);

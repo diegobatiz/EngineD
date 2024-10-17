@@ -139,6 +139,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Grass_Demo", "Rendering\Gra
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Waves_Demo", "Rendering\Waves_Demo\Waves_Demo.vcxproj", "{263B9CA2-087D-47BA-8BA9-C87844803463}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "24_HelloGameObject", "VGP336\24_HelloGameObject\24_HelloGameObject.vcxproj", "{8D7FE5A0-8FCB-496B-AF2B-6963841A8820}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -467,6 +469,14 @@ Global
 		{263B9CA2-087D-47BA-8BA9-C87844803463}.Release|x64.Build.0 = Release|x64
 		{263B9CA2-087D-47BA-8BA9-C87844803463}.Release|x86.ActiveCfg = Release|Win32
 		{263B9CA2-087D-47BA-8BA9-C87844803463}.Release|x86.Build.0 = Release|Win32
+		{8D7FE5A0-8FCB-496B-AF2B-6963841A8820}.Debug|x64.ActiveCfg = Debug|x64
+		{8D7FE5A0-8FCB-496B-AF2B-6963841A8820}.Debug|x64.Build.0 = Debug|x64
+		{8D7FE5A0-8FCB-496B-AF2B-6963841A8820}.Debug|x86.ActiveCfg = Debug|Win32
+		{8D7FE5A0-8FCB-496B-AF2B-6963841A8820}.Debug|x86.Build.0 = Debug|Win32
+		{8D7FE5A0-8FCB-496B-AF2B-6963841A8820}.Release|x64.ActiveCfg = Release|x64
+		{8D7FE5A0-8FCB-496B-AF2B-6963841A8820}.Release|x64.Build.0 = Release|x64
+		{8D7FE5A0-8FCB-496B-AF2B-6963841A8820}.Release|x86.ActiveCfg = Release|Win32
+		{8D7FE5A0-8FCB-496B-AF2B-6963841A8820}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -515,6 +525,7 @@ Global
 		{B4857962-B802-4CAE-BFEA-2F91F72B0A17} = {01B2BDD4-EDEC-402D-8A7A-0AC68B3BA1AA}
 		{508797FC-73C2-43BE-B912-A5E25D1B601B} = {45AC4FB9-E99A-44E3-B712-06550A9BD598}
 		{263B9CA2-087D-47BA-8BA9-C87844803463} = {45AC4FB9-E99A-44E3-B712-06550A9BD598}
+		{8D7FE5A0-8FCB-496B-AF2B-6963841A8820} = {01B2BDD4-EDEC-402D-8A7A-0AC68B3BA1AA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {19B1DB02-12F6-4B09-B23A-FB585D24135C}

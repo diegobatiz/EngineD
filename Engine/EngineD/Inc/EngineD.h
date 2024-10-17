@@ -8,6 +8,13 @@
 #include "Event.h"
 #include "EventManager.h"
 
+//GameObject
+#include "GameObject.h"
+
+//Components
+#include "TypeIds.h"
+#include "Component.h"
+
 namespace EngineD
 {
 	App& MainApp();

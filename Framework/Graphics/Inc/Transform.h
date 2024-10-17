@@ -12,7 +12,8 @@ namespace EngineD::Graphics
 
 		Math::Matrix4 GetMatrix4() const
 		{
-			return {
+			return 
+			{
 				Math::Matrix4::Scaling(scale) *
 				Math::Matrix4::MatrixRotationQuaternion(rotation) *
 				Math::Matrix4::Translation(position)

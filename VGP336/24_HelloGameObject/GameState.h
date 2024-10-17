@@ -11,11 +11,10 @@ public:
 	void DebugUI() override;
 
 protected:
-	EngineD::Graphics::DirectionalLight m_DirectionalLight;
-	EngineD::Graphics::Camera m_Camera;
 
-	EngineD::Graphics::RenderObject m_Water;
-	EngineD::Graphics::WaveEffect m_WaveEffect;
+	EngineD::Graphics::StandardEffect mStandardEffect;
+	EngineD::Graphics::DirectionalLight mDirectionalLight;
+	EngineD::Graphics::Camera mCamera;
 
-	std::vector<EngineD::Graphics::WaveData> mWaves;
+
 };

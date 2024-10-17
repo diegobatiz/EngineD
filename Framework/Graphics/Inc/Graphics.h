@@ -46,6 +46,7 @@
 #include "SimpleTerrain.h"
 #include "Skeleton.h"
 #include "StandardEffect.h"
+#include "StructuredBuffer.h"
 #include "Terrain.h"
 #include "TerrainEffect.h"
 #include "Texture.h"
