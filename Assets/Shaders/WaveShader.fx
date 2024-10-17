@@ -71,7 +71,7 @@ float Sine(float3 worldPos, Wave wave)
 
 float3 CalculateOffset(float3 worldPos, Wave wave)
 {
-    return 1.0f;
+    return Sine(worldPos, wave);
 }
 
 
