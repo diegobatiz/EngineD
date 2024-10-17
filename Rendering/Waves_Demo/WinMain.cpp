@@ -8,9 +8,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	myApp.AddState<GameState>("GameState");
 
 	AppConfig config;
-	config.appName = L"Grass";
-	config.winHeight = 1080;
-	config.winWidth = 1920;
+	config.appName = L"Wave";
+	config.winHeight = 540;
+	config.winWidth = 960;
 
 	myApp.Run(config);
 
