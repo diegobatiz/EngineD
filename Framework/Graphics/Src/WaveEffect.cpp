@@ -15,11 +15,11 @@ void WaveEffect::Initialize(const std::filesystem::path& filename)
 	mOceanBuffer.Initialize();
 	mTimeBuffer.Initialize();
 	mTransformBuffer.Initialize();
-	mVertexShader.Initialize<VertexD>(filename);
+	mVertexShader.Initialize<VertexPC>(filename);
 	mPixelShader.Initialize(filename);
 }
 
-void WaveEffect::InitializeWaves(const std::vector<WaveData>& data)
+void WaveEffect::InitializeWaves(std::vector<WaveData> data)
 {
 	mWaves = data;
 	mWaveCount = data.size();
@@ -39,7 +39,6 @@ void WaveEffect::AddWave(WaveData data)
 {
 	mWaves.push_back(data);
 	++mWaveCount;
-	mWaveBuffer.Update(mWaves);
 }
 
 void WaveEffect::Update(float deltaTime)
@@ -83,7 +82,7 @@ void WaveEffect::Begin()
 	oceanData.waveCount = mWaveCount;
 	mOceanBuffer.Update(oceanData);
 
-	//mWaveBuffer.Update(mWaves);
+	mWaveBuffer.Update(mWaves.data());
 }
 
 void WaveEffect::Render(const RenderObject& renderObject)
@@ -106,12 +105,12 @@ void WaveEffect::DebugUI()
 	{
 		ImGui::PushID(i);
 		ImGui::CollapsingHeader("Wave");
-			ImGui::DragFloat2("Wave Direction", &mWaves[i].direction.x);
+			ImGui::DragFloat2("Wave Direction", &mWaves[i].direction.x, 0.01f);
 			ImGui::DragFloat2("Wave Origin", &mWaves[i].origin.x);
-			ImGui::DragFloat("Wave Frequency", &mWaves[i].frequency);
-			ImGui::DragFloat("Wave Amplititude", &mWaves[i].amplitude);
-			ImGui::DragFloat("Wave Phase", &mWaves[i].phase);
-			ImGui::DragFloat("Wave Steepness", &mWaves[i].steepness);
+			ImGui::DragFloat("Wave Frequency", &mWaves[i].frequency, 0.01f);
+			ImGui::DragFloat("Wave Amplititude", &mWaves[i].amplitude, 0.01f);
+			ImGui::DragFloat("Wave Phase", &mWaves[i].phase, 0.01f);
+			ImGui::DragFloat("Wave Steepness", &mWaves[i].steepness, 0.01f);
 		ImGui::PopID();
 	}
 }

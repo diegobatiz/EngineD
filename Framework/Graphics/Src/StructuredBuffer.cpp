@@ -22,7 +22,7 @@ void StructuredBuffer::Initialize(uint32_t elementSize, uint32_t elementCount)
 	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	desc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
 	desc.StructureByteStride = elementSize;
-
+	 
 	HRESULT hr = device->CreateBuffer(&desc, nullptr, &mStructuredBuffer);
 	ASSERT(SUCCEEDED(hr), "StructuredBuffer: failed to create buffer");
 

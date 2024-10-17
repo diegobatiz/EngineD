@@ -19,10 +19,7 @@ cbuffer WaveBuffer : register(b2)
 struct VS_INPUT
 {
     float3 position : POSITION;
-    float3 normal : NORMAL;
-    float3 tangent : TANGENT;
     float4 color : COLOR;
-    float2 uv : TEXCOORD;
 };
 
 struct VS_OUTPUT
@@ -79,20 +76,17 @@ VS_OUTPUT VS(VS_INPUT input)
 {
 	VS_OUTPUT output;
     
-    output.worldPos = mul(float4(input.position, 1.0f), worldMatrix);
-    
     float height = 0.0f;
     
-    for (int wi = 0; wi < 1; ++wi)
+    for (int wi = 0; wi < waveCount; ++wi)
     {
-        height += CalculateOffset(output.worldPos, waves[wi]);
+        height += CalculateOffset(input.position, waves[wi]);
     }
     
-    float4 newPos = float4(input.position, 1.0f);
-    newPos.y += height;
+    input.position.y += height;
     
-    output.worldPos = mul(newPos, worldMatrix);
-    output.position = mul(newPos, wvp);
+    output.worldPos = mul(float4(input.position, 1.0f), worldMatrix);
+    output.position = mul(float4(input.position, 1.0f), wvp);
     output.color = input.color;
     output.normal = 0.0f;
 	

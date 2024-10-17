@@ -11,7 +11,7 @@ void GameState::Initialize()
 
 	GraphicsSystem::Get()->SetClearColor(Colors::SkyBlue);
 
-	MeshD mesh = MeshBuilder::CreatePlane(10, 10, 1.0f, Colors::DarkBlue);
+	MeshPC mesh = MeshBuilder::CreateHorizontalPlanePC(100, 100, 0.1f, Colors::DarkBlue);
 	m_Water.meshBuffer.Initialize(mesh);
 
 	//Vector2 direction;
@@ -21,20 +21,25 @@ void GameState::Initialize()
 	//float   phase;
 	//float   steepness;
 
-	WaveData wave =
-	{
-		{1.0f, 0.0f},
+	mWaves.push_back({
+		{0.5f, 0.5f},
 		{0.0f, 0.0f},
 		1.0f,
 		1.0f,
 		1.0f,
 		1.0f
-	};
-
-	mWaves.push_back(wave);
+		});
+	mWaves.push_back({
+		{-0.5f, -0.5f},
+		{0.0f, 0.0f},
+		0.5f,
+		0.5f,
+		0.5f,
+		0.5f
+		});
+	m_WaveEffect.InitializeWaves(mWaves);
 
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/WaveShader.fx";
-	m_WaveEffect.InitializeWaves(mWaves);
 	m_WaveEffect.Initialize(shaderFilePath);
 	m_WaveEffect.SetCamera(m_Camera);
 }

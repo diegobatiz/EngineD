@@ -190,12 +190,9 @@ MeshPC MeshBuilder::CreateVerticalPlanePC(uint32_t numRows, uint32_t numCols, fl
 	return mesh;
 }
 
-MeshPC EngineD::Graphics::MeshBuilder::CreateHorizontalPlanePC(uint32_t numRows, uint32_t numCols, float spacing)
+MeshPC EngineD::Graphics::MeshBuilder::CreateHorizontalPlanePC(uint32_t numRows, uint32_t numCols, float spacing, Color color)
 {
 	MeshPC mesh;
-
-	srand(time(nullptr));
-	int index = rand() % 100;
 
 	const float hpw = static_cast<float>(numCols) * spacing * 0.5f;
 	const float hph = static_cast<float>(numRows) * spacing * 0.5f;
@@ -207,9 +204,10 @@ MeshPC EngineD::Graphics::MeshBuilder::CreateHorizontalPlanePC(uint32_t numRows,
 	{
 		for (uint32_t c = 0; c <= numCols; ++c)
 		{
-			mesh.vertices.push_back({ {x, 0.0f, z}, GetNextColour(index) });
+			mesh.vertices.push_back({ {x, 0.0f, z}, color });
 			x += spacing;
 		}
+
 		x = -hpw;
 		z += spacing;
 	}

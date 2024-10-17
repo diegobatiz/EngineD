@@ -18,12 +18,6 @@ namespace EngineD::Graphics
 			Initialize(sizeof(DataType), data.size());
 		}
 
-		template<class DataType>
-		void Update(const std::vector<DataType>& data)
-		{
-			Update(data.data());
-		}
-
 		void BindVS(uint32_t slot);
 		void BindPS(uint32_t slot);
 
@@ -40,11 +34,6 @@ namespace EngineD::Graphics
 		{
 			static_assert(sizeof(DataType) % 16 == 0, "Data type must be 16 byte aligned");
 			StructuredBuffer::Initialize(data);
-		}
-
-		void Update(const std::vector<DataType>& data) const
-		{
-			StructuredBuffer::Update(&data);
 		}
 	};
 }

@@ -24,7 +24,7 @@ namespace EngineD::Graphics
 	{
 	public:
 		void Initialize(const std::filesystem::path& filename);
-		void InitializeWaves(const std::vector<WaveData>& data);
+		void InitializeWaves(std::vector<WaveData> data);
 		void Terminate();
 
 		void AddWave(WaveData data);
@@ -51,7 +51,7 @@ namespace EngineD::Graphics
 
 		struct OceanData
 		{
-			float waveCount;
+			int waveCount;
 			float padding[3] = { 0.0f };
 		};
 
@@ -69,8 +69,8 @@ namespace EngineD::Graphics
 		PixelShader_D3D11 mPixelShader;
 
 		const Camera* mCamera = nullptr;
-		float mCurrentTime;
-		int mWaveCount;
+		float mCurrentTime = 0.0f;
+		int mWaveCount = 0;
 		std::vector<WaveData> mWaves;
 	};
 }
