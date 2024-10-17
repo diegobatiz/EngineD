@@ -71,7 +71,7 @@ float Sine(float3 worldPos, Wave wave)
 
 float3 CalculateOffset(float3 worldPos, Wave wave)
 {
-    return float3(0.0f, Sine(worldPos, wave), 0.0f);
+    return Sine(worldPos, wave);
 }
 
 
@@ -81,14 +81,15 @@ VS_OUTPUT VS(VS_INPUT input)
     
     output.worldPos = mul(float4(input.position, 1.0f), worldMatrix);
     
-    float3 height = 0.0f;
+    float height = 0.0f;
     
     for (int wi = 0; wi < waveCount; ++wi)
     {
         height += CalculateOffset(output.worldPos, waves[wi]);
     }
     
-    float4 newPos = float4(input.position + height, 1.0f);
+    float4 newPos = float4(input.position, 1.0f);
+    newPos.y += height;
     
     output.worldPos = mul(newPos, worldMatrix);
     output.position = mul(newPos, wvp);
