@@ -66,9 +66,25 @@ float Sine(float3 worldPos, Wave wave)
     return wave.amplitude * sin(pos * wave.frequency + t);
 }
 
+float3 SineNormal(float3 worldPos, Wave wave)
+{
+    float2 dir = GetDirection(worldPos, wave);
+    float pos = GetWaveCoord(worldPos, dir, wave);
+    float t = GetTime(worldPos);
+
+    float2 n = wave.frequency * wave.amplitude * dir * cos(pos * wave.frequency + t);
+
+    return float3(n.x, n.y, 0.0f);
+}
+
 float CalculateOffset(float3 worldPos, Wave wave)
 {
     return Sine(worldPos, wave);
+}
+
+float3 CalculateNormal(float3 worldPos, Wave wave)
+{
+    return SineNormal(worldPos, wave);
 }
 
 
@@ -77,10 +93,12 @@ VS_OUTPUT VS(VS_INPUT input)
 	VS_OUTPUT output;
     
     float height = 0.0f;
+    float3 normal = 0.0f;
     
     for (int wi = 0; wi < waveCount; ++wi)
     {
         height += CalculateOffset(input.position, waves[wi]);
+        normal += CalculateNormal(input.position, waves[wi]);
     }
     
     input.position.y += height;
@@ -88,7 +106,7 @@ VS_OUTPUT VS(VS_INPUT input)
     output.worldPos = mul(float4(input.position, 1.0f), worldMatrix);
     output.position = mul(float4(input.position, 1.0f), wvp);
     output.color = input.color;
-    output.normal = 0.0f;
+    output.normal = normalize(float3(-normal.x, 1.0f, -normal.y));
 	
 	return output;
 }
@@ -96,6 +114,5 @@ VS_OUTPUT VS(VS_INPUT input)
 float4 PS(VS_OUTPUT input) : SV_Target
 {
     return input.color;
-
 }
 
