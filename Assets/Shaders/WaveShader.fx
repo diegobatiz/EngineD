@@ -69,7 +69,7 @@ float Sine(float3 worldPos, Wave wave)
     return wave.amplitude * sin(pos * wave.frequency + t);
 }
 
-float3 CalculateOffset(float3 worldPos, Wave wave)
+float CalculateOffset(float3 worldPos, Wave wave)
 {
     return Sine(worldPos, wave);
 }
@@ -83,7 +83,7 @@ VS_OUTPUT VS(VS_INPUT input)
     
     float height = 0.0f;
     
-    for (int wi = 0; wi < waveCount; ++wi)
+    for (int wi = 0; wi < 1; ++wi)
     {
         height += CalculateOffset(output.worldPos, waves[wi]);
     }
