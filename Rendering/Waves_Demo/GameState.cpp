@@ -11,7 +11,7 @@ void GameState::Initialize()
 
 	GraphicsSystem::Get()->SetClearColor(Colors::SkyBlue);
 
-	MeshD mesh = MeshBuilder::CreatePlane(100, 100, 0.1f, Colors::DarkBlue);
+	MeshD mesh = MeshBuilder::CreatePlane(10, 10, 1.0f, Colors::DarkBlue);
 	m_Water.meshBuffer.Initialize(mesh);
 
 	//Vector2 direction;

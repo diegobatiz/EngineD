@@ -83,7 +83,7 @@ void WaveEffect::Begin()
 	oceanData.waveCount = mWaveCount;
 	mOceanBuffer.Update(oceanData);
 
-	mWaveBuffer.Update(mWaves);
+	//mWaveBuffer.Update(mWaves);
 }
 
 void WaveEffect::Render(const RenderObject& renderObject)
