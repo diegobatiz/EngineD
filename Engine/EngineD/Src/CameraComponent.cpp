@@ -1,18 +1,23 @@
 #include "Precompiled.h"
 #include "CameraComponent.h"
 
+#include "GameWorld.h"
+#include "CameraService.h"
+
 using namespace EngineD;
 using namespace EngineD::Input;
 using namespace EngineD::Graphics;
 
 void CameraComponent::Initialize()
 {
-	//ToDO
+	CameraService* cameraService = GetOwner().GetWorld().GetService<CameraService>();
+	cameraService->Register(this);
 }
 
 void CameraComponent::Terminate()
 {
-	//ToDo
+	CameraService* cameraService = GetOwner().GetWorld().GetService<CameraService>();
+	cameraService->Unregister(this);
 }
 
 void CameraComponent::DebugUI()
@@ -22,8 +27,6 @@ void CameraComponent::DebugUI()
 	{
 		mCamera.SetPosition(pos);
 	}
-	Matrix4 matTrans = Matrix4::Translation(mCamera.GetPosition());
-	SimpleDraw::AddTransform(matTrans);
 }
 
 Camera& CameraComponent::GetCamera()

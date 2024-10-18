@@ -8,6 +8,7 @@ using namespace EngineD::Physics;
 
 void GameState::Initialize()
 {
+	mGameWorld.AddService<CameraService>();
 	mGameWorld.Initialize();
 
 	GameObject* gameObject = mGameWorld.CreateGameObject("Transform");
@@ -31,7 +32,7 @@ void GameState::Terminate()
 
 void GameState::Update(float deltaTime)
 {
-	mGameWorld.Terminate();
+	mGameWorld.Update(deltaTime);
 }
 
 void GameState::Render()

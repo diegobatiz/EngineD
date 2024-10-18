@@ -13,6 +13,7 @@
 
 //Services
 #include "Service.h"
+#include "CameraService.h"
 
 //GameObject
 #include "GameObject.h"

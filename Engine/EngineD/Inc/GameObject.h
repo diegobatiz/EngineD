@@ -5,6 +5,8 @@
 
 namespace EngineD
 {
+	class GameWorld;
+
 	class GameObject final
 	{
 	public:
@@ -18,6 +20,9 @@ namespace EngineD
 		void SetName(std::string& name);
 		const std::string& GetName() const;
 		uint32_t GetUniqueId() const;
+
+		GameWorld& GetWorld() { return *mWorld; }
+		const GameWorld& GetWorld() const { return *mWorld; }
 
 		template<class ComponentType>
 		ComponentType* AddComponent()
@@ -83,5 +88,8 @@ namespace EngineD
 
 		using Components = std::vector<std::unique_ptr<Component>>;
 		Components mComponents;
+
+		friend class GameWorld;
+		GameWorld* mWorld = nullptr;
 	};
 }

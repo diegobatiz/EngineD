@@ -33,7 +33,7 @@ namespace EngineD
 		{
 			for (auto& service : mServices)
 			{
-				if (service->GetTypeId() == ServiceType::GetStaticTypeId())
+				if (service->GetTypeId() == ServiceType::StaticGetTypeId())
 				{
 					return static_cast<ServiceType*>(service.get());
 				}
