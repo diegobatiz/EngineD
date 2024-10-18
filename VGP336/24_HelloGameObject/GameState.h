@@ -11,10 +11,5 @@ public:
 	void DebugUI() override;
 
 protected:
-
-	EngineD::Graphics::StandardEffect mStandardEffect;
-	EngineD::Graphics::DirectionalLight mDirectionalLight;
-	EngineD::Graphics::Camera mCamera;
-
-
+	EngineD::GameWorld mGameWorld;
 };

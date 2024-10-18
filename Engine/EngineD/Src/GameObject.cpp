@@ -25,6 +25,7 @@ void GameObject::Terminate()
 		component->Terminate();
 		component.reset();
 	}
+	mComponents.clear();
 }
 
 void GameObject::Update(float deltaTime)

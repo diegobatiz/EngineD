@@ -6,6 +6,15 @@ namespace EngineD
 	{
 		Invalid,      // default value
 		Transform,    // transform component for location data
+		Camera,       // contains a Camera for viewing
+		FPSCamera,    // moves Camera with FPS controls
+		Count
+	};
+
+	enum class ServiceId
+	{
+		Invalid,
+		Camera,
 		Count
 	};
 }

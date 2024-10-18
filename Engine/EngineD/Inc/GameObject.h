@@ -48,6 +48,8 @@ namespace EngineD
 					return true;
 				}
 			}
+
+			return false;
 		}
 
 		template<class ComponentType>
