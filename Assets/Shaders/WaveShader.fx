@@ -4,14 +4,22 @@ cbuffer WorldBuffer : register(b0)
 {
     matrix wvp;
     matrix worldMatrix;
+    float3 lightDirection;
+    float3 cameraPos;
 }
 
-cbuffer TimeBuffer : register(b1)
+cbuffer SettingsBuffer : register(b1)
+{
+    float normalStrength;
+    float3 diffuseReflectance;
+}
+
+cbuffer TimeBuffer : register(b2)
 {
     float time;
 }
 
-cbuffer WaveBuffer : register(b2)
+cbuffer WaveBuffer : register(b3)
 {
     int waveCount;
 }
@@ -42,6 +50,8 @@ struct Wave
 
 StructuredBuffer<Wave> waves : register(t0);
 
+#define PI 3.1415926f
+
 float2 GetDirection(float3 pos, Wave wave)
 {
     return wave.direction;
@@ -70,11 +80,11 @@ float3 SineNormal(float3 worldPos, Wave wave)
 {
     float2 dir = GetDirection(worldPos, wave);
     float pos = GetWaveCoord(worldPos, dir, wave);
-    float t = GetTime(worldPos);
+    float t = GetTime(wave);
 
     float2 n = wave.frequency * wave.amplitude * dir * cos(pos * wave.frequency + t);
 
-    return float3(n.x, n.y, 0.0f);
+    return float3(-n.x, 1.0f, -n.y);
 }
 
 float CalculateOffset(float3 worldPos, Wave wave)
@@ -95,24 +105,50 @@ VS_OUTPUT VS(VS_INPUT input)
     float height = 0.0f;
     float3 normal = 0.0f;
     
+   
+    
     for (int wi = 0; wi < waveCount; ++wi)
     {
-        height += CalculateOffset(input.position, waves[wi]);
-        normal += CalculateNormal(input.position, waves[wi]);
+       height += CalculateOffset(input.position, waves[wi]);
+       normal += CalculateNormal(input.position, waves[wi]);
     }
     
-    input.position.y += height;
+    output.worldPos = input.position;
     
-    output.worldPos = mul(float4(input.position, 1.0f), worldMatrix);
+    input.position.y += height;
+   
     output.position = mul(float4(input.position, 1.0f), wvp);
+    output.worldPos = mul(input.position, (float3x3) worldMatrix);
     output.color = input.color;
-    output.normal = normalize(float3(-normal.x, 1.0f, -normal.y));
+    output.normal = float3(0.0f, 0.0f, 0.0f);
 	
 	return output;
 }
 
 float4 PS(VS_OUTPUT input) : SV_Target
 {
-    return input.color;
+    float3 lightDir = -normalize(lightDirection);
+    //float3 viewDir = normalize(cameraPos - input.worldPos);
+    //float3 halfwayDir = normalize(lightDir + viewDir);
+    
+    float3 normal = 0.0f;
+    
+    for (int wi = 0; wi < 1; ++wi)
+    {
+        normal += CalculateNormal(input.worldPos, waves[wi]);
+    }
+    
+    normal = normalize(normal);
+    normal = normalize(mul(normal, (float3x3) worldMatrix));
+    
+    normal.xz *= normalStrength;
+    normal = normalize(normal);
+    
+    float ndotl = max(0.0f, dot(lightDir, normal));
+    
+    float3 diffReflect = diffuseReflectance / 3.1415926f;
+    float3 diffuse = input.color.rgb * ndotl * diffReflect;
+    
+    return float4(diffuse, 1.0f);
 }
 

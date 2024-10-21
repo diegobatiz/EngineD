@@ -4,10 +4,14 @@ using namespace EngineD;
 using namespace EngineD::Graphics;
 using namespace EngineD::Input;
 
+#define PI = 3.14f
+
 void GameState::Initialize()
 {
 	m_Camera.SetPosition({ -1.0f, 4.0f, -8.0f });
 	m_Camera.SetLookAt({ 0.0f, 0.0f, 0.0f });
+
+	m_DirectionalLight.direction = Math::Normalize({ 1.0f, -1.0f, 1.0f });
 
 	GraphicsSystem::Get()->SetClearColor(Colors::SkyBlue);
 
@@ -29,19 +33,12 @@ void GameState::Initialize()
 		1.0f,
 		1.0f
 		});
-	mWaves.push_back({
-		{-0.5f, -0.5f},
-		{0.0f, 0.0f},
-		0.5f,
-		0.5f,
-		0.5f,
-		0.5f
-		});
 	m_WaveEffect.InitializeWaves(mWaves);
 
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/WaveShader.fx";
 	m_WaveEffect.Initialize(shaderFilePath);
 	m_WaveEffect.SetCamera(m_Camera);
+	m_WaveEffect.SetDirectionalLight(m_DirectionalLight);
 }
 
 void GameState::Terminate()
@@ -107,6 +104,10 @@ void GameState::DebugUI()
 
 		Math::Vector3 position = m_Camera.GetPosition();
 		ImGui::DragFloat3("Camera Position", &position.x, 0.1f);
+		if (ImGui::DragFloat3("Directional Light", &m_DirectionalLight.direction.x, 0.01f))
+		{
+			m_DirectionalLight.direction = Math::Normalize(m_DirectionalLight.direction);
+		}
 
 		m_WaveEffect.DebugUI();
 

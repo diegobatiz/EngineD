@@ -9,6 +9,7 @@ namespace EngineD::Graphics
 {
 	class Camera;
 	struct RenderObject;
+	struct DirectionalLight;
 
 	struct WaveData
 	{
@@ -34,6 +35,7 @@ namespace EngineD::Graphics
 		void Render(const RenderObject& renderObject);
 		void End();
 		void SetCamera(const Camera& camera);
+		void SetDirectionalLight(const DirectionalLight& light);
 		void DebugUI();
 
 	private:
@@ -41,6 +43,15 @@ namespace EngineD::Graphics
 		{
 			Math::Matrix4 wvp;
 			Math::Matrix4 worldMatrix;
+			Math::Vector3 lightDirection;
+			Math::Vector3 cameraPos;
+			float padding[2] = { 0.0f };
+		};
+
+		struct SettingsData
+		{
+			float normalStrength = 1.0f;
+			Math::Vector3 diffuseReflectance = { 1.0f, 1.0f, 5.0f };
 		};
 
 		struct TimeData
@@ -56,11 +67,13 @@ namespace EngineD::Graphics
 		};
 
 		using TransformBuffer = TypedConstantBuffer<TransformData>;
+		using SettingsBuffer = TypedConstantBuffer<SettingsData>;
 		using TimeBuffer = TypedConstantBuffer<TimeData>;
 		using OceanBuffer = TypedConstantBuffer<OceanData>;
 		using WaveBuffer = TypedStructuredBuffer<WaveData>;
 
 		TransformBuffer mTransformBuffer;
+		SettingsBuffer m_SettingsBuffer;
 		TimeBuffer mTimeBuffer;
 		OceanBuffer mOceanBuffer;
 		WaveBuffer mWaveBuffer;
@@ -69,6 +82,10 @@ namespace EngineD::Graphics
 		PixelShader_D3D11 mPixelShader;
 
 		const Camera* mCamera = nullptr;
+		const DirectionalLight* m_DirectionalLight = nullptr;
+
+		SettingsData m_SettingsData;
+
 		float mCurrentTime = 0.0f;
 		int mWaveCount = 0;
 		std::vector<WaveData> mWaves;

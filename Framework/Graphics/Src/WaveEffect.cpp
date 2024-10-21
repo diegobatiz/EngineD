@@ -4,6 +4,7 @@
 #include "VertexTypes.h"
 #include "Camera.h"
 #include "RenderObject.h"
+#include "LightTypes.h"
 
 using namespace EngineD;
 using namespace EngineD::Graphics;
@@ -14,6 +15,7 @@ void WaveEffect::Initialize(const std::filesystem::path& filename)
 
 	mOceanBuffer.Initialize();
 	mTimeBuffer.Initialize();
+	m_SettingsBuffer.Initialize();
 	mTransformBuffer.Initialize();
 	mVertexShader.Initialize<VertexPC>(filename);
 	mPixelShader.Initialize(filename);
@@ -30,6 +32,7 @@ void WaveEffect::Terminate()
 	mPixelShader.Terminate();
 	mVertexShader.Terminate();
 	mTransformBuffer.Terminate();
+	m_SettingsBuffer.Terminate();
 	mTimeBuffer.Terminate();
 	mOceanBuffer.Terminate();
 	mWaveBuffer.Terminate();
@@ -56,13 +59,20 @@ void WaveEffect::Begin()
 	mTransformBuffer.BindVS(0);
 	mTransformBuffer.BindPS(0);
 
-	mTimeBuffer.BindVS(1);
+	m_SettingsBuffer.BindPS(1);
 
-	mOceanBuffer.BindVS(2);
+	mTimeBuffer.BindVS(2);
+
+	mOceanBuffer.BindVS(3);
+	mOceanBuffer.BindPS(3);
 
 	mWaveBuffer.BindVS(0);
+	mWaveBuffer.BindPS(0);
+}
 
-	Math::Matrix4 matWorld = Math::Matrix4::Identity;
+void WaveEffect::Render(const RenderObject& renderObject)
+{
+	Math::Matrix4 matWorld = renderObject.transform.GetMatrix4();
 	Math::Matrix4 matView = mCamera->GetViewMatrix();
 	Math::Matrix4 matProj = mCamera->GetProjectionMatrix();
 	Math::Matrix4 matFinal = matWorld * matView * matProj;
@@ -71,8 +81,15 @@ void WaveEffect::Begin()
 
 	TransformData data;
 	data.wvp = Math::Transpose(matFinal);
-	data.worldMatrix = matWorld;
+	data.worldMatrix = Math::Transpose(matWorld);
+	data.lightDirection = m_DirectionalLight->direction;
+	data.cameraPos = camPos;
 	mTransformBuffer.Update(data);
+
+	SettingsData settingData;
+	settingData.normalStrength = m_SettingsData.normalStrength;
+	settingData.diffuseReflectance = m_SettingsData.diffuseReflectance;
+	m_SettingsBuffer.Update(settingData);
 
 	TimeData timeData;
 	timeData.time = mCurrentTime;
@@ -83,10 +100,7 @@ void WaveEffect::Begin()
 	mOceanBuffer.Update(oceanData);
 
 	mWaveBuffer.Update(mWaves.data());
-}
 
-void WaveEffect::Render(const RenderObject& renderObject)
-{
 	renderObject.meshBuffer.Render();
 }
 
@@ -97,6 +111,11 @@ void WaveEffect::End()
 void WaveEffect::SetCamera(const Camera& camera)
 {
 	mCamera = &camera;
+}
+
+void WaveEffect::SetDirectionalLight(const DirectionalLight& light)
+{
+	m_DirectionalLight = &light;
 }
 
 void WaveEffect::DebugUI()
@@ -113,4 +132,7 @@ void WaveEffect::DebugUI()
 			ImGui::DragFloat("Wave Steepness", &mWaves[i].steepness, 0.01f);
 		ImGui::PopID();
 	}
+
+	ImGui::DragFloat("Normal Strength", &m_SettingsData.normalStrength, 0.01f);
+	ImGui::DragFloat3("Diffuse Reflectance", &m_SettingsData.diffuseReflectance.x, 0.01f);
 }
