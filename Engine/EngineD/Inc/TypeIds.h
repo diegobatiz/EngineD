@@ -8,6 +8,7 @@ namespace EngineD
 		Transform,    // transform component for location data
 		Camera,       // contains a Camera for viewing
 		FPSCamera,    // moves Camera with FPS controls
+		Mesh,         // Creates a mesh render object
 		Count
 	};
 
@@ -15,6 +16,7 @@ namespace EngineD
 	{
 		Invalid,
 		Camera,
+		Render,
 		Count
 	};
 }
