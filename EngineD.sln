@@ -141,6 +141,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Waves_Demo", "Rendering\Wav
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "24_HelloGameObject", "VGP336\24_HelloGameObject\24_HelloGameObject.vcxproj", "{8D7FE5A0-8FCB-496B-AF2B-6963841A8820}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{8F5BDFC3-5B2C-455B-A765-0A5AC2848AEA}"
+	ProjectSection(SolutionItems) = preProject
+		Assets\Templates\fps_camera.json = Assets\Templates\fps_camera.json
+		Assets\Templates\testObject.json = Assets\Templates\testObject.json
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "25_HelloGameObjectFactory", "VGP336\25_HelloGameObjectFactory\25_HelloGameObjectFactory.vcxproj", "{9DB204E9-8694-4067-9C3F-3F65C821C99A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -477,6 +485,14 @@ Global
 		{8D7FE5A0-8FCB-496B-AF2B-6963841A8820}.Release|x64.Build.0 = Release|x64
 		{8D7FE5A0-8FCB-496B-AF2B-6963841A8820}.Release|x86.ActiveCfg = Release|Win32
 		{8D7FE5A0-8FCB-496B-AF2B-6963841A8820}.Release|x86.Build.0 = Release|Win32
+		{9DB204E9-8694-4067-9C3F-3F65C821C99A}.Debug|x64.ActiveCfg = Debug|x64
+		{9DB204E9-8694-4067-9C3F-3F65C821C99A}.Debug|x64.Build.0 = Debug|x64
+		{9DB204E9-8694-4067-9C3F-3F65C821C99A}.Debug|x86.ActiveCfg = Debug|Win32
+		{9DB204E9-8694-4067-9C3F-3F65C821C99A}.Debug|x86.Build.0 = Debug|Win32
+		{9DB204E9-8694-4067-9C3F-3F65C821C99A}.Release|x64.ActiveCfg = Release|x64
+		{9DB204E9-8694-4067-9C3F-3F65C821C99A}.Release|x64.Build.0 = Release|x64
+		{9DB204E9-8694-4067-9C3F-3F65C821C99A}.Release|x86.ActiveCfg = Release|Win32
+		{9DB204E9-8694-4067-9C3F-3F65C821C99A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -526,6 +542,8 @@ Global
 		{508797FC-73C2-43BE-B912-A5E25D1B601B} = {45AC4FB9-E99A-44E3-B712-06550A9BD598}
 		{263B9CA2-087D-47BA-8BA9-C87844803463} = {45AC4FB9-E99A-44E3-B712-06550A9BD598}
 		{8D7FE5A0-8FCB-496B-AF2B-6963841A8820} = {01B2BDD4-EDEC-402D-8A7A-0AC68B3BA1AA}
+		{8F5BDFC3-5B2C-455B-A765-0A5AC2848AEA} = {D9D8D486-0FA1-42F7-A71E-4951FF0C3538}
+		{9DB204E9-8694-4067-9C3F-3F65C821C99A} = {01B2BDD4-EDEC-402D-8A7A-0AC68B3BA1AA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {19B1DB02-12F6-4B09-B23A-FB585D24135C}
