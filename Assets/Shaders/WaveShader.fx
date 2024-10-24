@@ -11,11 +11,12 @@ cbuffer WorldBuffer : register(b0)
 cbuffer SettingsBuffer : register(b1)
 {
     float normalStrength;
-    float specNormalStrength;
     float3 diffuseReflectance;
+    float specNormalStrength;
     float3 specularReflectance;
     float shininess;
     float3 ambientColor;
+    float4 specColour;
 }
 
 cbuffer TimeBuffer : register(b2)
@@ -114,7 +115,6 @@ VS_OUTPUT VS(VS_INPUT input)
     for (int wi = 0; wi < waveCount; ++wi)
     {
        height += CalculateOffset(input.position, waves[wi]);
-       normal += CalculateNormal(input.position, waves[wi]);
     }
     
     output.worldPos = input.position;
@@ -124,7 +124,7 @@ VS_OUTPUT VS(VS_INPUT input)
     output.position = mul(float4(input.position, 1.0f), wvp);
     output.worldPos = mul(input.position, (float3x3) worldMatrix);
     output.color = input.color;
-    output.normal = float3(0.0f, 0.0f, 0.0f);
+    output.normal = 0.0f;
 	
 	return output;
 }
@@ -150,20 +150,19 @@ float4 PS(VS_OUTPUT input) : SV_Target
     float ndotl = max(0.0f, dot(lightDir, normal));
     
     //Diffuse Colour
-    float3 diffReflect = diffuseReflectance / 3.1415926f;
+    float3 diffReflect = diffuseReflectance / PI;
     float3 diffuse = input.color.rgb * ndotl * diffReflect;
-   
+    
     //Specular Colour
     float3 specReflect = specularReflectance;
     float3 specNormal = normal;
     specNormal.xz *= specNormalStrength;
     specNormal = normalize(specNormal);
     float spec = pow(max(0.0f, dot(specNormal, halfwayDir)), shininess) * ndotl;
-    float3 specular = input.color.rgb * specReflect * spec;
+    float3 specular = specColour.rgb * specReflect * spec;
     
-    float3 finalColor = diffuse + specular + ambientColor;
+    float3 finalColor = diffuse +  ambientColor + specular;
     
-    //not working?
-    return float4(ambientColor, 1.0f);
+    return float4(finalColor, 1.0f);
 }
 

@@ -44,18 +44,20 @@ namespace EngineD::Graphics
 			Math::Matrix4 wvp;
 			Math::Matrix4 worldMatrix;
 			Math::Vector3 lightDirection;
+			float padding1;
 			Math::Vector3 cameraPos;
-			float padding[2] = { 0.0f };
+			float padding2;
 		};
 
-		struct SettingsData
+		struct LightData
 		{
 			float normalStrength = 0.5f;
+			Math::Vector3 diffuseReflectance = { 1.0f, 1.0f, 2.0f};
 			float specNormalStrength = 0.5f;
-			Math::Vector3 diffuseReflectance = { 1.0f, 1.0f, 2.0f };
-			Math::Vector3 specularReflectance = { 1.0f, 1.0f, 5.0f };
+			Math::Vector3 specularReflectance = { 0.5f, 0.5f, 0.5f};
 			float shininess = 1.0f;
-			Math::Vector3 ambientColor = { 1.0f, 1.0f, 1.0f };
+			Math::Vector3 ambientColor = { 0.1f, 0.1f, 0.2f};
+			Math::Vector4 specularColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 		};
 
 		struct TimeData
@@ -71,13 +73,13 @@ namespace EngineD::Graphics
 		};
 
 		using TransformBuffer = TypedConstantBuffer<TransformData>;
-		using SettingsBuffer = TypedConstantBuffer<SettingsData>;
+		using LightBuffer = TypedConstantBuffer<LightData>;
 		using TimeBuffer = TypedConstantBuffer<TimeData>;
 		using OceanBuffer = TypedConstantBuffer<OceanData>;
 		using WaveBuffer = TypedStructuredBuffer<WaveData>;
 
 		TransformBuffer mTransformBuffer;
-		SettingsBuffer m_SettingsBuffer;
+		LightBuffer m_LightBuffer;
 		TimeBuffer mTimeBuffer;
 		OceanBuffer mOceanBuffer;
 		WaveBuffer mWaveBuffer;
@@ -88,7 +90,7 @@ namespace EngineD::Graphics
 		const Camera* mCamera = nullptr;
 		const DirectionalLight* m_DirectionalLight = nullptr;
 
-		SettingsData m_SettingsData;
+		LightData m_LightData;
 
 		float mCurrentTime = 0.0f;
 		int mWaveCount = 0;

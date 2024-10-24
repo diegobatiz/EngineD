@@ -29,8 +29,24 @@ void GameState::Initialize()
 		{0.5f, 0.5f},
 		{0.0f, 0.0f},
 		1.0f,
+		0.5f,
 		1.0f,
-		1.0f,
+		1.0f
+		});
+	mWaves.push_back({
+		{0.8f, -0.3f},
+		{0.0f, 0.0f},
+		2.0f,
+		0.3f,
+		0.7f,
+		1.0f
+		});
+	mWaves.push_back({
+		{0.5f, 0.5f},
+		{0.0f, 0.0f},
+		3.0f,
+		0.15f,
+		0.4f,
 		1.0f
 		});
 	m_WaveEffect.InitializeWaves(mWaves);

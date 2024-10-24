@@ -96,4 +96,5 @@ void MeshComponent::Deserialize(const rapidjson::Value& value)
 
 const Model& MeshComponent::GetModel() const
 {
+	return mModel;
 }

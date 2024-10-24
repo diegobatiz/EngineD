@@ -15,7 +15,7 @@ void WaveEffect::Initialize(const std::filesystem::path& filename)
 
 	mOceanBuffer.Initialize();
 	mTimeBuffer.Initialize();
-	m_SettingsBuffer.Initialize();
+	m_LightBuffer.Initialize();
 	mTransformBuffer.Initialize();
 	mVertexShader.Initialize<VertexPC>(filename);
 	mPixelShader.Initialize(filename);
@@ -32,7 +32,7 @@ void WaveEffect::Terminate()
 	mPixelShader.Terminate();
 	mVertexShader.Terminate();
 	mTransformBuffer.Terminate();
-	m_SettingsBuffer.Terminate();
+	m_LightBuffer.Terminate();
 	mTimeBuffer.Terminate();
 	mOceanBuffer.Terminate();
 	mWaveBuffer.Terminate();
@@ -59,7 +59,7 @@ void WaveEffect::Begin()
 	mTransformBuffer.BindVS(0);
 	mTransformBuffer.BindPS(0);
 
-	m_SettingsBuffer.BindPS(1);
+	m_LightBuffer.BindPS(1);
 
 	mTimeBuffer.BindVS(2);
 
@@ -86,14 +86,14 @@ void WaveEffect::Render(const RenderObject& renderObject)
 	data.cameraPos = camPos;
 	mTransformBuffer.Update(data);
 
-	SettingsData settingData;
-	settingData.normalStrength = m_SettingsData.normalStrength;
-	settingData.specNormalStrength = m_SettingsData.specNormalStrength;
-	settingData.diffuseReflectance = m_SettingsData.diffuseReflectance;
-	settingData.specularReflectance = m_SettingsData.specularReflectance;
-	settingData.shininess = m_SettingsData.shininess;
-	settingData.ambientColor = m_SettingsData.ambientColor;
-	m_SettingsBuffer.Update(settingData);
+	LightData lightData;
+	lightData.normalStrength = m_LightData.normalStrength;
+	lightData.specNormalStrength = m_LightData.specNormalStrength;
+	lightData.diffuseReflectance = m_LightData.diffuseReflectance;
+	lightData.specularReflectance = m_LightData.specularReflectance;
+	lightData.shininess = m_LightData.shininess;
+	lightData.ambientColor = m_LightData.ambientColor;
+	m_LightBuffer.Update(lightData);
 
 	TimeData timeData;
 	timeData.time = mCurrentTime;
@@ -137,10 +137,11 @@ void WaveEffect::DebugUI()
 		ImGui::PopID();
 	}
 
-	ImGui::DragFloat("Normal Strength", &m_SettingsData.normalStrength, 0.01f);
-	ImGui::DragFloat("Spec Normal Strength", &m_SettingsData.specNormalStrength, 0.01f);
-	ImGui::DragFloat3("Diffuse Reflectance", &m_SettingsData.diffuseReflectance.x, 0.01f);
-	ImGui::DragFloat3("Specular Reflectance", &m_SettingsData.specularReflectance.x, 0.01f);
-	ImGui::DragFloat("Shininess", &m_SettingsData.shininess, 0.01f);
-	ImGui::DragFloat3("Ambient Color", &m_SettingsData.ambientColor.x, 0.001f, 0.0f, 1.0f);
+	ImGui::DragFloat3("Diffuse Reflectance", &m_LightData.diffuseReflectance.x, 0.01f, 0.0f, 10.0f);
+	ImGui::DragFloat3("Specular Reflectance", &m_LightData.specularReflectance.x, 0.01f, 0.0f);
+	ImGui::ColorEdit3("Ambient Color", &m_LightData.ambientColor.x, 0.001f);
+	ImGui::ColorEdit4("Specular Color", &m_LightData.specularColor.x, 0.001f);
+	ImGui::DragFloat("Normal Strength", &m_LightData.normalStrength, 0.01f);
+	ImGui::DragFloat("Spec Normal Strength", &m_LightData.specNormalStrength, 0.01f);
+	ImGui::DragFloat("Shininess", &m_LightData.shininess, 1.0f, 0.01f);
 }
