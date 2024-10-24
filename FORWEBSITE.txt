@@ -1,0 +1,5 @@
+Nicepage to edit website and generate html file
+Delete final section to get rid of copyright thing
+
+Buy domain name (diegobatiz.com)
+Host it on netlify
