@@ -15,7 +15,7 @@ void GameState::Initialize()
 
 	GraphicsSystem::Get()->SetClearColor(Colors::SkyBlue);
 
-	MeshPC mesh = MeshBuilder::CreateHorizontalPlanePC(100, 100, 0.1f, Colors::DarkBlue);
+	MeshPC mesh = MeshBuilder::CreateHorizontalPlanePC(100, 100, 0.1f, Colors::Blue);
 	m_Water.meshBuffer.Initialize(mesh);
 
 	//Vector2 direction;

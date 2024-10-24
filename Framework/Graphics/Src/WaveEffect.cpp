@@ -88,7 +88,11 @@ void WaveEffect::Render(const RenderObject& renderObject)
 
 	SettingsData settingData;
 	settingData.normalStrength = m_SettingsData.normalStrength;
+	settingData.specNormalStrength = m_SettingsData.specNormalStrength;
 	settingData.diffuseReflectance = m_SettingsData.diffuseReflectance;
+	settingData.specularReflectance = m_SettingsData.specularReflectance;
+	settingData.shininess = m_SettingsData.shininess;
+	settingData.ambientColor = m_SettingsData.ambientColor;
 	m_SettingsBuffer.Update(settingData);
 
 	TimeData timeData;
@@ -134,5 +138,9 @@ void WaveEffect::DebugUI()
 	}
 
 	ImGui::DragFloat("Normal Strength", &m_SettingsData.normalStrength, 0.01f);
+	ImGui::DragFloat("Spec Normal Strength", &m_SettingsData.specNormalStrength, 0.01f);
 	ImGui::DragFloat3("Diffuse Reflectance", &m_SettingsData.diffuseReflectance.x, 0.01f);
+	ImGui::DragFloat3("Specular Reflectance", &m_SettingsData.specularReflectance.x, 0.01f);
+	ImGui::DragFloat("Shininess", &m_SettingsData.shininess, 0.01f);
+	ImGui::DragFloat3("Ambient Color", &m_SettingsData.ambientColor.x, 0.001f, 0.0f, 1.0f);
 }

@@ -50,8 +50,12 @@ namespace EngineD::Graphics
 
 		struct SettingsData
 		{
-			float normalStrength = 1.0f;
-			Math::Vector3 diffuseReflectance = { 1.0f, 1.0f, 5.0f };
+			float normalStrength = 0.5f;
+			float specNormalStrength = 0.5f;
+			Math::Vector3 diffuseReflectance = { 1.0f, 1.0f, 2.0f };
+			Math::Vector3 specularReflectance = { 1.0f, 1.0f, 5.0f };
+			float shininess = 1.0f;
+			Math::Vector3 ambientColor = { 1.0f, 1.0f, 1.0f };
 		};
 
 		struct TimeData
