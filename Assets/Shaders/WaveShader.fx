@@ -93,6 +93,43 @@ float3 SteepSineNormal(float3 worldPos, Wave wave)
     return float3(-n.x, 1.0f, -n.y);
 }
 
+//Fractional Brownian Motion
+float3 VertexFBM(float3 pos)
+{
+    float f = _VertexFrequency;
+    float a = _VertexAmplitude;
+    float speed = _VertexInitialSpeed;
+    float seed = _VertexSeed;
+    float3 p = v;
+    float amplitudeSum = 0.0f;
+
+    float h = 0.0f;
+    float2 n = 0.0f;
+    for (int wi = 0; wi < waveCount; ++wi)
+    {
+        float2 d = normalize(float2(cos(seed), sin(seed)));
+
+        float x = dot(d, p.xz) * f + time * speed;
+        float wave = a * exp(_VertexMaxPeak * sin(x) - _VertexPeakOffset);
+        float dx = _VertexMaxPeak * wave * cos(x);
+					
+        h += wave;
+					
+        p.xz += d * -dx * a * _VertexDrag;
+
+        amplitudeSum += a;
+        f *= _VertexFrequencyMult;
+        a *= _VertexAmplitudeMult;
+        speed *= _VertexSpeedRamp;
+        seed += _VertexSeedIter;
+    }
+
+    float3 output = float3(h, n.x, n.y) / amplitudeSum;
+    output.x *= _VertexHeight;
+
+    return output;
+}
+
 float CalculateOffset(float3 worldPos, Wave wave)
 {
     return SteepSine(worldPos, wave);
