@@ -83,6 +83,14 @@ void MeshComponent::Deserialize(const rapidjson::Value& value)
 			matData.material.specular.b = color[2].GetFloat();
 			matData.material.specular.a = color[3].GetFloat();
 		}
+		if (materialData.HasMember("Emissive"))
+		{
+			const auto& color = materialData["Emissive"].GetArray();
+			matData.material.emissive.r = color[0].GetFloat();
+			matData.material.emissive.g = color[1].GetFloat();
+			matData.material.emissive.b = color[2].GetFloat();
+			matData.material.emissive.a = color[3].GetFloat();
+		}
 		if (materialData.HasMember("SpecularPower"))
 		{
 			matData.material.power = materialData["SpecularPower"].GetFloat();
@@ -90,7 +98,23 @@ void MeshComponent::Deserialize(const rapidjson::Value& value)
 	}
 	if (value.HasMember("Textures"))
 	{
-
+		const auto& textureData = value["Textures"].GetObj();
+		if (textureData.HasMember("DiffuseMap"))
+		{
+			matData.diffuseMapName = textureData["DiffuseMap"].GetString();
+		}
+		if (textureData.HasMember("NormalMap"))
+		{
+			matData.normalMapName = textureData["NormalMap"].GetString();
+		}
+		if (textureData.HasMember("SpecMap"))
+		{
+			matData.specularMapName = textureData["SpecMap"].GetString();
+		}
+		if (textureData.HasMember("BumpMap"))
+		{
+			matData.bumpMapName = textureData["BumpMap"].GetString();
+		}
 	}
 }
 

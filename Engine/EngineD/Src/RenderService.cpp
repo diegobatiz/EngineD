@@ -54,9 +54,9 @@ void RenderService::Render()
 	mShadowEffect.Begin();
 	for (Entry& entry : mRenderEntries)
 	{
-		//if(entry.renderComponent->CanCastShadow())
+		if(entry.renderComponent->CanCastShadow())
 		{
-
+			DrawRenderGroup(mShadowEffect, entry.renderGroup);
 		}
 	}
 	mShadowEffect.End();
@@ -74,18 +74,20 @@ void RenderService::DebugUI()
 	if (ImGui::CollapsingHeader("Rendering"))
 	{
 		ImGui::Text("FPS: %f", mFPS);
-		if (ImGui::DragFloat3("Direction", &mDirectionalLight.direction.x, 0.01f))
+		if (ImGui::CollapsingHeader("Light"))
 		{
-			mDirectionalLight.direction = Math::Normalize(mDirectionalLight.direction);
-		}
+			if (ImGui::DragFloat3("Direction", &mDirectionalLight.direction.x, 0.01f))
+			{
+				mDirectionalLight.direction = Math::Normalize(mDirectionalLight.direction);
+			}
 
-		ImGui::ColorEdit4("Ambient##Light", &mDirectionalLight.ambient.r);
-		ImGui::ColorEdit4("Diffuse##Light", &mDirectionalLight.diffuse.r);
-		ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
-		
+			ImGui::ColorEdit4("Ambient##Light", &mDirectionalLight.ambient.r);
+			ImGui::ColorEdit4("Diffuse##Light", &mDirectionalLight.diffuse.r);
+			ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
+		}
+		mStandardEffect.DebugUI();
+		mShadowEffect.DebugUI();
 	}
-	mStandardEffect.DebugUI();
-	mShadowEffect.DebugUI();
 }
 
 void RenderService::Register(const RenderObjectComponent* roc)

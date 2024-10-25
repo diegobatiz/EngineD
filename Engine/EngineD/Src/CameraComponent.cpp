@@ -3,6 +3,7 @@
 
 #include "GameWorld.h"
 #include "CameraService.h"
+#include "SaveUtil.h"
 
 using namespace EngineD;
 using namespace EngineD::Input;

@@ -12,7 +12,7 @@ namespace EngineD
 
 		void Deserialize(const rapidjson::Value& value) override;
 
-		virtual const bool CanCastShadow() { return mCastShadow; } const
+		bool CanCastShadow() const { return mCastShadow; }
 		virtual Graphics::ModelId GetModelId() const { return 0; }
 		virtual const Graphics::Model& GetModel() const = 0;
 

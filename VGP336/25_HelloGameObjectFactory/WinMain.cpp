@@ -8,7 +8,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	myApp.AddState<GameState>("GameState");
 
 	AppConfig config;
-	config.appName = L"Hello Game Object";
+	config.appName = L"Hello Game Object Factory";
 
 	myApp.Run(config);
 

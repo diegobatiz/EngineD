@@ -39,6 +39,6 @@ namespace EngineD
 		using RenderEntries = std::vector<Entry>;
 		RenderEntries mRenderEntries;
 
-		float mFPS;
+		float mFPS = 0;
 	};
 }
