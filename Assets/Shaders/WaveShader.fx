@@ -72,34 +72,35 @@ float GetTime(Wave wave)
     return time * wave.phase;
 }
 
-float Sine(float3 worldPos, Wave wave)
+float SteepSine(float3 worldPos, Wave wave)
 {
     float2 dir = GetDirection(worldPos, wave);
     float pos = GetWaveCoord(worldPos, dir, wave);
     float t = GetTime(wave);
 
-    return wave.amplitude * sin(pos * wave.frequency + t);
+    return 2.0f * wave.amplitude * pow((sin(pos * wave.frequency + t) + 1.0f) * 0.5f, wave.steepness);
 }
 
-float3 SineNormal(float3 worldPos, Wave wave)
+float3 SteepSineNormal(float3 worldPos, Wave wave)
 {
     float2 dir = GetDirection(worldPos, wave);
     float pos = GetWaveCoord(worldPos, dir, wave);
     float t = GetTime(wave);
-
-    float2 n = wave.frequency * wave.amplitude * dir * cos(pos * wave.frequency + t);
+    
+    float h = pow((sin(pos * wave.frequency + t) + 1) * 0.5f, max(1.0f, wave.steepness - 1));
+    float2 n = dir * wave.steepness * wave.frequency * wave.amplitude * h * cos(pos * wave.frequency + t);
 
     return float3(-n.x, 1.0f, -n.y);
 }
 
 float CalculateOffset(float3 worldPos, Wave wave)
 {
-    return Sine(worldPos, wave);
+    return SteepSine(worldPos, wave);
 }
 
 float3 CalculateNormal(float3 worldPos, Wave wave)
 {
-    return SineNormal(worldPos, wave);
+    return SteepSineNormal(worldPos, wave);
 }
 
 
@@ -109,8 +110,6 @@ VS_OUTPUT VS(VS_INPUT input)
     
     float height = 0.0f;
     float3 normal = 0.0f;
-    
-   
     
     for (int wi = 0; wi < waveCount; ++wi)
     {
