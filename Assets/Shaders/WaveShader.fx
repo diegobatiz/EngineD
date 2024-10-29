@@ -27,6 +27,18 @@ cbuffer TimeBuffer : register(b2)
 cbuffer WaveBuffer : register(b3)
 {
     int waveCount;
+    float vertexFrequency;
+    float vertexAmplitude;
+    float vertexInitialSpeed;
+    float vertexSeed;
+    float vertexMaxPeak;
+    float vertexPeakOffset;
+    float vertexFrequencyMult;
+    float vertexAmplitudeMult;
+    float vertexSpeedRamp;
+    float vertexSeedIter;
+    float vertexHeight;
+    float vertexDrag;
 }
 
 struct VS_INPUT
@@ -43,6 +55,7 @@ struct VS_OUTPUT
     float3 worldPos : TEXCOORD1;
 };
 
+//Used in Sum of Sines version of Shader
 struct Wave
 {
     float2 direction;
@@ -53,6 +66,7 @@ struct Wave
     float steepness;
 };
 
+//Used in Sum of Sines version of Shader
 StructuredBuffer<Wave> waves : register(t0);
 
 #define PI 3.1415926f
@@ -96,11 +110,11 @@ float3 SteepSineNormal(float3 worldPos, Wave wave)
 //Fractional Brownian Motion
 float3 VertexFBM(float3 pos)
 {
-    float f = _VertexFrequency;
-    float a = _VertexAmplitude;
-    float speed = _VertexInitialSpeed;
-    float seed = _VertexSeed;
-    float3 p = v;
+    float f = vertexFrequency;
+    float a = vertexAmplitude;
+    float speed = vertexInitialSpeed;
+    float seed = vertexSeed;
+    float3 p = pos;
     float amplitudeSum = 0.0f;
 
     float h = 0.0f;
@@ -110,22 +124,22 @@ float3 VertexFBM(float3 pos)
         float2 d = normalize(float2(cos(seed), sin(seed)));
 
         float x = dot(d, p.xz) * f + time * speed;
-        float wave = a * exp(_VertexMaxPeak * sin(x) - _VertexPeakOffset);
-        float dx = _VertexMaxPeak * wave * cos(x);
+        float wave = a * exp(vertexMaxPeak * sin(x) - vertexPeakOffset);
+        float dx = vertexMaxPeak * wave * cos(x);
 					
         h += wave;
 					
-        p.xz += d * -dx * a * _VertexDrag;
+        p.xz += d * -dx * a * vertexDrag;
 
         amplitudeSum += a;
-        f *= _VertexFrequencyMult;
-        a *= _VertexAmplitudeMult;
-        speed *= _VertexSpeedRamp;
-        seed += _VertexSeedIter;
+        f *= vertexFrequencyMult;
+        a *= vertexAmplitudeMult;
+        speed *= vertexSpeedRamp;
+        seed += vertexSeedIter;
     }
 
     float3 output = float3(h, n.x, n.y) / amplitudeSum;
-    output.x *= _VertexHeight;
+    output.x *= vertexHeight;
 
     return output;
 }
@@ -147,15 +161,19 @@ VS_OUTPUT VS(VS_INPUT input)
     
     float height = 0.0f;
     float3 normal = 0.0f;
-    
+   
+    #ifdef SteepSine
     for (int wi = 0; wi < waveCount; ++wi)
     {
        height += CalculateOffset(input.position, waves[wi]);
     }
+    #else
+    float3 vertexOutput = VertexFBM(input.position);
+    #endif
     
     output.worldPos = input.position;
     
-    input.position.y += height;
+    input.position.y += vertexOutput.x;
    
     output.position = mul(float4(input.position, 1.0f), wvp);
     output.worldPos = mul(input.position, (float3x3) worldMatrix);
@@ -176,7 +194,7 @@ float4 PS(VS_OUTPUT input) : SV_Target
     
     for (int wi = 0; wi < waveCount; ++wi)
     {
-        normal += CalculateNormal(input.worldPos, waves[wi]);
+        //normal += CalculateNormal(input.worldPos, waves[wi]);
     }
     normal = normalize(normal);
     normal = normalize(mul(normal, (float3x3) worldMatrix));

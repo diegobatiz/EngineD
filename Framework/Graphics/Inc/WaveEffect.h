@@ -11,6 +11,7 @@ namespace EngineD::Graphics
 	struct RenderObject;
 	struct DirectionalLight;
 
+	//Used in Sum of Sines version of effect
 	struct WaveData
 	{
 		Math::Vector2 direction;
@@ -69,6 +70,18 @@ namespace EngineD::Graphics
 		struct OceanData
 		{
 			int waveCount;
+			float vertexFrequency = 1;
+			float vertexAmplitude = 1;
+			float vertexInitialSpeed = 1;
+			float vertexSeed = 0.6;
+			float vertexMaxPeak = 2;
+			float vertexPeakOffset = 0.3f;
+			float vertexFrequencyMult = 1.3f;
+			float vertexAmplitudeMult = 0.3f;
+			float vertexSpeedRamp = 1.6f;
+			float vertexSeedIter = 1.4326f;
+			float vertexHeight = 1;
+			float vertexDrag = 1;
 			float padding[3] = { 0.0f };
 		};
 
@@ -82,7 +95,6 @@ namespace EngineD::Graphics
 		LightBuffer m_LightBuffer;
 		TimeBuffer mTimeBuffer;
 		OceanBuffer mOceanBuffer;
-		WaveBuffer mWaveBuffer;
 
 		VertexShader_D3D11 mVertexShader;
 		PixelShader_D3D11 mPixelShader;
@@ -91,6 +103,7 @@ namespace EngineD::Graphics
 		const DirectionalLight* m_DirectionalLight = nullptr;
 
 		LightData m_LightData;
+		OceanData mOceanData;
 
 		float mCurrentTime = 0.0f;
 		int mWaveCount = 0;
