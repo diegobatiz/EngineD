@@ -59,6 +59,8 @@ namespace EngineD::Graphics
 			float shininess = 1.0f;
 			Math::Vector3 ambientColor = { 0.1f, 0.1f, 0.2f};
 			Math::Vector4 specularColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+			float tipAttenuation = 0.5f;
+			Math::Vector3 tipColor = { 0.1f, 0.1f, 0.1f };
 		};
 
 		struct TimeData
@@ -69,7 +71,8 @@ namespace EngineD::Graphics
 
 		struct OceanData
 		{
-			int waveCount;
+			int waveCount = 1;
+			int pixelWaveCount = 1;
 			float vertexFrequency = 1;
 			float vertexAmplitude = 1;
 			float vertexInitialSpeed = 1;
@@ -80,7 +83,7 @@ namespace EngineD::Graphics
 			float vertexAmplitudeMult = 0.3f;
 			float vertexSpeedRamp = 1.6f;
 			float vertexSeedIter = 1.4326f;
-			float vertexHeight = 1;
+			float vertexHeight = 0.0f;
 			float vertexDrag = 1;
 			float padding[3] = { 0.0f };
 		};
