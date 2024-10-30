@@ -8,6 +8,7 @@ namespace EngineD::SaveUtil
 	void SaveString(const char* key, const char* value, rapidjson::Document& doc, rapidjson::Value& member);
 	void SaveStringArray(const char* key, const std::vector<std::string>& value, rapidjson::Document& doc, rapidjson::Value& member);
 	void SaveVector3(const char* key, const Vector3& value, rapidjson::Document& doc, rapidjson::Value& member);
+	void SaveVector4(const char* key, const Vector4& value, rapidjson::Document& doc, rapidjson::Value& member);
 	void SaveQuaternion(const char* key, const Quaternion& value, rapidjson::Document& doc, rapidjson::Value& member);
 	void SaveColor(const char* key, const Color& value, rapidjson::Document& doc, rapidjson::Value& member);
 }

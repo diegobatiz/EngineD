@@ -30,6 +30,7 @@
 #include "MeshComponent.h"
 #include "RenderObjectComponent.h"
 #include "TransformComponent.h"
+#include "WaveComponent.h"
 
 namespace EngineD
 {
