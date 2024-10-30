@@ -17,6 +17,8 @@ cbuffer SettingsBuffer : register(b1)
     float shininess;
     float3 ambientColor;
     float4 specColour;
+    float tipAttenuation;
+    float3 tipColor;
 }
 
 cbuffer TimeBuffer : register(b2)
@@ -27,6 +29,7 @@ cbuffer TimeBuffer : register(b2)
 cbuffer WaveBuffer : register(b3)
 {
     int waveCount;
+    int pixelWaveCount;
     float vertexFrequency;
     float vertexAmplitude;
     float vertexInitialSpeed;
@@ -107,6 +110,17 @@ float3 SteepSineNormal(float3 worldPos, Wave wave)
     return float3(-n.x, 1.0f, -n.y);
 }
 
+float CalculateOffset(float3 worldPos, Wave wave)
+{
+    return SteepSine(worldPos, wave);
+}
+
+float3 CalculateNormal(float3 worldPos, Wave wave)
+{
+    return SteepSineNormal(worldPos, wave);
+}
+
+
 //Fractional Brownian Motion
 float3 VertexFBM(float3 pos)
 {
@@ -144,14 +158,43 @@ float3 VertexFBM(float3 pos)
     return output;
 }
 
-float CalculateOffset(float3 worldPos, Wave wave)
+float3 PixelFBM(float3 pos)
 {
-    return SteepSine(worldPos, wave);
-}
+    float f = vertexFrequency;
+    float a = vertexAmplitude;
+    float speed = vertexInitialSpeed;
+    float seed = vertexSeed;
+    float3 p = pos;
 
-float3 CalculateNormal(float3 worldPos, Wave wave)
-{
-    return SteepSineNormal(worldPos, wave);
+    float h = 0.0f;
+    float2 n = 0.0f;
+				
+    float amplitudeSum = 0.0f;
+
+    for (int wi = 0; wi < 8; ++wi)
+    {
+        float2 d = normalize(float2(cos(seed), sin(seed)));
+
+        float x = dot(d, p.xz) * f + time * speed;
+        float wave = a * exp(vertexMaxPeak * sin(x) - vertexPeakOffset);
+        float2 dw = f * d * (vertexMaxPeak * wave * cos(x));
+					
+        h += wave;
+        p.xz += -dw * a * vertexDrag;
+					
+        n += dw;
+					
+        amplitudeSum += a;
+        f *= vertexFrequencyMult;
+        a *= vertexAmplitudeMult;
+        speed *= vertexSpeedRamp;
+        seed += vertexSeedIter;
+    }
+				
+    float3 output = float3(h, n.x, n.y) / amplitudeSum;
+    output.x *= vertexHeight;
+
+    return output;
 }
 
 
@@ -178,20 +221,20 @@ VS_OUTPUT VS(VS_INPUT input)
 
 float4 PS(VS_OUTPUT input) : SV_Target
 {
-    return input.color;
-    
     float3 lightDir = -normalize(lightDirection);
     float3 viewDir = normalize(cameraPos - input.worldPos);
     float3 halfwayDir = normalize(lightDir + viewDir);
     
     //Pixel Normal
     float3 normal = 0.0f;
+    float height = 0.0f;
     
-    for (int wi = 0; wi < waveCount; ++wi)
-    {
-        //normal += CalculateNormal(input.worldPos, waves[wi]);
-    }
-    normal = normalize(normal);
+    float3 pixelOutput = PixelFBM(input.worldPos);
+    
+    height = pixelOutput.x;
+    normal.xy = pixelOutput.yz;
+    
+    normal = normalize(float3(-normal.x, 1.0f, -normal.y));
     normal = normalize(mul(normal, (float3x3) worldMatrix));
     normal.xz *= normalStrength;
     normal = normalize(normal);

@@ -50,6 +50,17 @@ void SaveUtil::SaveVector3(const char* key, const Vector3& value, rapidjson::Doc
 	member.AddMember(str, vecArray, doc.GetAllocator());
 }
 
+void EngineD::SaveUtil::SaveVector4(const char* key, const Vector4& value, rapidjson::Document& doc, rapidjson::Value& member)
+{
+	rapidjson::GenericStringRef<char> str(key);
+	rapidjson::Value vecArray(rapidjson::kArrayType);
+	vecArray.PushBack(value.x, doc.GetAllocator());
+	vecArray.PushBack(value.y, doc.GetAllocator());
+	vecArray.PushBack(value.z, doc.GetAllocator());
+	vecArray.PushBack(value.w, doc.GetAllocator());
+	member.AddMember(str, vecArray, doc.GetAllocator());
+}
+
 void SaveUtil::SaveQuaternion(const char* key, const Quaternion& value, rapidjson::Document& doc, rapidjson::Value& member)
 {
 	rapidjson::GenericStringRef<char> str(key);

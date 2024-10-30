@@ -10,7 +10,7 @@ namespace EngineD
 	class WaveLoaderComponent final : public Component
 	{
 	public:
-		SET_TYPE_ID(ComponentId::Invalid);
+		SET_TYPE_ID(ComponentId::Wave);
 
 		void Initialize() override;
 		void Terminate() override;
@@ -20,11 +20,13 @@ namespace EngineD
 		void Deserialize(const rapidjson::Value& value) override;
 
 		Graphics::WaveEffect::OceanData GetData();
+		Graphics::WaveEffect::LightData GetLightData();
 		void SetEffect(EngineD::Graphics::WaveEffect* waveEffect);
 
 	private:
 		std::filesystem::path mTemplateFilePath;
 		Graphics::WaveEffect::OceanData mData;
+		Graphics::WaveEffect::LightData mLightData;
 		Graphics::WaveEffect* mEffect;
 	};
 }

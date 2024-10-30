@@ -23,8 +23,8 @@ void WaveEffect::Initialize(const std::filesystem::path& filename)
 
 void WaveEffect::InitializeWaves(std::vector<WaveData> data)
 {
-	mWaves = data;
-	mWaveCount = data.size();
+	//mWaves = data;
+	//mWaveCount = data.size();
 }
 
 void WaveEffect::Terminate()
@@ -40,8 +40,8 @@ void WaveEffect::Terminate()
 
 void WaveEffect::AddWave(WaveData data)
 {
-	mWaves.push_back(data);
-	++mWaveCount;
+	//mWaves.push_back(data);
+	//++mWaveCount;
 }
 
 void WaveEffect::Update(float deltaTime)
@@ -93,6 +93,8 @@ void WaveEffect::Render(const RenderObject& renderObject)
 	lightData.specularReflectance = m_LightData.specularReflectance;
 	lightData.shininess = m_LightData.shininess;
 	lightData.ambientColor = m_LightData.ambientColor;
+	lightData.tipAttenuation = m_LightData.tipAttenuation;
+    lightData.tipColor = m_LightData.tipColor;
 	m_LightBuffer.Update(lightData);
 
 	TimeData timeData;
@@ -101,6 +103,7 @@ void WaveEffect::Render(const RenderObject& renderObject)
 
 	OceanData oceanData;
 	oceanData.waveCount = mOceanData.waveCount;
+	oceanData.pixelWaveCount = mOceanData.pixelWaveCount;
 	oceanData.vertexFrequency = mOceanData.vertexFrequency;
 	oceanData.vertexAmplitude = mOceanData.vertexAmplitude;
 	oceanData.vertexInitialSpeed = mOceanData.vertexInitialSpeed;
@@ -139,7 +142,7 @@ void WaveEffect::DebugUI()
 {
 	if (ImGui::CollapsingHeader("Wave Effect"), ImGuiTreeNodeFlags_DefaultOpen)
 	{
-		for (int i = 0; i < mWaveCount; ++i)
+		/*for (int i = 0; i < mWaveCount; ++i)
 		{
 			ImGui::PushID(i);
 			ImGui::CollapsingHeader("Wave");
@@ -150,7 +153,7 @@ void WaveEffect::DebugUI()
 				ImGui::DragFloat("Wave Phase", &mWaves[i].phase, 0.01f);
 				ImGui::DragFloat("Wave Steepness", &mWaves[i].steepness, 0.01f);
 			ImGui::PopID();
-		}
+		}*/
 		if (ImGui::CollapsingHeader("Lighting Settings"))
 		{
 			ImGui::DragFloat3("Diffuse Reflectance", &m_LightData.diffuseReflectance.x, 0.01f, 0.0f, 10.0f);
@@ -160,9 +163,13 @@ void WaveEffect::DebugUI()
 			ImGui::DragFloat("Normal Strength", &m_LightData.normalStrength, 0.01f);
 			ImGui::DragFloat("Spec Normal Strength", &m_LightData.specNormalStrength, 0.01f);
 			ImGui::DragFloat("Shininess", &m_LightData.shininess, 1.0f, 0.01f);
+			ImGui::ColorEdit3("Tip Color", &m_LightData.tipColor.x, 0.001f);
+			ImGui::DragFloat("Tip Attenuation", &m_LightData.tipAttenuation, 0.01, 0.01f);
 		}
 		if (ImGui::CollapsingHeader("Ocean Settings"))
 		{
+			ImGui::DragInt("Wave Count", &mOceanData.waveCount, 1.0f, 0, 32);
+			ImGui::DragInt("Pixel Wave Count", &mOceanData.pixelWaveCount, 1.0f, 0, 32);
 			ImGui::DragFloat("Vertex Frequency", &mOceanData.vertexFrequency, 0.01f, 0.01f);
 			ImGui::DragFloat("Vertex Amplitude", &mOceanData.vertexAmplitude, 0.01f, 0.01f);
 			ImGui::DragFloat("Vertex Init Speed", &mOceanData.vertexInitialSpeed, 0.01f, 0.01f);
@@ -179,7 +186,8 @@ void WaveEffect::DebugUI()
 	}
 }
 
-void WaveEffect::SetOceanData(OceanData data)
+void WaveEffect::SetWaveData(const OceanData& data, const LightData& lightData)
 {
 	mOceanData = data;
+	m_LightData = lightData;
 }

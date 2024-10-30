@@ -42,6 +42,7 @@ namespace EngineD::Graphics
 		struct OceanData
 		{
 			int waveCount;
+			int pixelWaveCount;
 			float vertexFrequency = 1;
 			float vertexAmplitude = 1;
 			float vertexInitialSpeed = 1;
@@ -54,12 +55,26 @@ namespace EngineD::Graphics
 			float vertexSeedIter = 1.4326f;
 			float vertexHeight = 1;
 			float vertexDrag = 1;
-			float padding[3] = { 0.0f };
+			float padding[2] = { 0.0f };
+		};
+
+		struct LightData
+		{
+			float normalStrength = 0.5f;
+			Math::Vector3 diffuseReflectance = { 1.0f, 1.0f, 2.0f };
+			float specNormalStrength = 0.5f;
+			Math::Vector3 specularReflectance = { 0.5f, 0.5f, 0.5f };
+			float shininess = 1.0f;
+			Math::Vector3 ambientColor = { 0.1f, 0.1f, 0.2f };
+			Math::Vector4 specularColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+			float tipAttenuation = 0.5f;
+			Math::Vector3 tipColor = { 0.5f, 0.5f, 0.5f };
 		};
 
 
-		void SetOceanData(OceanData data);
+		void SetWaveData(const OceanData& data, const LightData& lightData);
 		OceanData GetOceanData() { return mOceanData; }
+		LightData GetLightData() { return m_LightData; }
 
 	private:
 		struct TransformData
@@ -70,17 +85,6 @@ namespace EngineD::Graphics
 			float padding1;
 			Math::Vector3 cameraPos;
 			float padding2;
-		};
-
-		struct LightData
-		{
-			float normalStrength = 0.5f;
-			Math::Vector3 diffuseReflectance = { 1.0f, 1.0f, 2.0f};
-			float specNormalStrength = 0.5f;
-			Math::Vector3 specularReflectance = { 0.5f, 0.5f, 0.5f};
-			float shininess = 1.0f;
-			Math::Vector3 ambientColor = { 0.1f, 0.1f, 0.2f};
-			Math::Vector4 specularColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 		};
 
 		struct TimeData
@@ -110,8 +114,5 @@ namespace EngineD::Graphics
 		OceanData mOceanData;
 
 		float mCurrentTime = 0.0f;
-		int mWaveCount = 0;
-		std::vector<WaveData> mWaves;
-
 	};
 }

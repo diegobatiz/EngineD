@@ -72,6 +72,16 @@ void WaveLoaderComponent::Serialize(rapidjson::Document& doc, rapidjson::Value& 
 	SaveUtil::SaveFloat("VertexSeedIter", mData.vertexSeedIter, doc, componentValue);
 	SaveUtil::SaveFloat("VertexHeight", mData.vertexHeight, doc, componentValue);
 	SaveUtil::SaveFloat("VertexDrag", mData.vertexDrag, doc, componentValue);
+
+	SaveUtil::SaveFloat("NormalStrength", mLightData.normalStrength, doc, componentValue);
+	SaveUtil::SaveFloat("SpecularNormalStrength", mLightData.specNormalStrength, doc, componentValue);
+	SaveUtil::SaveFloat("Shininess", mLightData.shininess, doc, componentValue);
+	SaveUtil::SaveFloat("TipAttenuation", mLightData.tipAttenuation, doc, componentValue);
+	SaveUtil::SaveVector3("DiffuseReflectance", mLightData.diffuseReflectance, doc, componentValue);
+	SaveUtil::SaveVector3("SpecularReflectance", mLightData.specularReflectance, doc, componentValue);
+	SaveUtil::SaveVector3("AmbientColor", mLightData.ambientColor, doc, componentValue);
+	SaveUtil::SaveVector3("TipColor", mLightData.tipColor, doc, componentValue);
+	SaveUtil::SaveVector4("SpecularColor", mLightData.specularColor, doc, componentValue);
 	
 	value.AddMember("WaveComponent", componentValue, doc.GetAllocator());
 }
@@ -144,11 +154,87 @@ void WaveLoaderComponent::Deserialize(const rapidjson::Value& value)
 		float data = value["VertexDrag"].GetFloat();
 		mData.vertexDrag = data;
 	}
+
+	if (value.HasMember("VertexDrag"))
+	{
+		float data = value["VertexDrag"].GetFloat();
+		mData.vertexDrag = data;
+	}
+
+
+	if (value.HasMember("NormalStrength"))
+	{
+		float data = value["NormalStrength"].GetFloat();
+		mLightData.normalStrength = data;
+	}
+	if (value.HasMember("SpecularNormalStrength"))
+	{
+		float data = value["SpecularNormalStrength"].GetFloat();
+		mLightData.specNormalStrength = data;
+	}
+	if (value.HasMember("Shininess"))
+	{
+		float data = value["Shininess"].GetFloat();
+		mLightData.shininess = data;
+	}
+	if (value.HasMember("TipAttenuation"))
+	{
+		float data = value["TipAttenuation"].GetFloat();
+		mLightData.tipAttenuation = data;
+	}
+
+	if (value.HasMember("DiffuseReflectance"))
+	{
+		const auto& data = value["DiffuseReflectance"].GetArray();
+		float x = data[0].GetFloat();
+		float y = data[1].GetFloat();
+		float z = data[2].GetFloat();
+		mLightData.diffuseReflectance = { x, y, z };
+	}
+	if (value.HasMember("SpecularReflectance"))
+	{
+		const auto& data = value["SpecularReflectance"].GetArray();
+		float x = data[0].GetFloat();
+		float y = data[1].GetFloat();
+		float z = data[2].GetFloat();
+		mLightData.specularReflectance = { x, y, z };
+	}
+	if (value.HasMember("AmbientColor"))
+	{
+		const auto& data = value["AmbientColor"].GetArray();
+		float x = data[0].GetFloat();
+		float y = data[1].GetFloat();
+		float z = data[2].GetFloat();
+		mLightData.ambientColor = { x, y, z };
+	}
+	if (value.HasMember("TipColor"))
+	{
+		const auto& data = value["TipColor"].GetArray();
+		float x = data[0].GetFloat();
+		float y = data[1].GetFloat();
+		float z = data[2].GetFloat();
+		mLightData.tipColor = { x, y, z };
+	}
+
+	if (value.HasMember("SpecularColor"))
+	{
+		const auto& data = value["SpecularColor"].GetArray();
+		float x = data[0].GetFloat();
+		float y = data[1].GetFloat();
+		float z = data[2].GetFloat();
+		float w = data[3].GetFloat();
+		mLightData.specularColor = { x, y, z, w };
+	}
 }
 
 WaveEffect::OceanData WaveLoaderComponent::GetData()
 {
 	return mData;
+}
+
+Graphics::WaveEffect::LightData EngineD::WaveLoaderComponent::GetLightData()
+{
+	return mLightData;
 }
 
 void WaveLoaderComponent::SetEffect(EngineD::Graphics::WaveEffect* waveEffect)

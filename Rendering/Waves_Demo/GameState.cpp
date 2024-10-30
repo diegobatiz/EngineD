@@ -24,7 +24,7 @@ void GameState::Initialize()
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/WaveShader.fx";
 	m_WaveEffect.Initialize(shaderFilePath);
 	m_WaveEffect.SetCamera(m_Camera);
-	m_WaveEffect.SetOceanData(mWaveLoader.GetData());
+	m_WaveEffect.SetWaveData(mWaveLoader.GetData(), mWaveLoader.GetLightData());
 	m_WaveEffect.SetDirectionalLight(m_DirectionalLight);
 }
 
