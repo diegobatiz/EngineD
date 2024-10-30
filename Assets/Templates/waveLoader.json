@@ -1,0 +1,19 @@
+{
+    "Components": {
+        "WaveComponent": {
+            "WaveCount": 1,
+            "VertexFrequency": 1.0,
+            "VertexAmplitude": 1.2599999904632568,
+            "VertexInitialSpeed": 1.0299999713897705,
+            "VertexSeed": 1.2200000286102295,
+            "VertexMaxPeak": 0.6700000166893005,
+            "VertexPeakOffset": 0.36000001430511475,
+            "VertexFrequencyMult": 1.340000033378601,
+            "VertexAmplitudeMult": 0.3799999952316284,
+            "VertexSpeedRamp": 2.190000057220459,
+            "VertexSeedIter": 1.4326000213623047,
+            "VertexHeight": 1.5099999904632568,
+            "VertexDrag": 3.2899999618530273
+        }
+    }
+}

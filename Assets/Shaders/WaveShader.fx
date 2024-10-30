@@ -119,7 +119,7 @@ float3 VertexFBM(float3 pos)
 
     float h = 0.0f;
     float2 n = 0.0f;
-    for (int wi = 0; wi < waveCount; ++wi)
+    for (int wi = 0; wi < 8; ++wi)
     {
         float2 d = normalize(float2(cos(seed), sin(seed)));
 
@@ -139,7 +139,7 @@ float3 VertexFBM(float3 pos)
     }
 
     float3 output = float3(h, n.x, n.y) / amplitudeSum;
-    output.x *= vertexHeight;
+    output.x *= 1.0f;
 
     return output;
 }
@@ -162,14 +162,7 @@ VS_OUTPUT VS(VS_INPUT input)
     float height = 0.0f;
     float3 normal = 0.0f;
    
-    #ifdef SteepSine
-    for (int wi = 0; wi < waveCount; ++wi)
-    {
-       height += CalculateOffset(input.position, waves[wi]);
-    }
-    #else
     float3 vertexOutput = VertexFBM(input.position);
-    #endif
     
     output.worldPos = input.position;
     
@@ -185,6 +178,8 @@ VS_OUTPUT VS(VS_INPUT input)
 
 float4 PS(VS_OUTPUT input) : SV_Target
 {
+    return input.color;
+    
     float3 lightDir = -normalize(lightDirection);
     float3 viewDir = normalize(cameraPos - input.worldPos);
     float3 halfwayDir = normalize(lightDir + viewDir);

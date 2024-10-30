@@ -39,6 +39,28 @@ namespace EngineD::Graphics
 		void SetDirectionalLight(const DirectionalLight& light);
 		void DebugUI();
 
+		struct OceanData
+		{
+			int waveCount;
+			float vertexFrequency = 1;
+			float vertexAmplitude = 1;
+			float vertexInitialSpeed = 1;
+			float vertexSeed = 0.6;
+			float vertexMaxPeak = 2;
+			float vertexPeakOffset = 0.3f;
+			float vertexFrequencyMult = 1.3f;
+			float vertexAmplitudeMult = 0.3f;
+			float vertexSpeedRamp = 1.6f;
+			float vertexSeedIter = 1.4326f;
+			float vertexHeight = 1;
+			float vertexDrag = 1;
+			float padding[3] = { 0.0f };
+		};
+
+
+		void SetOceanData(OceanData data);
+		OceanData GetOceanData() { return mOceanData; }
+
 	private:
 		struct TransformData
 		{
@@ -67,24 +89,6 @@ namespace EngineD::Graphics
 			float padding[3] = { 0.0f };
 		};
 
-		struct OceanData
-		{
-			int waveCount;
-			float vertexFrequency = 1;
-			float vertexAmplitude = 1;
-			float vertexInitialSpeed = 1;
-			float vertexSeed = 0.6;
-			float vertexMaxPeak = 2;
-			float vertexPeakOffset = 0.3f;
-			float vertexFrequencyMult = 1.3f;
-			float vertexAmplitudeMult = 0.3f;
-			float vertexSpeedRamp = 1.6f;
-			float vertexSeedIter = 1.4326f;
-			float vertexHeight = 1;
-			float vertexDrag = 1;
-			float padding[3] = { 0.0f };
-		};
-
 		using TransformBuffer = TypedConstantBuffer<TransformData>;
 		using LightBuffer = TypedConstantBuffer<LightData>;
 		using TimeBuffer = TypedConstantBuffer<TimeData>;
@@ -108,5 +112,6 @@ namespace EngineD::Graphics
 		float mCurrentTime = 0.0f;
 		int mWaveCount = 0;
 		std::vector<WaveData> mWaves;
+
 	};
 }

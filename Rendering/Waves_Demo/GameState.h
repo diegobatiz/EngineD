@@ -17,5 +17,5 @@ protected:
 	EngineD::Graphics::RenderObject m_Water;
 	EngineD::Graphics::WaveEffect m_WaveEffect;
 
-	std::vector<EngineD::Graphics::WaveData> mWaves;
+	EngineD::WaveLoaderComponent mWaveLoader;
 };

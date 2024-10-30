@@ -100,7 +100,7 @@ void WaveEffect::Render(const RenderObject& renderObject)
 	mTimeBuffer.Update(timeData);
 
 	OceanData oceanData;
-	oceanData.waveCount = mWaveCount;
+	oceanData.waveCount = mOceanData.waveCount;
 	oceanData.vertexFrequency = mOceanData.vertexFrequency;
 	oceanData.vertexAmplitude = mOceanData.vertexAmplitude;
 	oceanData.vertexInitialSpeed = mOceanData.vertexInitialSpeed;
@@ -177,4 +177,9 @@ void WaveEffect::DebugUI()
 			ImGui::DragFloat("Vertex Drag", &mOceanData.vertexDrag, 0.01f, 0.1f);
 		}
 	}
+}
+
+void WaveEffect::SetOceanData(OceanData data)
+{
+	mOceanData = data;
 }
