@@ -100,7 +100,7 @@ void WaveEffect::Render(const RenderObject& renderObject)
 	mTimeBuffer.Update(timeData);
 
 	OceanData oceanData;
-	oceanData.waveCount = mOceanData.waveCount;
+	oceanData.waveCount = mWaveCount;
 	oceanData.vertexFrequency = mOceanData.vertexFrequency;
 	oceanData.vertexAmplitude = mOceanData.vertexAmplitude;
 	oceanData.vertexInitialSpeed = mOceanData.vertexInitialSpeed;
@@ -160,13 +160,9 @@ void WaveEffect::DebugUI()
 			ImGui::DragFloat("Normal Strength", &m_LightData.normalStrength, 0.01f);
 			ImGui::DragFloat("Spec Normal Strength", &m_LightData.specNormalStrength, 0.01f);
 			ImGui::DragFloat("Shininess", &m_LightData.shininess, 1.0f, 0.01f);
-			ImGui::ColorEdit3("Tip Color", &m_LightData.tipColor.x, 0.001f);
-			ImGui::DragFloat("Tip Attenuation", &m_LightData.tipAttenuation, 0.01, 0.01f);
 		}
 		if (ImGui::CollapsingHeader("Ocean Settings"))
 		{
-			ImGui::DragInt("Wave Count", &mOceanData.waveCount, 1.0f, 0);
-			ImGui::DragInt("Pixel Wave Count", &mOceanData.pixelWaveCount, 1.0f, 0);
 			ImGui::DragFloat("Vertex Frequency", &mOceanData.vertexFrequency, 0.01f, 0.01f);
 			ImGui::DragFloat("Vertex Amplitude", &mOceanData.vertexAmplitude, 0.01f, 0.01f);
 			ImGui::DragFloat("Vertex Init Speed", &mOceanData.vertexInitialSpeed, 0.01f, 0.01f);
