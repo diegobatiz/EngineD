@@ -1,7 +1,7 @@
 {
     "Components": {
         "WaveComponent": {
-            "WaveCount": 1,
+            "WaveCount": 8,
             "VertexFrequency": 1.2999999523162842,
             "VertexAmplitude": 2.490000009536743,
             "VertexInitialSpeed": 1.4199999570846558,
@@ -13,12 +13,12 @@
             "VertexSpeedRamp": 2.190000057220459,
             "VertexSeedIter": 1.152999997138977,
             "VertexHeight": 1.5099999904632568,
-          "VertexDrag": 3.2899999618530273,
-          "NormalStrength": 0.5,
-          "SpecularNormalStrength": 1.0,
-          "Shininess": 4.0,
-          "TipAttenuation": 1.0,
-          "DiffuseReflectance": [ 1.0, 1.0, 1.0 ]
+            "VertexDrag": 3.2899999618530273,
+            "NormalStrength": 0.5,
+            "SpecularNormalStrength": 1.0,
+            "Shininess": 4.0,
+            "TipAttenuation": 1.0,
+            "DiffuseReflectance": [ 1.0, 1.0, 1.0 ]
 
         }
     }

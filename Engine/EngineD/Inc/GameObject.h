@@ -6,6 +6,7 @@
 namespace EngineD
 {
 	class GameWorld;
+	class GameObjectHandle;
 
 	class GameObject final
 	{
@@ -23,6 +24,7 @@ namespace EngineD
 
 		GameWorld& GetWorld() { return *mWorld; }
 		const GameWorld& GetWorld() const { return *mWorld; }
+		const GameObjectHandle& GetHandle() const { return mHandle; }
 
 		template<class ComponentType>
 		ComponentType* AddComponent()
@@ -93,6 +95,7 @@ namespace EngineD
 
 		friend class GameWorld;
 		GameWorld* mWorld = nullptr;
+		GameObjectHandle mHandle;
 		std::filesystem::path mTemplateFilePath = "";
 	};
 }

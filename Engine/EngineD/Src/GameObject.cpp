@@ -1,6 +1,8 @@
 #include "Precompiled.h"
 #include "GameObject.h"
 
+#include "GameWorld.h"
+#include "GameObjectHandle.h"
 using namespace EngineD;
 
 static uint32_t gUniqueId = 0;
@@ -51,6 +53,10 @@ void GameObject::DebugUI()
 			{
 				Save();
 			}
+		}
+		if (ImGui::Button("Delete"))
+		{
+			mWorld->DestroyGameObject(mHandle);
 		}
 	}
 	ImGui::PopID();

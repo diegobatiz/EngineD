@@ -8,8 +8,8 @@ void MeshComponent::Deserialize(const rapidjson::Value& value)
 {
 	RenderObjectComponent::Deserialize(value);
 
-	Model::MeshData& meshData = mModel.meshData.emplace_back();
-	Model::MaterialData& matData = mModel.materialData.emplace_back();
+	Model::MeshData& meshData = (value.HasMember("Shape"))? mModel.meshData.emplace_back() : mModel.meshData.back();
+	Model::MaterialData& matData = (value.HasMember("Shape"))? mModel.materialData.emplace_back() : mModel.materialData.back();
 	if (value.HasMember("Shape"))
 	{
 		const auto& shapeData = value["Shape"].GetObj();

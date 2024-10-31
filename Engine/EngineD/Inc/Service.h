@@ -28,6 +28,9 @@ namespace EngineD
 		GameWorld& GetWorld() { return *mWorld; }
 		const GameWorld& GetWorld() const { return *mWorld; }
 
+		virtual void Serialize(rapidjson::Document& doc, rapidjson::Value& value) {}
+		virtual void Deserialize(const rapidjson::Value& value) {}
+
 	private:
 		friend class GameWorld;
 		GameWorld* mWorld = nullptr;
