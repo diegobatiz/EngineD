@@ -87,6 +87,15 @@
     <ClInclude Include="Inc\WaveComponent.h">
       <Filter>Inc\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\GameObjectHandle.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\ModelComponent.h">
+      <Filter>Inc\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\AnimatorComponent.h">
+      <Filter>Inc\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -135,6 +144,12 @@
       <Filter>Src\Components</Filter>
     </ClCompile>
     <ClCompile Include="Src\WaveComponent.cpp">
+      <Filter>Src\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ModelComponent.cpp">
+      <Filter>Src\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\AnimatorComponent.cpp">
       <Filter>Src\Components</Filter>
     </ClCompile>
   </ItemGroup>

@@ -133,7 +133,7 @@ float3 VertexFBM(float3 pos)
 
     float h = 0.0f;
     float2 n = 0.0f;
-    for (int wi = 0; wi < 8; ++wi)
+    for (int wi = 0; wi < 32; ++wi)
     {
         float2 d = normalize(float2(cos(seed), sin(seed)));
 
@@ -171,7 +171,7 @@ float3 PixelFBM(float3 pos)
 				
     float amplitudeSum = 0.0f;
 
-    for (int wi = 0; wi < 8; ++wi)
+    for (int wi = 0; wi < 32; ++wi)
     {
         float2 d = normalize(float2(cos(seed), sin(seed)));
 

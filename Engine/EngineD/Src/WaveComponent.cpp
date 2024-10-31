@@ -60,6 +60,7 @@ void WaveLoaderComponent::Serialize(rapidjson::Document& doc, rapidjson::Value& 
 {
 	rapidjson::Value componentValue(rapidjson::kObjectType);
 	SaveUtil::SaveInt("WaveCount", mData.waveCount, doc, componentValue);
+	SaveUtil::SaveInt("PixelWaveCount", mData.pixelWaveCount, doc, componentValue);
 	SaveUtil::SaveFloat("VertexFrequency", mData.vertexFrequency, doc, componentValue);
 	SaveUtil::SaveFloat("VertexAmplitude", mData.vertexAmplitude, doc, componentValue);
 	SaveUtil::SaveFloat("VertexInitialSpeed", mData.vertexInitialSpeed, doc, componentValue);
@@ -92,6 +93,11 @@ void WaveLoaderComponent::Deserialize(const rapidjson::Value& value)
 	{
 		int count = value["WaveCount"].GetInt();
 		mData.waveCount = count;
+	}
+	if (value.HasMember("PixelWaveCount"))
+	{
+		int count = value["PixelWaveCount"].GetInt();
+		mData.pixelWaveCount = count;
 	}
 
 	if (value.HasMember("VertexFrequency"))

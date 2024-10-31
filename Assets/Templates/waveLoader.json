@@ -2,24 +2,28 @@
     "Components": {
         "WaveComponent": {
             "WaveCount": 8,
-            "VertexFrequency": 1.2999999523162842,
-            "VertexAmplitude": 2.490000009536743,
+            "PixelWaveCount": 8,
+            "VertexFrequency": 0.8700000047683716,
+            "VertexAmplitude": 0.1599999964237213,
             "VertexInitialSpeed": 1.4199999570846558,
-            "VertexSeed": 1.2200000286102295,
-            "VertexMaxPeak": 0.27000001072883606,
-            "VertexPeakOffset": 0.36000001430511475,
+            "VertexSeed": 2.4700000286102295,
+            "VertexMaxPeak": 1.0,
+            "VertexPeakOffset": 0.7400000095367432,
             "VertexFrequencyMult": 1.149999976158142,
-            "VertexAmplitudeMult": 0.27000001072883606,
-            "VertexSpeedRamp": 2.190000057220459,
-            "VertexSeedIter": 1.152999997138977,
-            "VertexHeight": 1.5099999904632568,
+            "VertexAmplitudeMult": 0.5799999833106995,
+            "VertexSpeedRamp": 1.2400000095367432,
+            "VertexSeedIter": 1.3630000352859497,
+            "VertexHeight": 1.2899999618530273,
             "VertexDrag": 3.2899999618530273,
             "NormalStrength": 0.5,
             "SpecularNormalStrength": 1.0,
             "Shininess": 4.0,
             "TipAttenuation": 1.0,
-            "DiffuseReflectance": [ 1.0, 1.0, 1.0 ]
-
+            "DiffuseReflectance": [1.0, 1.0, 1.0],
+            "SpecularReflectance": [0.6000000238418579, 0.6000000238418579, 0.6000000238418579],
+            "AmbientColor": [0.20000000298023224, 0.20000000298023224, 0.20000000298023224],
+            "TipColor": [1.0, 1.0, 1.0],
+            "SpecularColor": [1.0, 1.0, 1.0, 1.0]
         }
     }
 }

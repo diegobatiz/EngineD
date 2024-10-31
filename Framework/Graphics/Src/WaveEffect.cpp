@@ -62,6 +62,7 @@ void WaveEffect::Begin()
 	m_LightBuffer.BindPS(1);
 
 	mTimeBuffer.BindVS(2);
+	mTimeBuffer.BindPS(2);
 
 	mOceanBuffer.BindVS(3);
 	mOceanBuffer.BindPS(3);
