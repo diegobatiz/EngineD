@@ -2,7 +2,7 @@
 #include "GameObject.h"
 
 #include "GameWorld.h"
-#include "GameObjectHandle.h"
+
 using namespace EngineD;
 
 static uint32_t gUniqueId = 0;
@@ -95,8 +95,8 @@ void GameObject::Save()
 	doc.AddMember("Components", components, doc.GetAllocator());
 
 	FILE* file = nullptr;
-	auto err = fopen_s(&file, mTemplateFilePath.u8string().c_str(), "w");
-	ASSERT(err == 0, "GameObject: failed to open template file %s", mTemplateFilePath.u8string().c_str());
+	auto err = fopen_s(&file, mTemplateFilePath.c_str(), "w");
+	ASSERT(err == 0, "GameObject: failed to open template file %s", mTemplateFilePath.c_str());
 
 	char writeBuffer[655536];
 	rapidjson::FileWriteStream writeStream(file, writeBuffer, sizeof(writeBuffer));

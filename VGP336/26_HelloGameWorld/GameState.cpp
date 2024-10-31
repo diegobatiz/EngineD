@@ -8,12 +8,7 @@ using namespace EngineD::Physics;
 
 void GameState::Initialize()
 {
-	mGameWorld.AddService<CameraService>();
-	mGameWorld.AddService<RenderService>();
-	mGameWorld.Initialize();
-
-	mGameWorld.CreateGameObject("Object0", "../../Assets/Templates/testObject.json");
-	mGameWorld.CreateGameObject("Camera", "../../Assets/Templates/fps_camera.json");
+	mGameWorld.LoadLevel(L"../../Templates/Levels/testLevel.json");
 }
 
 void GameState::Terminate()

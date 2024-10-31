@@ -1,12 +1,12 @@
 #pragma once
 
 #include "Component.h"
+#include "GameObjectHandle.h"
 
 
 namespace EngineD
 {
 	class GameWorld;
-	class GameObjectHandle;
 
 	class GameObject final
 	{
@@ -96,6 +96,6 @@ namespace EngineD
 		friend class GameWorld;
 		GameWorld* mWorld = nullptr;
 		GameObjectHandle mHandle;
-		std::filesystem::path mTemplateFilePath = "";
+		std::string mTemplateFilePath = "";
 	};
 }

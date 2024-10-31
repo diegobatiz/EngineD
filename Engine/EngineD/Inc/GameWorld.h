@@ -15,7 +15,7 @@ namespace EngineD
 		void DebugUI();
 
 		void LoadLevel(const std::filesystem::path& levelFile);
-		void SaveLevel(const std::filesystem::path& saveFile = "");
+		void SaveLevel(std::filesystem::path saveFile = "");
 
 		GameObject* CreateGameObject(std::string name, const std::filesystem::path& templatePath = "", bool autoInitialize = true);
 		void DestroyGameObject(const GameObjectHandle& handle);
@@ -70,7 +70,7 @@ namespace EngineD
 		using Services = std::vector<std::unique_ptr<Service>>;
 		Services mServices;
 
-		std::filesystem::path mFileName;
+		std::filesystem::path mLevelFileName;
 		bool mInitialized = false;
 	};
 }
