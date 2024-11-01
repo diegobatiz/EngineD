@@ -4,6 +4,7 @@
 #include "CameraService.h"
 #include "RenderObjectComponent.h"
 #include "TransformComponent.h"
+#include "AnimatorComponent.h"
 
 #include "GameWorld.h"
 
@@ -96,6 +97,13 @@ void RenderService::Register(const RenderObjectComponent* roc)
 
 	entry.renderComponent = roc;
 	entry.transformComponent = roc->GetOwner().GetComponent<TransformComponent>();
+
+	const AnimatorComponent* animatorComponent = roc->GetOwner().GetComponent<AnimatorComponent>();
+	const Animator* animator = nullptr;
+	if (animatorComponent != nullptr)
+	{
+		animator = &animatorComponent->GetAnimator();
+	}
 
 	if (roc->GetModelId() > 0)
 	{
