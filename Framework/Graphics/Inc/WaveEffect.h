@@ -69,6 +69,7 @@ namespace EngineD::Graphics
 			Math::Vector4 specularColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 			float tipAttenuation = 0.5f;
 			Math::Vector3 tipColor = { 0.5f, 0.5f, 0.5f };
+			Math::Vector4 diffuseColor = { 0.0f, 0.0f, 1.0f, 1.0f };
 		};
 
 

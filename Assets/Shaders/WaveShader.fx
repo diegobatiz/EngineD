@@ -19,6 +19,7 @@ cbuffer SettingsBuffer : register(b1)
     float4 specColour;
     float tipAttenuation;
     float3 tipColor;
+    float4 diffuseColor;
 }
 
 cbuffer TimeBuffer : register(b2)
@@ -243,7 +244,7 @@ float4 PS(VS_OUTPUT input) : SV_Target
     
     //Diffuse Colour
     float3 diffReflect = diffuseReflectance / PI;
-    float3 diffuse = input.color.rgb * ndotl * diffReflect;
+    float3 diffuse = diffuseColor.rgb * ndotl * diffReflect;
     
     //Specular Colour
     float3 specReflect = specularReflectance;
@@ -253,7 +254,10 @@ float4 PS(VS_OUTPUT input) : SV_Target
     float spec = pow(max(0.0f, dot(specNormal, halfwayDir)), shininess) * ndotl;
     float3 specular = specColour.rgb * specReflect * spec;
     
-    float3 finalColor = diffuse +  ambientColor + specular;
+    
+    float3 tip = tipColor * pow(height, tipAttenuation);
+    
+    float3 finalColor = diffuse +  ambientColor + specular + tip;
     
     return float4(finalColor, 1.0f);
 }

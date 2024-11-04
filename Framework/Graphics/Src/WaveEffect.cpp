@@ -96,6 +96,7 @@ void WaveEffect::Render(const RenderObject& renderObject)
 	lightData.ambientColor = m_LightData.ambientColor;
 	lightData.tipAttenuation = m_LightData.tipAttenuation;
     lightData.tipColor = m_LightData.tipColor;
+    lightData.diffuseColor = m_LightData.diffuseColor;
 	m_LightBuffer.Update(lightData);
 
 	TimeData timeData;
@@ -161,6 +162,7 @@ void WaveEffect::DebugUI()
 			ImGui::DragFloat3("Specular Reflectance", &m_LightData.specularReflectance.x, 0.01f, 0.0f);
 			ImGui::ColorEdit3("Ambient Color", &m_LightData.ambientColor.x, 0.001f);
 			ImGui::ColorEdit4("Specular Color", &m_LightData.specularColor.x, 0.001f);
+			ImGui::ColorEdit4("Diffuse Color", &m_LightData.diffuseColor.x, 0.001f);
 			ImGui::DragFloat("Normal Strength", &m_LightData.normalStrength, 0.01f);
 			ImGui::DragFloat("Spec Normal Strength", &m_LightData.specNormalStrength, 0.01f);
 			ImGui::DragFloat("Shininess", &m_LightData.shininess, 1.0f, 0.01f);

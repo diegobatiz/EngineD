@@ -83,6 +83,7 @@ void WaveLoaderComponent::Serialize(rapidjson::Document& doc, rapidjson::Value& 
 	SaveUtil::SaveVector3("AmbientColor", mLightData.ambientColor, doc, componentValue);
 	SaveUtil::SaveVector3("TipColor", mLightData.tipColor, doc, componentValue);
 	SaveUtil::SaveVector4("SpecularColor", mLightData.specularColor, doc, componentValue);
+	SaveUtil::SaveVector4("DiffuseColor", mLightData.diffuseColor, doc, componentValue);
 	
 	value.AddMember("WaveComponent", componentValue, doc.GetAllocator());
 }
@@ -230,6 +231,16 @@ void WaveLoaderComponent::Deserialize(const rapidjson::Value& value)
 		float z = data[2].GetFloat();
 		float w = data[3].GetFloat();
 		mLightData.specularColor = { x, y, z, w };
+	}
+
+	if (value.HasMember("DiffuseColor"))
+	{
+		const auto& data = value["DiffuseColor"].GetArray();
+		float x = data[0].GetFloat();
+		float y = data[1].GetFloat();
+		float z = data[2].GetFloat();
+		float w = data[3].GetFloat();
+		mLightData.diffuseColor = { x, y, z, w };
 	}
 }
 

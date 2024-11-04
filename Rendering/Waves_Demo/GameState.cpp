@@ -18,7 +18,7 @@ void GameState::Initialize()
 
 	GraphicsSystem::Get()->SetClearColor(Colors::SkyBlue);
 
-	MeshPC mesh = MeshBuilder::CreateHorizontalPlanePC(100, 100, 0.1f, Colors::Blue);
+	MeshPC mesh = MeshBuilder::CreateHorizontalPlanePC(1000, 1000, 0.1f, Colors::Blue);
 	m_Water.meshBuffer.Initialize(mesh);
 
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/WaveShader.fx";
@@ -93,7 +93,7 @@ void GameState::DebugUI()
 		ImGui::DragFloat3("Camera Position", &position.x, 0.1f);
 		if (ImGui::DragFloat3("Directional Light", &m_DirectionalLight.direction.x, 0.01f))
 		{
-			m_DirectionalLight.direction = Math::Normalize(m_DirectionalLight.direction);
+			m_DirectionalLight.direction = m_DirectionalLight.direction;
 		}
 
 		m_WaveEffect.DebugUI();
