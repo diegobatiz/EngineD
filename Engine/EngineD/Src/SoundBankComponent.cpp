@@ -22,6 +22,7 @@ void SoundBankComponent::DebugUI()
 {
 	if (ImGui::CollapsingHeader("SoundEffects"))
 	{
+		ImGui::Indent();
 		for (auto& effect : mSoundEffects)
 		{
 			ImGui::Text(effect.first.c_str());

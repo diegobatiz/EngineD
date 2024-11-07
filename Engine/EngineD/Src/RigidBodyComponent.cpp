@@ -1,5 +1,6 @@
 #include "Precompiled.h"
 #include "RigidBodyComponent.h"
+#include "TransformComponent.h"
 
 #include "GameWorld.h"
 #include "PhysicsService.h"
@@ -9,11 +10,24 @@ using namespace EngineD::Physics;
 
 void RigidBodyComponent::Initialize()
 {
+	PhysicsService* physicsService = GetOwner().GetWorld().GetService<PhysicsService>();
+	if (physicsService != nullptr)
+	{
+		TransformComponent* transformComponent = GetOwner().GetComponent<TransformComponent>();
+		mRigidBody.Initialize(*transformComponent, mCollisionShape, mMass);
+		physicsService->Register(this);
+	}
 }
 
 void RigidBodyComponent::Terminate()
 {
 	PhysicsService* physicsService = GetOwner().GetWorld().GetService<PhysicsService>();
+	if (physicsService != nullptr)
+	{
+		physicsService->Unregister(this);
+	}
+	mRigidBody.Terminate();
+	mCollisionShape.Terminate();
 }
 
 void RigidBodyComponent::Deserialize(const rapidjson::Value& value)
@@ -61,7 +75,7 @@ void RigidBodyComponent::Deserialize(const rapidjson::Value& value)
 			}
 			else
 			{
-				ASSERT(false, "RigidBodyComponent: invalid shape type &s", shape.c_str());
+				ASSERT(false, "RigidBodyComponent: invalid shape type %s", shape.c_str());
 			}
 		}
 		else

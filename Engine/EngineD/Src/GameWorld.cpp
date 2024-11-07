@@ -9,6 +9,16 @@
 
 using namespace EngineD;
 
+namespace
+{
+	CustomService TryService;
+}
+
+void GameWorld::SetCustomService(CustomService customService)
+{
+	TryService = customService;
+}
+
 void GameWorld::Initialize(uint32_t capacity)
 {
 	ASSERT(!mInitialized, "GameWorld: is already initialized");
@@ -124,6 +134,7 @@ void EngineD::GameWorld::LoadLevel(const std::filesystem::path& levelFile)
 		}
 		else
 		{
+			newService = TryService(serviceName, *this);
 			ASSERT(false, "GameWorld: invalid service name %s", serviceName.c_str());
 		}
 		newService->Deserialize(service.value);

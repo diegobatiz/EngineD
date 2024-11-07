@@ -28,8 +28,10 @@
     },
     "RigidBodyComponent": {
       "Mass": 10.0,
-      "CollisionShape": "Sphere",
-      "Radius": 1.0
+      "ColliderData": {
+        "CollisionShape": "Sphere",
+        "Radius": 1.0
+      }
     }
   }
 }

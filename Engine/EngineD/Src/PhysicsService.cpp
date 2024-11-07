@@ -65,4 +65,5 @@ void PhysicsService::Unregister(RigidBodyComponent* rbc)
 
 void PhysicsService::SetEnable(bool enabled)
 {
+	mEnabled = enabled;
 }
