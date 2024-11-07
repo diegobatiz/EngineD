@@ -8,6 +8,9 @@
 #include "MeshComponent.h"
 #include "ModelComponent.h"
 #include "AnimatorComponent.h"
+#include "RigidBodyComponent.h"
+#include "SoundEffectComponent.h"
+#include "SoundBankComponent.h"
 
 using namespace EngineD;
 
@@ -39,6 +42,18 @@ namespace
 		else if (componentName == "AnimatorComponent")
 		{
 			newComponent = gameObject.AddComponent<AnimatorComponent>();
+		}
+		else if (componentName == "RigidBodyComponent")
+		{
+			newComponent = gameObject.AddComponent<RigidBodyComponent>();
+		}
+		else if (componentName == "SoundEffectComponent")
+		{
+			newComponent = gameObject.AddComponent<SoundEffectComponent>();
+		}
+		else if (componentName == "SoundBankComponent")
+		{
+			newComponent = gameObject.AddComponent<SoundBankComponent>();
 		}
 		else
 		{
@@ -74,6 +89,18 @@ namespace
 		else if (componentName == "AnimatorComponent")
 		{
 			newComponent = gameObject.GetComponent<AnimatorComponent>();
+		}
+		else if (componentName == "RigidBodyComponent")
+		{
+			newComponent = gameObject.GetComponent<RigidBodyComponent>();
+		}
+		else if (componentName == "SoundEffectComponent")
+		{
+			newComponent = gameObject.GetComponent<SoundEffectComponent>();
+		}
+		else if (componentName == "SoundBankComponent")
+		{
+			newComponent = gameObject.GetComponent<SoundBankComponent>();
 		}
 		else
 		{

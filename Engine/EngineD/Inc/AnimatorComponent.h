@@ -17,7 +17,6 @@ namespace EngineD
 		bool Play(int index, bool looping = false);
 
 		virtual void Serialize(rapidjson::Document& doc, rapidjson::Value& value) override;
-		void Deserialize(const rapidjson::Value& value) override;
 
 		Graphics::Animator& GetAnimator() { return mAnimator; }
 		const Graphics::Animator& GetAnimator() const { return mAnimator; }

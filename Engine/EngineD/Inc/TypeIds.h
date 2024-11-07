@@ -12,6 +12,9 @@ namespace EngineD
 		Wave,         // Creates a Wave Effect
 		Model,        // Creates a model render object
 		Animator,     // manages and controls animations
+		Rigidbody,	  // physics object that gets added to the physics world
+		SoundEffect,  // adds a single sound effect to an object
+		SoundBank,     // adds an array of sound effects to an object
 		Count
 	};
 
@@ -20,6 +23,7 @@ namespace EngineD
 		Invalid,
 		Camera,
 		Render,
+		Physics,
 		Count
 	};
 }

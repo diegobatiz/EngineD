@@ -20,11 +20,16 @@
         "SpecularPower": 10.0
       },
       "Textures": {
-        "DiffuseMap":  "../../Assets/Images/planets/earth/earth.jpg",
-        "NormalMap":  "../../Assets/Images/planets/earth/earth_normal.jpg",
-        "SpecMap":  "../../Assets/Images/planets/earth/earth_spec.jpg",
-        "BumpMap":  "../../Assets/Images/planets/earth/earth_bump.jpg"
+        "DiffuseMap": "../../Assets/Images/planets/earth/earth.jpg",
+        "NormalMap": "../../Assets/Images/planets/earth/earth_normal.jpg",
+        "SpecMap": "../../Assets/Images/planets/earth/earth_spec.jpg",
+        "BumpMap": "../../Assets/Images/planets/earth/earth_bump.jpg"
       }
+    },
+    "RigidBodyComponent": {
+      "Mass": 10.0,
+      "CollisionShape": "Sphere",
+      "Radius": 1.0
     }
   }
 }
