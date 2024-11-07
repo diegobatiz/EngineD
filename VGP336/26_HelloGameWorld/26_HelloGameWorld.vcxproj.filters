@@ -6,5 +6,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="CustomTypeIds.h">
+      <Filter>Custom</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Custom">
+      <UniqueIdentifier>{6f614a69-2396-49f2-8bd4-5ecaa4061e51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
