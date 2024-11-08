@@ -36,6 +36,7 @@ void WaveLoaderComponent::DebugUI()
 		}
 
 		mData = mEffect->GetOceanData();
+		mLightData = mEffect->GetLightData();
 		rapidjson::Document doc;
 		doc.SetObject();
 
