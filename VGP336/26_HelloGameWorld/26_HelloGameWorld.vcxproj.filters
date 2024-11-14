@@ -3,10 +3,22 @@
   <ItemGroup>
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="WinMain.cpp" />
+    <ClCompile Include="CustomDebugDrawComponent.cpp">
+      <Filter>Custom</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomDebugDrawService.cpp">
+      <Filter>Custom</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h" />
     <ClInclude Include="CustomTypeIds.h">
+      <Filter>Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomDebugDrawComponent.h">
+      <Filter>Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomDebugDrawService.h">
       <Filter>Custom</Filter>
     </ClInclude>
   </ItemGroup>

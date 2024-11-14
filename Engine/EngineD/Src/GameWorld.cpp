@@ -135,7 +135,7 @@ void EngineD::GameWorld::LoadLevel(const std::filesystem::path& levelFile)
 		else
 		{
 			newService = TryService(serviceName, *this);
-			ASSERT(false, "GameWorld: invalid service name %s", serviceName.c_str());
+			ASSERT(newService != nullptr, "GameWorld: invalid service name %s", serviceName.c_str());
 		}
 		newService->Deserialize(service.value);
 	}

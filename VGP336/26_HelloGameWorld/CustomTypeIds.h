@@ -9,5 +9,5 @@ enum class CustomComponentId
 
 enum class CustomServiceId
 {
-	CustomDebugService = static_cast<uint32_t>(EngineD::ServiceId::Count)
+	CustomDebugDrawDisplay = static_cast<uint32_t>(EngineD::ServiceId::Count)
 };

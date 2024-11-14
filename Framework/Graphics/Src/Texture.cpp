@@ -37,6 +37,21 @@ void Texture::Initialize(const std::filesystem::path& fileName)
 	auto context = GraphicsSystem::Get()->GetContext();
 	HRESULT hr = DirectX::CreateWICTextureFromFile(device, context, fileName.c_str(), nullptr, &mShaderResourceView);
 	ASSERT(SUCCEEDED(hr), "Texture: failed to create texture %ls", fileName.c_str());
+
+	ID3D11Resource* resource = nullptr;
+	mShaderResourceView->GetResource(&resource);
+
+	ID3D11Texture2D* texture2d = nullptr;
+	hr = resource->QueryInterface(&texture2d);
+	ASSERT(SUCCEEDED(hr), "Texture: failed to find texture data");
+
+	D3D11_TEXTURE2D_DESC desc;
+	texture2d->GetDesc(&desc);
+	mWidth = static_cast<uint32_t>(desc.Width);
+	mHeight = static_cast<uint32_t>(desc.Height);
+
+	SafeRelease(texture2d);
+	SafeRelease(resource);
 }
 
 void Texture::Initialize(uint32_t width, uint32_t height, Format format)
@@ -64,6 +79,16 @@ void Texture::BindPS(uint32_t slot) const
 void* Texture::GetRawData() const
 {
 	return mShaderResourceView;
+}
+
+uint32_t EngineD::Graphics::Texture::GetWidth() const
+{
+	return mWidth;
+}
+
+uint32_t EngineD::Graphics::Texture::GetHeight() const
+{
+	return mHeight;
 }
 
 DXGI_FORMAT Texture::GetDXGIFormat(Format format)

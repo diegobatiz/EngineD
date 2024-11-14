@@ -22,6 +22,6 @@ namespace EngineD
 	private:
 		std::string mFileName;
 		Audio::SoundId mSoundId;
-		bool mLooping;
+		bool mLooping = false;
 	};
 }
