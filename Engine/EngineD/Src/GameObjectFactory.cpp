@@ -11,6 +11,8 @@
 #include "RigidBodyComponent.h"
 #include "SoundEffectComponent.h"
 #include "SoundBankComponent.h"
+#include "UITextComponent.h"
+#include "UISpriteComponent.h"
 
 using namespace EngineD;
 
@@ -57,6 +59,14 @@ namespace
 		else if (componentName == "SoundBankComponent")
 		{
 			newComponent = gameObject.AddComponent<SoundBankComponent>();
+		}
+		else if (componentName == "UITextComponent")
+		{
+			newComponent = gameObject.AddComponent<UITextComponent>();
+		}
+		else if (componentName == "UISpriteComponent")
+		{
+			newComponent = gameObject.AddComponent<UISpriteComponent>();
 		}
 		else
 		{
