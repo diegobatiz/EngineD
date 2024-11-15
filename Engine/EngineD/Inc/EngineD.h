@@ -19,6 +19,7 @@
 #include "CameraService.h"
 #include "PhysicsService.h"
 #include "RenderService.h"
+#include "UIRenderService.h"
 
 //GameObject
 #include "GameObject.h"
@@ -36,6 +37,8 @@
 #include "SoundBankComponent.h"
 #include "SoundEffectComponent.h"
 #include "TransformComponent.h"
+#include "UIComponent.h"
+#include "UITextComponent.h"
 #include "WaveComponent.h"
 
 namespace EngineD

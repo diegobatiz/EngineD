@@ -39,6 +39,7 @@ void UISprite::SetRect(uint32_t top, uint32_t left, uint32_t right, uint32_t bot
 	mRect.left = left;
 	mRect.right = right;
 	mRect.bottom = bottom;
+	UpdateOrigin();
 }
 
 void UISprite::SetPivot(Pivot pivot)
@@ -78,7 +79,7 @@ bool UISprite::IsInSprite(float x, float y)
 	const float width = mRect.right - mRect.left;
 	const float height = mRect.bottom - mRect.top;
 	return x >= mPosition.x - mOrigin.x && x <= mPosition.x + width - mOrigin.x &&
-		   y >= mPosition.y - mOrigin.y && x <= mPosition.y + height - mOrigin.y;
+		   y >= mPosition.y - mOrigin.y && y <= mPosition.y + height - mOrigin.y;
 }
 
 void UISprite::UpdateOrigin()

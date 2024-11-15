@@ -36,7 +36,7 @@ UISpriteRenderer* EngineD::Graphics::UISpriteRenderer::Get()
 
 UISpriteRenderer::~UISpriteRenderer()
 {
-	ASSERT(false, "UISpriteRenderer: Terminate must be called");
+	ASSERT(sSpriteRenderer == nullptr, "UISpriteRenderer: Terminate must be called");
 }
 
 void UISpriteRenderer::Initialize()
@@ -52,6 +52,12 @@ void UISpriteRenderer::Terminate()
 	{
 		delete mCommonStates;
 		mCommonStates = nullptr;
+	}
+
+	if (mSpriteBatch != nullptr)
+	{
+		delete mSpriteBatch;
+		mSpriteBatch = nullptr;
 	}
 }
 

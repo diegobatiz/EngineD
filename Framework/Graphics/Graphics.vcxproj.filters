@@ -25,6 +25,12 @@
     <Filter Include="Inc\Effects">
       <UniqueIdentifier>{a8f9e1a6-db94-47c3-8625-c8ea74cceada}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Inc\UI">
+      <UniqueIdentifier>{656003a8-3c9d-41f7-9a24-257570df115d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\UI">
+      <UniqueIdentifier>{4d5ea4c5-b40e-4572-87a9-8cd0cb920207}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Precompiled.h">
@@ -196,6 +202,15 @@
     <ClInclude Include="Inc\StructuredBuffer.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\UIFont.h">
+      <Filter>Inc\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\UISprite.h">
+      <Filter>Inc\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\UISpriteRenderer.h">
+      <Filter>Inc\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -326,6 +341,15 @@
     </ClCompile>
     <ClCompile Include="Src\StructuredBuffer.cpp">
       <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\UIFont.cpp">
+      <Filter>Src\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\UISprite.cpp">
+      <Filter>Src\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\UISpriteRenderer.cpp">
+      <Filter>Src\UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
