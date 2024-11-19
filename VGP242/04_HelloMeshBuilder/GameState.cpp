@@ -140,7 +140,7 @@ void PlaneState::Update(float deltaTime)
 
 void PlaneState::CreateBuffer()
 {
-	mMesh = MeshBuilder::CreateHorizontalPlanePC(15, 15, 1.0f);
+	mMesh = MeshBuilder::CreateHorizontalPlanePC(15, 15, 1.0f, Colors::AliceBlue);
 
 	GraphicsSystem::Get()->CreateMeshBuffer(mMesh);
 }

@@ -8,6 +8,11 @@ using namespace EngineD::Math;
 
 void CustomDebugDrawService::Render()
 {
+	if (!mIsEnabled)
+	{
+		return;
+	}
+
 	for (CustomDebugDrawComponent* component : mCustomDebugDrawComponents)
 	{
 		component->AddDebugDraw();
@@ -30,4 +35,10 @@ void CustomDebugDrawService::Unregister(CustomDebugDrawComponent* component)
 	{
 		mCustomDebugDrawComponents.erase(iter);
 	}
+}
+
+
+void CustomDebugDrawService::DebugUI()
+{
+	ImGui::Checkbox("Debug Draw", &mIsEnabled);
 }
