@@ -6,6 +6,7 @@ namespace EngineD
 {
 	class UITextComponent : public UIComponent
 	{
+	public:
 		SET_TYPE_ID(ComponentId::UIText);
 
 		void Initialize() override;

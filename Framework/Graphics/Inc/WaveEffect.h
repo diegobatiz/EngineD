@@ -70,6 +70,11 @@ namespace EngineD::Graphics
 			float tipAttenuation = 0.5f;
 			Math::Vector3 tipColor = { 0.5f, 0.5f, 0.5f };
 			Math::Vector4 diffuseColor = { 0.0f, 0.0f, 1.0f, 1.0f };
+			float fresnelNormalStrength = 1.0f;
+			float fresnelShininess = 1.0f;
+			float fresnelBias = 1.0f;
+			float fresnelStrength = 1.0f;
+			Math::Vector4 fresnelColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 		};
 
 

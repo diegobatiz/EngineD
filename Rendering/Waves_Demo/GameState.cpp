@@ -18,8 +18,15 @@ void GameState::Initialize()
 
 	GraphicsSystem::Get()->SetClearColor(Colors::SkyBlue);
 
-	MeshPC mesh = MeshBuilder::CreateHorizontalPlanePC(1000, 1000, 0.1f, Colors::Blue);
+	MeshPC mesh = MeshBuilder::CreateHorizontalPlanePC(500, 500, 0.1f, Colors::Blue);
 	m_Water.meshBuffer.Initialize(mesh);
+
+	MeshPX sky = MeshBuilder::CreateSkyBoxPX(600);
+	mSky.meshBuffer.Initialize(sky);
+	mSky.diffuseMapId = TextureManager::Get()->LoadTexture("skybox/skybox_texture.jpg");
+
+	mAtmosphereEffect.Initialize();
+	mAtmosphereEffect.SetCamera(m_Camera);
 
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/WaveShader.fx";
 	m_WaveEffect.Initialize(shaderFilePath);
@@ -80,6 +87,10 @@ void GameState::Update(float deltaTime)
 
 void GameState::Render()
 {
+	mAtmosphereEffect.Begin();
+		mAtmosphereEffect.Render(mSky);
+	mAtmosphereEffect.End();
+
 	m_WaveEffect.Begin();
 		m_WaveEffect.Render(m_Water);
 	m_WaveEffect.End();

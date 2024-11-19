@@ -85,6 +85,12 @@ void WaveLoaderComponent::Serialize(rapidjson::Document& doc, rapidjson::Value& 
 	SaveUtil::SaveVector3("TipColor", mLightData.tipColor, doc, componentValue);
 	SaveUtil::SaveVector4("SpecularColor", mLightData.specularColor, doc, componentValue);
 	SaveUtil::SaveVector4("DiffuseColor", mLightData.diffuseColor, doc, componentValue);
+
+	SaveUtil::SaveFloat("FresnelNormalStrength", mLightData.fresnelNormalStrength, doc, componentValue);
+	SaveUtil::SaveFloat("FresnelStrength", mLightData.fresnelStrength, doc, componentValue);
+	SaveUtil::SaveFloat("FresnelShininess", mLightData.fresnelShininess, doc, componentValue);
+	SaveUtil::SaveFloat("FresnelBias", mLightData.fresnelBias, doc, componentValue);
+	SaveUtil::SaveVector4("FresnelColor", mLightData.fresnelColor, doc, componentValue);
 	
 	value.AddMember("WaveComponent", componentValue, doc.GetAllocator());
 }
@@ -242,6 +248,37 @@ void WaveLoaderComponent::Deserialize(const rapidjson::Value& value)
 		float z = data[2].GetFloat();
 		float w = data[3].GetFloat();
 		mLightData.diffuseColor = { x, y, z, w };
+	}
+
+	if (value.HasMember("FresnelNormalStrength"))
+	{
+		float data = value["FresnelNormalStrength"].GetFloat();
+		mLightData.fresnelNormalStrength = data;
+	}
+	if (value.HasMember("FresnelShininess"))
+	{
+		float data = value["FresnelShininess"].GetFloat();
+		mLightData.fresnelShininess = data;
+	}
+	if (value.HasMember("FresnelBias"))
+	{
+		float data = value["FresnelBias"].GetFloat();
+		mLightData.fresnelBias = data;
+	}
+	if (value.HasMember("FresnelStrength"))
+	{
+		float data = value["FresnelStrength"].GetFloat();
+		mLightData.fresnelStrength = data;
+	}
+
+	if (value.HasMember("FresnelColor"))
+	{
+		const auto& data = value["FresnelColor"].GetArray();
+		float x = data[0].GetFloat();
+		float y = data[1].GetFloat();
+		float z = data[2].GetFloat();
+		float w = data[3].GetFloat();
+		mLightData.fresnelColor = { x, y, z, w };
 	}
 }
 

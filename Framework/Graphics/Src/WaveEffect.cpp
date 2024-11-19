@@ -97,6 +97,11 @@ void WaveEffect::Render(const RenderObject& renderObject)
 	lightData.tipAttenuation = m_LightData.tipAttenuation;
     lightData.tipColor = m_LightData.tipColor;
     lightData.diffuseColor = m_LightData.diffuseColor;
+	lightData.fresnelNormalStrength = m_LightData.fresnelNormalStrength;
+	lightData.fresnelShininess = m_LightData.fresnelShininess;
+	lightData.fresnelBias = m_LightData.fresnelBias;
+	lightData.fresnelStrength = m_LightData.fresnelStrength;
+	lightData.fresnelColor = m_LightData.fresnelColor;
 	m_LightBuffer.Update(lightData);
 
 	TimeData timeData;
@@ -168,7 +173,12 @@ void WaveEffect::DebugUI()
 			ImGui::DragFloat("Shininess", &m_LightData.shininess, 1.0f, 0.01f);
 			ImGui::ColorEdit3("Tip Color", &m_LightData.tipColor.x, 0.001f);
 			ImGui::DragFloat("Tip Attenuation", &m_LightData.tipAttenuation, 0.01, 0.01f);
-		}
+			ImGui::DragFloat("Fresnel Normal Strength", &m_LightData.fresnelNormalStrength, 0.001);
+			ImGui::DragFloat("Fresnel Shininess ", &m_LightData.fresnelShininess, 0.01);
+			ImGui::DragFloat("Fresnel Bias", &m_LightData.fresnelBias, 0.001);
+			ImGui::DragFloat("Fresnel Strength", &m_LightData.fresnelStrength, 0.001);
+			ImGui::ColorEdit3("Fresnel Color", &m_LightData.fresnelColor.x, 0.001f);
+		}																
 		if (ImGui::CollapsingHeader("Ocean Settings"))
 		{
 			ImGui::DragInt("Wave Count", &mOceanData.waveCount, 1.0f, 0, 32);

@@ -46,6 +46,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{D9D8D4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shaders", "Shaders", "{F3CEE0F4-B858-4FB1-8A12-F91132ADF5D6}"
 	ProjectSection(SolutionItems) = preProject
+		Assets\Shaders\Atmosphere.fx = Assets\Shaders\Atmosphere.fx
 		Assets\Shaders\CelEffect.fx = Assets\Shaders\CelEffect.fx
 		Assets\Shaders\ComicBook.fx = Assets\Shaders\ComicBook.fx
 		Assets\Shaders\CrosshatchEffect.fx = Assets\Shaders\CrosshatchEffect.fx

@@ -15,7 +15,9 @@ protected:
 	EngineD::Graphics::Camera m_Camera;
 
 	EngineD::Graphics::RenderObject m_Water;
+	EngineD::Graphics::RenderObject mSky;
 	EngineD::Graphics::WaveEffect m_WaveEffect;
+	EngineD::Graphics::AtmosphereEffect mAtmosphereEffect;
 
 	EngineD::WaveLoaderComponent mWaveLoader;
 };

@@ -20,6 +20,11 @@ cbuffer SettingsBuffer : register(b1)
     float tipAttenuation;
     float3 tipColor;
     float4 diffuseColor;
+    float fresnelNormalStrength;
+    float fresnelShininess;
+    float fresnelBias;
+    float fresnelStrength;
+    float4 fresnelColor;
 }
 
 cbuffer TimeBuffer : register(b2)
@@ -134,7 +139,7 @@ float3 VertexFBM(float3 pos)
 
     float h = 0.0f;
     float2 n = 0.0f;
-    for (int wi = 0; wi < 8; ++wi)
+    for (int wi = 0; wi < 32; ++wi)
     {
         float2 d = normalize(float2(cos(seed), sin(seed)));
 
@@ -246,18 +251,35 @@ float4 PS(VS_OUTPUT input) : SV_Target
     float3 diffReflect = diffuseReflectance / PI;
     float3 diffuse = diffuseColor.rgb * ndotl * diffReflect;
     
+    // Schlick Fresnel
+    float3 fresnelNormal = normal;
+    fresnelNormal.xz *= fresnelNormalStrength;
+    fresnelNormal = normalize(fresnelNormal);
+    float base = 1 - dot(viewDir, fresnelNormal);
+    float exponential = pow(base, fresnelShininess);
+    float R = exponential + fresnelBias * (1.0f - exponential);
+    R *= fresnelStrength;
+				
+    float3 fresnel = fresnelColor.xyz * R;
+    
     //Specular Colour
     float3 specReflect = specularReflectance;
     float3 specNormal = normal;
     specNormal.xz *= specNormalStrength;
     specNormal = normalize(specNormal);
     float spec = pow(max(0.0f, dot(specNormal, halfwayDir)), shininess) * ndotl;
-    float3 specular = specColour.rgb * specReflect * spec;
+    float3 specular = specColour.xyz * specReflect * spec;
     
+    // Schlick Fresnel but again for specular
+    base = 1 - max(0.0f, dot(viewDir, halfwayDir));
+    exponential = pow(base, 5.0f);
+    R = exponential + fresnelBias * (1.0f - exponential);
+
+    specular *= R;
     
     float3 tip = tipColor * pow(height, tipAttenuation);
     
-    float3 finalColor = diffuse +  ambientColor + specular + tip;
+    float3 finalColor = diffuse +  ambientColor + specular + tip + fresnel;
     
     return float4(finalColor, 1.0f);
 }
