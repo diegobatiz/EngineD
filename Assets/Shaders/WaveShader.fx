@@ -130,6 +130,7 @@ float3 CalculateNormal(float3 worldPos, Wave wave)
 //Fractional Brownian Motion
 float3 VertexFBM(float3 pos)
 {
+	int waves = waveCount;
     float f = vertexFrequency;
     float a = vertexAmplitude;
     float speed = vertexInitialSpeed;
@@ -139,7 +140,7 @@ float3 VertexFBM(float3 pos)
 
     float h = 0.0f;
     float2 n = 0.0f;
-    for (int wi = 0; wi < 32; ++wi)
+	for (int wi = 0; wi < waves; ++wi)
     {
         float2 d = normalize(float2(cos(seed), sin(seed)));
 
@@ -166,6 +167,7 @@ float3 VertexFBM(float3 pos)
 
 float3 PixelFBM(float3 pos)
 {
+	int waves = pixelWaveCount;
     float f = vertexFrequency;
     float a = vertexAmplitude;
     float speed = vertexInitialSpeed;
@@ -177,7 +179,7 @@ float3 PixelFBM(float3 pos)
 				
     float amplitudeSum = 0.0f;
 
-    for (int wi = 0; wi < 32; ++wi)
+	for (int wi = 0; wi < waves; ++wi)
     {
         float2 d = normalize(float2(cos(seed), sin(seed)));
 
