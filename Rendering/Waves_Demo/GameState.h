@@ -20,4 +20,6 @@ protected:
 	EngineD::Graphics::AtmosphereEffect mAtmosphereEffect;
 
 	EngineD::WaveLoaderComponent mWaveLoader;
+
+	EngineD::Color mColor = EngineD::Colors::Black;
 };

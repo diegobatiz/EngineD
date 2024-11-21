@@ -10,6 +10,6 @@ namespace EngineD
 		virtual void Render() = 0;
 
 	protected:
-		virtual void ObtainWorldPositon(DirectX::XMFLOAT2& position) = 0;
+	//	virtual void ObtainWorldPositon(DirectX::XMFLOAT2& position) = 0;
 	};
 }

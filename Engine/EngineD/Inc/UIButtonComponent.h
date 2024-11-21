@@ -36,6 +36,6 @@ namespace EngineD
 
 		ButtonCallback mCallback;
 		ButtonState mCurrentState;
-		std::vector<UISprite> mButtonStates;
+		//std::vector<Graphics::UISprite*> mButtonStates;
 	};
 }

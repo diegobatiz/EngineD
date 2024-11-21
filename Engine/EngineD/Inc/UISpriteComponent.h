@@ -15,7 +15,7 @@ namespace EngineD
 		void Deserialize(const rapidjson::Value& value) override;
 
 	private:
-		virtual void ObtainWorldPositon(DirectX::XMFLOAT2& position) override;
+		//virtual void ObtainWorldPositon(DirectX::XMFLOAT2& position) override;
 
 		std::filesystem::path mTexturePath;
 		DirectX::XMFLOAT2 mPosition;

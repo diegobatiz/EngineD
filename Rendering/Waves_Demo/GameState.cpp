@@ -18,7 +18,7 @@ void GameState::Initialize()
 
 	GraphicsSystem::Get()->SetClearColor(Colors::SkyBlue);
 
-	MeshPC mesh = MeshBuilder::CreateHorizontalPlanePC(500, 500, 0.1f, Colors::Blue);
+	MeshPC mesh = MeshBuilder::CreateHorizontalPlanePC(2000, 2000, 0.1f, Colors::Blue);
 	m_Water.meshBuffer.Initialize(mesh);
 
 	MeshPX sky = MeshBuilder::CreateSkyBoxPX(600);
@@ -87,9 +87,9 @@ void GameState::Update(float deltaTime)
 
 void GameState::Render()
 {
-	mAtmosphereEffect.Begin();
-		mAtmosphereEffect.Render(mSky);
-	mAtmosphereEffect.End();
+	//mAtmosphereEffect.Begin();
+	//	mAtmosphereEffect.Render(mSky);
+	//mAtmosphereEffect.End();
 
 	m_WaveEffect.Begin();
 		m_WaveEffect.Render(m_Water);
@@ -105,6 +105,11 @@ void GameState::DebugUI()
 		if (ImGui::DragFloat3("Directional Light", &m_DirectionalLight.direction.x, 0.01f))
 		{
 			m_DirectionalLight.direction = m_DirectionalLight.direction;
+		}
+
+		if (ImGui::ColorEdit3("Sky Color", &mColor.r))
+		{
+			GraphicsSystem::Get()->SetClearColor(mColor);
 		}
 
 		m_WaveEffect.DebugUI();

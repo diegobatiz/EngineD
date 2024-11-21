@@ -25,10 +25,10 @@ void UISpriteComponent::Terminate()
 
 void UISpriteComponent::Render()
 {
-	DirectX::XMFLOAT2 worldPosition;
-	ObtainWorldPositon(worldPosition);
-	mUISprite.SetPosition({ worldPosition.x, worldPosition.y });
-	UISpriteRenderer::Get()->Render(&mUISprite);
+	//DirectX::XMFLOAT2 worldPosition;
+	//ObtainWorldPositon(worldPosition);
+	//mUISprite.SetPosition({ worldPosition.x, worldPosition.y });
+//	UISpriteRenderer::Get()->Render(&mUISprite);
 }
 
 void UISpriteComponent::Deserialize(const rapidjson::Value& value)

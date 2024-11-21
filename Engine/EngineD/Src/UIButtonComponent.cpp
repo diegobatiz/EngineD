@@ -30,7 +30,7 @@ void UIButtonComponent::Update(float deltaTime)
 	InputSystem* input = InputSystem::Get();
 	const int mouseX = input->GetMouseScreenX();
 	const int mouseY = input->GetMouseScreenY();
-	if (mButtonStates[0].IsInSprite(mouseX, mouseY))
+	//if (mButtonStates[0].IsInSprite(mouseX, mouseY))
 	{
 
 	}
@@ -39,11 +39,11 @@ void UIButtonComponent::Update(float deltaTime)
 void UIButtonComponent::Render()
 {
 	uint32_t buttonState = static_cast<uint32_t>(mCurrentState);
-	if (mButtonStateTextures[buttonState].empty())
+	//if (mButtonStateTextures[buttonState].empty())
 	{
 		buttonState = 0;
 	}
-	UISpriteRenderer::Get()->Render(&mButtonStates[buttonState]);
+	//UISpriteRenderer::Get()->Render(&mButtonStates[buttonState]);
 }
 
 void UIButtonComponent::Deserialize(const rapidjson::Value& value)
@@ -88,7 +88,7 @@ void UIButtonComponent::Deserialize(const rapidjson::Value& value)
 		auto buttonStateObj = value[buttonStateStr.c_str()].GetObj();
 		if (buttonStateObj.HasMember("Texture"))
 		{
-			mButtonStateTextures[i] = buttonStateObj["Texture"].GetString();
+		//	mButtonStateTextures[i] = buttonStateObj["Texture"].GetString();
 		}
 
 		if (buttonStateObj.HasMember("Flip"))
