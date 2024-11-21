@@ -25,6 +25,9 @@ void UISpriteComponent::Terminate()
 
 void UISpriteComponent::Render()
 {
+	DirectX::XMFLOAT2 worldPosition;
+	ObtainWorldPositon(worldPosition);
+	mUISprite.SetPosition({ worldPosition.x, worldPosition.y });
 	UISpriteRenderer::Get()->Render(&mUISprite);
 }
 
@@ -37,9 +40,8 @@ void UISpriteComponent::Deserialize(const rapidjson::Value& value)
 	if (value.HasMember("Position"))
 	{
 		auto pos = value["Position"].GetArray();
-		const float x = pos[0].GetFloat();
-		const float y = pos[1].GetFloat();
-		mUISprite.SetPosition({ x, y });
+		mPosition.x = pos[0].GetFloat();
+		mPosition.y = pos[1].GetFloat();
 	}
 	if (value.HasMember("Scale"))
 	{
