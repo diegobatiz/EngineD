@@ -11,8 +11,10 @@
 #include "RigidBodyComponent.h"
 #include "SoundEffectComponent.h"
 #include "SoundBankComponent.h"
+#include "UIButtonComponent.h"
 #include "UITextComponent.h"
 #include "UISpriteComponent.h"
+#include "GameWorld.h"
 
 using namespace EngineD;
 
@@ -59,6 +61,10 @@ namespace
 		else if (componentName == "SoundBankComponent")
 		{
 			newComponent = gameObject.AddComponent<SoundBankComponent>();
+		}
+		else if (componentName == "UIButtonComponent")
+		{
+			newComponent = gameObject.AddComponent<UIButtonComponent>();
 		}
 		else if (componentName == "UITextComponent")
 		{
@@ -116,6 +122,18 @@ namespace
 		{
 			newComponent = gameObject.GetComponent<SoundBankComponent>();
 		}
+		else if (componentName == "UIButtonComponent")
+		{
+			newComponent = gameObject.GetComponent<UIButtonComponent>();
+		}
+		else if (componentName == "UITextComponent")
+		{
+			newComponent = gameObject.GetComponent<UITextComponent>();
+		}
+		else if (componentName == "UISpriteComponent")
+		{
+			newComponent = gameObject.GetComponent<UISpriteComponent>();
+		}
 		else
 		{
 			newComponent = TryGet(componentName, gameObject);
@@ -136,7 +154,7 @@ void GameObjectFactory::SetCustomGet(CustomGet customGet)
 	TryGet = customGet;
 }
 
-void GameObjectFactory::Make(const std::filesystem::path& templatePath, GameObject& gameObject)
+void GameObjectFactory::Make(const std::filesystem::path& templatePath, GameObject& gameObject, GameWorld& gameWorld)
 {
 	FILE* file = nullptr;
 	auto err = fopen_s(&file, templatePath.u8string().c_str(), "r");
@@ -155,6 +173,19 @@ void GameObjectFactory::Make(const std::filesystem::path& templatePath, GameObje
 		if (newComponent != nullptr)
 		{
 			newComponent->Deserialize(component.value);
+		}
+	}
+	if (doc.HasMember("Children"))
+	{
+		auto children = doc["Children"].GetObj();
+		for (auto& child : children)
+		{
+			std::string name = child.name.GetString();
+			std::filesystem::path childTemplate = child.value["Template"].GetString();
+			GameObject* go = gameWorld.CreateGameObject(name, childTemplate);
+			GameObjectFactory::OverrideDeserialize(child.value, *go);
+			go->SetParent(&gameObject);
+			go->Initialize();
 		}
 	}
 }

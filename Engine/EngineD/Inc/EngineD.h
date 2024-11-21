@@ -38,6 +38,7 @@
 #include "SoundEffectComponent.h"
 #include "TransformComponent.h"
 #include "UIComponent.h"
+#include "UIButtonComponent.h"
 #include "UISpriteComponent.h"
 #include "UITextComponent.h"
 #include "WaveComponent.h"

@@ -18,6 +18,11 @@ void GameObject::Initialize()
 
 	mUniqueId = ++gUniqueId;
 	mInitialized = true;
+
+	for (GameObject* child : mChildren)
+	{
+		child->Initialize();
+	}
 }
 
 void GameObject::Terminate()
@@ -28,6 +33,11 @@ void GameObject::Terminate()
 		component.reset();
 	}
 	mComponents.clear();
+
+	for (GameObject* child : mChildren)
+	{
+		child->Terminate();
+	}
 }
 
 void GameObject::Update(float deltaTime)

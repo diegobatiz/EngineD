@@ -26,6 +26,12 @@ namespace EngineD
 		const GameWorld& GetWorld() const { return *mWorld; }
 		const GameObjectHandle& GetHandle() const { return mHandle; }
 
+		void SetParent(GameObject* parent) { mParent = parent; }
+		GameObject* GetParent() { return mParent; }
+		const GameObject* GetParent() const { return mParent; }
+
+		void AddChild(GameObject* child) { mChildren.push_back(child); }
+
 		template<class ComponentType>
 		ComponentType* AddComponent()
 		{
@@ -93,8 +99,13 @@ namespace EngineD
 		using Components = std::vector<std::unique_ptr<Component>>;
 		Components mComponents;
 
+		using Children = std::vector<GameObject*>;
+		Children mChildren;
+		GameObject* mParent = nullptr;
+
 		friend class GameWorld;
 		GameWorld* mWorld = nullptr;
+
 		GameObjectHandle mHandle;
 		std::string mTemplateFilePath = "";
 	};
