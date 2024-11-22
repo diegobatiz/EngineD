@@ -121,8 +121,7 @@ void GrassBuffer::CreateVertexBuffer(const void* vertices, uint32_t vertexSize, 
 			terrainPosition.y = 0.0f;
 			terrainPosition.z += halfLength;
 			terrainPosition.z -= noiseZ;
-			terrainPosition *= mDensity;
-			float height = mTerrain->GetVertexHeight(terrainPosition);
+			float height = mTerrain->GetVertexHeight(j, i);
 
 			instances[index].id.x = position.x;
 			instances[index].id.y = position.y;

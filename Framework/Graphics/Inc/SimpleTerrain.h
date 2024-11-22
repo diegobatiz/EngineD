@@ -11,7 +11,7 @@ namespace EngineD::Graphics
 		void SetHeightScale(float heightScale);
 		float GetHeightScale() const;
 		float GetHeight(const Math::Vector3& position) const;
-		float GetVertexHeight(const Math::Vector3& position) const;
+		float GetVertexHeight(int x, int z) const;
 		const MeshPC& GetMesh() const;
 		float GetWidth() const;
 		float GetLength() const;

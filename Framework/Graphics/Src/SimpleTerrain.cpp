@@ -114,11 +114,8 @@ float SimpleTerrain::GetHeight(const Math::Vector3& position) const
 	return height;
 }
 
-float SimpleTerrain::GetVertexHeight(const Math::Vector3& position) const
+float SimpleTerrain::GetVertexHeight(int x, int z) const
 {
-	const int x = static_cast<int>(position.x);
-	const int z = static_cast<int>(position.z);
-
 	const uint32_t index = x + (z * mColumns);
 
 	VertexPC vertex = mMesh.vertices[index];
