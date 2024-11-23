@@ -4,11 +4,6 @@
 
 namespace EngineD
 {
-	enum class ButtonCallback
-	{
-
-	};
-
 	enum class ButtonState
 	{
 		Default,
@@ -17,6 +12,8 @@ namespace EngineD
 		Disabled,
 		Count
 	};
+
+	using ButtonCallback = std::function<void()>;
 
 	class UIButtonComponent : public UIComponent
 	{
@@ -28,14 +25,17 @@ namespace EngineD
 		void Update(float deltaTime) override;
 		void Render() override;
 		void Deserialize(const rapidjson::Value& value) override;
+		Math::Vector2 GetPosition(bool includeOrigin = true);
 
 		void SetCallback(ButtonCallback cb);
 
 	private:
 		void OnClick();
 
-		ButtonCallback mCallback;
-		ButtonState mCurrentState;
-		//std::vector<Graphics::UISprite*> mButtonStates;
+		ButtonCallback mCallback = nullptr;
+		DirectX::XMFLOAT2 mPosition = { 0.0f, 0.0f };
+		Graphics::UISprite mButtonStates[static_cast<uint32_t>(ButtonState::Count)];
+		std::string mButtonStateTextures[static_cast<uint32_t>(ButtonState::Count)];
+		ButtonState mCurrentState = ButtonState::Default;
 	};
 }

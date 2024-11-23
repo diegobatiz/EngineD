@@ -31,6 +31,8 @@ namespace EngineD
 		const GameObject* GetParent() const { return mParent; }
 
 		void AddChild(GameObject* child) { mChildren.push_back(child); }
+		GameObject* GetChild(uint32_t index) { return mChildren[index]; }
+		const GameObject* GetChild(uint32_t index) const { return mChildren[index]; }
 
 		template<class ComponentType>
 		ComponentType* AddComponent()

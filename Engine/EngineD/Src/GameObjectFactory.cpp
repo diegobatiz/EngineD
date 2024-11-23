@@ -182,10 +182,11 @@ void GameObjectFactory::Make(const std::filesystem::path& templatePath, GameObje
 		{
 			std::string name = child.name.GetString();
 			std::filesystem::path childTemplate = child.value["Template"].GetString();
-			GameObject* go = gameWorld.CreateGameObject(name, childTemplate);
+			GameObject* go = gameWorld.CreateGameObject(name, childTemplate, false);
 			GameObjectFactory::OverrideDeserialize(child.value, *go);
+
+			gameObject.AddChild(go);
 			go->SetParent(&gameObject);
-			go->Initialize();
 		}
 	}
 }

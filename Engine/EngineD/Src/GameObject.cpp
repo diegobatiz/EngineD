@@ -38,6 +38,8 @@ void GameObject::Terminate()
 	{
 		child->Terminate();
 	}
+	mChildren.clear();
+	mParent = nullptr;
 }
 
 void GameObject::Update(float deltaTime)
