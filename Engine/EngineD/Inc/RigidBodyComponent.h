@@ -16,6 +16,8 @@ namespace EngineD
 		void SetPosition(const Math::Vector3& position);
 		void SetVelocity(const Math::Vector3& velocity);
 
+		const Math::Vector3 GetVelocity() const { return mRigidBody.GetVelocity(); }
+
 	private:
 		friend class PhysicsService;
 

@@ -51,6 +51,12 @@ void RigidBody::SetVelocity(const EngineD::Math::Vector3& velocity)
 	mRigidBody->setLinearVelocity(ConvertTobtVector3(velocity));
 }
 
+const Vector3 RigidBody::GetVelocity() const
+{
+	btVector3 velocity = mRigidBody->getLinearVelocity();
+	return ConvertToVector3(velocity);
+}
+
 bool RigidBody::IsDynamic() const
 {
 	return mMass > 0.0f;

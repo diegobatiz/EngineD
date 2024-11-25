@@ -14,6 +14,7 @@
 #include "UIButtonComponent.h"
 #include "UITextComponent.h"
 #include "UISpriteComponent.h"
+#include "LookCameraComponent.h"
 #include "GameWorld.h"
 
 using namespace EngineD;
@@ -74,6 +75,10 @@ namespace
 		{
 			newComponent = gameObject.AddComponent<UISpriteComponent>();
 		}
+		else if (componentName == "LookCameraComponent")
+		{
+			newComponent = gameObject.AddComponent<LookCameraComponent>();
+		}
 		else
 		{
 			newComponent = TryMake(componentName, gameObject);
@@ -133,6 +138,10 @@ namespace
 		else if (componentName == "UISpriteComponent")
 		{
 			newComponent = gameObject.GetComponent<UISpriteComponent>();
+		}
+		else if (componentName == "LookCameraComponent")
+		{
+			newComponent = gameObject.GetComponent<LookCameraComponent>();
 		}
 		else
 		{

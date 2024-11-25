@@ -18,6 +18,7 @@ namespace EngineD
 		UIText,       // adds a text UI component
 		UISprite,     // adds a sprite to the UI
 		UIButton,     // adds a button to the UI
+		LookCamera,   // only changes where the camera looks at
 		Count
 	};
 

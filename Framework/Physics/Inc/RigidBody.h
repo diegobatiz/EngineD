@@ -18,6 +18,8 @@ namespace EngineD::Physics
 		void SetPosition(const EngineD::Math::Vector3& position);
 		void SetVelocity(const EngineD::Math::Vector3& position);
 
+		const EngineD::Math::Vector3 GetVelocity() const;
+
 		bool IsDynamic() const;
 
 	private: 

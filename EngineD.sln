@@ -146,6 +146,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{
 	ProjectSection(SolutionItems) = preProject
 		Assets\Templates\fps_camera.json = Assets\Templates\fps_camera.json
 		Assets\Templates\ground.json = Assets\Templates\ground.json
+		Assets\Templates\LockedCamera.json = Assets\Templates\LockedCamera.json
 		Assets\Templates\testObject.json = Assets\Templates\testObject.json
 		Assets\Templates\waveLoader.json = Assets\Templates\waveLoader.json
 	EndProjectSection
@@ -154,6 +155,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "25_HelloGameObjectFactory",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Levels", "Levels", "{98554564-27E1-4BB6-BB46-3CFD969C56C2}"
 	ProjectSection(SolutionItems) = preProject
+		Assets\Templates\Level\SnowLevel.json = Assets\Templates\Level\SnowLevel.json
 		Assets\Templates\Level\testLevel.json = Assets\Templates\Level\testLevel.json
 	EndProjectSection
 EndProject
@@ -166,6 +168,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{FC67F35A-939F-
 		Assets\Templates\UI\Button.json = Assets\Templates\UI\Button.json
 		Assets\Templates\UI\test_screen.json = Assets\Templates\UI\test_screen.json
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Snow", "VGP336\Snow\Snow.vcxproj", "{214F6E54-2715-42D1-9EFD-E2046BF00743}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -527,6 +531,14 @@ Global
 		{0D034612-14E2-44E7-993A-72344A2CA7BD}.Release|x64.Build.0 = Release|x64
 		{0D034612-14E2-44E7-993A-72344A2CA7BD}.Release|x86.ActiveCfg = Release|Win32
 		{0D034612-14E2-44E7-993A-72344A2CA7BD}.Release|x86.Build.0 = Release|Win32
+		{214F6E54-2715-42D1-9EFD-E2046BF00743}.Debug|x64.ActiveCfg = Debug|x64
+		{214F6E54-2715-42D1-9EFD-E2046BF00743}.Debug|x64.Build.0 = Debug|x64
+		{214F6E54-2715-42D1-9EFD-E2046BF00743}.Debug|x86.ActiveCfg = Debug|Win32
+		{214F6E54-2715-42D1-9EFD-E2046BF00743}.Debug|x86.Build.0 = Debug|Win32
+		{214F6E54-2715-42D1-9EFD-E2046BF00743}.Release|x64.ActiveCfg = Release|x64
+		{214F6E54-2715-42D1-9EFD-E2046BF00743}.Release|x64.Build.0 = Release|x64
+		{214F6E54-2715-42D1-9EFD-E2046BF00743}.Release|x86.ActiveCfg = Release|Win32
+		{214F6E54-2715-42D1-9EFD-E2046BF00743}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -582,6 +594,7 @@ Global
 		{8662B851-A0BF-42C6-813D-770F5EB2503D} = {01B2BDD4-EDEC-402D-8A7A-0AC68B3BA1AA}
 		{0D034612-14E2-44E7-993A-72344A2CA7BD} = {AE34D983-CCFF-419E-9D32-821451C1ADFB}
 		{FC67F35A-939F-4CE6-9A15-7BB62B4D8CB5} = {8F5BDFC3-5B2C-455B-A765-0A5AC2848AEA}
+		{214F6E54-2715-42D1-9EFD-E2046BF00743} = {01B2BDD4-EDEC-402D-8A7A-0AC68B3BA1AA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {19B1DB02-12F6-4B09-B23A-FB585D24135C}
