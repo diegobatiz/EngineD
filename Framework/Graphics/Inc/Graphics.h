@@ -38,6 +38,7 @@
 #include "NormalMapEffect.h"
 #include "ParticleSystemEffect.h"
 #include "PixelShader_D3D11.h"
+#include "PlayerPositionMapEffect.h"
 #include "PostProcessingEffect.h"
 #include "RenderTarget.h"
 #include "RenderObject.h"
