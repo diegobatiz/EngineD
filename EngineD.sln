@@ -157,6 +157,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Levels", "Levels", "{985545
 	ProjectSection(SolutionItems) = preProject
 		Assets\Templates\Level\SnowLevel.json = Assets\Templates\Level\SnowLevel.json
 		Assets\Templates\Level\testLevel.json = Assets\Templates\Level\testLevel.json
+		Assets\Templates\Level\testLevelNoUI.json = Assets\Templates\Level\testLevelNoUI.json
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "26_HelloGameWorld", "VGP336\26_HelloGameWorld\26_HelloGameWorld.vcxproj", "{8662B851-A0BF-42C6-813D-770F5EB2503D}"
