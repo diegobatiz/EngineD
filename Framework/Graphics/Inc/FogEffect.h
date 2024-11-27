@@ -22,6 +22,8 @@ namespace EngineD::Graphics
 		void SetCamera(const Camera& camera);
 		void DebugUI();
 
+		void SetFogColor(Math::Vector4 fogColour) { mColorData.fogColour = fogColour; }
+
 	private:
 		struct TransformData
 		{

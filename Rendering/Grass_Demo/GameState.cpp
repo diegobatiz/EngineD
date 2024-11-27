@@ -53,11 +53,11 @@ void GameState::Initialize()
 	//mGrassEffect.SetGrassTextureID(id);
 
 	int density = 3;
-	int sideSize = 50;
+	int sideSize = 250;
 
 	mTerrain.SetOffset(sideSize);
 	mTerrain.SetDensity(density);
-	mTerrain.Initialize("../../Assets/Images/terrain/heightmap_1024x1024.raw", 10.0f, Colors::DarkGreen);
+	mTerrain.Initialize("../../Assets/Images/terrain/heightmap_1024x1024.raw", 5.0f, Colors::DarkGreen);
 
 	const MeshPC& m = mTerrain.GetMesh();
 	mGround.meshBuffer.Initialize(
@@ -80,6 +80,7 @@ void GameState::Initialize()
 	std::filesystem::path shaderFilePath = L"../../Assets/Shaders/GrassShader.fx";
 	mGrassEffect.Initialize(shaderFilePath);
 	mGrassEffect.SetCamera(mCamera);
+	mGrassEffect.SetFogEffect(mTerrainEffect);
 
 	mTerrainEffect.Initialize(L"../../Assets/Shaders/Fog.fx");
 	mTerrainEffect.SetCamera(mCamera);

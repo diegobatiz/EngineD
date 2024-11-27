@@ -10,6 +10,7 @@
 namespace EngineD::Graphics
 {
 	class Camera;
+	class FogEffect;
 
 	class GrassEffect
 	{
@@ -22,6 +23,7 @@ namespace EngineD::Graphics
 		void End();
 		void SetCamera(const Camera& camera);
 		void SetGrassTextureID(TextureID id);
+		void SetFogEffect(FogEffect& effect);
 		void DebugUI();
 
 	private:
@@ -65,6 +67,7 @@ namespace EngineD::Graphics
 		TextureID mGrassTextureId;
 
 		const Camera* mCamera = nullptr;
+		FogEffect* mFogEffect;
 		ColorData mColorData;
 		float mCurrentTime;
 	};
