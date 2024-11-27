@@ -47,6 +47,7 @@
 #include "SimpleDraw.h"
 #include "SimpleTerrain.h"
 #include "Skeleton.h"
+#include "SnowEffect.h"
 #include "StandardEffect.h"
 #include "StructuredBuffer.h"
 #include "Terrain.h"

@@ -1,17 +1,17 @@
 #pragma once
 
 #include "ConstantBuffer.h"
-#include "PixelShader_D3D11.h"
+#include "Sampler.h"
 #include "VertexShader_D3D11.h"
-#include "RenderTarget.h"
-#include "Transform.h"
-#include "Camera.h"
+#include "PixelShader_D3D11.h"
 
 namespace EngineD::Graphics
 {
+	class Camera;
+	class Texture;
 	struct RenderObject;
 
-	class PlayerPositionMapEffect
+	class SnowEffect
 	{
 	public:
 		void Initialize();
@@ -22,10 +22,10 @@ namespace EngineD::Graphics
 
 		void Render(const RenderObject& renderObject);
 
-		void DebugUI();
-
-		void SetPlayerTransform(const Transform& player) { mPlayerTransform = &player; }
 		void SetCamera(const Camera& camera) { mCamera = &camera; }
+		void SetPositionMap(const Texture& posMap) { mPositionMap = &posMap; }
+
+		void DebugUI();
 
 	private:
 		struct TransformData
@@ -34,14 +34,14 @@ namespace EngineD::Graphics
 		};
 
 		using TransformBuffer = TypedConstantBuffer<TransformData>;
+
 		TransformBuffer mTransformBuffer;
 
+		Sampler mSampler;
 		VertexShader_D3D11 mVertexShader;
 		PixelShader_D3D11 mPixelShader;
 
-		RenderTarget mPlayerPositionRenderTarget;
-
-		const Transform* mPlayerTransform;
-		const Camera* mCamera;
+		const Camera* mCamera = nullptr;
+		const Texture* mPositionMap = nullptr;
 	};
 }

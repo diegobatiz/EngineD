@@ -12,6 +12,7 @@ namespace EngineD::Graphics
 		};
 
 		static void UnbindPS(uint32_t slot);
+		static void UnbindVS(uint32_t slot);
 
 		Texture() = default;
 		virtual ~Texture();
