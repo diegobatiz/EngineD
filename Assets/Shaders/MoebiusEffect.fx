@@ -42,7 +42,7 @@ float4 PS(VS_OUTPUT input) : SV_Target
     texCoord.x += params1;
     texCoord.y += params2;
     
-    if (shadow.r < 0.5f && shadow.r != 0.0f)
+    if (shadow.r < 0.6f && shadow.r != 0.0f)
     {
         finalColor = crossHatchTexture.Sample(textureSampler, texCoord);
     }

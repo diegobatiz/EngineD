@@ -41,7 +41,7 @@ void GameState::Initialize()
 	GameObjectFactory::SetCustomGet(CustomComponentGet);
 	GameObjectFactory::SetCustomMake(CustomComponentMake);
 	GameWorld::SetCustomService(CustomServiceMake);
-	mGameWorld.LoadLevel(L"../../Assets/Templates/Level/testLevel.json");
+	mGameWorld.LoadLevel(L"../../Assets/Templates/Level/testLevelNoUI.json");
 }
 
 void GameState::Terminate()
