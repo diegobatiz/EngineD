@@ -33,8 +33,16 @@ namespace EngineD::Graphics
 			Math::Matrix4 wvp;
 		};
 
+		struct PlayerPosition
+		{
+			Math::Vector3 position = Math::Vector3::Zero;
+		};
+
 		using TransformBuffer = TypedConstantBuffer<TransformData>;
 		TransformBuffer mTransformBuffer;
+
+		using PlayerPositionBuffer = TypedStructuredBuffer<PlayerPosition>;
+		PlayerPositionBuffer mPositionBuffer;
 
 		VertexShader_D3D11 mVertexShader;
 		PixelShader_D3D11 mPixelShader;

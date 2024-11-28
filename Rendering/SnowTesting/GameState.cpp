@@ -17,7 +17,6 @@ void GameState::Initialize()
 
 	MeshPC mesh = MeshBuilder::CreateHorizontalPlanePC(50, 50, 0.1f, Colors::White);
 	mSnow.meshBuffer.Initialize(mesh);
-
 }
 
 void GameState::Terminate()
