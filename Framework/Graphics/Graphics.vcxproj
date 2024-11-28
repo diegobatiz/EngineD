@@ -184,6 +184,7 @@
     <ClInclude Include="Inc\SimpleDraw.h" />
     <ClInclude Include="Inc\SimpleTerrain.h" />
     <ClInclude Include="Inc\Skeleton.h" />
+    <ClInclude Include="Inc\SnowEffect.h" />
     <ClInclude Include="Inc\StandardEffect.h" />
     <ClInclude Include="Inc\StructuredBuffer.h" />
     <ClInclude Include="Inc\Terrain.h" />
@@ -236,6 +237,7 @@
     <ClCompile Include="Src\ShadowEffect.cpp" />
     <ClCompile Include="Src\SimpleDraw.cpp" />
     <ClCompile Include="Src\SimpleTerrain.cpp" />
+    <ClCompile Include="Src\SnowEffect.cpp" />
     <ClCompile Include="Src\StandardEffect.cpp" />
     <ClCompile Include="Src\StructuredBuffer.cpp" />
     <ClCompile Include="Src\Terrain.cpp" />

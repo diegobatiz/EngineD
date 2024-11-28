@@ -48,8 +48,21 @@ void SnowEffect::End()
 
 void SnowEffect::Render(const RenderObject& renderObject)
 {
+	const Math::Matrix4 matWorld = renderObject.transform.GetMatrix4();
+	const Math::Matrix4 matView = mCamera->GetViewMatrix();
+	const Math::Matrix4 matProj = mCamera->GetProjectionMatrix();
+
+	Math::Matrix4 matFinal = matWorld * matView * matProj;
+
+	TransformData transformData;
+	transformData.wvp = Math::Transpose(matFinal);
+
+	mTransformBuffer.Update(transformData);
+
+	renderObject.meshBuffer.Render();
 }
 
 void SnowEffect::DebugUI()
 {
+
 }

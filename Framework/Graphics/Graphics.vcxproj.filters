@@ -214,6 +214,9 @@
     <ClInclude Include="Inc\AtmosphereEffect.h">
       <Filter>Inc\Effects</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\SnowEffect.h">
+      <Filter>Inc\Effects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -355,6 +358,9 @@
       <Filter>Src\UI</Filter>
     </ClCompile>
     <ClCompile Include="Src\AtmosphereEffect.cpp">
+      <Filter>Src\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SnowEffect.cpp">
       <Filter>Src\Effects</Filter>
     </ClCompile>
   </ItemGroup>
