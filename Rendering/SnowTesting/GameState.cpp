@@ -15,12 +15,19 @@ void GameState::Initialize()
 
 	GraphicsSystem::Get()->SetClearColor(Colors::Black);
 
+	mTransform.position = { 0.0f, 0.0f, 0.0f };
+
 	MeshPC mesh = MeshBuilder::CreateHorizontalPlanePC(50, 50, 0.1f, Colors::White);
 	mSnow.meshBuffer.Initialize(mesh);
+
+	mPositionMapEffect.SetCamera(m_Camera);
+	mPositionMapEffect.SetPlayerTransform(mTransform);
+	mPositionMapEffect.Initialize();
 }
 
 void GameState::Terminate()
 {
+	mPositionMapEffect.Terminate();
 	mSnow.Terminate();
 }
 

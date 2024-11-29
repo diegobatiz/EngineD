@@ -30,9 +30,5 @@ VS_OUTPUT VS(VS_INPUT input)
 
 float4 PS(VS_OUTPUT input) : SV_Target
 {
-    float distance = length(cameraPos.xz - input.worldPos);
-    float fogFactor = (fogDensity / sqrt(log(2))) * (max(0.0f, distance - 0.0f));
-    fogFactor = exp2(-fogFactor * fogFactor);
-    
-    return lerp(fogColour, input.color, fogFactor);
+    return float4(1.0, 1.0, 1.0, 1.0);
 }

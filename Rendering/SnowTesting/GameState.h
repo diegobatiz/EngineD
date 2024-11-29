@@ -15,7 +15,8 @@ protected:
 	EngineD::Graphics::Camera m_Camera;
 
 	EngineD::Graphics::SnowEffect mSnowEffect;
-	EngineD::Graphics::PlayerPositionMapEffect mPositonMapEffect;;
+	EngineD::Graphics::PlayerPositionMapEffect mPositionMapEffect;
 
 	EngineD::Graphics::RenderObject mSnow;
+	EngineD::Graphics::Transform mTransform;
 };

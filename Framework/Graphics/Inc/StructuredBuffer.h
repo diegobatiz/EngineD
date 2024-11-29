@@ -18,6 +18,12 @@ namespace EngineD::Graphics
 			Initialize(sizeof(DataType), data.size());
 		}
 
+		template<class DataType>
+		void Initialize(const DataType& data)
+		{
+			Initialize(sizeof(DataType), 1);
+		}
+
 		void BindVS(uint32_t slot);
 		void BindPS(uint32_t slot);
 
@@ -34,6 +40,17 @@ namespace EngineD::Graphics
 		{
 			static_assert(sizeof(DataType) % 16 == 0, "Data type must be 16 byte aligned");
 			StructuredBuffer::Initialize(data);
+		}
+
+		void Initialize(const DataType& data)
+		{
+			static_assert(sizeof(DataType) % 16 == 0, "Data type must be 16 byte aligned");
+			StructuredBuffer::Initialize(data);
+		}
+
+		void Update(const DataType& data) const
+		{
+			ConstantBuffer::Update(&data);
 		}
 	};
 }

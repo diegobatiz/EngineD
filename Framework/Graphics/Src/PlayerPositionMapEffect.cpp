@@ -15,11 +15,14 @@ void PlayerPositionMapEffect::Initialize()
 	mTransformBuffer.Initialize();
 
 	constexpr uint32_t depthMapResolution = 4096;
-	mPlayerPositionRenderTarget.Initialize(depthMapResolution, depthMapResolution, Texture::Format::RGBA_U32);
+	mPlayerPositionRenderTarget.SimpleInitialize(depthMapResolution, depthMapResolution, Texture::Format::RGBA_U32);
+
+	mPositionBuffer.Initialize();
 }	 
 	 
 void PlayerPositionMapEffect::Terminate()
 {	 
+	mPositionBuffer.Terminate();
 	mPlayerPositionRenderTarget.Terminate();
 	mTransformBuffer.Terminate();
 	mPixelShader.Terminate();
@@ -32,6 +35,8 @@ void PlayerPositionMapEffect::Begin()
 	mPixelShader.Bind();
 
 	mTransformBuffer.BindVS(0);
+
+	mPositionBuffer.BindPS(1);
 
 	mPlayerPositionRenderTarget.BeginRender();
 }	 
@@ -50,6 +55,10 @@ void PlayerPositionMapEffect::Render(const RenderObject& renderObject)
 	TransformData data;
 	data.wvp = Transpose(matWorld * matView * matProj);
 	mTransformBuffer.Update(data);
+
+	PlayerPosition posData;
+	posData.position = mPlayerTransform->position;
+	mPositionBuffer.Update(posData);
 
 	renderObject.meshBuffer.Render();
 }	 

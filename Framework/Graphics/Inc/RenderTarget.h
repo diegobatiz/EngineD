@@ -13,6 +13,7 @@ namespace EngineD::Graphics
 
 		void Initialize(const std::filesystem::path& fileName) override;
 		void Initialize(uint32_t width, uint32_t height, Format format) override;
+		void SimpleInitialize(uint32_t width, uint32_t height, Format format);
 		void Terminate() override;
 		void BeginRender(Color clearColor = Colors::Black);
 		void EndRender();

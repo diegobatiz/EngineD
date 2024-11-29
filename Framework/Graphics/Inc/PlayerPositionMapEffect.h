@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ConstantBuffer.h"
+#include "StructuredBuffer.h"
 #include "PixelShader_D3D11.h"
 #include "VertexShader_D3D11.h"
 #include "RenderTarget.h"
@@ -36,12 +37,13 @@ namespace EngineD::Graphics
 		struct PlayerPosition
 		{
 			Math::Vector3 position = Math::Vector3::Zero;
+			float padding;
 		};
 
 		using TransformBuffer = TypedConstantBuffer<TransformData>;
 		TransformBuffer mTransformBuffer;
 
-		using PlayerPositionBuffer = TypedStructuredBuffer<PlayerPosition>;
+		using PlayerPositionBuffer = TypedConstantBuffer<PlayerPosition>;
 		PlayerPositionBuffer mPositionBuffer;
 
 		VertexShader_D3D11 mVertexShader;
