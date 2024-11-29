@@ -17,6 +17,7 @@ namespace EngineD::Graphics
 		void Terminate() override;
 		void BeginRender(Color clearColor = Colors::Black);
 		void EndRender();
+		void SetRenderTarget();
 
 	private:
 		ID3D11RenderTargetView* mRenderTargetView = nullptr;

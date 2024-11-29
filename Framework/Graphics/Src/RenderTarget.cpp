@@ -124,3 +124,9 @@ void RenderTarget::EndRender()
 	SafeRelease(mOldRenderTargetView);
 	SafeRelease(mOldDepthStencilView);
 }
+
+void RenderTarget::SetRenderTarget()
+{
+	auto context = GraphicsSystem::Get()->GetContext();
+	context->OMSetRenderTargets(1, &mRenderTargetView, nullptr);
+}

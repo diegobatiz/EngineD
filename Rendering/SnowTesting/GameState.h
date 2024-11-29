@@ -18,5 +18,6 @@ protected:
 	EngineD::Graphics::PlayerPositionMapEffect mPositionMapEffect;
 
 	EngineD::Graphics::RenderObject mSnow;
+	EngineD::Graphics::RenderObject mQuad;
 	EngineD::Graphics::Transform mTransform;
 };

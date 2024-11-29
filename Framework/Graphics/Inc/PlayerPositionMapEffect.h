@@ -27,6 +27,9 @@ namespace EngineD::Graphics
 
 		void SetPlayerTransform(const Transform& player) { mPlayerTransform = &player; }
 		void SetCamera(const Camera& camera) { mCamera = &camera; }
+		void SetSnowDimensions(float width, float height);
+
+		const Texture& GetPositionMap() const;
 
 	private:
 		struct TransformData
@@ -53,5 +56,8 @@ namespace EngineD::Graphics
 
 		const Transform* mPlayerTransform;
 		const Camera* mCamera;
+
+		float mSnowHeight;
+		float mSnowWidth;
 	};
 }

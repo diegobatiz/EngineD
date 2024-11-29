@@ -5,11 +5,14 @@ cbuffer TransformBuffer : register(b0)
     matrix wvp;
 }
 
+cbuffer PlayerPositionBuffer : register(b1)
+{
+    float2 playerPosition; //player position in texture space
+}
+
 struct VS_INPUT
 {
     float3 position : POSITION;
-    float3 normal : NORMAL;
-    float3 tangent : TANGENT;
     float2 texCoord : TEXCOORD;
 };
 
@@ -22,7 +25,8 @@ struct VS_OUTPUT
 VS_OUTPUT VS(VS_INPUT input)
 {
     VS_OUTPUT output;
-    output.position = mul(float4(input.position, 1.0f), wvp);
+    output.position = input.position;
+    output.texCoord = input.texCoord;
     return output;
 }
 

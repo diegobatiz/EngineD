@@ -20,9 +20,15 @@ void GameState::Initialize()
 	MeshPC mesh = MeshBuilder::CreateHorizontalPlanePC(50, 50, 0.1f, Colors::White);
 	mSnow.meshBuffer.Initialize(mesh);
 
+	MeshPX quad = MeshBuilder::CreateScreenQuad();
+
 	mPositionMapEffect.SetCamera(m_Camera);
 	mPositionMapEffect.SetPlayerTransform(mTransform);
 	mPositionMapEffect.Initialize();
+
+	mSnowEffect.SetCamera(m_Camera);
+	mSnowEffect.SetPositionMap(mPositionMapEffect.GetPositionMap());
+	mSnowEffect.Initialize();
 }
 
 void GameState::Terminate()

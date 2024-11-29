@@ -176,6 +176,7 @@
     <ClInclude Include="Inc\NormalMapEffect.h" />
     <ClInclude Include="Inc\ParticleSystemEffect.h" />
     <ClInclude Include="Inc\PixelShader_D3D11.h" />
+    <ClInclude Include="Inc\PlayerPositionMapEffect.h" />
     <ClInclude Include="Inc\PostProcessingEffect.h" />
     <ClInclude Include="Inc\RenderObject.h" />
     <ClInclude Include="Inc\RenderTarget.h" />
@@ -229,6 +230,7 @@
     <ClCompile Include="Src\NormalMapEffect.cpp" />
     <ClCompile Include="Src\ParticleSystemEffect.cpp" />
     <ClCompile Include="Src\PixelShader_D3D11.cpp" />
+    <ClCompile Include="Src\PlayerPositionMapEffect.cpp" />
     <ClCompile Include="Src\PostProcessingEffect.cpp" />
     <ClCompile Include="Src\Precompiled.cpp" />
     <ClCompile Include="Src\RenderObject.cpp" />

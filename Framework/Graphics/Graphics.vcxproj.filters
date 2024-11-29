@@ -217,6 +217,9 @@
     <ClInclude Include="Inc\SnowEffect.h">
       <Filter>Inc\Effects</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\PlayerPositionMapEffect.h">
+      <Filter>Inc\Effects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -361,6 +364,9 @@
       <Filter>Src\Effects</Filter>
     </ClCompile>
     <ClCompile Include="Src\SnowEffect.cpp">
+      <Filter>Src\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\PlayerPositionMapEffect.cpp">
       <Filter>Src\Effects</Filter>
     </ClCompile>
   </ItemGroup>

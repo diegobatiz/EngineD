@@ -2,6 +2,7 @@
 #include "PlayerPositionMapEffect.h"
 
 #include "RenderObject.h"
+#include "GraphicsSystem.h"
 
 using namespace EngineD;
 using namespace EngineD::Graphics;
@@ -38,12 +39,11 @@ void PlayerPositionMapEffect::Begin()
 
 	mPositionBuffer.BindPS(1);
 
-	mPlayerPositionRenderTarget.BeginRender();
+	mPlayerPositionRenderTarget.SetRenderTarget();
 }	 
 	 
 void PlayerPositionMapEffect::End()
 {
-	mPlayerPositionRenderTarget.EndRender();
 }	 
 	 
 void PlayerPositionMapEffect::Render(const RenderObject& renderObject)
@@ -58,6 +58,8 @@ void PlayerPositionMapEffect::Render(const RenderObject& renderObject)
 
 	PlayerPosition posData;
 	posData.position = mPlayerTransform->position;
+	posData.position.x /= mSnowWidth;
+	posData.position.y /= mSnowHeight;
 	mPositionBuffer.Update(posData);
 
 	renderObject.meshBuffer.Render();
@@ -75,7 +77,18 @@ void PlayerPositionMapEffect::DebugUI()
 			{ 1, 1, 1, 1 },
 			{ 1, 1, 1, 1 });
 	}
-}	 
+}
+
+void PlayerPositionMapEffect::SetSnowDimensions(float width, float height)
+{
+	mSnowWidth = width;
+	mSnowHeight = height;
+}
+
+const Texture& PlayerPositionMapEffect::GetPositionMap() const
+{
+	return mPlayerPositionRenderTarget;
+}
 	 
 void PlayerPositionMapEffect::SetPlayerTransform(const Transform& player)
 {
