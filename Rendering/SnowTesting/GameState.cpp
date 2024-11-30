@@ -17,16 +17,19 @@ void GameState::Initialize()
 
 	mTransform.position = { 0.0f, 0.0f, 0.0f };
 
-	MeshPC mesh = MeshBuilder::CreateHorizontalPlanePC(50, 50, 0.1f, Colors::White);
+	MeshD mesh = MeshBuilder::CreatePlane(100, 100, 0.1f, Colors::White);
 	mSnow.meshBuffer.Initialize(mesh);
 
 	MeshPX quad = MeshBuilder::CreateScreenQuad();
+	mQuad.meshBuffer.Initialize(quad);
 
 	mPositionMapEffect.SetCamera(m_Camera);
 	mPositionMapEffect.SetPlayerTransform(mTransform);
+	mPositionMapEffect.SetSnowDimensions(10, 10);
+	mPositionMapEffect.SetRadius(0.5f);
 	mPositionMapEffect.Initialize();
 
-	mSnowEffect.SetCamera(m_Camera);
+    mSnowEffect.SetCamera(m_Camera);
 	mSnowEffect.SetPositionMap(mPositionMapEffect.GetPositionMap());
 	mSnowEffect.Initialize();
 }
@@ -82,6 +85,13 @@ void GameState::Update(float deltaTime)
 
 void GameState::Render()
 {
+	mPositionMapEffect.Begin();
+		mPositionMapEffect.Render(mQuad);
+	mPositionMapEffect.End();
+
+	mSnowEffect.Begin();
+		mSnowEffect.Render(mSnow);
+	mSnowEffect.End();
 }
 
 void GameState::DebugUI()
@@ -94,6 +104,8 @@ void GameState::DebugUI()
 		{
 			m_DirectionalLight.direction = m_DirectionalLight.direction;
 		}
+
+		mPositionMapEffect.DebugUI();
 
 	ImGui::End();
 }

@@ -10,13 +10,11 @@ using namespace EngineD::Graphics;
 void PlayerPositionMapEffect::Initialize()
 {	 
 	std::filesystem::path shaderFile = L"../../Assets/Shaders/PositionMap.fx";
-	mVertexShader.Initialize<Vertex>(shaderFile);
+	mVertexShader.Initialize<VertexPX>(shaderFile);
 	mPixelShader.Initialize(shaderFile);
 
-	mTransformBuffer.Initialize();
-
-	constexpr uint32_t depthMapResolution = 4096;
-	mPlayerPositionRenderTarget.SimpleInitialize(depthMapResolution, depthMapResolution, Texture::Format::RGBA_U32);
+	constexpr uint32_t resolution = 1024;
+	mPlayerPositionRenderTarget.Initialize(resolution, resolution, Texture::Format::RGBA_U32);
 
 	mPositionBuffer.Initialize();
 }	 
@@ -25,7 +23,6 @@ void PlayerPositionMapEffect::Terminate()
 {	 
 	mPositionBuffer.Terminate();
 	mPlayerPositionRenderTarget.Terminate();
-	mTransformBuffer.Terminate();
 	mPixelShader.Terminate();
 	mVertexShader.Terminate();
 }	 
@@ -35,31 +32,25 @@ void PlayerPositionMapEffect::Begin()
 	mVertexShader.Bind();
 	mPixelShader.Bind();
 
-	mTransformBuffer.BindVS(0);
+	mPositionBuffer.BindPS(0);
 
-	mPositionBuffer.BindPS(1);
-
-	mPlayerPositionRenderTarget.SetRenderTarget();
+	mPlayerPositionRenderTarget.BeginRenderNoClear();
 }	 
 	 
 void PlayerPositionMapEffect::End()
 {
+	mPlayerPositionRenderTarget.EndRender();
 }	 
 	 
 void PlayerPositionMapEffect::Render(const RenderObject& renderObject)
 {	 
-	const Math::Matrix4 matWorld = renderObject.transform.GetMatrix4();
-	const Math::Matrix4 matView = mCamera->GetViewMatrix();
-	const Math::Matrix4 matProj = mCamera->GetProjectionMatrix();
-
-	TransformData data;
-	data.wvp = Transpose(matWorld * matView * matProj);
-	mTransformBuffer.Update(data);
-
 	PlayerPosition posData;
-	posData.position = mPlayerTransform->position;
+	posData.position = { mPlayerTransform->position.x, mPlayerTransform->position.z };
+	posData.position += { mSnowWidth * 0.5f, mSnowHeight * 0.5f };
+	posData.playerRadius = 0.5f;
 	posData.position.x /= mSnowWidth;
 	posData.position.y /= mSnowHeight;
+	posData.playerRadius = mRadius / mSnowWidth;
 	mPositionBuffer.Update(posData);
 
 	renderObject.meshBuffer.Render();
@@ -79,6 +70,11 @@ void PlayerPositionMapEffect::DebugUI()
 	}
 }
 
+void PlayerPositionMapEffect::SetRadius(float radius)
+{
+	mRadius = radius;
+}
+
 void PlayerPositionMapEffect::SetSnowDimensions(float width, float height)
 {
 	mSnowWidth = width;
@@ -88,9 +84,4 @@ void PlayerPositionMapEffect::SetSnowDimensions(float width, float height)
 const Texture& PlayerPositionMapEffect::GetPositionMap() const
 {
 	return mPlayerPositionRenderTarget;
-}
-	 
-void PlayerPositionMapEffect::SetPlayerTransform(const Transform& player)
-{
-	mPlayerTransform = &player;
 }

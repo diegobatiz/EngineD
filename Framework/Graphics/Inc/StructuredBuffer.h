@@ -50,7 +50,7 @@ namespace EngineD::Graphics
 
 		void Update(const DataType& data) const
 		{
-			ConstantBuffer::Update(&data);
+			StructuredBuffer::Update(&data);
 		}
 	};
 }

@@ -27,24 +27,18 @@ namespace EngineD::Graphics
 
 		void SetPlayerTransform(const Transform& player) { mPlayerTransform = &player; }
 		void SetCamera(const Camera& camera) { mCamera = &camera; }
+		void SetRadius(float radius);
 		void SetSnowDimensions(float width, float height);
 
 		const Texture& GetPositionMap() const;
 
 	private:
-		struct TransformData
-		{
-			Math::Matrix4 wvp;
-		};
-
 		struct PlayerPosition
 		{
-			Math::Vector3 position = Math::Vector3::Zero;
+			Math::Vector2 position = Math::Vector2::Zero;
+			float playerRadius = 10;
 			float padding;
 		};
-
-		using TransformBuffer = TypedConstantBuffer<TransformData>;
-		TransformBuffer mTransformBuffer;
 
 		using PlayerPositionBuffer = TypedConstantBuffer<PlayerPosition>;
 		PlayerPositionBuffer mPositionBuffer;
@@ -57,6 +51,7 @@ namespace EngineD::Graphics
 		const Transform* mPlayerTransform;
 		const Camera* mCamera;
 
+		float mRadius;
 		float mSnowHeight;
 		float mSnowWidth;
 	};

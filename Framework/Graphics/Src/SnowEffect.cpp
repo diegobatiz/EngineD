@@ -12,7 +12,7 @@ void SnowEffect::Initialize()
 	mTransformBuffer.Initialize();
 
 	std::filesystem::path shaderFile = "../../Assets/Shaders/Snow.fx";
-	mVertexShader.Initialize<Vertex>(shaderFile);
+	mVertexShader.Initialize<VertexD>(shaderFile);
 	mPixelShader.Initialize(shaderFile);
 	mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
 }
@@ -36,12 +36,14 @@ void SnowEffect::Begin()
 	mTransformBuffer.BindVS(0);
 
 	mPositionMap->BindVS(0);
+	mPositionMap->BindPS(0);
 }
 
 void SnowEffect::End()
 {
 	if (mPositionMap != nullptr)
 	{
+		Texture::UnbindVS(0);
 		Texture::UnbindPS(0);
 	}
 }

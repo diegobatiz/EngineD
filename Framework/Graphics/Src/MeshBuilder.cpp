@@ -325,8 +325,6 @@ MeshD MeshBuilder::CreatePlane(uint32_t numRows, uint32_t numCols, float spacing
 {
 	MeshD mesh;
 
-	const Math::Vector3& up = Math::Vector3::YAxis;
-	const Math::Vector3& right = Math::Vector3::XAxis;
 	const float hpw = static_cast<float>(numCols) * spacing * 0.5f;
 	const float hph = static_cast<float>(numRows) * spacing * 0.5f;
 	const float uInc = 1.0f / static_cast<float>(numCols);
@@ -341,7 +339,7 @@ MeshD MeshBuilder::CreatePlane(uint32_t numRows, uint32_t numCols, float spacing
 	{
 		for (uint32_t c = 0; c <= numCols; ++c)
 		{
-			mesh.vertices.push_back({ { x, 00.0f, z }, up, right, color, {u, v} });
+			mesh.vertices.push_back({ { x, 0.0f, z }, color, {u, v} });
 			x += spacing;
 			u += uInc;
 		}
@@ -664,11 +662,11 @@ MeshPX MeshBuilder::CreateSkyBoxPX(float size)
 MeshPX MeshBuilder::CreateScreenQuad()
 {
 	MeshPX mesh;
+	mesh.vertices.push_back({ { -1.0f, -1.0f, 0.0f }, { 0.0f, 1.0f } });
 	mesh.vertices.push_back({ { -1.0f, 1.0f, 0.0f }, { 0.0f, 0.0f } });
 	mesh.vertices.push_back({ { 1.0f, 1.0f, 0.0f }, { 1.0f, 0.0f } });
 	mesh.vertices.push_back({ { 1.0f, -1.0f, 0.0f }, { 1.0f, 1.0f } });
-	mesh.vertices.push_back({ { -1.0f, -1.0f, 0.0f }, { 0.0f, 1.0f } });
-	mesh.indices = { 0, 1, 3, 1, 2, 3 };
+	mesh.indices = { 0, 1, 2, 0, 2, 3 };
 
 	return mesh;
 }

@@ -14,10 +14,10 @@ void GameState::Initialize()
 	mDirectionalLight.diffuse = { 0.8f, 0.8f, 0.8f, 1.0f };
 	mDirectionalLight.specular = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-	Model model;
-	ModelIO::LoadModel("../../Assets/Models/Character_01/Ch44_nonPBR.model", model);
-	ModelIO::LoadMaterial("../../Assets/Models/Character_01/Ch44_nonPBR.model", model);
-	mCharacter = CreateRenderGroup(model);
+	//Model model;
+	//ModelIO::LoadModel("../../Assets/Models/Character_01/Ch44_nonPBR.model", model);
+	//ModelIO::LoadMaterial("../../Assets/Models/Character_01/Ch44_nonPBR.model", model);
+	//mCharacter = CreateRenderGroup(model);
 
 	Mesh groundMesh = MeshBuilder::CreateHorizontalPlane(20, 20, 1.0f);
 	mGround.meshBuffer.Initialize(groundMesh);
@@ -104,7 +104,7 @@ void GameState::Render()
 
 	mRenderTarget.BeginRender();
 	mStandardEffect.Begin();
-		DrawRenderGroup(mStandardEffect, mCharacter);
+		//DrawRenderGroup(mStandardEffect, mCharacter);
 		mStandardEffect.Render(mGround);
 	mStandardEffect.End();
 	mRenderTarget.EndRender();
