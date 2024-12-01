@@ -23,7 +23,6 @@ void GameState::Initialize()
 	MeshPX quad = MeshBuilder::CreateScreenQuad();
 	mQuad.meshBuffer.Initialize(quad);
 
-	mPositionMapEffect.SetCamera(m_Camera);
 	mPositionMapEffect.SetPlayerTransform(mTransform);
 	mPositionMapEffect.SetSnowDimensions(10, 10);
 	mPositionMapEffect.SetRadius(0.5f);

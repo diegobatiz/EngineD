@@ -26,7 +26,6 @@ namespace EngineD::Graphics
 		void DebugUI();
 
 		void SetPlayerTransform(const Transform& player) { mPlayerTransform = &player; }
-		void SetCamera(const Camera& camera) { mCamera = &camera; }
 		void SetRadius(float radius);
 		void SetSnowDimensions(float width, float height);
 
@@ -49,7 +48,6 @@ namespace EngineD::Graphics
 		RenderTarget mPlayerPositionRenderTarget;
 
 		const Transform* mPlayerTransform;
-		const Camera* mCamera;
 
 		float mRadius;
 		float mSnowHeight;

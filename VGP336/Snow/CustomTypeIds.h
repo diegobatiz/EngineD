@@ -9,5 +9,5 @@ enum class CustomComponentId
 
 enum class CustomServiceId
 {
-
+	SnowRenderService = static_cast<uint32_t>(EngineD::ServiceId::Count)
 };
