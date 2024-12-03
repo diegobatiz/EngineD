@@ -9,7 +9,8 @@ namespace EngineD::Graphics
 		{
 			Points,
 			Lines,
-			Triangles
+			Triangles,
+			TriangleControlPoint
 		};
 
 		virtual void Initialize(const void* vertices, uint32_t vertexSize, uint32_t vertexCount) {}

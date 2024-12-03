@@ -220,6 +220,12 @@
     <ClInclude Include="Inc\PlayerPositionMapEffect.h">
       <Filter>Inc\Effects</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\HullShader.h">
+      <Filter>Inc\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\DomainShader.h">
+      <Filter>Inc\D3D11</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -368,6 +374,12 @@
     </ClCompile>
     <ClCompile Include="Src\PlayerPositionMapEffect.cpp">
       <Filter>Src\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\HullShader.cpp">
+      <Filter>Src\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\DomainShader.cpp">
+      <Filter>Src\D3D11</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

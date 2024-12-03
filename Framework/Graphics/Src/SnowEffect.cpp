@@ -10,25 +10,29 @@ using namespace EngineD::Graphics;
 void SnowEffect::Initialize()
 {
 	mTransformBuffer.Initialize();
-
-	mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
+	mTessBuffer.Initialize();
 
 	std::filesystem::path shaderFile = "../../Assets/Shaders/Snow.fx";
 	mVertexShader.Initialize<VertexD>(shaderFile);
 	mPixelShader.Initialize(shaderFile);
+	mHullShader.Initialize(shaderFile);
+	mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
 }
 
 void SnowEffect::Terminate()
 {
 	mSampler.Terminate();
+	mHullShader.Terminate();
 	mPixelShader.Terminate();
 	mVertexShader.Terminate();
+	mTessBuffer.Terminate();
 	mTransformBuffer.Terminate();
 }
 
 void SnowEffect::Begin()
 {
 	mVertexShader.Bind();
+	mHullShader.Bind();
 	mPixelShader.Bind();
 
 	mSampler.BindVS(0);
@@ -59,13 +63,27 @@ void SnowEffect::Render(const RenderObject& renderObject)
 
 	TransformData transformData;
 	transformData.wvp = Math::Transpose(matFinal);
+	transformData.cameraPos = mCamera->GetPosition();
 
 	mTransformBuffer.Update(transformData);
+
+	TessellationData tessData;
+	tessData.minTessDistance = 10.0f;
+	tessData.maxTessDistance = 20.0f;
+	tessData.tessLevel = 4;
+
+	mTessBuffer.Update(tessData);
 
 	renderObject.meshBuffer.Render();
 }
 
 void SnowEffect::DebugUI()
 {
-
+	if (ImGui::CollapsingHeader("Snow Effect", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::Text("Tessellation Data");
+		ImGui::DragFloat("Min Tessellation Distance", &mTessData.minTessDistance, 0.1f, 1.0f, 50.0f);
+		ImGui::DragFloat("Max Tessellation Distance", &mTessData.maxTessDistance, 0.1f, mTessData.minTessDistance + 1.0f, 100.0f);
+		ImGui::DragFloat("Tessellation Level", &mTessData.tessLevel, 1.0f, 1.0f, 8.0f);
+	}
 }

@@ -36,6 +36,9 @@ void MeshBuffer_D3D11::SetTopology(Topology topology)
 	case Topology::Triangles:
 		mTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 		break;
+	case Topology::TriangleControlPoint:
+		mTopology = D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST;
+		break;
 	default:
 		break;
 	}
