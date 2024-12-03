@@ -71,3 +71,8 @@ Transform EngineD::TransformComponent::GetWorldTransform() const
 
 	return worldTransform;
 }
+
+const Transform* TransformComponent::GetTransform() const
+{
+	return this;
+}

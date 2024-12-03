@@ -6,6 +6,9 @@
     <ClCompile Include="CustomPlayerControllerComponent.cpp">
       <Filter>Custom</Filter>
     </ClCompile>
+    <ClCompile Include="SnowRenderService.cpp">
+      <Filter>Custom</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameState.h" />
@@ -13,6 +16,9 @@
       <Filter>Custom</Filter>
     </ClInclude>
     <ClInclude Include="CustomTypeIds.h">
+      <Filter>Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="SnowRenderService.h">
       <Filter>Custom</Filter>
     </ClInclude>
   </ItemGroup>

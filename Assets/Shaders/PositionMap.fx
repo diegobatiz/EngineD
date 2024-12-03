@@ -6,6 +6,9 @@ cbuffer PlayerPositionBuffer : register(b0)
     float playerRadius;
 }
 
+Texture2D snowHeightMap : register(t0);
+SamplerState texSampler : register(s0);
+
 struct VS_INPUT
 {
     float3 position : POSITION;
@@ -31,6 +34,13 @@ float4 PS(VS_OUTPUT input) : SV_Target
     float distance = length(input.texCoord - playerPosition);
     
     float4 color = (distance <= playerRadius) ? float4(1.0, 0.0, 0.0, 1.0) : float4(0.0, 0.0, 0.0, 1.0);
+    
+    float4 texColor = snowHeightMap.Sample(texSampler, input.texCoord);
+    
+    if (color.r < texColor.r)
+    {
+        color.r = texColor.r;
+    }
     
     return color;
 }

@@ -11,6 +11,9 @@
       "Gravity": [ 0.0, -9.81, 0.0 ],
       "SimSteps": 10,
       "FixedTimeStep": 0.01666666666667
+    },
+    "SnowRenderService": {
+      "SnowSize": 20
     }
   },
   "GameObjects": {
@@ -24,7 +27,7 @@
       "Template": "../../Assets/Templates/testObject.json",
       "Components": {
         "TransformComponent": {
-          "Position": [ 2.0, 10.0, 0.0 ]
+          "Position": [ 2.0, 5.0, 0.0 ]
         }
       }
     },

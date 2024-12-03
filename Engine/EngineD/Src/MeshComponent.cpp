@@ -22,6 +22,7 @@ void MeshComponent::Deserialize(const rapidjson::Value& value)
 				uint32_t slices = static_cast<uint32_t>(shapeData["Slices"].GetInt());
 				uint32_t rings = static_cast<uint32_t>(shapeData["Rings"].GetInt());
 				float radius = shapeData["Radius"].GetFloat();
+				mSize = radius;
 				meshData.mesh = MeshBuilder::CreateSphere(slices, rings, radius);
 			}
 			else if (shapeType == "Plane")
@@ -122,4 +123,9 @@ void MeshComponent::Deserialize(const rapidjson::Value& value)
 const Model& MeshComponent::GetModel() const
 {
 	return mModel;
+}
+
+const float MeshComponent::GetSize() const
+{
+	return mSize;
 }

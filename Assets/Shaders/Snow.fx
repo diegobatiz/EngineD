@@ -39,7 +39,6 @@ float4 PS(VS_OUTPUT input) : SV_Target
     if (displacement.r != 0.0)
     {
         return float4(0.0, 0.0, 0.0, 0.0);
-
     }
     
     return input.color;

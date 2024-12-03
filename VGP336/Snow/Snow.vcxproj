@@ -133,12 +133,14 @@
   <ItemGroup>
     <ClCompile Include="CustomPlayerControllerComponent.cpp" />
     <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="SnowRenderService.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CustomPlayerControllerComponent.h" />
     <ClInclude Include="CustomTypeIds.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="SnowRenderService.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Engine\EngineD\EngineD.vcxproj">

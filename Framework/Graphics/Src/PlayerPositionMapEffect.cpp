@@ -13,6 +13,8 @@ void PlayerPositionMapEffect::Initialize()
 	mVertexShader.Initialize<VertexPX>(shaderFile);
 	mPixelShader.Initialize(shaderFile);
 
+	mSampler.Initialize(Sampler::Filter::Point, Sampler::AddressMode::Wrap);
+
 	constexpr uint32_t resolution = 1024;
 	mPlayerPositionRenderTarget.Initialize(resolution, resolution, Texture::Format::RGBA_U32);
 
@@ -23,6 +25,7 @@ void PlayerPositionMapEffect::Terminate()
 {	 
 	mPositionBuffer.Terminate();
 	mPlayerPositionRenderTarget.Terminate();
+	mSampler.Terminate();
 	mPixelShader.Terminate();
 	mVertexShader.Terminate();
 }	 
@@ -34,18 +37,24 @@ void PlayerPositionMapEffect::Begin()
 
 	mPositionBuffer.BindPS(0);
 
+	mPlayerPositionRenderTarget.BindPS(0);
+
+	mSampler.BindPS(0);
+
 	mPlayerPositionRenderTarget.BeginRenderNoClear();
 }	 
 	 
 void PlayerPositionMapEffect::End()
 {
 	mPlayerPositionRenderTarget.EndRender();
+
+	Texture::UnbindPS(0);
 }	 
 	 
 void PlayerPositionMapEffect::Render(const RenderObject& renderObject)
 {	 
 	PlayerPosition posData;
-	posData.position = { mPlayerTransform->position.x, mPlayerTransform->position.z };
+	posData.position = { mPlayerTransform->position.x, -mPlayerTransform->position.z };
 	posData.position += { mSnowWidth * 0.5f, mSnowHeight * 0.5f };
 	posData.playerRadius = 0.5f;
 	posData.position.x /= mSnowWidth;

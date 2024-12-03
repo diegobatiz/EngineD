@@ -12,7 +12,10 @@ namespace EngineD
 		void Deserialize(const rapidjson::Value& value) override;
 		const Graphics::Model& GetModel() const override;
 
+		const float GetSize() const;
+
 	private:
 		Graphics::Model mModel;
+		float mSize = 0.0f;
 	};
 }

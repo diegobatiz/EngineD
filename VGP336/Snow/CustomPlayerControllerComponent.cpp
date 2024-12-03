@@ -1,5 +1,7 @@
 #include "CustomPlayerControllerComponent.h"
 
+#include "SnowRenderService.h"
+
 using namespace EngineD;
 using namespace EngineD::Math;
 using namespace EngineD::Input;
@@ -7,6 +9,12 @@ using namespace EngineD::Input;
 void CustomPlayerControllerComponent::Initialize()
 {
 	mRigidBody = GetOwner().GetComponent<RigidBodyComponent>();
+
+	//Register the player to the snow render service here since the Snow Render Service will usually not be in the engine
+	SnowRenderService* renderService = GetOwner().GetWorld().GetService<SnowRenderService>();
+	TransformComponent* transform = GetOwner().GetComponent<TransformComponent>();
+
+	renderService->RegisterPlayer(transform);
 }
 
 void CustomPlayerControllerComponent::Terminate()

@@ -4,6 +4,7 @@
 #include "StructuredBuffer.h"
 #include "PixelShader_D3D11.h"
 #include "VertexShader_D3D11.h"
+#include "Sampler.h"
 #include "RenderTarget.h"
 #include "Transform.h"
 #include "Camera.h"
@@ -44,6 +45,7 @@ namespace EngineD::Graphics
 
 		VertexShader_D3D11 mVertexShader;
 		PixelShader_D3D11 mPixelShader;
+		Sampler mSampler;
 
 		RenderTarget mPlayerPositionRenderTarget;
 

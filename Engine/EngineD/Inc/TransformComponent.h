@@ -15,5 +15,6 @@ namespace EngineD
 		void Deserialize(const rapidjson::Value& value) override;
 
 		Transform GetWorldTransform() const;
+		const Transform* GetTransform() const;
 	};
 }

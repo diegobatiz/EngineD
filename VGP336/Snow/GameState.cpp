@@ -7,6 +7,7 @@ using namespace EngineD::Audio;
 using namespace EngineD::Physics;
 
 #include "CustomPlayerControllerComponent.h"
+#include "SnowRenderService.h"
 
 Component* CustomComponentMake(const std::string& componentName, GameObject& gameObject)
 {
@@ -26,8 +27,12 @@ Component* CustomComponentGet(const std::string& componentName, GameObject& game
 	return nullptr;
 }
 
-Service* CustomServiceMake(const std::string& sercviceName, GameWorld& gameWorld)
+Service* CustomServiceMake(const std::string& serviceName, GameWorld& gameWorld)
 {
+	if (serviceName == "SnowRenderService")
+	{
+		return gameWorld.AddService<SnowRenderService>();
+	}
 	return nullptr;
 }
 

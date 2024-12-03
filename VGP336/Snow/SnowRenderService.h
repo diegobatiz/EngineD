@@ -13,15 +13,14 @@ public:
 	void Render() override;
 	void DebugUI() override;
 
-	void RegisterPlayer(const TransformComponent* player);
-	void UnegisterPlayer(const TransformComponent* player);
+	void Serialize(rapidjson::Document& doc, rapidjson::Value& value) override;
+	void Deserialize(const rapidjson::Value& value) override;
 
-	void Register(const RenderObjectComponent* roc);
-	void Unregister(const RenderObjectComponent* roc);
+	void RegisterPlayer(const EngineD::TransformComponent* player);
 
 private:
-	const CameraService* mCameraService = nullptr;
-	const TransformComponent* mPlayerTransform = nullptr;
+	const EngineD::CameraService* mCameraService = nullptr;
+	const EngineD::Graphics::Transform* mPlayerTransform = nullptr;
 
 	EngineD::Graphics::RenderObject mQuad;
 	EngineD::Graphics::RenderObject mSnow;
@@ -29,16 +28,6 @@ private:
 	EngineD::Graphics::DirectionalLight mDirectionalLight;
 	EngineD::Graphics::SnowEffect mSnowEffect;
 	EngineD::Graphics::PlayerPositionMapEffect mPlayerPositionEffect;
-
-	struct Entry
-	{
-		const RenderObjectComponent* renderComponent = nullptr;
-		const TransformComponent* transformComponent = nullptr;
-		Graphics::RenderGroup renderGroup;
-	};
-
-	using RenderEntries = std::vector<Entry>;
-	RenderEntries mRenderEntries;
 
 	float mFPS = 0;
 };
