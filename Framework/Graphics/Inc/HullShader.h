@@ -13,5 +13,6 @@ namespace EngineD::Graphics
 		ID3D11HullShader* mHullShader;
 
 		ID3D11Device* mDevice;
+		ID3D11RasterizerState* mRasterizerState;
 	};
 }

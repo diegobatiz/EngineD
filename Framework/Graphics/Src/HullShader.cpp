@@ -42,6 +42,15 @@ void HullShader::Initialize(const std::filesystem::path& filePath, const char* e
 
 	SafeRelease(shaderBlob);
 	SafeRelease(errorBlob);
+
+	//To Visualize Tessellation
+
+	D3D11_RASTERIZER_DESC rasterizerDesc = {};
+	rasterizerDesc.FillMode = D3D11_FILL_WIREFRAME;
+	rasterizerDesc.CullMode = D3D11_CULL_BACK;
+	mDevice->CreateRasterizerState(&rasterizerDesc, &mRasterizerState);
+
+	GraphicsSystem::Get()->GetContext()->RSSetState(mRasterizerState);
 }
 
 void HullShader::Terminate()
