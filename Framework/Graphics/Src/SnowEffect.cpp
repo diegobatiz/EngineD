@@ -11,10 +11,11 @@ void SnowEffect::Initialize()
 {
 	mTransformBuffer.Initialize();
 
+	mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
+
 	std::filesystem::path shaderFile = "../../Assets/Shaders/Snow.fx";
 	mVertexShader.Initialize<VertexD>(shaderFile);
 	mPixelShader.Initialize(shaderFile);
-	mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
 }
 
 void SnowEffect::Terminate()

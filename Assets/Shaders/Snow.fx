@@ -26,7 +26,13 @@ struct VS_OUTPUT
 VS_OUTPUT VS(VS_INPUT input)
 {
     VS_OUTPUT output;
-    output.position = mul(float4(input.position, 1.0f), wvp);
+    
+    float4 displacement = positionMap.Sample(texSampler, input.texCoord);
+    
+    float4 snowHeight = float4(input.position, 1.0f);
+    snowHeight.y += displacement;
+    
+    output.position = mul(snowHeight, wvp);
     output.color = input.color;
     output.texCoord = input.texCoord;
     return output;
