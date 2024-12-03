@@ -13,7 +13,6 @@ void SnowRenderService::Initialize()
 
 	mPlayerPositionEffect.Initialize();
 
-	mSnowEffect.SetPositionMap(mPlayerPositionEffect.GetPositionMap());
 	mSnowEffect.Initialize();
 }
 
@@ -33,6 +32,7 @@ void SnowRenderService::Update(float deltaTime)
 void SnowRenderService::Render()
 {
 	mSnowEffect.SetCamera(mCameraService->GetMain());
+	mSnowEffect.SetPositionMap(mPlayerPositionEffect.GetPositionMap());
 
 	mPlayerPositionEffect.Begin();
 		mPlayerPositionEffect.Render(mQuad);

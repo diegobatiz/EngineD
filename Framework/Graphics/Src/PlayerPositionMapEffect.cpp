@@ -16,7 +16,8 @@ void PlayerPositionMapEffect::Initialize()
 	mSampler.Initialize(Sampler::Filter::Point, Sampler::AddressMode::Wrap);
 
 	constexpr uint32_t resolution = 1024;
-	mPlayerPositionRenderTarget.Initialize(resolution, resolution, Texture::Format::RGBA_U32);
+	mPlayerPositionRenderTargetA.Initialize(resolution, resolution, Texture::Format::RGBA_U32);
+	mPlayerPositionRenderTargetB.Initialize(resolution, resolution, Texture::Format::RGBA_U32);
 
 	mPositionBuffer.Initialize();
 }	 
@@ -24,7 +25,8 @@ void PlayerPositionMapEffect::Initialize()
 void PlayerPositionMapEffect::Terminate()
 {	 
 	mPositionBuffer.Terminate();
-	mPlayerPositionRenderTarget.Terminate();
+	mPlayerPositionRenderTargetB.Terminate();
+	mPlayerPositionRenderTargetA.Terminate();
 	mSampler.Terminate();
 	mPixelShader.Terminate();
 	mVertexShader.Terminate();
@@ -37,16 +39,32 @@ void PlayerPositionMapEffect::Begin()
 
 	mPositionBuffer.BindPS(0);
 
-	mPlayerPositionRenderTarget.BindPS(0);
+	if (mUseA)
+	{
+		mPlayerPositionRenderTargetB.BindPS(0);
+		mPlayerPositionRenderTargetA.BeginRenderNoClear();
+	}
+	else
+	{
+		mPlayerPositionRenderTargetA.BindPS(0);
+		mPlayerPositionRenderTargetB.BeginRenderNoClear();
+	}
 
 	mSampler.BindPS(0);
-
-	mPlayerPositionRenderTarget.BeginRenderNoClear();
 }	 
 	 
 void PlayerPositionMapEffect::End()
 {
-	mPlayerPositionRenderTarget.EndRender();
+	if (mUseA)
+	{
+		mPlayerPositionRenderTargetA.EndRender();
+		mUseA = false;
+	}
+	else
+	{
+		mPlayerPositionRenderTargetB.EndRender();
+		mUseA = true;
+	}
 
 	Texture::UnbindPS(0);
 }	 
@@ -69,13 +87,26 @@ void PlayerPositionMapEffect::DebugUI()
 {	 
 	if (ImGui::CollapsingHeader("Position Map", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		ImGui::Image(
-			mPlayerPositionRenderTarget.GetRawData(),
-			{ 144,144 },
-			{ 0, 0 },
-			{ 1, 1 },
-			{ 1, 1, 1, 1 },
-			{ 1, 1, 1, 1 });
+		if (mUseA)
+		{
+			ImGui::Image(
+				mPlayerPositionRenderTargetA.GetRawData(),
+				{ 144,144 },
+				{ 0, 0 },
+				{ 1, 1 },
+				{ 1, 1, 1, 1 },
+				{ 1, 1, 1, 1 });
+		}
+		else
+		{
+			ImGui::Image(
+				mPlayerPositionRenderTargetB.GetRawData(),
+				{ 144,144 },
+				{ 0, 0 },
+				{ 1, 1 },
+				{ 1, 1, 1, 1 },
+				{ 1, 1, 1, 1 });
+		}
 	}
 }
 
@@ -92,5 +123,12 @@ void PlayerPositionMapEffect::SetSnowDimensions(float width, float height)
 
 const Texture& PlayerPositionMapEffect::GetPositionMap() const
 {
-	return mPlayerPositionRenderTarget;
+	if (mUseA)
+	{
+		return mPlayerPositionRenderTargetA;
+	}
+	else
+	{
+		return mPlayerPositionRenderTargetB;
+	}
 }

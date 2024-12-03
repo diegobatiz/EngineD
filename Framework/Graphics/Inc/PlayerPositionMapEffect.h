@@ -47,12 +47,15 @@ namespace EngineD::Graphics
 		PixelShader_D3D11 mPixelShader;
 		Sampler mSampler;
 
-		RenderTarget mPlayerPositionRenderTarget;
+		RenderTarget mPlayerPositionRenderTargetA;
+		RenderTarget mPlayerPositionRenderTargetB;
 
 		const Transform* mPlayerTransform;
 
 		float mRadius;
 		float mSnowHeight;
 		float mSnowWidth;
+
+		bool mUseA = true;
 	};
 }
