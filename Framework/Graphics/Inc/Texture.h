@@ -13,6 +13,7 @@ namespace EngineD::Graphics
 
 		static void UnbindPS(uint32_t slot);
 		static void UnbindVS(uint32_t slot);
+		static void UnbindDS(uint32_t slot);
 
 		Texture() = default;
 		virtual ~Texture();
@@ -30,6 +31,7 @@ namespace EngineD::Graphics
 		
 		void BindVS(uint32_t slot) const;
 		void BindPS(uint32_t slot) const;
+		void BindDS(uint32_t slot) const;
 
 		void* GetRawData() const;
 

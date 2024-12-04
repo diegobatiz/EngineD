@@ -56,6 +56,7 @@ void HullShader::Initialize(const std::filesystem::path& filePath, const char* e
 void HullShader::Terminate()
 {
 	SafeRelease(mHullShader);
+	SafeRelease(mRasterizerState);
 }
 
 void HullShader::Bind()

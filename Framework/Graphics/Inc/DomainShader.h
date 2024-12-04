@@ -10,7 +10,7 @@ namespace EngineD::Graphics
 		void Bind();
 
 	protected:
-		ID3D11HullShader* mHullShader;
+		ID3D11DomainShader* mDomainShader;
 
 		ID3D11Device* mDevice;
 	};

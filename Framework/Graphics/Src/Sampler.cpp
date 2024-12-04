@@ -84,3 +84,9 @@ void Sampler::BindPS(uint32_t slot)
 	auto context = GraphicsSystem::Get()->GetContext();
 	context->PSSetSamplers(slot, 1, &mSampler);
 }
+
+void Sampler::BindDS(uint32_t slot)
+{
+	auto context = GraphicsSystem::Get()->GetContext();
+	context->DSSetSamplers(slot, 1, &mSampler);
+}

@@ -22,6 +22,7 @@ namespace EngineD::Graphics
 
 		void BindVS(uint32_t slot);
 		void BindPS(uint32_t slot);
+		void BindDS(uint32_t slot);
 
 	private:
 		ID3D11SamplerState* mSampler = nullptr;

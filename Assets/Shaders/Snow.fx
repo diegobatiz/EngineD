@@ -17,7 +17,12 @@ Texture2D positionMap : register(t0);
 
 SamplerState texSampler : register(s0);
 
+
+
+
+
 //=================//Vertex Shader//====================//
+
 struct VS_INPUT
 {
     float3 position : POSITION;
@@ -42,7 +47,11 @@ VS_OUTPUT VS(VS_INPUT input)
     return output;
 }
 
+
+
+
 //=================//Hull Shader//====================//
+
 struct HS_OUTPUT
 {
     float3 position : POSITION;
@@ -109,6 +118,53 @@ PatchConstantData PatchConstantFunction(InputPatch<VS_OUTPUT, 3> inputPatch)
     
     return patchData;
 }
+
+
+
+
+//=================//Domain Shader//====================//
+
+struct DS_OUTPUT
+{
+    float4 position : SV_Position;
+    float4 color : COLOR;
+    float2 texCoord : TEXCOORD;
+};
+
+[domain("tri")]
+DS_OUTPUT DS(PatchConstantData patchConstants, float3 coords : SV_DomainLocation, const OutputPatch<HS_OUTPUT, 3> patch)
+{
+    DS_OUTPUT output;
+    
+    float3 position =
+        coords.x * patch[0].position +
+        coords.y * patch[1].position +
+        coords.z * patch[2].position;
+    
+    float2 texCoord =
+        coords.x * patch[0].texCoord +
+        coords.y * patch[1].texCoord +
+        coords.z * patch[2].texCoord;
+    
+    float4 color =
+        coords.x * patch[0].color +
+        coords.y * patch[1].color +
+        coords.z * patch[2].color;
+    
+    float height = positionMap.Sample(texSampler, texCoord).r;
+    position.y += height; // multiply by height scale
+    
+    output.position = mul(float4(position, 1.0), wvp);
+    output.texCoord = texCoord;
+    output.color = color;
+    
+    return output;
+}
+
+
+
+
+//=================//Pixel Shader//====================//
 
 float4 PS(VS_OUTPUT input) : SV_Target
 {

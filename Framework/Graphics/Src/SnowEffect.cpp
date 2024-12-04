@@ -16,12 +16,14 @@ void SnowEffect::Initialize()
 	mVertexShader.Initialize<VertexD>(shaderFile);
 	mPixelShader.Initialize(shaderFile);
 	mHullShader.Initialize(shaderFile);
+	mDomainShader.Initialize(shaderFile);
 	mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
 }
 
 void SnowEffect::Terminate()
 {
 	mSampler.Terminate();
+	mDomainShader.Terminate();
 	mHullShader.Terminate();
 	mPixelShader.Terminate();
 	mVertexShader.Terminate();
@@ -33,14 +35,15 @@ void SnowEffect::Begin()
 {
 	mVertexShader.Bind();
 	mHullShader.Bind();
+	mDomainShader.Bind();
 	mPixelShader.Bind();
 
-	mSampler.BindVS(0);
+	mSampler.BindDS(0);
 	mSampler.BindPS(0);
 
-	mTransformBuffer.BindVS(0);
+	mTransformBuffer.BindDS(0);
 
-	mPositionMap->BindVS(0);
+	mPositionMap->BindDS(0);
 	mPositionMap->BindPS(0);
 }
 
@@ -48,7 +51,7 @@ void SnowEffect::End()
 {
 	if (mPositionMap != nullptr)
 	{
-		Texture::UnbindVS(0);
+		Texture::UnbindDS(0);
 		Texture::UnbindPS(0);
 	}
 }

@@ -19,6 +19,12 @@ void Texture::UnbindVS(uint32_t slot)
 	GraphicsSystem::Get()->GetContext()->VSSetShaderResources(slot, 1, &dummy);
 }
 
+void Texture::UnbindDS(uint32_t slot)
+{
+	static ID3D11ShaderResourceView* dummy = nullptr;
+	GraphicsSystem::Get()->GetContext()->DSSetShaderResources(slot, 1, &dummy);
+}
+
 Texture::~Texture()
 {
 	ASSERT(mShaderResourceView == nullptr, "Texture: must call terminate");
@@ -80,6 +86,12 @@ void Texture::BindPS(uint32_t slot) const
 {
 	auto context = GraphicsSystem::Get()->GetContext();
 	context->PSSetShaderResources(slot, 1, &mShaderResourceView);
+}
+
+void Texture::BindDS(uint32_t slot) const
+{
+	auto context = GraphicsSystem::Get()->GetContext();
+	context->DSSetShaderResources(slot, 1, &mShaderResourceView);
 }
 
 void* Texture::GetRawData() const

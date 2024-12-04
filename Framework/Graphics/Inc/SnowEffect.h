@@ -5,6 +5,7 @@
 #include "VertexShader_D3D11.h"
 #include "PixelShader_D3D11.h"
 #include "HullShader.h"
+#include "DomainShader.h"
 
 namespace EngineD::Graphics
 {
@@ -53,6 +54,7 @@ namespace EngineD::Graphics
 		VertexShader_D3D11 mVertexShader;
 		PixelShader_D3D11 mPixelShader;
 		HullShader mHullShader;
+		DomainShader mDomainShader;
 
 		const Camera* mCamera = nullptr;
 		const Texture* mPositionMap = nullptr;
