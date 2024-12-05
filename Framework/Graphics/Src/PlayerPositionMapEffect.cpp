@@ -15,7 +15,7 @@ void PlayerPositionMapEffect::Initialize()
 
 	mSampler.Initialize(Sampler::Filter::Point, Sampler::AddressMode::Wrap);
 
-	constexpr uint32_t resolution = 1024;
+	constexpr uint32_t resolution = 4096;
 	mPlayerPositionRenderTargetA.Initialize(resolution, resolution, Texture::Format::RGBA_U32);
 	mPlayerPositionRenderTargetB.Initialize(resolution, resolution, Texture::Format::RGBA_U32);
 

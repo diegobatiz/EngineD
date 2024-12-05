@@ -79,6 +79,17 @@ void ConstantBuffer::BindDS(uint32_t slot) const
 	mContext->DSSetConstantBuffers(slot, 1, &mConstantBuffer);
 }
 
+void ConstantBuffer::BindHS(uint32_t slot) const
+{
+	if (mContext == nullptr)
+	{
+		ID3D11DeviceContext* context = GraphicsSystem::Get()->GetContext();
+		context->HSSetConstantBuffers(slot, 1, &mConstantBuffer);
+		return;
+	}
+	mContext->HSSetConstantBuffers(slot, 1, &mConstantBuffer);
+}
+
 void ConstantBuffer::SetContext(ID3D11DeviceContext* context)
 {
 	mContext = context;

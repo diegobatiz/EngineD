@@ -25,7 +25,7 @@ namespace EngineD::Graphics
 		void Render(const RenderObject& renderObject);
 
 		void SetCamera(const Camera& camera) { mCamera = &camera; }
-		void SetPositionMap(const Texture& posMap) { mPositionMap = &posMap; }
+		void SetPositionMap(const Texture& posMap);
 
 		void DebugUI();
 
@@ -34,21 +34,31 @@ namespace EngineD::Graphics
 		{
 			Math::Matrix4 wvp;
 			Math::Vector3 cameraPos;
+			float padding;
 		};
 
 		struct TessellationData
 		{
-			float minTessDistance = 10;
+			float minTessDistance = 5;
 			float maxTessDistance = 20;
 			float tessLevel = 4;
 			float padding;
 		};
 
+		struct LightingSettings
+		{
+			float textureSize = 1024;
+			float normalStrength = 0.7f;
+			float padding[2];
+		};
+
 		using TransformBuffer = TypedConstantBuffer<TransformData>;
 		using TessellationBuffer = TypedConstantBuffer<TessellationData>;
+		using LightingBuffer = TypedConstantBuffer<LightingSettings>;
 
 		TransformBuffer mTransformBuffer;
 		TessellationBuffer mTessBuffer;
+		LightingBuffer mLightingBuffer;
 
 		Sampler mSampler;
 		VertexShader_D3D11 mVertexShader;
@@ -59,5 +69,6 @@ namespace EngineD::Graphics
 		const Camera* mCamera = nullptr;
 		const Texture* mPositionMap = nullptr;
 		TessellationData mTessData;
+		LightingSettings mLightingSettings;
 	};
 }

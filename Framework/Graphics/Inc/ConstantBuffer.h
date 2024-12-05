@@ -15,6 +15,7 @@ namespace EngineD::Graphics
 		void BindVS(uint32_t slot) const;
 		void BindPS(uint32_t slot) const;
 		void BindDS(uint32_t slot) const;
+		void BindHS(uint32_t slot) const;
 
 		void SetContext(ID3D11DeviceContext* context);
 		void SetDevice(ID3D11Device* device);

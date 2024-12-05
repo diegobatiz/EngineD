@@ -13,6 +13,12 @@ cbuffer TessellationBuffer : register(b1)
     float tessLevel;
 }
 
+cbuffer LightingSettings : register(b2)
+{
+    float texSize;
+    float normalStrength;
+};
+
 Texture2D positionMap : register(t0);
 
 SamplerState texSampler : register(s0);
@@ -61,8 +67,8 @@ struct HS_OUTPUT
 
 struct PatchConstantData
 {
-    float edgeTess[3];
-    float insideTess;
+    float edgeTess[3] : SV_TessFactor;
+    float insideTess : SV_InsideTessFactor;
 };
 
 float CalculateTessFactor(float3 worldPosition, float minDist, float maxDist, float level)
@@ -111,10 +117,10 @@ PatchConstantData PatchConstantFunction(InputPatch<VS_OUTPUT, 3> inputPatch)
     
     float4 tessFactor = DistanceBasedTess(inputPatch[0].position, inputPatch[1].position, inputPatch[2].position, minTessDistance, maxTessDistance, tessLevel);
     
-    patchData.edgeTess[0] = tessFactor.x;
-    patchData.edgeTess[1] = tessFactor.y;
-    patchData.edgeTess[2] = tessFactor.z;
-    patchData.insideTess = tessFactor.w;
+    patchData.edgeTess[0] = 8.0;
+    patchData.edgeTess[1] = 8.0;
+    patchData.edgeTess[2] = 8.0;
+    patchData.insideTess  = 8.0;
     
     return patchData;
 }
@@ -151,8 +157,9 @@ DS_OUTPUT DS(PatchConstantData patchConstants, float3 coords : SV_DomainLocation
         coords.y * patch[1].color +
         coords.z * patch[2].color;
     
-    float height = positionMap.Sample(texSampler, texCoord).r;
-    position.y += height; // multiply by height scale
+    float height = positionMap.SampleLevel(texSampler, texCoord, 0);
+    position.y -= height; // multiply by height scale later
+    position.y = clamp(position.y, -1.0, 0.0);
     
     output.position = mul(float4(position, 1.0), wvp);
     output.texCoord = texCoord;
@@ -166,14 +173,42 @@ DS_OUTPUT DS(PatchConstantData patchConstants, float3 coords : SV_DomainLocation
 
 //=================//Pixel Shader//====================//
 
-float4 PS(VS_OUTPUT input) : SV_Target
+float3 ComputeNormalFromHeightMap(float2 texCoord)
 {
-    float4 displacement = positionMap.Sample(texSampler, input.texCoord);
+    float2 texelSize = 1.0 / texSize;
     
-    if (displacement.r != 0.0)
-    {
-        return float4(0.0, 0.0, 0.0, 0.0);
-    }
+    float heightCenter = positionMap.Sample(texSampler, texCoord).r;
+    float heightLeft = positionMap.Sample(texSampler, texCoord - float2(texelSize.x, 0)).r;
+    float heightUp = positionMap.Sample(texSampler, texCoord - float2(0, texelSize.y)).r;
     
-    return input.color;
+    float dX = (heightCenter - heightLeft) * texSize;
+    float dY = (heightCenter - heightUp) * texSize;
+
+    float3 normal = normalize(float3(-dX * normalStrength, 1.0, -dY * normalStrength));
+
+    return normal;
+}
+
+
+float4 PS(DS_OUTPUT input) : SV_Target
+{
+    float3 lightDir = normalize(float3(0.0f, 1.0f, -1.0f)); // set to the actual light
+    float3 diffuseColor = float3(0.8, 0.8, 0.8);
+    
+    float3 normal = ComputeNormalFromHeightMap(input.texCoord);
+    
+    float ndotl = max(0.0f, dot(lightDir, normal));
+    
+    
+    float3 diffuse = diffuseColor.rgb * ndotl;
+    
+    float t = positionMap.Sample(texSampler, input.texCoord).r;
+    t = 1 - t;
+    
+    float4 bottomColor = float4(0.678431392, 0.847058892, 0.901960850, 1.000000000);
+    float4 topColor = float4(1.0, 1.0, 1.0, 1.0);
+    
+    float4 color = lerp(bottomColor, topColor, t);
+    
+    return color;
 }

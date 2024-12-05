@@ -29,19 +29,23 @@ VS_OUTPUT VS(VS_INPUT input)
     return output;
 }
 
+
 float4 PS(VS_OUTPUT input) : SV_Target
 {
+    float startGradient = 0.5;
+    
     float distance = length(input.texCoord - playerPosition);
 
+    float snowDisplacement = saturate(distance / playerRadius);
+    snowDisplacement = 1 - ((snowDisplacement - startGradient) / (1 - startGradient));
     
-    float4 color = (distance <= playerRadius) ? float4(1.0, 0.0, 0.0, 1.0) : float4(0.0, 0.0, 0.0, 1.0);
+    float currentHeight = snowHeightMap.Sample(texSampler, input.texCoord).r;
     
-    float4 texColor = snowHeightMap.Sample(texSampler, input.texCoord);
-    
-    if (color.r < texColor.r)
+    if (snowDisplacement < currentHeight)
     {
-        color.r = texColor.r;
+        snowDisplacement = currentHeight;
     }
+   
     
-    return color;
+    return float4(snowDisplacement, 0.0, 0.0, 1.0);
 }

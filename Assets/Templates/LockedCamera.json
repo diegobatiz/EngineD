@@ -1,8 +1,8 @@
 {
     "Components": {
         "CameraComponent": {
-            "Position": [0.0, 13.0, -17.0],
-            "LookAt": [-0.001335841603577137, 12.329630851745605, -16.257972717285156]
+            "Position": [0.0, 9.0, -13.0],
+            "LookAt": [0.0, 0.0, 0.0]
         },
         "LookCameraComponent": {
             "TurnSpeed": 0.10000000149011612

@@ -11,6 +11,7 @@ void SnowEffect::Initialize()
 {
 	mTransformBuffer.Initialize();
 	mTessBuffer.Initialize();
+	mLightingBuffer.Initialize();
 
 	std::filesystem::path shaderFile = "../../Assets/Shaders/Snow.fx";
 	mVertexShader.Initialize<VertexD>(shaderFile);
@@ -27,6 +28,7 @@ void SnowEffect::Terminate()
 	mHullShader.Terminate();
 	mPixelShader.Terminate();
 	mVertexShader.Terminate();
+	mLightingBuffer.Terminate();
 	mTessBuffer.Terminate();
 	mTransformBuffer.Terminate();
 }
@@ -41,10 +43,14 @@ void SnowEffect::Begin()
 	mSampler.BindDS(0);
 	mSampler.BindPS(0);
 
-	mTransformBuffer.BindDS(0);
-
 	mPositionMap->BindDS(0);
 	mPositionMap->BindPS(0);
+
+	mTransformBuffer.BindDS(0);
+
+	mTessBuffer.BindHS(1);
+
+	mLightingBuffer.BindPS(2);
 }
 
 void SnowEffect::End()
@@ -71,13 +77,20 @@ void SnowEffect::Render(const RenderObject& renderObject)
 	mTransformBuffer.Update(transformData);
 
 	TessellationData tessData;
-	tessData.minTessDistance = 10.0f;
-	tessData.maxTessDistance = 20.0f;
-	tessData.tessLevel = 4;
 
 	mTessBuffer.Update(tessData);
 
+	LightingSettings lightSettings;
+	lightSettings.normalStrength = mLightingSettings.normalStrength;
+	mLightingSettings.textureSize = mPositionMap->GetWidth();
+	mLightingBuffer.Update(lightSettings);
+
 	renderObject.meshBuffer.Render();
+}
+
+void SnowEffect::SetPositionMap(const Texture& posMap)
+{
+	mPositionMap = &posMap;
 }
 
 void SnowEffect::DebugUI()
