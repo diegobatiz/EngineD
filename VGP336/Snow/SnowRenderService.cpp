@@ -76,7 +76,7 @@ void SnowRenderService::Deserialize(const rapidjson::Value& value)
 
 		mPlayerPositionEffect.SetSnowDimensions(snowSize, snowSize);
 
-		MeshD mesh = MeshBuilder::CreatePlane(snowSize * 10, snowSize * 10, 0.1f, Colors::White);
+		MeshD mesh = MeshBuilder::CreatePlane(snowSize, snowSize, 1.0f, Colors::White);
 		mSnow.meshBuffer.Initialize(mesh);
 		mSnow.meshBuffer.SetTopology(MeshBuffer::Topology::TriangleControlPoint);
 	}

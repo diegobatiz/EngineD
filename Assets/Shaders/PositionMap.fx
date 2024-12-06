@@ -40,9 +40,13 @@ float4 PS(VS_OUTPUT input) : SV_Target
 {
     float distance = length(input.texCoord - playerPosition);
    
-    float distanceFromCenter = saturate(distance / playerRadius);
+    float distanceFromCenter = clamp(distance / playerRadius, 0, 10);
     
-    float snowDisplacement = 1.0 - smoothstep(startGradient, startGradient + edgeThickness, distanceFromCenter);
+    float snowDisplacement = 1.0;
+    if (distanceFromCenter > startGradient)
+    {
+        snowDisplacement = 1.0 - pow(distanceFromCenter - startGradient, 0.5);
+    }
     
     float currentHeight = snowHeightMap.Sample(texSampler, input.texCoord).r;
     

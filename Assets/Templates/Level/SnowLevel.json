@@ -13,7 +13,7 @@
       "FixedTimeStep": 0.01666666666667
     },
     "SnowRenderService": {
-      "SnowSize": 20
+      "SnowSize": 25
     }
   },
   "GameObjects": {

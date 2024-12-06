@@ -117,10 +117,10 @@ PatchConstantData PatchConstantFunction(InputPatch<VS_OUTPUT, 3> inputPatch)
     
     float4 tessFactor = DistanceBasedTess(inputPatch[0].position, inputPatch[1].position, inputPatch[2].position, minTessDistance, maxTessDistance, tessLevel);
     
-    patchData.edgeTess[0] = 8.0;
-    patchData.edgeTess[1] = 8.0;
-    patchData.edgeTess[2] = 8.0;
-    patchData.insideTess  = 8.0;
+    patchData.edgeTess[0] = tessFactor.x;
+    patchData.edgeTess[1] = tessFactor.y;
+    patchData.edgeTess[2] = tessFactor.z;
+    patchData.insideTess = tessFactor.w;
     
     return patchData;
 }

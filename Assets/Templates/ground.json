@@ -9,7 +9,7 @@
       "Mass": 0.0,
       "ColliderData": {
         "Shape": "Hull",
-        "HalfExtents": [ 10.0, 0.1, 10.0 ],
+        "HalfExtents": [ 12.5, 0.1, 12.5 ],
         "Origin": [0.0, -0.1, 0.0]
       }
     }

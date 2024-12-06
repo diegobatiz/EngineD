@@ -41,7 +41,7 @@ namespace EngineD::Graphics
 		{
 			float minTessDistance = 5;
 			float maxTessDistance = 20;
-			float tessLevel = 4;
+			float tessLevel = 8;
 			float padding;
 		};
 
