@@ -77,7 +77,6 @@ void PlayerPositionMapEffect::Render(const RenderObject& renderObject)
 	PlayerPosition posData;
 	posData.position = { mPlayerTransform->position.x, -mPlayerTransform->position.z };
 	posData.position += { mSnowWidth * 0.5f, mSnowHeight * 0.5f };
-	posData.playerRadius = 0.5f;
 	posData.position.x /= mSnowWidth;
 	posData.position.y /= mSnowHeight;
 	posData.playerRadius = mRadius / mSnowWidth;
@@ -118,6 +117,7 @@ void PlayerPositionMapEffect::DebugUI()
 
 		ImGui::DragFloat("Start Gradient", &mTrailSettings.startGradient, 0.01f, 0.01f, 0.99f);
 		ImGui::DragFloat("Edge Thickness", &mTrailSettings.edgeThickness, 0.01f, 0.01f, 0.99f);
+		ImGui::DragFloat("Radius", &mRadius, 0.01f, 0.01f, 10.0f);
 	}
 }
 
