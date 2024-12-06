@@ -40,8 +40,17 @@ namespace EngineD::Graphics
 			float padding;
 		};
 
+		struct TrailSettings
+		{
+			float startGradient = 0.5f;
+			float edgeThickness = 0.1f;
+			float padding[2];
+		};
+
 		using PlayerPositionBuffer = TypedConstantBuffer<PlayerPosition>;
+		using TrailBuffer = TypedConstantBuffer<TrailSettings>;
 		PlayerPositionBuffer mPositionBuffer;
+		TrailBuffer mTrailBuffer;
 
 		VertexShader_D3D11 mVertexShader;
 		PixelShader_D3D11 mPixelShader;
@@ -55,6 +64,8 @@ namespace EngineD::Graphics
 		float mRadius;
 		float mSnowHeight;
 		float mSnowWidth;
+
+		TrailSettings mTrailSettings;
 
 		bool mUseA = true;
 	};

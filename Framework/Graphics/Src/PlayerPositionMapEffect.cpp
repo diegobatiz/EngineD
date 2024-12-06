@@ -20,10 +20,12 @@ void PlayerPositionMapEffect::Initialize()
 	mPlayerPositionRenderTargetB.Initialize(resolution, resolution, Texture::Format::RGBA_U32);
 
 	mPositionBuffer.Initialize();
+	mTrailBuffer.Initialize();
 }	 
 	 
 void PlayerPositionMapEffect::Terminate()
 {	 
+	mTrailBuffer.Terminate();
 	mPositionBuffer.Terminate();
 	mPlayerPositionRenderTargetB.Terminate();
 	mPlayerPositionRenderTargetA.Terminate();
@@ -38,6 +40,7 @@ void PlayerPositionMapEffect::Begin()
 	mPixelShader.Bind();
 
 	mPositionBuffer.BindPS(0);
+	mTrailBuffer.BindPS(1);
 
 	if (mUseA)
 	{
@@ -80,6 +83,11 @@ void PlayerPositionMapEffect::Render(const RenderObject& renderObject)
 	posData.playerRadius = mRadius / mSnowWidth;
 	mPositionBuffer.Update(posData);
 
+	TrailSettings trail;
+	trail.startGradient = mTrailSettings.startGradient;
+	trail.edgeThickness = mTrailSettings.edgeThickness;
+	mTrailBuffer.Update(trail);
+
 	renderObject.meshBuffer.Render();
 }	 
 	 
@@ -107,6 +115,9 @@ void PlayerPositionMapEffect::DebugUI()
 				{ 1, 1, 1, 1 },
 				{ 1, 1, 1, 1 });
 		}
+
+		ImGui::DragFloat("Start Gradient", &mTrailSettings.startGradient, 0.01f, 0.01f, 0.99f);
+		ImGui::DragFloat("Edge Thickness", &mTrailSettings.edgeThickness, 0.01f, 0.01f, 0.99f);
 	}
 }
 
