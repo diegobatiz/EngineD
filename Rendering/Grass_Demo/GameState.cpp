@@ -53,7 +53,7 @@ void GameState::Initialize()
 	//mGrassEffect.SetGrassTextureID(id);
 
 	int density = 3;
-	int sideSize = 50;
+	int sideSize = 100;
 
 	mTerrain.SetOffset(sideSize);
 	mTerrain.SetDensity(density);

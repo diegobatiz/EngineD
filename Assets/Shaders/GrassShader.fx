@@ -22,6 +22,15 @@ cbuffer TimeBuffer : register(b2)
     float time;
 }
 
+cbuffer GrassVariables : register(b3)
+{
+    float extraHeightAdd;
+    float extraHeightMult;
+    float sway1;
+    float sway2;
+    float sway3;
+}
+
 Texture2D grassTexture : register(t0);
 SamplerState textureSampler : register(s0);
 
@@ -196,12 +205,12 @@ VS_OUTPUT VS(VS_INPUT input)
 {
 	VS_OUTPUT output;
     
-    float extraHeight = (input.id.y + 2.0f) * 1.1f;
+    float extraHeight = (input.id.y + extraHeightAdd) * extraHeightMult;
     input.position.y += (input.texCoord.y - 1.0f) * -1.0f * extraHeight;
     input.position.xz += input.id.xz;
     input.position.y += input.id.w;
     
-    float sway = NoiseSimplex(input.position.xz * 0.35f + time * 0.25f) * ((input.texCoord.y - 1.0f) * -1.0f) * 0.1f;
+    float2 sway = NoiseSimplex(input.position.xz * sway1 + time * sway2) * ((input.texCoord.y - 1.0f) * -1.0f) * sway3;
     input.position.xz += sway;
     
     output.worldPos = input.position.xz;

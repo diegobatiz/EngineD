@@ -10,6 +10,7 @@ using namespace EngineD::Graphics;
 
 void GrassEffect::Initialize(const std::filesystem::path& filename)
 {
+	mGrassBuffer.Initialize();
 	mTimeBuffer.Initialize();
 	mColorBuffer.Initialize();
 	mTransformBuffer.Initialize();
@@ -36,6 +37,7 @@ void GrassEffect::Terminate()
 	mTransformBuffer.Terminate();
 	mColorBuffer.Terminate();
 	mTimeBuffer.Terminate();
+	mGrassBuffer.Terminate();
 }
 
 void GrassEffect::Update(float deltaTime)
@@ -65,6 +67,8 @@ void GrassEffect::Begin()
 
 	mTimeBuffer.BindVS(2);
 
+	mGrassBuffer.BindVS(3);
+
 	Math::Matrix4 matWorld = Math::Matrix4::Identity;
 	Math::Matrix4 matView = mCamera->GetViewMatrix();
 	Math::Matrix4 matProj = mCamera->GetProjectionMatrix();
@@ -93,6 +97,14 @@ void GrassEffect::Begin()
 	timeData.time = mCurrentTime;
 	
 	mTimeBuffer.Update(timeData);
+
+	GrassData grassData;
+	grassData.extraHeightAdd = mGrassData.extraHeightAdd;
+	grassData.extraHeightMult = mGrassData.extraHeightMult;
+	grassData.sway1 = mGrassData.sway1;
+	grassData.sway2 = mGrassData.sway2;
+	grassData.sway3 = mGrassData.sway3;
+	mGrassBuffer.Update(grassData);
 
 
 	//FOR BILLBOARD GRASS//
@@ -137,6 +149,11 @@ void GrassEffect::DebugUI()
 				mFogEffect->SetFogColor(mColorData.fogColour);
 			}
 		}
+		ImGui::DragFloat("Extra Grass Height Add", &mGrassData.extraHeightAdd, 0.001f);
+		ImGui::DragFloat("Extra Grass Height Mult", &mGrassData.extraHeightMult, 0.001f);
+		ImGui::DragFloat("Sway 1", &mGrassData.sway1, 0.001f);
+		ImGui::DragFloat("Sway 2", &mGrassData.sway2, 0.001f);
+		ImGui::DragFloat("Sway 3", &mGrassData.sway3, 0.001f);
 		ImGui::DragFloat("Fog Density", &mColorData.fogDensity, 0.001f, 0.00001f, 1.0f);
 		ImGui::DragFloat("Fog Offset", &mColorData.fogOffset, 0.1f, 0.01f, 100.0f);
 	}

@@ -52,13 +52,25 @@ namespace EngineD::Graphics
 			float padding[3] = { 0.0f };
 		};
 
+		struct GrassData
+		{
+			float extraHeightAdd = 2.0f;
+			float extraHeightMult = 1.1f;
+			float sway1 = 0.35f;
+			float sway2 = 0.25f;
+			float sway3 = 0.1f;
+			float padding[3] = { 0.0f };
+		};
+
 		using TransformBuffer = TypedConstantBuffer<TransformData>;
 		using ColorBuffer = TypedConstantBuffer<ColorData>;
 		using TimeBuffer = TypedConstantBuffer<TimeData>;
+		using GrassBuffer = TypedConstantBuffer<GrassData>;
 
 		TransformBuffer mTransformBuffer;
 		ColorBuffer mColorBuffer;
 		TimeBuffer mTimeBuffer;
+		GrassBuffer mGrassBuffer;
 
 		Sampler mSampler;
 		GrassVertexShader mVertexShader;
@@ -70,5 +82,6 @@ namespace EngineD::Graphics
 		FogEffect* mFogEffect;
 		ColorData mColorData;
 		float mCurrentTime;
+		GrassData mGrassData;
 	};
 }
