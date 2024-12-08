@@ -53,11 +53,11 @@ void GameState::Initialize()
 	//mGrassEffect.SetGrassTextureID(id);
 
 	int density = 3;
-	int sideSize = 100;
+	int sideSize = 200;
 
 	mTerrain.SetOffset(sideSize);
 	mTerrain.SetDensity(density);
-	mTerrain.Initialize("../../Assets/Images/terrain/heightmap_1024x1024.raw", 5.0f, Colors::DarkGreen);
+	mTerrain.Initialize("../../Assets/Images/terrain/heightmap_1024x1024.raw", 7.0f, Colors::DarkGreen);
 
 	const MeshPC& m = mTerrain.GetMesh();
 	mGround.meshBuffer.Initialize(
