@@ -55,6 +55,8 @@ namespace EngineD
 			return const_cast<ServiceType*>(thisConst->GetService<ServiceType>());
 		}
 
+		std::filesystem::path GetLevelPath() { return mLevelFileName; }
+
 	private:
 		bool IsValid(const GameObjectHandle& handle);
 		void ProcessDestroyList();

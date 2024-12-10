@@ -14,6 +14,8 @@ void SnowRenderService::Initialize()
 	mPlayerPositionEffect.Initialize();
 
 	mSnowEffect.Initialize();
+
+	//mTemplateFilePath = GetWorld().GetLevelPath();
 }
 
 void SnowRenderService::Terminate()
@@ -45,7 +47,7 @@ void SnowRenderService::Render()
 
 void SnowRenderService::DebugUI()
 {
-	if (ImGui::CollapsingHeader("Rendering"))
+	if (ImGui::CollapsingHeader("Snow Rendering"))
 	{
 		ImGui::Text("FPS: %f", mFPS);
 		if (ImGui::CollapsingHeader("Light"))
@@ -66,6 +68,32 @@ void SnowRenderService::DebugUI()
 
 void SnowRenderService::Serialize(rapidjson::Document& doc, rapidjson::Value& value)
 {
+}
+
+void SnowRenderService::Save()
+{
+	//if (mTemplateFilePath.empty())
+	{
+		return;
+	}
+
+	rapidjson::Document doc;
+	doc.SetObject();
+
+	rapidjson::Value components(rapidjson::kObjectType);
+	Serialize(doc, components);
+	doc.AddMember("Components", components, doc.GetAllocator());
+
+	FILE* file = nullptr;
+	//auto err = fopen_s(&file, mTemplateFilePath.c_str(), "w");
+	//ASSERT(err == 0, "GameObject: failed to open template file %s", mTemplateFilePath.c_str());
+
+	char writeBuffer[655536];
+	rapidjson::FileWriteStream writeStream(file, writeBuffer, sizeof(writeBuffer));
+	rapidjson::PrettyWriter<rapidjson::FileWriteStream> writer(writeStream);
+	writer.SetFormatOptions(rapidjson::PrettyFormatOptions::kFormatSingleLineArray);
+	doc.Accept(writer);
+	fclose(file);
 }
 
 void SnowRenderService::Deserialize(const rapidjson::Value& value)

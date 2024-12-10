@@ -6,6 +6,7 @@
 #include "PixelShader_D3D11.h"
 #include "HullShader.h"
 #include "DomainShader.h"
+#include "Colours.h"
 
 namespace EngineD::Graphics
 {
@@ -47,9 +48,8 @@ namespace EngineD::Graphics
 
 		struct LightingSettings
 		{
-			float textureSize = 1024;
-			float normalStrength = 0.7f;
-			float padding[2];
+			Math::Vector4 bottomColor = {0.38823f, 0.60392f, 0.58431f, 1.0f};
+			Math::Vector4 topColor = Colors::White;
 		};
 
 		using TransformBuffer = TypedConstantBuffer<TransformData>;

@@ -15,8 +15,8 @@ cbuffer TessellationBuffer : register(b1)
 
 cbuffer LightingSettings : register(b2)
 {
-    float texSize;
-    float normalStrength;
+    float4 bottomColor;
+    float4 topColor;
 };
 
 Texture2D positionMap : register(t0);
@@ -134,7 +134,8 @@ struct DS_OUTPUT
 {
     float4 position : SV_Position;
     float4 color : COLOR;
-    float2 texCoord : TEXCOORD;
+    float2 texCoord : TEXCOORD0;
+    float height : TEXCOORD1;
 };
 
 [domain("tri")]
@@ -159,8 +160,8 @@ DS_OUTPUT DS(PatchConstantData patchConstants, float3 coords : SV_DomainLocation
     
     float height = positionMap.SampleLevel(texSampler, texCoord, 0);
     position.y -= height; // multiply by height scale later
-    position.y = clamp(position.y, -1.0, 0.0);
     
+    output.height = 1 - height;
     output.position = mul(float4(position, 1.0), wvp);
     output.texCoord = texCoord;
     output.color = color;
@@ -172,7 +173,7 @@ DS_OUTPUT DS(PatchConstantData patchConstants, float3 coords : SV_DomainLocation
 
 
 //=================//Pixel Shader//====================//
-
+/*
 float3 ComputeNormalFromHeightMap(float2 texCoord)
 {
     float2 texelSize = 1.0 / texSize;
@@ -188,27 +189,14 @@ float3 ComputeNormalFromHeightMap(float2 texCoord)
 
     return normal;
 }
-
+*/
 
 float4 PS(DS_OUTPUT input) : SV_Target
 {
-    float3 lightDir = normalize(float3(0.0f, 1.0f, -1.0f)); // set to the actual light
-    float3 diffuseColor = float3(0.8, 0.8, 0.8);
+    float4 color = lerp(bottomColor, topColor, input.height);
     
-    float3 normal = ComputeNormalFromHeightMap(input.texCoord);
-    
-    float ndotl = max(0.0f, dot(lightDir, normal));
-    
-    
-    float3 diffuse = diffuseColor.rgb * ndotl;
-    
-    float t = positionMap.Sample(texSampler, input.texCoord).r;
-    t = 1 - t;
-    
-    float4 bottomColor = float4(0.678431392, 0.847058892, 0.901960850, 1.000000000);
-    float4 topColor = float4(1.0, 1.0, 1.0, 1.0);
-    
-    float4 color = lerp(bottomColor, topColor, t);
+    float4 bottom = float4(0, 0, 0, 1);
+    float4 top = float4(1, 1, 1, 1);
     
     return color;
 }

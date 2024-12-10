@@ -19,6 +19,12 @@ void SnowEffect::Initialize()
 	mHullShader.Initialize(shaderFile);
 	mDomainShader.Initialize(shaderFile);
 	mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
+
+
+	LightingSettings lightSettings;
+	lightSettings.bottomColor = mLightingSettings.bottomColor;
+	lightSettings.bottomColor = mLightingSettings.topColor;
+	mLightingBuffer.Update(lightSettings);
 }
 
 void SnowEffect::Terminate()
@@ -80,11 +86,6 @@ void SnowEffect::Render(const RenderObject& renderObject)
 
 	mTessBuffer.Update(tessData);
 
-	LightingSettings lightSettings;
-	lightSettings.normalStrength = mLightingSettings.normalStrength;
-	mLightingSettings.textureSize = mPositionMap->GetWidth();
-	mLightingBuffer.Update(lightSettings);
-
 	renderObject.meshBuffer.Render();
 }
 
@@ -100,6 +101,21 @@ void SnowEffect::DebugUI()
 		ImGui::Text("Tessellation Data");
 		ImGui::DragFloat("Min Tessellation Distance", &mTessData.minTessDistance, 0.1f, 1.0f, 50.0f);
 		ImGui::DragFloat("Max Tessellation Distance", &mTessData.maxTessDistance, 0.1f, mTessData.minTessDistance + 1.0f, 100.0f);
-		ImGui::DragFloat("Tessellation Level", &mTessData.tessLevel, 1.0f, 1.0f, 8.0f);
+		ImGui::DragFloat("Tessellation Level", &mTessData.tessLevel, 1.0f, 1.0f, 32.0f);
+		ImGui::Text("Pixel Shader Data");
+		if (ImGui::ColorEdit4("Bottom Color", &mLightingSettings.bottomColor.x))
+		{
+			LightingSettings settings;
+			settings.bottomColor = mLightingSettings.bottomColor;
+			settings.topColor = mLightingSettings.topColor;
+			mLightingBuffer.Update(settings);
+		}
+		if (ImGui::ColorEdit4("Top Color", &mLightingSettings.topColor.x))
+		{
+			LightingSettings settings;
+			settings.bottomColor = mLightingSettings.bottomColor;
+			settings.topColor = mLightingSettings.topColor;
+			mLightingBuffer.Update(settings);
+		}
 	}
 }

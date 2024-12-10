@@ -19,6 +19,10 @@ public:
 	void RegisterPlayer(const EngineD::TransformComponent* player);
 
 private:
+	void Save();
+
+	std::filesystem::path mLevelFilePath = "";
+
 	const EngineD::CameraService* mCameraService = nullptr;
 	const EngineD::Graphics::Transform* mPlayerTransform = nullptr;
 
