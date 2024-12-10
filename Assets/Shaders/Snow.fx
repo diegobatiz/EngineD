@@ -161,13 +161,9 @@ DS_OUTPUT DS(PatchConstantData patchConstants, float3 coords : SV_DomainLocation
         coords.z * patch[2].color;
     
     float height = positionMap.SampleLevel(texSampler, texCoord, 0);
-    float bump;
-    if (height < 0.9)
-    {
-        bump = snowBumpMap.SampleLevel(texSampler, texCoord * 2, 0);
-        position.y = bump - 0.85;
-    }
-    position.y -= height; // multiply by height scale later
+	float useBump = step(height, 0.9);
+    float bump = snowBumpMap.SampleLevel(texSampler, texCoord * 2, 0) * useBump;
+    position.y = bump - (0.85 * useBump) - height;
     
     output.height = position.y;
     output.position = mul(float4(position, 1.0), wvp);
