@@ -81,6 +81,7 @@ void SnowEffect::Render(const RenderObject& renderObject)
 	mTransformBuffer.Update(transformData);
 
 	TessellationData tessData;
+	tessData.bumpOffset = mTessData.bumpOffset;
 
 	mTessBuffer.Update(tessData);
 
@@ -100,6 +101,7 @@ void SnowEffect::DebugUI()
 		ImGui::DragFloat("Min Tessellation Distance", &mTessData.minTessDistance, 0.1f, 1.0f, 50.0f);
 		ImGui::DragFloat("Max Tessellation Distance", &mTessData.maxTessDistance, 0.1f, mTessData.minTessDistance + 1.0f, 100.0f);
 		ImGui::DragFloat("Tessellation Level", &mTessData.tessLevel, 1.0f, 1.0f, 32.0f);
+		ImGui::DragFloat("Bump Offset", &mTessData.bumpOffset, 0.001f, 0.001f, 5.0f);
 		ImGui::Text("Pixel Shader Data");
 		if (ImGui::ColorEdit4("Bottom Color", &mLightingSettings.bottomColor.x))
 		{

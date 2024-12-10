@@ -44,7 +44,7 @@ namespace EngineD::Graphics
 			float minTessDistance = 5;
 			float maxTessDistance = 20;
 			float tessLevel = 16;
-			float padding;
+			float bumpOffset = 0.9f;
 		};
 
 		struct LightingSettings

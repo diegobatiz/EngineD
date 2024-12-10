@@ -11,6 +11,7 @@ cbuffer TessellationBuffer : register(b1)
     float minTessDistance;
     float maxTessDistance;
     float tessLevel;
+    float bumpOffset;
 }
 
 cbuffer LightingSettings : register(b2)
@@ -20,6 +21,7 @@ cbuffer LightingSettings : register(b2)
 };
 
 Texture2D positionMap : register(t0);
+Texture2D snowBumpMap : register(t1);
 
 SamplerState texSampler : register(s0);
 
@@ -159,9 +161,15 @@ DS_OUTPUT DS(PatchConstantData patchConstants, float3 coords : SV_DomainLocation
         coords.z * patch[2].color;
     
     float height = positionMap.SampleLevel(texSampler, texCoord, 0);
+    float bump;
+    if (height < 0.9)
+    {
+        bump = snowBumpMap.SampleLevel(texSampler, texCoord * 2, 0);
+        position.y = bump - 0.85;
+    }
     position.y -= height; // multiply by height scale later
     
-    output.height = 1 - height;
+    output.height = position.y;
     output.position = mul(float4(position, 1.0), wvp);
     output.texCoord = texCoord;
     output.color = color;
@@ -193,7 +201,7 @@ float3 ComputeNormalFromHeightMap(float2 texCoord)
 
 float4 PS(DS_OUTPUT input) : SV_Target
 {
-    float4 color = lerp(bottomColor, topColor, input.height);
+    float4 color = lerp(bottomColor, topColor, input.height + 0.85);
     
     return color;
 }
