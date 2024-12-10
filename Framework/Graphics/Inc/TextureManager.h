@@ -28,6 +28,7 @@ namespace EngineD::Graphics
 		
 		void BindVS(TextureID id, uint32_t slot);
 		void BindPS(TextureID id, uint32_t slot);
+		void BindDS(TextureID id, uint32_t slot);
 
 	private:
 		using Inventory = std::unordered_map<TextureID, std::unique_ptr<Texture>>;

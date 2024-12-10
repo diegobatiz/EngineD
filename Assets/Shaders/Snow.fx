@@ -195,8 +195,5 @@ float4 PS(DS_OUTPUT input) : SV_Target
 {
     float4 color = lerp(bottomColor, topColor, input.height);
     
-    float4 bottom = float4(0, 0, 0, 1);
-    float4 top = float4(1, 1, 1, 1);
-    
     return color;
 }

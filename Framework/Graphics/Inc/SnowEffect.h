@@ -7,6 +7,7 @@
 #include "HullShader.h"
 #include "DomainShader.h"
 #include "Colours.h"
+#include "TextureManager.h"
 
 namespace EngineD::Graphics
 {
@@ -42,7 +43,7 @@ namespace EngineD::Graphics
 		{
 			float minTessDistance = 5;
 			float maxTessDistance = 20;
-			float tessLevel = 8;
+			float tessLevel = 16;
 			float padding;
 		};
 
@@ -68,6 +69,7 @@ namespace EngineD::Graphics
 
 		const Camera* mCamera = nullptr;
 		const Texture* mPositionMap = nullptr;
+		TextureID mSnowBumpMapID;
 		TessellationData mTessData;
 		LightingSettings mLightingSettings;
 	};

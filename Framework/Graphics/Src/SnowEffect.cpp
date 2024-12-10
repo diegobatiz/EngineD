@@ -20,10 +20,11 @@ void SnowEffect::Initialize()
 	mDomainShader.Initialize(shaderFile);
 	mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
 
+	mSnowBumpMapID = TextureManager::Get()->LoadTexture("terrain/SnowBumpMap.jpg");;
 
 	LightingSettings lightSettings;
 	lightSettings.bottomColor = mLightingSettings.bottomColor;
-	lightSettings.bottomColor = mLightingSettings.topColor;
+	lightSettings.topColor = mLightingSettings.topColor;
 	mLightingBuffer.Update(lightSettings);
 }
 
@@ -52,6 +53,8 @@ void SnowEffect::Begin()
 	mPositionMap->BindDS(0);
 	mPositionMap->BindPS(0);
 
+	TextureManager::Get()->BindDS(mSnowBumpMapID, 1);
+
 	mTransformBuffer.BindDS(0);
 
 	mTessBuffer.BindHS(1);
@@ -61,11 +64,6 @@ void SnowEffect::Begin()
 
 void SnowEffect::End()
 {
-	if (mPositionMap != nullptr)
-	{
-		Texture::UnbindDS(0);
-		Texture::UnbindPS(0);
-	}
 }
 
 void SnowEffect::Render(const RenderObject& renderObject)

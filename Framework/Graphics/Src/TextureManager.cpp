@@ -93,3 +93,16 @@ void TextureManager::BindPS(TextureID id, uint32_t slot)
 		iter->second->BindPS(slot);
 	}
 }
+
+void TextureManager::BindDS(TextureID id, uint32_t slot)
+{
+	if (id == 0)
+	{
+		return;
+	}
+	auto iter = mInventory.find(id);
+	if (iter != mInventory.end())
+	{
+		iter->second->BindDS(slot);
+	}
+}
