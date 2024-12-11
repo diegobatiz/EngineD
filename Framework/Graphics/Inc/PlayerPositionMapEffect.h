@@ -22,6 +22,7 @@ namespace EngineD::Graphics
 		void Begin();
 		void End();
 
+		void Update(float deltaTime);
 		void Render(const RenderObject& renderObject);
 
 		void DebugUI();
@@ -29,6 +30,7 @@ namespace EngineD::Graphics
 		void SetPlayerTransform(const Transform& player) { mPlayerTransform = &player; }
 		void SetRadius(float radius);
 		void SetSnowDimensions(float width, float height);
+		void SetPlayerMoving(bool moving) { mIsMoving = moving; }
 
 		const Texture& GetPositionMap() const;
 
@@ -42,15 +44,25 @@ namespace EngineD::Graphics
 
 		struct TrailSettings
 		{
-			float startGradient = 0.5f;
-			float edgeThickness = 0.1f;
+			float startGradient = 0.75f;
+			float edgeThickness = 0.23f;
+			float minStartGradient = 0.55f;
+			float maxStartGradient = 0.85f;
+		};
+
+		struct Time
+		{
+			float time;
+			float cycleDuration = 0.2f;
 			float padding[2];
 		};
 
 		using PlayerPositionBuffer = TypedConstantBuffer<PlayerPosition>;
 		using TrailBuffer = TypedConstantBuffer<TrailSettings>;
+		using TimeBuffer = TypedConstantBuffer<Time>;
 		PlayerPositionBuffer mPositionBuffer;
 		TrailBuffer mTrailBuffer;
+		TimeBuffer mTimeBuffer;
 
 		VertexShader_D3D11 mVertexShader;
 		PixelShader_D3D11 mPixelShader;
@@ -64,9 +76,11 @@ namespace EngineD::Graphics
 		float mRadius;
 		float mSnowHeight;
 		float mSnowWidth;
+		float mTime;
 
 		TrailSettings mTrailSettings;
 
 		bool mUseA = true;
+		bool mIsMoving = false;
 	};
 }

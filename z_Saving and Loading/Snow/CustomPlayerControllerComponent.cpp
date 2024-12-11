@@ -56,6 +56,12 @@ void CustomPlayerControllerComponent::Deserialize(const rapidjson::Value& value)
 	}
 }
 
+bool const CustomPlayerControllerComponent::IsMoving() const
+{
+	Math::Vector3 velocity = mRigidBody->GetVelocity();
+	return Math::Magnitude(velocity) > 0.5f;
+}
+
 void CustomPlayerControllerComponent::CalculateDirection()
 {
 	auto input = Input::InputSystem::Get();

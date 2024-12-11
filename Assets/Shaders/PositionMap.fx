@@ -9,7 +9,15 @@ cbuffer PlayerPositionBuffer : register(b0)
 cbuffer TrailBuffer : register(b1)
 {
     float startGradient;
-    float edgeThickness;
+    float snowPower;
+    float minStartGradient;
+    float maxStartGradient;
+}
+
+cbuffer TimeBuffer : register(b2)
+{
+    float time;
+    float cycleDuration;
 }
 
 Texture2D snowHeightMap : register(t0);
@@ -35,17 +43,40 @@ VS_OUTPUT VS(VS_INPUT input)
     return output;
 }
 
+float hash(float2 uv)
+{
+    return frac(sin(7.289 * uv.x + 11.23 * uv.y) * 23758.5453);
+}
+
+float smoothInterpolate(float current, float next, float t)
+{
+    float alpha = t * t * t * (t * (t * 6.0 - 15.0) + 10);
+    return lerp(current, next, alpha);
+}
+
+float randomInterpolate(float min, float max, float cycleTime, float t)
+{
+    float cycle = floor(t / cycleTime);
+    float currentTarget = min + (max - min) * hash(float2(cycle, 0.0));
+    float nextTarget = min + (max - min) * hash(float2(cycle + 1, 0.0));
+    
+    float tea = fmod(t, cycleTime) / cycleTime;
+    
+    return smoothInterpolate(currentTarget, nextTarget, tea);
+}
 
 float4 PS(VS_OUTPUT input) : SV_Target
 {
     float distance = length(input.texCoord - playerPosition);
    
-    float distanceFromCenter = clamp(distance / playerRadius, 0, 10);
+    float distanceFromCenter = clamp(distance / playerRadius, 0, 1.5);
+   
+    float startDisplace = randomInterpolate(minStartGradient, maxStartGradient, cycleDuration, time);
     
     float snowDisplacement = 1.0;
-    if (distanceFromCenter > startGradient)
+    if (distanceFromCenter > startDisplace)
     {
-        snowDisplacement = 1.0 - pow(distanceFromCenter - startGradient, 0.5);
+        snowDisplacement = 1.0 - pow(distanceFromCenter - startDisplace, snowPower);
     }
     
     float currentHeight = snowHeightMap.Sample(texSampler, input.texCoord).r;

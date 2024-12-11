@@ -15,6 +15,8 @@ public:
 
 	void Deserialize(const rapidjson::Value& value) override;
 
+	const bool IsMoving() const;
+
 private:
 	void CalculateDirection();
 

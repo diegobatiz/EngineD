@@ -22,6 +22,7 @@ cbuffer LightingSettings : register(b2)
 
 Texture2D positionMap : register(t0);
 Texture2D snowBumpMap : register(t1);
+Texture2D snowTexture : register(t2);
 
 SamplerState texSampler : register(s0);
 
@@ -162,7 +163,7 @@ DS_OUTPUT DS(PatchConstantData patchConstants, float3 coords : SV_DomainLocation
     
     float height = positionMap.SampleLevel(texSampler, texCoord, 0);
 	float useBump = step(height, 0.9);
-    float bump = snowBumpMap.SampleLevel(texSampler, texCoord * 2, 0) * useBump;
+    float bump = snowBumpMap.SampleLevel(texSampler, texCoord, 0) * useBump;
     position.y = bump - (0.85 * useBump) - height;
     
     output.height = position.y;
@@ -197,7 +198,8 @@ float3 ComputeNormalFromHeightMap(float2 texCoord)
 
 float4 PS(DS_OUTPUT input) : SV_Target
 {
-    float4 color = lerp(bottomColor, topColor, input.height + 0.85);
+    float4 top = snowTexture.Sample(texSampler, input.texCoord);
+    float4 color = lerp(bottomColor, topColor, input.height + 1);
     
     return color;
 }

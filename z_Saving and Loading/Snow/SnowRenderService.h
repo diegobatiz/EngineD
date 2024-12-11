@@ -2,6 +2,8 @@
 
 #include "CustomTypeIds.h"
 
+class CustomPlayerControllerComponent;
+
 class SnowRenderService : public EngineD::Service
 {
 public:
@@ -25,6 +27,7 @@ private:
 
 	const EngineD::CameraService* mCameraService = nullptr;
 	const EngineD::Graphics::Transform* mPlayerTransform = nullptr;
+	const CustomPlayerControllerComponent* mPlayerController;
 
 	EngineD::Graphics::RenderObject mQuad;
 	EngineD::Graphics::RenderObject mSnow;

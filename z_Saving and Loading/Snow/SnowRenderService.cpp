@@ -1,5 +1,6 @@
 #include "SnowRenderService.h"
 
+#include "CustomPlayerControllerComponent.h"
 
 using namespace EngineD;
 using namespace EngineD::Graphics;
@@ -29,6 +30,10 @@ void SnowRenderService::Terminate()
 void SnowRenderService::Update(float deltaTime)
 {
 	mFPS = 1.0f / deltaTime;
+
+	bool moving = mPlayerController->IsMoving();
+	mPlayerPositionEffect.SetPlayerMoving(moving);
+	mPlayerPositionEffect.Update(deltaTime);
 }
 
 void SnowRenderService::Render()
@@ -114,6 +119,7 @@ void SnowRenderService::RegisterPlayer(const TransformComponent* player)
 {
 	ASSERT(mPlayerTransform == nullptr, "SnowRenderService: player component already registered!");
 	mPlayerTransform = player->GetTransform();
+	mPlayerController = player->GetOwner().GetComponent<CustomPlayerControllerComponent>();
 
 	mPlayerPositionEffect.SetPlayerTransform(*mPlayerTransform);
 

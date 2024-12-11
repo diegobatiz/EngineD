@@ -70,6 +70,7 @@ namespace EngineD::Graphics
 		const Camera* mCamera = nullptr;
 		const Texture* mPositionMap = nullptr;
 		TextureID mSnowBumpMapID;
+		TextureID mSnowTextureID;
 		TessellationData mTessData;
 		LightingSettings mLightingSettings;
 	};

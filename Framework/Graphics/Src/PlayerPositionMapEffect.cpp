@@ -21,10 +21,12 @@ void PlayerPositionMapEffect::Initialize()
 
 	mPositionBuffer.Initialize();
 	mTrailBuffer.Initialize();
+	mTimeBuffer.Initialize();
 }	 
 	 
 void PlayerPositionMapEffect::Terminate()
 {	 
+	mTimeBuffer.Terminate();
 	mTrailBuffer.Terminate();
 	mPositionBuffer.Terminate();
 	mPlayerPositionRenderTargetB.Terminate();
@@ -41,6 +43,7 @@ void PlayerPositionMapEffect::Begin()
 
 	mPositionBuffer.BindPS(0);
 	mTrailBuffer.BindPS(1);
+	mTimeBuffer.BindPS(2);
 
 	if (mUseA)
 	{
@@ -72,6 +75,11 @@ void PlayerPositionMapEffect::End()
 	Texture::UnbindPS(0);
 }	 
 	 
+void PlayerPositionMapEffect::Update(float deltaTime)
+{
+	mTime += deltaTime;
+}
+
 void PlayerPositionMapEffect::Render(const RenderObject& renderObject)
 {	 
 	PlayerPosition posData;
@@ -86,6 +94,10 @@ void PlayerPositionMapEffect::Render(const RenderObject& renderObject)
 	trail.startGradient = mTrailSettings.startGradient;
 	trail.edgeThickness = mTrailSettings.edgeThickness;
 	mTrailBuffer.Update(trail);
+
+	Time time;
+	time.time = mTime;
+	mTimeBuffer.Update(time);
 
 	renderObject.meshBuffer.Render();
 }	 
@@ -115,6 +127,8 @@ void PlayerPositionMapEffect::DebugUI()
 				{ 1, 1, 1, 1 });
 		}
 
+		ImGui::DragFloat("Min Start Gradient", &mTrailSettings.minStartGradient, 0.01f, 0.01f, 0.99f);
+		ImGui::DragFloat("Max Start Gradient", &mTrailSettings.maxStartGradient, 0.01f, 0.01f, 0.99f);
 		ImGui::DragFloat("Start Gradient", &mTrailSettings.startGradient, 0.01f, 0.01f, 0.99f);
 		ImGui::DragFloat("Edge Thickness", &mTrailSettings.edgeThickness, 0.01f, 0.01f, 0.99f);
 		ImGui::DragFloat("Radius", &mRadius, 0.01f, 0.01f, 10.0f);
