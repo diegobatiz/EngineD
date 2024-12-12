@@ -32,9 +32,14 @@ private:
 	EngineD::Graphics::RenderObject mQuad;
 	EngineD::Graphics::RenderObject mSnow;
 
+	EngineD::Physics::SnowParticleSystemInfo mSnowParticleInfo;
+	EngineD::Physics::SnowParticleSystem mSnowParticles;
+
 	EngineD::Graphics::DirectionalLight mDirectionalLight;
+
 	EngineD::Graphics::SnowEffect mSnowEffect;
 	EngineD::Graphics::PlayerPositionMapEffect mPlayerPositionEffect;
+	EngineD::Graphics::ParticleSystemEffect mParticleEffect;
 
 	float mFPS = 0;
 };

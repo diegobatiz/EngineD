@@ -152,29 +152,30 @@ DS_OUTPUT DS(PatchConstantData patchConstants, float3 coords : SV_DomainLocation
         coords.z * patch[2].position;
     
     float2 texCoord =
-        coords.x * patch[0].texCoord +
-        coords.y * patch[1].texCoord +
-        coords.z * patch[2].texCoord;
+        patch[0].texCoord * coords.x +
+        patch[1].texCoord * coords.y +
+        patch[2].texCoord * coords.z;
     
     float4 color =
-        coords.x * patch[0].color +
-        coords.y * patch[1].color +
-        coords.z * patch[2].color;
+         patch[0].color * coords.x +
+         patch[1].color * coords.y +
+         patch[2].color * coords.z;
     
-    float height = positionMap.SampleLevel(texSampler, texCoord, 0);
+    float height = positionMap.SampleLevel(texSampler, texCoord, 0).r;
 	float useBump = step(height, 0.9);
-    float bump = snowBumpMap.SampleLevel(texSampler, texCoord, 0) * useBump;
-    position.y = bump - (0.85 * useBump) - height;
+    float bump = snowBumpMap.SampleLevel(texSampler, texCoord, 0).r * useBump;
+    position.y = -height + (bump - (0.85 * useBump));
     
     output.height = position.y;
+    
+    position.y += (useBump * bumpOffset);
+
     output.position = mul(float4(position, 1.0), wvp);
     output.texCoord = texCoord;
     output.color = color;
     
     return output;
 }
-
-
 
 
 //=================//Pixel Shader//====================//

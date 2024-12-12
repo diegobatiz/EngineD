@@ -48,6 +48,9 @@
     <ClInclude Include="Inc\SoftBody.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\SnowParticleSystem.h">
+      <Filter>Inc\Particles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\PhysicsWorld.cpp">
@@ -73,6 +76,9 @@
     </ClCompile>
     <ClCompile Include="Src\SoftBody.cpp">
       <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SnowParticleSystem.cpp">
+      <Filter>Src\Particles</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -76,7 +76,7 @@ float4 PS(VS_OUTPUT input) : SV_Target
     float snowDisplacement = 1.0;
     if (distanceFromCenter > startDisplace)
     {
-        snowDisplacement = 1.0 - pow(distanceFromCenter - startDisplace, snowPower);
+        snowDisplacement = 1.0 - pow(abs(distanceFromCenter - startDisplace), snowPower);
     }
     
     float currentHeight = snowHeightMap.Sample(texSampler, input.texCoord).r;

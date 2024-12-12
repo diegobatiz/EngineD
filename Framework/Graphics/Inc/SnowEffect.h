@@ -44,12 +44,12 @@ namespace EngineD::Graphics
 			float minTessDistance = 5;
 			float maxTessDistance = 20;
 			float tessLevel = 16;
-			float bumpOffset = 0.9f;
+			float bumpOffset = 0.1f;
 		};
 
 		struct LightingSettings
 		{
-			Math::Vector4 bottomColor = {0.38823f, 0.60392f, 0.58431f, 1.0f};
+			Math::Vector4 bottomColor = {0.639215f, 0.639215f, 0.639215f, 1.0f};
 			Math::Vector4 topColor = Colors::White;
 		};
 

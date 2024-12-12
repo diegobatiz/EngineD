@@ -60,6 +60,7 @@ void SnowEffect::Begin()
 	mTransformBuffer.BindDS(0);
 
 	mTessBuffer.BindHS(1);
+	mTessBuffer.BindDS(1);
 
 	mLightingBuffer.BindPS(2);
 }

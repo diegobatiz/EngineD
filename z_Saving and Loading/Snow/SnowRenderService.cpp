@@ -13,14 +13,31 @@ void SnowRenderService::Initialize()
 	mQuad.meshBuffer.Initialize(quad);
 
 	mPlayerPositionEffect.Initialize();
-
 	mSnowEffect.Initialize();
+	mParticleEffect.Initialize();
+
+	mSnowParticleInfo.particleTextureId = TextureManager::Get()->LoadTexture("Snow.png");
+	mSnowParticleInfo.spawnHeight = 10.0f;
+	mSnowParticleInfo.spawnMin = { 0, 0 };
+	mSnowParticleInfo.spawnMax = { 12.5, 12.5 };
+	mSnowParticleInfo.minParticlePerEmit = 1;
+	mSnowParticleInfo.maxParticlePerEmit = 2;
+	mSnowParticleInfo.minTimeBetweenEmit = 2;
+	mSnowParticleInfo.maxTimeBetweenEmit = 3;
+	mSnowParticleInfo.minSpeed = 0.0f;
+	mSnowParticleInfo.maxSpeed = 2.0f;
+	mSnowParticleInfo.minParticleLifetime = 5.0f;
+	mSnowParticleInfo.maxParticleLifetime = 10.0f;
+
+	mSnowParticles.Initialize(mSnowParticleInfo);
 
 	//mTemplateFilePath = GetWorld().GetLevelPath();
 }
 
 void SnowRenderService::Terminate()
 {
+	mSnowParticles.Terminate();
+	mParticleEffect.Terminate();
 	mSnowEffect.Terminate();
 	mPlayerPositionEffect.Terminate();
 	mQuad.Terminate();
@@ -34,11 +51,14 @@ void SnowRenderService::Update(float deltaTime)
 	bool moving = mPlayerController->IsMoving();
 	mPlayerPositionEffect.SetPlayerMoving(moving);
 	mPlayerPositionEffect.Update(deltaTime);
+
+	mSnowParticles.Update(deltaTime);
 }
 
 void SnowRenderService::Render()
 {
 	mSnowEffect.SetCamera(mCameraService->GetMain());
+	mParticleEffect.SetCamera(mCameraService->GetMain());
 	mSnowEffect.SetPositionMap(mPlayerPositionEffect.GetPositionMap());
 
 	mPlayerPositionEffect.Begin();
@@ -48,6 +68,10 @@ void SnowRenderService::Render()
 	mSnowEffect.Begin();
 		mSnowEffect.Render(mSnow);
 	mSnowEffect.End();
+
+	mParticleEffect.Begin();
+		mSnowParticles.Render(mParticleEffect);
+	mParticleEffect.End();
 }
 
 void SnowRenderService::DebugUI()
@@ -68,6 +92,7 @@ void SnowRenderService::DebugUI()
 		}
 		mSnowEffect.DebugUI();
 		mPlayerPositionEffect.DebugUI();
+		mSnowParticles.DebugUI();
 	}
 }
 
