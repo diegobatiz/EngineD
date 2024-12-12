@@ -65,13 +65,13 @@ void SnowRenderService::Render()
 		mPlayerPositionEffect.Render(mQuad);
 	mPlayerPositionEffect.End();
 
-	mSnowEffect.Begin();
-		mSnowEffect.Render(mSnow);
-	mSnowEffect.End();
-
 	mParticleEffect.Begin();
 		mSnowParticles.Render(mParticleEffect);
 	mParticleEffect.End();
+
+	mSnowEffect.Begin();
+		mSnowEffect.Render(mSnow);
+	mSnowEffect.End();
 }
 
 void SnowRenderService::DebugUI()
