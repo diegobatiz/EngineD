@@ -12,7 +12,7 @@ namespace EngineD::Physics
 		RigidBody() = default;
 		~RigidBody() override;
 
-		void Initialize(EngineD::Graphics::Transform& graphicsTransform, const CollisionShape& shape, float mass = 0.0f);
+		void Initialize(EngineD::Graphics::Transform& graphicsTransform, const CollisionShape& shape, float mass = 0.0f, bool usePhysicsWorld = false);
 		void Terminate();
 
 		void SetPosition(const EngineD::Math::Vector3& position);
@@ -31,5 +31,7 @@ namespace EngineD::Physics
 		float mMass = 0.0f;
 
 		EngineD::Graphics::Transform* mGraphicsTransform = nullptr;
+
+		bool mUsePhysicsService = true;
 	};
 }

@@ -13,23 +13,26 @@ RigidBody::~RigidBody()
 	ASSERT(mRigidBody == nullptr && mMotionState == nullptr, "RigidBody: terminate must be called");
 }
 
-void RigidBody::Initialize(EngineD::Graphics::Transform& graphicsTransform, const CollisionShape& shape, float mass)
+void RigidBody::Initialize(EngineD::Graphics::Transform& graphicsTransform, const CollisionShape& shape, float mass, bool usePhysicsWorld)
 {
 	mGraphicsTransform = &graphicsTransform;
 	mMass = mass;
 
 	mMotionState = new btDefaultMotionState(ConvertTobtTransform(graphicsTransform));
 	mRigidBody = new btRigidBody(mass, mMotionState, shape.GetCollisionShape());
-#ifndef USE_PHYSICS_SERVICE
-	PhysicsWorld::Get()->Register(this);
-#endif
+	if (!usePhysicsWorld)
+	{
+		PhysicsWorld::Get()->Register(this);
+		mUsePhysicsService = false;
+	}
 }
 
 void RigidBody::Terminate()
 {
-#ifndef USE_PHYSICS_SERVICE
+	if (!mUsePhysicsService)
+	{
 		PhysicsWorld::Get()->Unregister(this);
-#endif
+	}
 	SafeDelete(mRigidBody);
 	SafeDelete(mMotionState);
 	mGraphicsTransform = nullptr;

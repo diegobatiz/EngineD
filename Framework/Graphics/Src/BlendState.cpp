@@ -78,9 +78,9 @@ void BlendState::Initialize(Mode mode)
 	dsDesc.DepthEnable = true;
 	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 	dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
-
+	//
 	//disable stencil testing
-	//dsDesc.StencilEnable = false;
+	dsDesc.StencilEnable = false;
 
 	hr = device->CreateDepthStencilState(&dsDesc, &mDepthStencilState);
 	ASSERT(SUCCEEDED(hr), "BlendState: failed to create depth stencil state");
