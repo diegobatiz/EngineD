@@ -46,14 +46,14 @@ namespace EngineD::Graphics
 		{
 			float startGradient = 0.75f;
 			float edgeThickness = 0.23f;
-			float minStartGradient = 0.55f;
+			float minStartGradient = 0.45f;
 			float maxStartGradient = 0.85f;
 		};
 
 		struct Time
 		{
 			float time;
-			float cycleDuration = 0.2f;
+			float cycleDuration = 0.15f;
 			float padding[2];
 		};
 
