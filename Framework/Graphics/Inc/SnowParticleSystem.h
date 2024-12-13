@@ -1,13 +1,14 @@
 #pragma once
 
-#include "Particle.h"
+#include "DynamicInstancedMeshBuffer.h"
+#include "Camera.h"
+#include "RenderObject.h"
 
-namespace EngineD::Physics
+namespace EngineD::Graphics
 {
 	struct SnowParticleSystemInfo
 	{
 		int maxParticles = 1000;
-		Graphics::TextureID particleTextureId = 0;
 		float spawnHeight = 0;
 		Math::Vector2 spawnMin = Math::Vector2::Zero;
 		Math::Vector2 spawnMax = Math::Vector2::One;
@@ -21,7 +22,7 @@ namespace EngineD::Physics
 
 	struct SnowParticle
 	{
-		Math::Vector3 position;
+		Math::Vector3 position = Math::Vector3::Zero;
 
 		float speed = -100.0f;
 		bool alive;
@@ -40,14 +41,14 @@ namespace EngineD::Physics
 
 		void Render();
 
-		void SetCamera(const EngineD::Graphics::Camera& camera) { mCamera = &camera; }
+		void SetCamera(const Camera& camera) { mCamera = &camera; }
 
 	private:
 		void InitializeParticles(uint32_t count);
 		void SpawnSingleParticle();
 		void RemoveSingleParticle(SnowParticle* particle);
 
-		EngineD::Graphics::DynamicInstancedMeshBuffer mParticleMeshBuffer;
+		DynamicInstancedMeshBuffer mParticleMeshBuffer;
 
 		//Particles
 		using SnowParticles = std::vector<SnowParticle>;
@@ -59,8 +60,8 @@ namespace EngineD::Physics
 		float mNextSpawnTime = 0.0f;
 
 		//Render Info
-		Graphics::RenderObject mParticleObject;
+		RenderObject mParticleObject;
 
-		const EngineD::Graphics::Camera* mCamera;
+		const Camera* mCamera;
 	};
 }

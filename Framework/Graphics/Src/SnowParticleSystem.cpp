@@ -1,8 +1,9 @@
 #include "Precompiled.h"
 #include "SnowParticleSystem.h"
 
+#include "MeshBuilder.h"
+
 using namespace EngineD;
-using namespace EngineD::Physics;
 using namespace EngineD::Math;
 using namespace EngineD::Graphics;
 
@@ -13,9 +14,8 @@ void SnowParticleSystem::Initialize(const SnowParticleSystemInfo& info)
 
 	Mesh particleMesh = MeshBuilder::CreateSpriteQuad(0.5f, 0.5f);
 	mParticleObject.meshBuffer.Initialize(particleMesh);
-	mParticleObject.diffuseMapId = info.particleTextureId;
 
-	mParticleMeshBuffer.Initialize<Mesh>(particleMesh);
+	mParticleMeshBuffer.Initialize<Mesh>(particleMesh, info.maxParticles);
 
 	InitializeParticles(info.maxParticles);
 }
@@ -46,7 +46,7 @@ void SnowParticleSystem::Update(float deltaTime)
 	{
 		if (!p.alive) continue;
 
-		p.position.y += p.speed * deltaTime;
+		p.position.y += p.speed * 0.1;
 		if (p.position.y < -2)
 		{
 			RemoveSingleParticle(&p);
@@ -70,6 +70,10 @@ void SnowParticleSystem::Render()
 				(B.position.z - cameraPosition.z) * (B.position.z - cameraPosition.z);
 			return distA > distB;
 		});
+
+	mParticleMeshBuffer.UpdateInstanceBuffer(mParticles);
+
+	mParticleMeshBuffer.Render();
 }
 
 void SnowParticleSystem::DebugUI()

@@ -1,7 +1,7 @@
 #pragma once
 #include "ConstantBuffer.h"
 #include "Sampler.h"
-#include "GrassShader.h"
+#include "InstanceVertexShader.h"
 #include "PixelShader_D3D11.h"
 #include "TextureManager.h"
 #include "BlendState.h"
@@ -73,7 +73,7 @@ namespace EngineD::Graphics
 		GrassBuffer mGrassBuffer;
 
 		Sampler mSampler;
-		GrassVertexShader mVertexShader;
+		InstanceVertexShader mVertexShader;
 		PixelShader_D3D11 mPixelShader;
 
 		TextureID mGrassTextureId;

@@ -162,7 +162,8 @@
     <ClInclude Include="Inc\GraphicsType_D3D11.h" />
     <ClInclude Include="Inc\InstanceBuffer.h" />
     <ClInclude Include="Inc\GrassEffect.h" />
-    <ClInclude Include="Inc\GrassShader.h" />
+    <ClInclude Include="Inc\InstanceParticleEffect.h" />
+    <ClInclude Include="Inc\InstanceVertexShader.h" />
     <ClInclude Include="Inc\HullShader.h" />
     <ClInclude Include="Inc\Keyframe.h" />
     <ClInclude Include="Inc\LightTypes.h" />
@@ -189,6 +190,7 @@
     <ClInclude Include="Inc\SimpleTerrain.h" />
     <ClInclude Include="Inc\Skeleton.h" />
     <ClInclude Include="Inc\SnowEffect.h" />
+    <ClInclude Include="Inc\SnowParticleSystem.h" />
     <ClInclude Include="Inc\StandardEffect.h" />
     <ClInclude Include="Inc\StructuredBuffer.h" />
     <ClInclude Include="Inc\Terrain.h" />
@@ -225,7 +227,8 @@
     <ClCompile Include="Src\GraphicsType_D3D11.cpp" />
     <ClCompile Include="Src\InstanceBuffer.cpp" />
     <ClCompile Include="Src\GrassEffect.cpp" />
-    <ClCompile Include="Src\GrassShader.cpp" />
+    <ClCompile Include="Src\InstanceParticleEffect.cpp" />
+    <ClCompile Include="Src\InstanceVertexShader.cpp" />
     <ClCompile Include="Src\HullShader.cpp" />
     <ClCompile Include="Src\MeshBuffer_D3D11.cpp" />
     <ClCompile Include="Src\MeshBuilder.cpp" />
@@ -246,6 +249,7 @@
     <ClCompile Include="Src\SimpleDraw.cpp" />
     <ClCompile Include="Src\SimpleTerrain.cpp" />
     <ClCompile Include="Src\SnowEffect.cpp" />
+    <ClCompile Include="Src\SnowParticleSystem.cpp" />
     <ClCompile Include="Src\StandardEffect.cpp" />
     <ClCompile Include="Src\StructuredBuffer.cpp" />
     <ClCompile Include="Src\Terrain.cpp" />

@@ -1,5 +1,5 @@
 #include "Precompiled.h"
-#include "GrassShader.h"
+#include "InstanceVertexShader.h"
 
 #include "GraphicsSystem.h"
 
@@ -26,7 +26,7 @@ namespace
 	}
 }
 
-void EngineD::Graphics::GrassVertexShader::Initialize(const std::filesystem::path& filePath)
+void EngineD::Graphics::InstanceVertexShader::Initialize(const std::filesystem::path& filePath)
 {
 	if (mDevice == nullptr)
 	{
@@ -75,13 +75,13 @@ void EngineD::Graphics::GrassVertexShader::Initialize(const std::filesystem::pat
 	SafeRelease(errorBlob);
 }
 
-void EngineD::Graphics::GrassVertexShader::Terminate()
+void EngineD::Graphics::InstanceVertexShader::Terminate()
 {
 	SafeRelease(mVertexShader);
 	SafeRelease(mInputLayout);
 }
 
-void EngineD::Graphics::GrassVertexShader::Bind()
+void EngineD::Graphics::InstanceVertexShader::Bind()
 {
 	ID3D11DeviceContext* context = GraphicsSystem::Get()->GetContext();
 	context->VSSetShader(mVertexShader, nullptr, 0);

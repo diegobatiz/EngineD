@@ -145,7 +145,6 @@
     <ClInclude Include="Inc\PhysicsObject.h" />
     <ClInclude Include="Inc\PhysicsWorld.h" />
     <ClInclude Include="Inc\RigidBody.h" />
-    <ClInclude Include="Inc\SnowParticleSystem.h" />
     <ClInclude Include="Inc\SoftBody.h" />
     <ClInclude Include="Src\Precompiled.h" />
   </ItemGroup>
@@ -157,7 +156,6 @@
     <ClCompile Include="Src\PhysicsWorld.cpp" />
     <ClCompile Include="Src\Precompiled.cpp" />
     <ClCompile Include="Src\RigidBody.cpp" />
-    <ClCompile Include="Src\SnowParticleSystem.cpp" />
     <ClCompile Include="Src\SoftBody.cpp" />
   </ItemGroup>
   <ItemGroup>

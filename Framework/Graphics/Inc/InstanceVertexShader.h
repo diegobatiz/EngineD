@@ -2,7 +2,7 @@
 
 namespace EngineD::Graphics
 {
-	class GrassVertexShader final
+	class InstanceVertexShader final
 	{
 	public:
 		void Initialize(const std::filesystem::path& filePath);

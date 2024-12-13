@@ -57,6 +57,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shaders", "Shaders", "{F3CE
 		Assets\Shaders\PostProcessing.fx = Assets\Shaders\PostProcessing.fx
 		Assets\Shaders\Shadow.fx = Assets\Shaders\Shadow.fx
 		Assets\Shaders\Snow.fx = Assets\Shaders\Snow.fx
+		Assets\Shaders\SnowParticle.fx = Assets\Shaders\SnowParticle.fx
 		Assets\Shaders\Standard.fx = Assets\Shaders\Standard.fx
 		Assets\Shaders\Terrain.fx = Assets\Shaders\Terrain.fx
 		Assets\Shaders\WaveShader.fx = Assets\Shaders\WaveShader.fx

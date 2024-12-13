@@ -2,6 +2,8 @@
 
 namespace EngineD::Graphics
 {
+	struct SnowParticle;
+
 	struct InstanceData
 	{
 		EngineD::Math::Vector3 id;
@@ -24,7 +26,7 @@ namespace EngineD::Graphics
 			);
 		}
 
-		void UpdateInstanceBuffer(const std::vector<EngineD::Physics::SnowParticle>& mParticles);
+		void UpdateInstanceBuffer(const std::vector<SnowParticle>& mParticles);
 		void Initialize(const void* vertices, uint32_t vertexSize, uint32_t vertexCount, const uint32_t* indices, uint32_t indexCount, uint32_t maxInstanceCount);
 		void Terminate();
 		void Render() const;

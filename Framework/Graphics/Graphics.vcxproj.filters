@@ -178,7 +178,7 @@
     <ClInclude Include="Inc\ParticleSystemEffect.h">
       <Filter>Inc\Effects</Filter>
     </ClInclude>
-    <ClInclude Include="Inc\GrassShader.h">
+    <ClInclude Include="Inc\InstanceVertexShader.h">
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="Inc\InstanceBuffer.h">
@@ -227,6 +227,12 @@
       <Filter>Inc\D3D11</Filter>
     </ClInclude>
     <ClInclude Include="Inc\DynamicInstancedMeshBuffer.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\InstanceParticleEffect.h">
+      <Filter>Inc\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\SnowParticleSystem.h">
       <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>
@@ -336,7 +342,7 @@
     <ClCompile Include="Src\ParticleSystemEffect.cpp">
       <Filter>Src\Effects</Filter>
     </ClCompile>
-    <ClCompile Include="Src\GrassShader.cpp">
+    <ClCompile Include="Src\InstanceVertexShader.cpp">
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\InstanceBuffer.cpp">
@@ -385,6 +391,12 @@
       <Filter>Src\D3D11</Filter>
     </ClCompile>
     <ClCompile Include="Src\DynamicInstancedMeshBuffer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\InstanceParticleEffect.cpp">
+      <Filter>Src\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SnowParticleSystem.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>

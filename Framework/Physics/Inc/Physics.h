@@ -10,4 +10,3 @@
 #include "PhysicsWorld.h"
 #include "RigidBody.h"
 #include "SoftBody.h"
-#include "SnowParticleSystem.h"
