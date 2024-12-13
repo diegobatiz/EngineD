@@ -17,8 +17,14 @@ namespace EngineD::Physics
 		float maxTimeBetweenEmit = 0.0f;
 		float minSpeed = 0.0f;
 		float maxSpeed = 0.0f;
-		float minParticleLifetime = 0.0f;
-		float maxParticleLifetime = 0.0f;
+	};
+
+	struct SnowParticle
+	{
+		Math::Vector3 position;
+
+		float speed = -100.0f;
+		bool alive;
 	};
 
 	class SnowParticleSystem
@@ -32,37 +38,29 @@ namespace EngineD::Physics
 
 		void SpawnParticles();
 
-		template<class Effect>
-		void Render(Effect& effect)
-		{
-			CurrentParticleInfo info;
-			for (const int& index : mParticleIndices)
-			{
-				Particle* particle = mParticles[index].get();
-				if (particle->IsActive())
-				{
-					particle->ObtainCurrentInfo(info);
-					mParticleObject.transform = info.transform;
-					effect.Render(mParticleObject, info.color);
-				}
-			}
-		}
+		void Render();
+
+		void SetCamera(const EngineD::Graphics::Camera& camera) { mCamera = &camera; }
 
 	private:
 		void InitializeParticles(uint32_t count);
 		void SpawnSingleParticle();
+		void RemoveSingleParticle(SnowParticle* particle);
+
+		EngineD::Graphics::DynamicInstancedMeshBuffer mParticleMeshBuffer;
 
 		//Particles
-		using Particles = std::vector<std::unique_ptr<Particle>>;
-		Particles mParticles;
+		using SnowParticles = std::vector<SnowParticle>;
+		SnowParticles mParticles;
 		std::vector<int> mParticleIndices;
+
+		//Particle System Info
+		SnowParticleSystemInfo mInfo;
+		float mNextSpawnTime = 0.0f;
 
 		//Render Info
 		Graphics::RenderObject mParticleObject;
 
-		//Particle System Info
-		SnowParticleSystemInfo mInfo;
-		int mNextAvailableParticleIndex;
-		float mNextSpawnTime = 0.0f;
+		const EngineD::Graphics::Camera* mCamera;
 	};
 }

@@ -25,9 +25,7 @@ void SnowRenderService::Initialize()
 	mSnowParticleInfo.minTimeBetweenEmit = 2;
 	mSnowParticleInfo.maxTimeBetweenEmit = 3;
 	mSnowParticleInfo.minSpeed = 0.0f;
-	mSnowParticleInfo.maxSpeed = 2.0f;
-	mSnowParticleInfo.minParticleLifetime = 5.0f;
-	mSnowParticleInfo.maxParticleLifetime = 10.0f;
+	mSnowParticleInfo.maxSpeed = -2.0f;
 
 	mSnowParticles.Initialize(mSnowParticleInfo);
 
@@ -65,9 +63,6 @@ void SnowRenderService::Render()
 		mPlayerPositionEffect.Render(mQuad);
 	mPlayerPositionEffect.End();
 
-	mParticleEffect.Begin();
-		mSnowParticles.Render(mParticleEffect);
-	mParticleEffect.End();
 
 	mSnowEffect.Begin();
 		mSnowEffect.Render(mSnow);

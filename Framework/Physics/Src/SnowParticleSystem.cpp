@@ -9,24 +9,30 @@ using namespace EngineD::Graphics;
 void SnowParticleSystem::Initialize(const SnowParticleSystemInfo& info)
 {
 	mInfo = info;
-	mNextAvailableParticleIndex = 0;
 	mNextSpawnTime = 0;
 
 	Mesh particleMesh = MeshBuilder::CreateSpriteQuad(0.5f, 0.5f);
 	mParticleObject.meshBuffer.Initialize(particleMesh);
 	mParticleObject.diffuseMapId = info.particleTextureId;
 
+	mParticleMeshBuffer.Initialize<Mesh>(particleMesh);
+
 	InitializeParticles(info.maxParticles);
+}
+
+void SnowParticleSystem::InitializeParticles(uint32_t count)
+{
+	mParticleIndices.resize(count);
+	mParticles.resize(count);
+	for (uint32_t i = 0; i < count; ++i)
+	{
+		mParticleIndices[i] = i;
+	}
 }
 
 void SnowParticleSystem::Terminate()
 {
 	mParticleObject.Terminate();
-	for (auto& p : mParticles)
-	{
-		p->Terminate();
-		p.reset();
-	}
 }
 
 void SnowParticleSystem::Update(float deltaTime)
@@ -38,8 +44,32 @@ void SnowParticleSystem::Update(float deltaTime)
 	}
 	for (auto& p : mParticles)
 	{
-		p->Update(deltaTime);
+		if (!p.alive) continue;
+
+		p.position.y += p.speed * deltaTime;
+		if (p.position.y < -2)
+		{
+			RemoveSingleParticle(&p);
+		}
 	}
+}
+
+
+void SnowParticleSystem::Render()
+{
+	// Sort Particles
+	Math::Vector3 cameraPosition = mCamera->GetPosition();
+	std::sort(mParticles.begin(), mParticles.end(),
+		[&cameraPosition](const SnowParticle& A, const SnowParticle& B)
+		{
+			float distA = (A.position.x - cameraPosition.x) * (A.position.x - cameraPosition.x) +
+				(A.position.y - cameraPosition.y) * (A.position.y - cameraPosition.y) +
+				(A.position.z - cameraPosition.z) * (A.position.z - cameraPosition.z);
+			float distB = (B.position.x - cameraPosition.x) * (B.position.x - cameraPosition.x) +
+				(B.position.y - cameraPosition.y) * (B.position.y - cameraPosition.y) +
+				(B.position.z - cameraPosition.z) * (B.position.z - cameraPosition.z);
+			return distA > distB;
+		});
 }
 
 void SnowParticleSystem::DebugUI()
@@ -52,8 +82,6 @@ void SnowParticleSystem::DebugUI()
 		ImGui::DragFloat("MaxTimeToEmit", &mInfo.maxTimeBetweenEmit, 0.01f, mInfo.minTimeBetweenEmit);
 		ImGui::DragFloat("MinSpeed", &mInfo.minSpeed);
 		ImGui::DragFloat("MaxSpeed", &mInfo.maxSpeed, 1.0f, mInfo.minSpeed);
-		ImGui::DragFloat("MinLife", &mInfo.minParticleLifetime, 0.25f);
-		ImGui::DragFloat("MaxLife", &mInfo.maxParticleLifetime, 0.25f, mInfo.minParticleLifetime);
 	}
 }
 
@@ -68,22 +96,17 @@ void SnowParticleSystem::SpawnParticles()
 	mNextSpawnTime = mInfo.minTimeBetweenEmit + ((mInfo.maxTimeBetweenEmit - mInfo.minTimeBetweenEmit) * randFloat);
 }
 
-void SnowParticleSystem::InitializeParticles(uint32_t count)
-{
-	mParticleIndices.resize(count);
-	mParticles.resize(count);
-	for (uint32_t i = 0; i < count; ++i)
-	{
-		mParticleIndices[i] = i;
-		mParticles[i] = std::make_unique<Particle>();
-		mParticles[i]->Initialize();
-	}
-}
-
 void SnowParticleSystem::SpawnSingleParticle()
 {
-	Particle* particle = mParticles[mNextAvailableParticleIndex].get();
-	mNextAvailableParticleIndex = (mNextAvailableParticleIndex + 1) % mParticles.size();
+	if (mParticleIndices.empty())
+	{
+		return;
+	}
+	size_t index = mParticleIndices.back();
+	mParticleIndices.pop_back();
+	SnowParticle* particle = &mParticles[index];
+
+	LOG("Particle Spawned %d", (int)index);
 
 	float randFloat = (static_cast<float>(rand()) / static_cast<float>(RAND_MAX)) * 2 - 1;
 	float posX = mInfo.spawnMin.x + ((mInfo.spawnMax.x - mInfo.spawnMin.x) * randFloat);
@@ -93,13 +116,17 @@ void SnowParticleSystem::SpawnSingleParticle()
 
 	randFloat = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 	float speed = mInfo.minSpeed + ((mInfo.maxSpeed - mInfo.minSpeed) * randFloat);
-
-	ParticleActivateData activateData;
-
-	float t = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 	
-	activateData.lifeTime = Lerp(mInfo.minParticleLifetime, mInfo.maxParticleLifetime, t);
-	activateData.position = { posX, mInfo.spawnHeight, posZ };
-	activateData.velocity = { 0, -1 * speed, 0 };
-	particle->Activate(activateData);
+	particle->position = { posX, mInfo.spawnHeight, posZ };
+	particle->speed = speed;
+	particle->alive = true;
+}
+
+void SnowParticleSystem::RemoveSingleParticle(SnowParticle* p)
+{
+	size_t index = p - &mParticles[0];
+	p->alive = false;
+	mParticleIndices.push_back(index);
+
+	LOG("Particle Removed %d", (int)index);
 }

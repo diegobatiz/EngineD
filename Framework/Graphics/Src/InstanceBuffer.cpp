@@ -1,5 +1,5 @@
 #include "Precompiled.h"
-#include "GrassBuffer.h"
+#include "InstanceBuffer.h"
 
 #include "Noise.h"
 #include "GraphicsSystem.h"
