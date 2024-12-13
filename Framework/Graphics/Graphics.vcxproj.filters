@@ -181,7 +181,7 @@
     <ClInclude Include="Inc\GrassShader.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="Inc\GrassBuffer.h">
+    <ClInclude Include="Inc\InstanceBuffer.h">
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="Inc\GrassEffect.h">
@@ -225,6 +225,9 @@
     </ClInclude>
     <ClInclude Include="Inc\DomainShader.h">
       <Filter>Inc\D3D11</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\DynamicInstancedMeshBuffer.h">
+      <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -336,7 +339,7 @@
     <ClCompile Include="Src\GrassShader.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="Src\GrassBuffer.cpp">
+    <ClCompile Include="Src\InstanceBuffer.cpp">
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\GrassEffect.cpp">
@@ -380,6 +383,9 @@
     </ClCompile>
     <ClCompile Include="Src\DomainShader.cpp">
       <Filter>Src\D3D11</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\DynamicInstancedMeshBuffer.cpp">
+      <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
