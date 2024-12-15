@@ -18,6 +18,7 @@ namespace EngineD::Graphics
 		float maxTimeBetweenEmit = 0.0f;
 		float minSpeed = 0.0f;
 		float maxSpeed = 0.0f;
+		float particlesSize;
 	};
 
 	struct SnowParticle

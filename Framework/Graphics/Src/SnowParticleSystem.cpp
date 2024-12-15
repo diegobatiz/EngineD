@@ -12,7 +12,7 @@ void SnowParticleSystem::Initialize(const SnowParticleSystemInfo& info)
 	mInfo = info;
 	mNextSpawnTime = 0;
 
-	Mesh particleMesh = MeshBuilder::CreateSpriteQuad(0.2f, 0.2f);
+	Mesh particleMesh = MeshBuilder::CreateSpriteQuad(info.particlesSize, info.particlesSize);
 	mParticleObject.meshBuffer.Initialize(particleMesh);
 
 	mParticleMeshBuffer.Initialize<Mesh>(particleMesh, info.maxParticles);

@@ -16,12 +16,13 @@ void SnowRenderService::Initialize()
 	mSnowEffect.Initialize();
 	mParticleEffect.Initialize("Snow.png");
 
-	mSnowParticleInfo.maxParticles = 400;
+	mSnowParticleInfo.maxParticles = 600;
+	mSnowParticleInfo.particlesSize = 0.03f;
 	mSnowParticleInfo.spawnHeight = 20.0f;
 	mSnowParticleInfo.spawnMin = { 0, 0 };
 	mSnowParticleInfo.spawnMax = { 15, 15 };
-	mSnowParticleInfo.minParticlePerEmit = 5;
-	mSnowParticleInfo.maxParticlePerEmit = 10;
+	mSnowParticleInfo.minParticlePerEmit = 7;
+	mSnowParticleInfo.maxParticlePerEmit = 14;
 	mSnowParticleInfo.minTimeBetweenEmit = 0.1;
 	mSnowParticleInfo.maxTimeBetweenEmit = 0.2;
 	mSnowParticleInfo.minSpeed = -2.0f;
