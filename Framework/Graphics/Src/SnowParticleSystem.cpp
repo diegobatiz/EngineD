@@ -12,7 +12,7 @@ void SnowParticleSystem::Initialize(const SnowParticleSystemInfo& info)
 	mInfo = info;
 	mNextSpawnTime = 0;
 
-	Mesh particleMesh = MeshBuilder::CreateSpriteQuad(0.5f, 0.5f);
+	Mesh particleMesh = MeshBuilder::CreateSpriteQuad(0.2f, 0.2f);
 	mParticleObject.meshBuffer.Initialize(particleMesh);
 
 	mParticleMeshBuffer.Initialize<Mesh>(particleMesh, info.maxParticles);
@@ -37,6 +37,10 @@ void SnowParticleSystem::Terminate()
 
 void SnowParticleSystem::Update(float deltaTime)
 {
+	if (mPause)
+	{
+		return;
+	}
 	mNextSpawnTime -= deltaTime;
 	if (mNextSpawnTime <= 0.0f)
 	{
@@ -57,20 +61,6 @@ void SnowParticleSystem::Update(float deltaTime)
 
 void SnowParticleSystem::Render()
 {
-	// Sort Particles
-	Math::Vector3 cameraPosition = mCamera->GetPosition();
-	std::sort(mParticles.begin(), mParticles.end(),
-		[&cameraPosition](const SnowParticle& A, const SnowParticle& B)
-		{
-			float distA = (A.position.x - cameraPosition.x) * (A.position.x - cameraPosition.x) +
-				(A.position.y - cameraPosition.y) * (A.position.y - cameraPosition.y) +
-				(A.position.z - cameraPosition.z) * (A.position.z - cameraPosition.z);
-			float distB = (B.position.x - cameraPosition.x) * (B.position.x - cameraPosition.x) +
-				(B.position.y - cameraPosition.y) * (B.position.y - cameraPosition.y) +
-				(B.position.z - cameraPosition.z) * (B.position.z - cameraPosition.z);
-			return distA > distB;
-		});
-
 	mParticleMeshBuffer.UpdateInstanceBuffer(mParticles);
 
 	mParticleMeshBuffer.Render();
@@ -86,6 +76,11 @@ void SnowParticleSystem::DebugUI()
 		ImGui::DragFloat("MaxTimeToEmit", &mInfo.maxTimeBetweenEmit, 0.01f, mInfo.minTimeBetweenEmit);
 		ImGui::DragFloat("MinSpeed", &mInfo.minSpeed);
 		ImGui::DragFloat("MaxSpeed", &mInfo.maxSpeed, 1.0f, mInfo.minSpeed);
+	
+		if (ImGui::Button("Pause Particles"))
+		{
+			mPause = !mPause;
+		}
 	}
 }
 

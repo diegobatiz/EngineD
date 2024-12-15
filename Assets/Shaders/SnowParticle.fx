@@ -2,11 +2,9 @@
 
 cbuffer ParticleBuffer : register(b0)
 {
-    matrix wvp;
+    matrix matView;
+    matrix matProj;
 }
-
-Texture2D particleTexture : register(t0);
-SamplerState texSampler : register(s0);
 
 struct VS_INPUT
 {
@@ -25,15 +23,34 @@ struct VS_OUTPUT
     float2 texCoord : TEXCOORD;
 };
 
+#define MATRIX_IDENTITY = 
+
+float3 TransformCoord(float3 position, matrix m)
+{
+    float3 output;
+    output.x = position.x * m._11 + position.y * m._12 + position.z * m._13 + m._14;
+    output.y = position.x * m._21 + position.y * m._22 + position.z * m._23 + m._24;
+    output.z = position.x * m._31 + position.y * m._32 + position.z * m._33 + m._34;
+    
+    return output;
+}
+
 VS_OUTPUT VS(VS_INPUT input)
 {
     VS_OUTPUT output;
-    output.position = mul(float4(input.position + input.id.xyz, 1.0f), wvp);
+    
+    float3 position = float3(input.id.x, input.id.y, input.id.z);
+    
+    float3 viewPos = TransformCoord(position, matView);
+    
+    float3 worldPos = input.position + viewPos;
+    
+    output.position = mul(matProj, float4(worldPos, 1.0));
     output.texCoord = input.texCoord;
     return output;
 }
 
 float4 PS(VS_OUTPUT input) : SV_Target
 {
-    return particleTexture.Sample(texSampler, input.texCoord);
+    return float4(1.0, 1.0, 1.0, 1.0);
 }

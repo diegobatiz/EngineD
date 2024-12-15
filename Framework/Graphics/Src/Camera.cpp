@@ -106,18 +106,18 @@ const Math::Vector3& Camera::GetDirection() const
 
 Math::Matrix4 Camera::GetViewMatrix() const
 {
-	const Math::Vector3 l = mDirection;
-	const Math::Vector3 r = Math::Normalize(Math::Cross(Math::Vector3::YAxis, l));
-	const Math::Vector3 u = Math::Normalize(Math::Cross(l, r));
-	const float x = -Math::Dot(r, mPosition);
-	const float y = -Math::Dot(u, mPosition);
-	const float z = -Math::Dot(l, mPosition);
+	const Math::Vector3 forward = mDirection;
+	const Math::Vector3 right = Math::Normalize(Math::Cross(Math::Vector3::YAxis, forward));
+	const Math::Vector3 up = Math::Normalize(Math::Cross(forward, right));
+	const float x = -Math::Dot(right, mPosition);
+	const float y = -Math::Dot(up, mPosition);
+	const float z = -Math::Dot(forward, mPosition);
 
 	return
 	{
-		r.x, u.x, l.x, 0.0f,
-		r.y, u.y, l.y, 0.0f,
-		r.z, u.z, l.z, 0.0f,
+		right.x, up.x, forward.x, 0.0f,
+		right.y, up.y, forward.y, 0.0f,
+		right.z, up.z, forward.z, 0.0f,
 		x,   y,   z,   1.0f
 	};
 }

@@ -63,5 +63,6 @@ namespace EngineD::Graphics
 		RenderObject mParticleObject;
 
 		const Camera* mCamera;
+		bool mPause = false;
 	};
 }

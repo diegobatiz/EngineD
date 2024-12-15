@@ -28,7 +28,8 @@ namespace EngineD::Graphics
 	private:
 		struct ParticleData
 		{
-			Math::Matrix4 wvp;
+			Math::Matrix4 matView;
+			Math::Matrix4 matProj;
 		};
 
 		using ParticleBuffer = TypedConstantBuffer<ParticleData>;
@@ -36,9 +37,6 @@ namespace EngineD::Graphics
 
 		InstanceVertexShader mVertexShader;
 		PixelShader_D3D11 mPixelShader;
-		Sampler mSampler;
-		BlendState mBlendState;
-		TextureID mTextureId;
 
 		const Camera* mCamera = nullptr;
 	};
