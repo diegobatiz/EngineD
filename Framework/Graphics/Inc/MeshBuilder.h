@@ -43,5 +43,6 @@ namespace EngineD::Graphics
 		
 		//Sprite Quad
 		static Mesh CreateSpriteQuad(float width, float height);
+		static MeshP CreateSpriteQuadP(float width, float height);
 	};
 }

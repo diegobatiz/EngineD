@@ -36,7 +36,8 @@ void DynamicInstancedMeshBuffer::UpdateInstanceBuffer(const std::vector<SnowPart
 	{
 		if (particles[i].alive)
 		{
-			instanceData[index].id = particles[i].position;
+			instanceData[index].pos = particles[i].position;
+			instanceData[index].noise = particles[i].noise;
 			++index;
 		}
 	}

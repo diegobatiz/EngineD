@@ -689,3 +689,22 @@ Mesh MeshBuilder::CreateSpriteQuad(float width, float height)
 
 	return mesh;
 }
+
+MeshP MeshBuilder::CreateSpriteQuadP(float width, float height)
+{
+	MeshP mesh;
+	const float hw = width * 0.5f;
+	const float hh = height * 0.5f;
+
+	mesh.vertices.push_back({ {-hw, -hh, 0.0f} });
+	mesh.vertices.push_back({ {-hw,  hh, 0.0f} });
+	mesh.vertices.push_back({ { hw,  hh, 0.0f} });
+	mesh.vertices.push_back({ { hw, -hh, 0.0f} });
+
+	mesh.indices = {
+		0, 1, 2,
+		0, 2, 3
+	};
+
+	return mesh;
+}

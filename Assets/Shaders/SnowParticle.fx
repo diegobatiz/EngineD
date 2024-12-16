@@ -9,18 +9,13 @@ cbuffer ParticleBuffer : register(b0)
 struct VS_INPUT
 {
     float3 position : POSITION;
-    float3 normal : NORMAL;
-    float3 tangent : TANGENT;
-    float2 texCoord : TEXCOORD;
-    int4 blendIndices : BLENDINDICES;
-    int4 blendWeight : BLENDWEIGHT;
     float4 id : INSTANCEPOS;
+    float2 noise : NOISE;
 };
 
 struct VS_OUTPUT
 {
     float4 position : SV_Position;
-    float2 texCoord : TEXCOORD;
 };
 
 #define MATRIX_IDENTITY = 
@@ -46,7 +41,6 @@ VS_OUTPUT VS(VS_INPUT input)
     float3 worldPos = input.position + viewPos;
     
     output.position = mul(matProj, float4(worldPos, 1.0));
-    output.texCoord = input.texCoord;
     return output;
 }
 

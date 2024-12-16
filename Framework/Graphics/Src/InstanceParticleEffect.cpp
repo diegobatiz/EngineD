@@ -13,7 +13,7 @@ using namespace EngineD::Math;
 void InstanceParticleEffect::Initialize(std::filesystem::path snowTexturePath)
 {
 	std::filesystem::path filePath = L"../../Assets/Shaders/SnowParticle.fx";
-	mVertexShader.Initialize(filePath);
+	mVertexShader.Initialize<VertexP>(filePath);
 	mPixelShader.Initialize(filePath);
 	mParticleBuffer.Initialize();
 }

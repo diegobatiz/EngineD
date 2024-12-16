@@ -6,7 +6,8 @@ namespace EngineD::Graphics
 
 	struct InstanceData
 	{
-		EngineD::Math::Vector3 id;
+		EngineD::Math::Vector3 pos;
+		EngineD::Math::Vector2 noise;
 	};
 
 	class DynamicInstancedMeshBuffer

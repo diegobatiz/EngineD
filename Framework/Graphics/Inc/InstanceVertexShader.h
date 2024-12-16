@@ -5,7 +5,12 @@ namespace EngineD::Graphics
 	class InstanceVertexShader final
 	{
 	public:
-		void Initialize(const std::filesystem::path& filePath);
+		template<class VertexType>
+		void Initialize(const std::filesystem::path& filePath)
+		{
+			Initialize(filePath, VertexType::Format); 
+		}
+		void Initialize(const std::filesystem::path& filePath, uint32_t format = 0);
 		void Terminate();
 		void Bind();
 

@@ -24,6 +24,7 @@ namespace EngineD::Graphics
 	struct SnowParticle
 	{
 		Math::Vector3 position = Math::Vector3::Zero;
+		Math::Vector2 noise = Math::Vector2::Zero;
 
 		float speed = -100.0f;
 		bool alive;
@@ -65,5 +66,8 @@ namespace EngineD::Graphics
 
 		const Camera* mCamera;
 		bool mPause = false;
+
+		float mNoiseFrequency = 0.5;
+		float mNoiseAmplitude = 5;
 	};
 }

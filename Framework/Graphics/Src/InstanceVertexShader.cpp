@@ -2,31 +2,53 @@
 #include "InstanceVertexShader.h"
 
 #include "GraphicsSystem.h"
+#include "VertexTypes.h"
 
 using namespace EngineD;
 using namespace EngineD::Graphics;
 
 namespace
 {
-	std::vector<D3D11_INPUT_ELEMENT_DESC> GetVertexLayout()
+	std::vector<D3D11_INPUT_ELEMENT_DESC> GetVertexLayout(uint32_t vertexFormat)
 	{
 		std::vector<D3D11_INPUT_ELEMENT_DESC> desc;
 		
-		//Data from vertex buffer
-		desc.push_back({ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 });
-		desc.push_back({ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 });
-		desc.push_back({ "TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 });
-		desc.push_back({ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 });
-		desc.push_back({ "BLENDINDICES", 0, DXGI_FORMAT_R32G32B32A32_SINT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 });
-		desc.push_back({ "BLENDWEIGHT", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 });
-
+		if (vertexFormat & VE_Position)
+		{
+			desc.push_back({ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+		}
+		if (vertexFormat & VE_Normal)
+		{
+			desc.push_back({ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+		}
+		if (vertexFormat & VE_Tangent)
+		{
+			desc.push_back({ "TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+		}
+		if (vertexFormat & VE_Color)
+		{
+			desc.push_back({ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+		}
+		if (vertexFormat & VE_TexCoord)
+		{
+			desc.push_back({ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+		}
+		if (vertexFormat & VE_BlendIndex)
+		{
+			desc.push_back({ "BLENDINDICES", 0, DXGI_FORMAT_R32G32B32A32_SINT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+		}
+		if (vertexFormat & VE_BlendWeight)
+		{
+			desc.push_back({ "BLENDWEIGHT", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 });
+		}
 		//Data from instance buffer
-		desc.push_back({ "INSTANCEPOS", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 0, D3D11_INPUT_PER_INSTANCE_DATA, 1 });
+		desc.push_back({ "INSTANCEPOS", 0, DXGI_FORMAT_R32G32B32_FLOAT, 1, 0, D3D11_INPUT_PER_INSTANCE_DATA, 1 });
+		desc.push_back({ "NOISE", 0, DXGI_FORMAT_R32G32_FLOAT, 1, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_INSTANCE_DATA, 1 });
 		return desc;
 	}
 }
 
-void EngineD::Graphics::InstanceVertexShader::Initialize(const std::filesystem::path& filePath)
+void EngineD::Graphics::InstanceVertexShader::Initialize(const std::filesystem::path& filePath, uint32_t format)
 {
 	if (mDevice == nullptr)
 	{
@@ -60,7 +82,7 @@ void EngineD::Graphics::InstanceVertexShader::Initialize(const std::filesystem::
 	);
 	ASSERT(SUCCEEDED(hr), "Failed to create vertex shader");
 
-	std::vector<D3D11_INPUT_ELEMENT_DESC> vertexLayout = GetVertexLayout();
+	std::vector<D3D11_INPUT_ELEMENT_DESC> vertexLayout = GetVertexLayout(format);
 
 	hr = mDevice->CreateInputLayout(
 		vertexLayout.data(),

@@ -1,7 +1,8 @@
 #include "Precompiled.h"
 #include "SnowParticleSystem.h"
 
-#include "MeshBuilder.h"
+#include "MeshBuilder.h"]
+#include "Noise.h"
 
 using namespace EngineD;
 using namespace EngineD::Math;
@@ -12,10 +13,10 @@ void SnowParticleSystem::Initialize(const SnowParticleSystemInfo& info)
 	mInfo = info;
 	mNextSpawnTime = 0;
 
-	Mesh particleMesh = MeshBuilder::CreateSpriteQuad(info.particlesSize, info.particlesSize);
+	MeshP particleMesh = MeshBuilder::CreateSpriteQuadP(info.particlesSize, info.particlesSize);
 	mParticleObject.meshBuffer.Initialize(particleMesh);
 
-	mParticleMeshBuffer.Initialize<Mesh>(particleMesh, info.maxParticles);
+	mParticleMeshBuffer.Initialize<MeshP>(particleMesh, info.maxParticles);
 
 	InitializeParticles(info.maxParticles);
 }
@@ -26,7 +27,12 @@ void SnowParticleSystem::InitializeParticles(uint32_t count)
 	mParticles.resize(count);
 	for (uint32_t i = 0; i < count; ++i)
 	{
+		float randNumX = std::rand() % 100;
+		float randNumY = std::rand() % 100;
 		mParticleIndices[i] = i;
+		mParticles[i].noise.x = Noise::NoiseSimplex({ randNumX + i * mNoiseFrequency, randNumY * mNoiseFrequency });
+		mParticles[i].noise.y = Noise::NoiseSimplex({ randNumX * mNoiseFrequency, randNumY - i * mNoiseFrequency });
+		mParticles[i].noise *= mNoiseAmplitude;
 	}
 }
 
