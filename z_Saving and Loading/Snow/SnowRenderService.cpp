@@ -52,6 +52,7 @@ void SnowRenderService::Update(float deltaTime)
 	mPlayerPositionEffect.Update(deltaTime);
 
 	mSnowParticles.Update(deltaTime);
+	mParticleEffect.Update(deltaTime);
 }
 
 void SnowRenderService::Render()

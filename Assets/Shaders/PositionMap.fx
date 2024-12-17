@@ -12,6 +12,7 @@ cbuffer TrailBuffer : register(b1)
     float snowPower;
     float minStartGradient;
     float maxStartGradient;
+    float snowFill;
 }
 
 cbuffer TimeBuffer : register(b2)
@@ -69,19 +70,26 @@ float4 PS(VS_OUTPUT input) : SV_Target
 {
     float distance = length(input.texCoord - playerPosition);
    
-    float distanceFromCenter = clamp(distance / playerRadius, 0, 1.5);
-   
     float startDisplace = randomInterpolate(minStartGradient, maxStartGradient, cycleDuration, time);
+    
+    float distanceFromCenter = clamp(distance / playerRadius, 0, 10);
     
     float snowDisplacement = 1.0;
     if (distanceFromCenter > startDisplace)
     {
         snowDisplacement = 1.0 - pow(abs(distanceFromCenter - startDisplace), snowPower);
+        clamp(snowDisplacement, 0, 1);
     }
     
     float currentHeight = snowHeightMap.Sample(texSampler, input.texCoord).r;
     
-    snowDisplacement = max(snowDisplacement, currentHeight);
+    float deeper = max(snowDisplacement, currentHeight);
     
-    return float4(snowDisplacement, 0.0, 0.0, 1.0);
+    if (deeper == currentHeight && deeper > 0.45)
+    {
+        deeper -= 0.0005 * snowFill;
+        deeper = max(deeper, 0.0);
+    }
+    
+    return float4(deeper, 0.0, 0.0, 1.0);
 }

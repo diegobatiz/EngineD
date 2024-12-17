@@ -161,14 +161,16 @@ DS_OUTPUT DS(PatchConstantData patchConstants, float3 coords : SV_DomainLocation
          patch[1].color * coords.y +
          patch[2].color * coords.z;
     
-    float height = positionMap.SampleLevel(texSampler, texCoord, 0).r;
-	float useBump = step(height, 0.9);
-    float bump = snowBumpMap.SampleLevel(texSampler, texCoord, 0).r * useBump;
-    position.y = -height + (bump - (0.85 * useBump));
+    float height = 1 - positionMap.SampleLevel(texSampler, texCoord, 0).r;
+    float bump = snowBumpMap.SampleLevel(texSampler, texCoord, 0).r * height;
+    position.y = bump;
+    
+   // float bump = snowBumpMap.SampleLevel(texSampler, texCoord, 0).r * height;
+    //position.y = bump;
     
     output.height = position.y;
     
-    position.y += (useBump * bumpOffset);
+    position.y += bumpOffset;
 
     output.position = mul(float4(position, 1.0), wvp);
     output.texCoord = texCoord;
@@ -200,7 +202,7 @@ float3 ComputeNormalFromHeightMap(float2 texCoord)
 float4 PS(DS_OUTPUT input) : SV_Target
 {
     float4 top = snowTexture.Sample(texSampler, input.texCoord);
-    float4 color = lerp(bottomColor, topColor, input.height + 1);
+    float4 color = lerp(bottomColor, topColor, input.height);
     
     return color;
 }

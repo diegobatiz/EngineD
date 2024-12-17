@@ -16,13 +16,20 @@ void InstanceParticleEffect::Initialize(std::filesystem::path snowTexturePath)
 	mVertexShader.Initialize<VertexP>(filePath);
 	mPixelShader.Initialize(filePath);
 	mParticleBuffer.Initialize();
+	mTimeBuffer.Initialize();
 }
 
 void InstanceParticleEffect::Terminate()
 {
+	mTimeBuffer.Terminate();
 	mParticleBuffer.Terminate();
 	mPixelShader.Terminate();
 	mVertexShader.Terminate();
+}
+
+void InstanceParticleEffect::Update(float deltaTime)
+{
+	mTime += deltaTime;
 }
 
 void InstanceParticleEffect::Begin()
@@ -32,6 +39,8 @@ void InstanceParticleEffect::Begin()
 
 	mParticleBuffer.BindVS(0);
 
+	mTimeBuffer.BindVS(1);
+
 	Math::Matrix4 matView = mCamera->GetViewMatrix();
 	Math::Matrix4 matProj = mCamera->GetProjectionMatrix();
 
@@ -39,7 +48,11 @@ void InstanceParticleEffect::Begin()
 	data.matProj = matProj;
 	data.matView = matView;
 
+	TimeData time;
+	time.time = mTime;
+
 	mParticleBuffer.Update(data);
+	mTimeBuffer.Update(time);
 }
 
 void InstanceParticleEffect::End()

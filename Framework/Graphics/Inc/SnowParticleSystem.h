@@ -67,7 +67,7 @@ namespace EngineD::Graphics
 		const Camera* mCamera;
 		bool mPause = false;
 
-		float mNoiseFrequency = 0.5;
-		float mNoiseAmplitude = 5;
+		float mNoiseFrequency = 0.5f;
+		float mNoiseAmplitude = 5.0f;
 	};
 }

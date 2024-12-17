@@ -6,6 +6,11 @@ cbuffer ParticleBuffer : register(b0)
     matrix matProj;
 }
 
+cbuffer TimeBuffer : register(b1)
+{
+    float time;
+}
+
 struct VS_INPUT
 {
     float3 position : POSITION;
@@ -16,6 +21,7 @@ struct VS_INPUT
 struct VS_OUTPUT
 {
     float4 position : SV_Position;
+    float2 noise : TEXCOORD;
 };
 
 #define MATRIX_IDENTITY = 
@@ -36,11 +42,14 @@ VS_OUTPUT VS(VS_INPUT input)
     
     float3 position = float3(input.id.x, input.id.y, input.id.z);
     
+    position.xz += sin(input.noise + time);
+    
     float3 viewPos = TransformCoord(position, matView);
     
     float3 worldPos = input.position + viewPos;
     
     output.position = mul(matProj, float4(worldPos, 1.0));
+    output.noise = input.noise;
     return output;
 }
 

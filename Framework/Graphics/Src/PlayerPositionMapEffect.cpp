@@ -93,6 +93,7 @@ void PlayerPositionMapEffect::Render(const RenderObject& renderObject)
 	TrailSettings trail;
 	trail.startGradient = mTrailSettings.startGradient;
 	trail.edgeThickness = mTrailSettings.edgeThickness;
+	trail.growSnow = mTrailSettings.growSnow;
 	mTrailBuffer.Update(trail);
 
 	Time time;
@@ -132,6 +133,17 @@ void PlayerPositionMapEffect::DebugUI()
 		ImGui::DragFloat("Start Gradient", &mTrailSettings.startGradient, 0.01f, 0.01f, 0.99f);
 		ImGui::DragFloat("Edge Thickness", &mTrailSettings.edgeThickness, 0.01f, 0.01f, 0.99f);
 		ImGui::DragFloat("Radius", &mRadius, 0.01f, 0.01f, 10.0f);
+		if (ImGui::Button("Make Snow Fill"))
+		{
+			if (mTrailSettings.growSnow == 1.0f)
+			{
+				mTrailSettings.growSnow = 0.0f;
+			}
+			else
+			{
+				mTrailSettings.growSnow = 1.0f;
+			}
+		}
 	}
 }
 

@@ -48,6 +48,8 @@ namespace EngineD::Graphics
 			float edgeThickness = 0.23f;
 			float minStartGradient = 0.45f;
 			float maxStartGradient = 0.85f;
+			float growSnow = 1.0f;
+			float padding[3];
 		};
 
 		struct Time
