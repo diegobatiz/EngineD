@@ -44,11 +44,11 @@ namespace EngineD::Graphics
 
 		struct TrailSettings
 		{
-			float startGradient = 0.75f;
-			float edgeThickness = 0.23f;
-			float minStartGradient = 0.45f;
-			float maxStartGradient = 0.85f;
+			float snowPower = 0.25f;
+			float minStartGradient = 0.3f;
+			float maxStartGradient = 0.6f;
 			float growSnow = 1.0f;
+			float resetSnow = 1.0f;
 			float padding[3];
 		};
 

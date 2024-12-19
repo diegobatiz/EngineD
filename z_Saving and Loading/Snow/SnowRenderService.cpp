@@ -25,7 +25,7 @@ void SnowRenderService::Initialize()
 	mSnowParticleInfo.maxParticlePerEmit = 3000;
 	mSnowParticleInfo.minTimeBetweenEmit = 0.1;
 	mSnowParticleInfo.maxTimeBetweenEmit = 0.3;
-	mSnowParticleInfo.minSpeed = -2.0f;
+	mSnowParticleInfo.minSpeed = -1.0f;
 	mSnowParticleInfo.maxSpeed = -3.0f;
 
 	mSnowParticles.Initialize(mSnowParticleInfo);
