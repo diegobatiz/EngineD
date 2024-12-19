@@ -4,6 +4,7 @@
 
 #include "Camera.h"
 #include "FogEffect.h"
+#include "VertexTypes.h"
 
 using namespace EngineD;
 using namespace EngineD::Graphics;
@@ -14,7 +15,7 @@ void GrassEffect::Initialize(const std::filesystem::path& filename)
 	mTimeBuffer.Initialize();
 	mColorBuffer.Initialize();
 	mTransformBuffer.Initialize();
-	mVertexShader.Initialize(filename);
+	mVertexShader.Initialize<Vertex>(filename);
 	mPixelShader.Initialize(filename);
 	mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Clamp);
 
