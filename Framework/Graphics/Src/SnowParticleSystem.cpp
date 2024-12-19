@@ -115,7 +115,7 @@ void SnowParticleSystem::SpawnSingleParticle()
 	float posX = mInfo.spawnMin.x + ((mInfo.spawnMax.x - mInfo.spawnMin.x) * randFloat);
 
 	randFloat = (static_cast<float>(rand()) / static_cast<float>(RAND_MAX)) * 2 - 1;
-	float posZ = mInfo.spawnMin.y + ((mInfo.spawnMax.y - mInfo.spawnMin.y) * randFloat);
+	float posZ = mInfo.spawnMin.y + ((mInfo.spawnMax.y - mInfo.spawnMin.y) * randFloat) + (mInfo.spawnMax.y / 2);
 
 	randFloat = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 	float speed = mInfo.minSpeed + ((mInfo.maxSpeed - mInfo.minSpeed) * randFloat);
