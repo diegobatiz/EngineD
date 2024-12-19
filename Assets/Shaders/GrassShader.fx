@@ -210,8 +210,8 @@ VS_OUTPUT VS(VS_INPUT input)
     input.position.xz += input.id.xz;
     input.position.y += input.id.w;
     
-    float2 sway = NoiseSimplex(input.position.xz * sway1 + time * sway2) * ((input.texCoord.y - 1.0f) * -1.0f) * sway3;
-    input.position.xz += sway;
+    float sway = NoiseSimplex(input.position.xz * sway1 + time * sway2) * ((input.texCoord.y - 1.0f) * -1.0f) * sway3;
+    input.position.x += sway;
     
     output.worldPos = input.position.xz;
     output.position = mul(float4(input.position, 1.0f), wvp);

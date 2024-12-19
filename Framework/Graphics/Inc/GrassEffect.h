@@ -55,10 +55,10 @@ namespace EngineD::Graphics
 		struct GrassData
 		{
 			float extraHeightAdd = 2.0f;
-			float extraHeightMult = 1.1f;
-			float sway1 = 0.35f;
-			float sway2 = 0.25f;
-			float sway3 = 0.1f;
+			float extraHeightMult = 1.2f;
+			float sway1 = 0.05f;
+			float sway2 = 0.3f;
+			float sway3 = 0.5f;
 			float padding[3] = { 0.0f };
 		};
 
