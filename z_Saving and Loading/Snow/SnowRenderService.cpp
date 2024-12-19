@@ -16,15 +16,15 @@ void SnowRenderService::Initialize()
 	mSnowEffect.Initialize();
 	mParticleEffect.Initialize("Snow.png");
 
-	mSnowParticleInfo.maxParticles = 2000;
+	mSnowParticleInfo.maxParticles = 150000;
 	mSnowParticleInfo.particlesSize = 0.03f;
 	mSnowParticleInfo.spawnHeight = 20.0f;
 	mSnowParticleInfo.spawnMin = { 0, 0 };
-	mSnowParticleInfo.spawnMax = { 15, 15 };
-	mSnowParticleInfo.minParticlePerEmit = 30;
-	mSnowParticleInfo.maxParticlePerEmit = 60;
+	mSnowParticleInfo.spawnMax = { 55, 55 };
+	mSnowParticleInfo.minParticlePerEmit = 2000;
+	mSnowParticleInfo.maxParticlePerEmit = 3000;
 	mSnowParticleInfo.minTimeBetweenEmit = 0.1;
-	mSnowParticleInfo.maxTimeBetweenEmit = 0.2;
+	mSnowParticleInfo.maxTimeBetweenEmit = 0.3;
 	mSnowParticleInfo.minSpeed = -2.0f;
 	mSnowParticleInfo.maxSpeed = -3.0f;
 
@@ -67,13 +67,13 @@ void SnowRenderService::Render()
 		mPlayerPositionEffect.Render(mQuad);
 	mPlayerPositionEffect.End();
 
-	mSnowEffect.Begin();
-		mSnowEffect.Render(mSnow);
-	mSnowEffect.End();
-
 	mParticleEffect.Begin();
 		mSnowParticles.Render();
 	mParticleEffect.End();
+
+	mSnowEffect.Begin();
+		mSnowEffect.Render(mSnow);
+	mSnowEffect.End();
 }
 
 void SnowRenderService::DebugUI()
