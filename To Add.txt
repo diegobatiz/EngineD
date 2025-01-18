@@ -1,6 +1,0 @@
-Snow Updates
-- Wind force that can move particles in a specific direction
-- Compute shader that sorts particles based on proximity to camera
-- More detailed snow particles (make it have a texture with transparency)
-- Displace Snow with noise instead of a bump map
-- make the noise different when it refills with snow
