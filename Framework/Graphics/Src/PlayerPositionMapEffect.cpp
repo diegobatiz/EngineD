@@ -91,9 +91,11 @@ void PlayerPositionMapEffect::Render(const RenderObject& renderObject)
 	mPositionBuffer.Update(posData);
 
 	TrailSettings trail;
-	trail.startGradient = mTrailSettings.startGradient;
-	trail.edgeThickness = mTrailSettings.edgeThickness;
+	trail.snowPower = mTrailSettings.snowPower;
 	trail.growSnow = mTrailSettings.growSnow;
+	trail.resetSnow = mTrailSettings.resetSnow;
+	trail.maxStartGradient = mTrailSettings.maxStartGradient;
+	trail.minStartGradient = mTrailSettings.minStartGradient;
 	mTrailBuffer.Update(trail);
 
 	Time time;
@@ -111,7 +113,7 @@ void PlayerPositionMapEffect::DebugUI()
 		{
 			ImGui::Image(
 				mPlayerPositionRenderTargetA.GetRawData(),
-				{ 144,144 },
+				{ 256,256 },
 				{ 0, 0 },
 				{ 1, 1 },
 				{ 1, 1, 1, 1 },
@@ -121,7 +123,7 @@ void PlayerPositionMapEffect::DebugUI()
 		{
 			ImGui::Image(
 				mPlayerPositionRenderTargetB.GetRawData(),
-				{ 144,144 },
+				{ 256,256 },
 				{ 0, 0 },
 				{ 1, 1 },
 				{ 1, 1, 1, 1 },
@@ -130,8 +132,7 @@ void PlayerPositionMapEffect::DebugUI()
 
 		ImGui::DragFloat("Min Start Gradient", &mTrailSettings.minStartGradient, 0.01f, 0.01f, 0.99f);
 		ImGui::DragFloat("Max Start Gradient", &mTrailSettings.maxStartGradient, 0.01f, 0.01f, 0.99f);
-		ImGui::DragFloat("Start Gradient", &mTrailSettings.startGradient, 0.01f, 0.01f, 0.99f);
-		ImGui::DragFloat("Edge Thickness", &mTrailSettings.edgeThickness, 0.01f, 0.01f, 0.99f);
+		ImGui::DragFloat("Edge Power", &mTrailSettings.snowPower, 0.01f, 0.01f, 0.99f);
 		ImGui::DragFloat("Radius", &mRadius, 0.01f, 0.01f, 10.0f);
 		if (ImGui::Button("Make Snow Fill"))
 		{
@@ -142,6 +143,17 @@ void PlayerPositionMapEffect::DebugUI()
 			else
 			{
 				mTrailSettings.growSnow = 1.0f;
+			}
+		}
+		if (ImGui::Button("Make Trails"))
+		{
+			if (mTrailSettings.resetSnow == 1.0f)
+			{
+				mTrailSettings.resetSnow = 0.0f;
+			}
+			else
+			{
+				mTrailSettings.resetSnow = 1.0f;
 			}
 		}
 	}

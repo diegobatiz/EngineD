@@ -1,8 +1,8 @@
 {
     "Components": {
         "WaveComponent": {
-            "WaveCount": 8,
-            "PixelWaveCount": 8,
+            "WaveCount": 32,
+            "PixelWaveCount": 32,
             "VertexFrequency": 0.7799999713897705,
             "VertexAmplitude": 1.0,
             "VertexInitialSpeed": 2.0,
@@ -21,15 +21,15 @@
             "TipAttenuation": 1.7000000476837158,
             "DiffuseReflectance": [1.0, 1.0, 1.0],
             "SpecularReflectance": [2.0, 2.0, 2.0],
-            "AmbientColor": [0.03200693055987358, 0.21683120727539063, 0.36274510622024536],
-            "TipColor": [0.09803920984268188, 0.09803920984268188, 0.09803920984268188],
+            "AmbientColor": [0.08746635913848877, 0.28463321924209595, 0.3186274766921997],
+            "TipColor": [0.36764705181121826, 0.36764705181121826, 0.36764705181121826],
             "SpecularColor": [0.0, 0.0, 0.0, 1.0],
-            "DiffuseColor": [0.0, 0.1418689340353012, 0.4019607901573181, 1.0],
+            "DiffuseColor": [0.1498221904039383, 0.6777865290641785, 0.7107843160629272, 1.0],
             "FresnelNormalStrength": 1.659000039100647,
             "FresnelStrength": 0.5899999737739563,
             "FresnelShininess": 9.220000267028809,
             "FresnelBias": 0.15600000321865082,
-            "FresnelColor": [1.0, 1.0, 1.0, 1.0]
+            "FresnelColor": [0.4803921580314636, 0.8930219411849976, 1.0, 1.0]
         }
     }
 }

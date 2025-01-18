@@ -56,7 +56,7 @@ void SnowParticleSystem::Update(float deltaTime)
 	{
 		if (!p.alive) continue;
 
-		p.position.y += p.speed * 0.1;
+		p.position.y += p.speed * deltaTime;
 		if (p.position.y < -2)
 		{
 			RemoveSingleParticle(&p);
@@ -111,13 +111,11 @@ void SnowParticleSystem::SpawnSingleParticle()
 	mParticleIndices.pop_back();
 	SnowParticle* particle = &mParticles[index];
 
-	LOG("Particle Spawned %d", (int)index);
-
 	float randFloat = (static_cast<float>(rand()) / static_cast<float>(RAND_MAX)) * 2 - 1;
 	float posX = mInfo.spawnMin.x + ((mInfo.spawnMax.x - mInfo.spawnMin.x) * randFloat);
 
 	randFloat = (static_cast<float>(rand()) / static_cast<float>(RAND_MAX)) * 2 - 1;
-	float posZ = mInfo.spawnMin.y + ((mInfo.spawnMax.y - mInfo.spawnMin.y) * randFloat);
+	float posZ = mInfo.spawnMin.y + ((mInfo.spawnMax.y - mInfo.spawnMin.y) * randFloat) + (mInfo.spawnMax.y / 2);
 
 	randFloat = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 	float speed = mInfo.minSpeed + ((mInfo.maxSpeed - mInfo.minSpeed) * randFloat);
@@ -132,6 +130,4 @@ void SnowParticleSystem::RemoveSingleParticle(SnowParticle* p)
 	size_t index = p - &mParticles[0];
 	p->alive = false;
 	mParticleIndices.push_back(index);
-
-	LOG("Particle Removed %d", (int)index);
 }

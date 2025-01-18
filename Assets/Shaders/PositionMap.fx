@@ -8,11 +8,11 @@ cbuffer PlayerPositionBuffer : register(b0)
 
 cbuffer TrailBuffer : register(b1)
 {
-    float startGradient;
     float snowPower;
     float minStartGradient;
     float maxStartGradient;
     float snowFill;
+    float reset;
 }
 
 cbuffer TimeBuffer : register(b2)
@@ -85,11 +85,11 @@ float4 PS(VS_OUTPUT input) : SV_Target
     
     float deeper = max(snowDisplacement, currentHeight);
     
-    if (deeper == currentHeight && deeper > 0.45)
+    if (deeper == currentHeight && deeper > 0.37)
     {
         deeper -= 0.0005 * snowFill;
         deeper = max(deeper, 0.0);
     }
     
-    return float4(deeper, 0.0, 0.0, 1.0);
+    return float4(deeper * reset, 0.0, 0.0, 1.0);
 }

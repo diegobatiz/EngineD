@@ -49,7 +49,7 @@ namespace EngineD::Graphics
 
 		struct LightingSettings
 		{
-			Math::Vector4 bottomColor = {0.45490f, 0.709804f, 0.694117f, 1.0f};
+			Math::Vector4 bottomColor = {0.360f, 0.583f, 0.570f, 1.0f};
 			Math::Vector4 topColor = Colors::White;
 		};
 
